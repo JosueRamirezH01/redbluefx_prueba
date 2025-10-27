@@ -20,7 +20,7 @@ _$AuthStateImpl _$$AuthStateImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$AuthStateImplToJson(_$AuthStateImpl instance) =>
     <String, dynamic>{
       'token': instance.token,
-      'currentUser': instance.currentUser?.toJson(),
+      'currentUser': instance.currentUser,
       'isAuthenticated': instance.isAuthenticated,
       'isLoading': instance.isLoading,
       'error': instance.error,

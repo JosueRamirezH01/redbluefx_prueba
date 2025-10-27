@@ -84,9 +84,8 @@ class AlertCard extends ConsumerWidget {
               const SizedBox(height: 8),
               Text(
                 alert.content,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
-                  color: Colors.grey.shade600,
                 ),
               ),
               const SizedBox(height: 16),

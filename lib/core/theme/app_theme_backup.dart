@@ -107,7 +107,6 @@ class AppTextStyles {
 
 class AppTheme {
   static ThemeData get lightTheme {
-    // Tu tema actual (no lo cambiamos)
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
@@ -133,6 +132,87 @@ class AppTheme {
         bodyMedium: AppTextStyles.bodyMedium,
         bodySmall: AppTextStyles.bodySmall,
       ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.white,
+        foregroundColor: AppColors.textPrimary,
+        elevation: 0,
+        titleTextStyle: AppTextStyles.titleLarge,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textLight,
+          textStyle: AppTextStyles.bodyLarge.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 12,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary),
+          textStyle: AppTextStyles.bodyLarge.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 12,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          textStyle: AppTextStyles.bodyLarge.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.secondary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.secondary.withOpacity(0.5)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+        ),
+        labelStyle: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary,
+        ),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary.withOpacity(0.5),
+        ),
+      ),
+      /// CardThemeData ---> CardTheme ---> se cambio a CardTheme por que no se  reconoce el CardThemeData
       cardTheme:  CardTheme(
         color: Colors.white,
         elevation: 2,
@@ -140,62 +220,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-      appBarTheme: AppBarTheme(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(32),
-          ),
-        ),
-        backgroundColor: const Color(0xFF0D1D35),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        titleTextStyle: AppTextStyles.titleLarge.copyWith(color: Colors.white),
-      ),
     );
   }
-
-  /// 🌙 Tema oscuro profesional
-  static ThemeData get darkTheme {
-    return ThemeData.dark(useMaterial3: true).copyWith(
-      colorScheme: const ColorScheme.dark(
-        primary: AppColors.primary,
-        secondary: AppColors.secondary,
-        surface: Color(0xFF121212),
-        background: Color(0xFF0D0D0D),
-        error: AppColors.error,
-      ),
-      scaffoldBackgroundColor: const Color(0xFF0D0D0D),
-      appBarTheme: AppBarTheme(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(32),
-          ),
-        ),
-        backgroundColor: const Color(0xFF0D1D35),
-        foregroundColor: Colors.white,
-        titleTextStyle: AppTextStyles.titleLarge.copyWith(color: Colors.white),
-      ),
-      cardTheme: CardTheme(
-        color: const Color(0xFF0D1D35),
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: const Color(0xFF1A1A1A),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.secondary),
-        ),
-        labelStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white70),
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white54),
-      ),
-      textTheme: GoogleFonts.montserratTextTheme().apply(
-        bodyColor: Colors.white,
-        displayColor: Colors.white,
-      ),
-    );
-  }
-}
+} 

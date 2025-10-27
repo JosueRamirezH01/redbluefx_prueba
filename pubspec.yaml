@@ -43,6 +43,7 @@ dependencies:
   cached_network_image: ^3.3.1
   google_fonts: ^6.1.0
   animate_do: ^3.0.2
+  dropdown_search: ^6.0.2
   # Navegación
   go_router: ^13.0.0
   # Notificaciones

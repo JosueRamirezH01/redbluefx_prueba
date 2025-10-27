@@ -6,6 +6,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../../core/utils/logger.dart';
+import '../../providers/theme_provider.dart';
+import '../../widgets/theme_switch.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -292,6 +294,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               },
             ),
           const Divider(),
+          const SizedBox(height: 16),
+          const ThemeSwitchTile(),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: user != null ? () {

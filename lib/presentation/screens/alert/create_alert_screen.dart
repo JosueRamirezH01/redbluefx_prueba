@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/alert.dart';
@@ -15,10 +16,14 @@ class CreateAlertScreen extends ConsumerStatefulWidget {
 class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
+  final _entradaController = TextEditingController();
+  final _tpController = TextEditingController();
+  final _slController = TextEditingController();
   final _contentController = TextEditingController();
-  AlertType _selectedType = AlertType.info;
+  final AlertType _selectedType = AlertType.buy;
   bool _isPublic = true;
   bool _isLoading = false;
+
 
   @override
   void dispose() {
@@ -70,24 +75,98 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       body: Form(
         key: _formKey,
         child: ListView(
-
           padding: const EdgeInsets.all(16),
           children: [
-            TextFormField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Título',
-                border: OutlineInputBorder(),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa un título';
-                }
-                if (value.length < 3) {
-                  return 'El título debe tener al menos 3 caracteres';
-                }
-                return null;
-              },
+            Row(
+              children: [
+                // Campo de texto para el título
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    controller: _titleController,
+                    decoration: const InputDecoration(
+                      labelText: 'Título',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa un título';
+                      }
+                      if (value.length < 3) {
+                        return 'El título debe tener al menos 3 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Selector de moneda con buscador
+                ///ULTIMO PARA AGREGAR UN SELECT BUSCADOR DE MONEDAS...... PARA EL ULTIMO...... :)
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    controller: _entradaController,
+                    decoration: const InputDecoration(
+                      labelText: 'Entrada',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa una entrada';
+                      }
+                      if (value.length < 3) {
+                        return 'El título debe tener al menos 3 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    controller: _tpController,
+                    decoration: const InputDecoration(
+                      labelText: 'TP',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa un TP';
+                      }
+                      if (value.length < 3) {
+                        return 'El título debe tener al menos 3 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    controller: _slController,
+                    decoration: const InputDecoration(
+                      labelText: 'SL',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa un SL';
+                      }
+                      if (value.length < 3) {
+                        return 'El título debe tener al menos 3 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -109,49 +188,19 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               },
             ),
             const SizedBox(height: 16),
-            DropdownButtonFormField<AlertType>(
-              value: _selectedType,
-              decoration: const InputDecoration(
-                labelText: 'Tipo',
-                border: OutlineInputBorder(),
-              ),
-              items: AlertType.values.map((type) {
-                String label;
-                Color color;
-                switch (type) {
-                  case AlertType.all:
-                    label = 'Todas';
-                    color = Colors.grey;
-                    break;
-                  case AlertType.buy:
-                    label = 'Compra';
-                    color = Colors.green;
-                    break;
-                  case AlertType.sell:
-                    label = 'Venta';
-                    color = Colors.red;
-                    break;
-                  case AlertType.info:
-                    label = 'Información';
-                    color = Colors.blue;
-                    break;
-                }
-                return DropdownMenuItem(
-                  value: type,
-                  child: Row(
-                    children: [
-                      Icon(Icons.circle, color: color, size: 12),
-                      const SizedBox(width: 8),
-                      Text(label),
-                    ],
-                  ),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() => _selectedType = value);
-                }
-              },
+            const Row(
+              children: [
+                Chip(
+                  avatar: Icon(Icons.arrow_downward),
+                  label: Text('Comprar'),
+
+                ),
+                SizedBox(width: 8),
+                Chip(
+                  avatar: Icon(Icons.arrow_upward),
+                  label: Text('Vender'),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             SwitchListTile(
@@ -176,4 +225,43 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       ),
     );
   }
+
+ /* Widget _buildSelectableChip({
+    required String label,
+    required IconData icon,
+    required Color color,
+  }) {
+    final bool isSelected = _selectedType == label;
+
+    return ChoiceChip(
+      avatar: Icon(
+        icon,
+        color: isSelected ? Colors.white : color,
+        size: 20,
+      ),
+      label: Text(
+        label,
+        style: TextStyle(
+          color: isSelected ? Colors.white : color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      selected: isSelected,
+      selectedColor: color,
+      backgroundColor: Colors.transparent,
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: isSelected ? color : Colors.grey.shade400,
+          width: 1.5,
+        ),
+      ),
+      onSelected: (selected) {
+        setState(() => _selectedTy pe = label);
+      },
+      showCheckmark: false,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+    );
+  }*/
+
 } 

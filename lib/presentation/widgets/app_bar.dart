@@ -18,26 +18,111 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(80);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
     final isAdmin = authState.currentUser?.role == 'admin';
-
     return AppBar(
-      title: Text(title),
+      title: Padding(
+        padding: const EdgeInsets.only(top: 10, bottom:6),
+        child: Row(
+          children: [
+            const CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.transparent,
+              backgroundImage: AssetImage('assets/images/logo.png'),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  Text(
+                    'Bienvenido, ${authState.currentUser?.fullName}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       actions: [
-        if (isAdmin && (icons ?? true)) ...[
-          IconButton(
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1), // Fondo translúcido
+            borderRadius: BorderRadius.circular(10), // Bordes redondeados
+            border: Border.all(
+              color: Colors.white.withOpacity(0.3), // Color del borde
+              width: 1.5,
+            ),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.search),
+            color: Colors.white,
+            tooltip: 'Buscar',
+            onPressed: () {},
+          ),
+        ),
+        const SizedBox(width: 6),
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1), // Fondo translúcido
+            borderRadius: BorderRadius.circular(10), // Bordes redondeados
+            border: Border.all(
+              color: Colors.white.withOpacity(0.3), // Color del borde
+              width: 1.5,
+            ),
+          ),
+          child: IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Crear alerta',
             onPressed: () => context.pushNamed('createAlert'),
           ),
+        ),
+
+        if (isAdmin && (icons ?? true)) ...[
+          const SizedBox(width: 6),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1), // Fondo translúcido
+              borderRadius: BorderRadius.circular(10), // Bordes redondeados
+              border: Border.all(
+                color: Colors.white.withOpacity(0.3), // Color del borde
+                width: 1.5,
+              ),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'Crear alerta',
+              onPressed: () => context.pushNamed('createAlert'),
+            ),
+          ),
         ],
         ...?additionalActions,
+        const SizedBox(width: 6),
         _buildProfileButton(context, authState),
-        IconButton(
+       /* IconButton(
           icon: const Icon(Icons.logout),
           tooltip: 'Cerrar sesión',
           onPressed: () async {
@@ -58,7 +143,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
               }
             }
           },
-        ),
+        ),*/
       ],
     );
   }

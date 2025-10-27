@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:redbluefx_mobile/presentation/providers/theme_provider.dart';
 
 import 'core/config/app_config.dart';
 import 'core/router/app_router.dart';
@@ -92,10 +93,13 @@ class _RedBlueFXAppState extends ConsumerState<RedBlueFXApp> with WidgetsBinding
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = ref.watch(themeProvider);
     return MaterialApp.router(
       title: 'RedBlue FX',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
       routerConfig: router,
       builder: (context, child) => AppScaffold(child: child ?? const SizedBox()),
     );

@@ -96,8 +96,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           onRefresh: _loadAlerts,
           child: Column(
             children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildFilterChip(
+                      label: 'Todas',
+                      isSelected: _selectedType == AlertType.all,
+                      onSelected: (selected) {
+                        if (selected) {
+                          _onFilterByType(AlertType.all);
+                        }
+                      },
+                      color:  const Color(0xFF066BAF),
+                    ),
+                    const SizedBox(width: 8),
+                    _buildFilterChip(
+                      label: 'Compra',
+                      isSelected: _selectedType == AlertType.buy,
+                      onSelected: (selected) {
+                        if (selected) {
+                          _onFilterByType(AlertType.buy);
+                        }
+                      },
+                      color: Colors.green,
+                    ),
+                    const SizedBox(width: 8),
+                    _buildFilterChip(
+                      label: 'Venta',
+                      isSelected: _selectedType == AlertType.sell,
+                      onSelected: (selected) {
+                        if (selected) {
+                          _onFilterByType(AlertType.sell);
+                        }
+                      },
+                      color: Colors.red,
+                    ),
+                  ],
+                ),
+              ),
               // Sección de búsqueda y filtros con animación
-              FadeInDown(
+              /*FadeInDown(
                 duration: const Duration(milliseconds: 800),
                 child: Container(
                   padding: const EdgeInsets.all(16),
@@ -210,7 +249,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                     ],
                   ),
                 ),
-              ),
+              ),*/
               // Lista de alertas
               const Expanded(
                 child: AlertList(),
@@ -222,12 +261,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     );
   }
 
-  Widget _buildFilterChip({
-    required String label,
-    required bool isSelected,
-    required Function(bool) onSelected,
-    required Color color,
-  }) {
+  Widget _buildFilterChip({required String label, required bool isSelected, required Function(bool) onSelected, required Color color,}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isSelected
+        ? color
+        : (isDark ?  const Color(0xFF0D1D35) : Colors.white);
+
+    final textColor = isSelected
+        ? Colors.white
+        : (isDark ? Colors.white70 : Colors.black87);
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       child: FilterChip(
@@ -235,12 +278,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           label,
           style: GoogleFonts.poppins(
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? Colors.white : color,
+            color: textColor,
           ),
         ),
         selected: isSelected,
         onSelected: onSelected,
-        backgroundColor: color.withOpacity(0.1),
+        backgroundColor: backgroundColor,
         selectedColor: color,
         checkmarkColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
