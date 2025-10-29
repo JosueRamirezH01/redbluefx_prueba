@@ -1,6 +1,9 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../domain/entities/alert.dart';
 import '../../providers/alert_provider.dart';
 import '../../widgets/app_bar.dart';
@@ -20,10 +23,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   final _tpController = TextEditingController();
   final _slController = TextEditingController();
   final _contentController = TextEditingController();
-  final AlertType _selectedType = AlertType.buy;
+  AlertType? _selectedType;
   bool _isPublic = true;
   bool _isLoading = false;
-
+  File? _selectedImage;
+  bool _isPickingImage = false;
 
   @override
   void dispose() {
@@ -33,6 +37,17 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   }
 
   Future<void> _submitForm() async {
+
+    if (_selectedType == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor selecciona un tipo: Comprar o Vender'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return; // detener
+    }
+
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
@@ -41,7 +56,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       await ref.read(alertsProvider.notifier).createAlert(
         title: _titleController.text,
         content: _contentController.text,
-        type: _selectedType,
+        type: _selectedType!,
         isPublic: _isPublic,
       );
 
@@ -67,166 +82,358 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       }
     }
   }
+  Future<void> _pickImage() async {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Seleccionar imagen'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Galería'),
+                onTap: () async {
+                  Navigator.pop(dialogContext);
+                  setState(() => _isPickingImage = true);
+                  final picker = ImagePicker();
+                  final pickedFile = await picker.pickImage(
+                    source: ImageSource.gallery,
+                    imageQuality: 40,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      _selectedImage = File(pickedFile.path);
+                    });
+                  }
+                  setState(() => _isPickingImage = false);
+
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Cámara'),
+                onTap: () async {
+                  Navigator.pop(dialogContext);
+                  setState(() => _isPickingImage = true);
+                  final picker = ImagePicker();
+                  final pickedFile = await picker.pickImage(
+                    source: ImageSource.camera,
+                    imageQuality: 40,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      _selectedImage = File(pickedFile.path);
+                    });
+                  }
+                  setState(() => _isPickingImage = false);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SharedAppBar(title: 'Crear Alerta', icons: false,),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Row(
-              children: [
-                // Campo de texto para el título
-                Expanded(
-                  flex: 2,
-                  child: TextFormField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(
-                      labelText: 'Título',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un título';
-                      }
-                      if (value.length < 3) {
-                        return 'El título debe tener al menos 3 caracteres';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 12),
-                // Selector de moneda con buscador
-                ///ULTIMO PARA AGREGAR UN SELECT BUSCADOR DE MONEDAS...... PARA EL ULTIMO...... :)
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: TextFormField(
-                    controller: _entradaController,
-                    decoration: const InputDecoration(
-                      labelText: 'Entrada',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa una entrada';
-                      }
-                      if (value.length < 3) {
-                        return 'El título debe tener al menos 3 caracteres';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  flex: 2,
-                  child: TextFormField(
-                    controller: _tpController,
-                    decoration: const InputDecoration(
-                      labelText: 'TP',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un TP';
-                      }
-                      if (value.length < 3) {
-                        return 'El título debe tener al menos 3 caracteres';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  flex: 2,
-                  child: TextFormField(
-                    controller: _slController,
-                    decoration: const InputDecoration(
-                      labelText: 'SL',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un SL';
-                      }
-                      if (value.length < 3) {
-                        return 'El título debe tener al menos 3 caracteres';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _contentController,
-              decoration: const InputDecoration(
-                labelText: 'Contenido',
-                border: OutlineInputBorder(),
-                alignLabelWithHint: true,
-              ),
-              maxLines: 10,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa el contenido';
-                }
-                if (value.length < 10) {
-                  return 'El contenido debe tener al menos 10 caracteres';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            const Row(
-              children: [
-                Chip(
-                  avatar: Icon(Icons.arrow_downward),
-                  label: Text('Comprar'),
+      appBar: const SharedAppBar(title: 'RedBlue FX', icons: false),
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).unfocus();
+        },
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(Icons.add, color: Color(0xFFE63330), size: 30,),Text('Crear Alerta', style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold)),
+                ],),
+              const SizedBox(height: 16),
+              Row(
+                children: [
 
+                  // Campo de texto para el título
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _titleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Título',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa un título';
+                        }
+                        if (value.length < 3) {
+                          return 'El título debe tener al menos 3 caracteres';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // Selector de moneda con buscador
+                  ///ULTIMO PARA AGREGAR UN SELECT BUSCADOR DE MONEDAS...... PARA EL ULTIMO...... :)
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _entradaController,
+                      decoration: const InputDecoration(
+                        labelText: 'Entrada',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa una entrada';
+                        }
+                        if (value.length < 3) {
+                          return 'El título debe tener al menos 3 caracteres';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _tpController,
+                      decoration: const InputDecoration(
+                        labelText: 'TP',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa un TP';
+                        }
+                        if (value.length < 3) {
+                          return 'El título debe tener al menos 3 caracteres';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _slController,
+                      decoration: const InputDecoration(
+                        labelText: 'SL',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa un SL';
+                        }
+                        if (value.length < 3) {
+                          return 'El título debe tener al menos 3 caracteres';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _contentController,
+                decoration: const InputDecoration(
+                  labelText: 'Detalles',
+                  border: OutlineInputBorder(),
+                  alignLabelWithHint: true,
                 ),
-                SizedBox(width: 8),
-                Chip(
-                  avatar: Icon(Icons.arrow_upward),
-                  label: Text('Vender'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            SwitchListTile(
-              title: const Text('Alerta pública'),
-              subtitle: const Text('Las alertas públicas son visibles para todos los usuarios'),
-              value: _isPublic,
-              onChanged: (value) => setState(() => _isPublic = value),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _submitForm,
-              child: _isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text('Crear Alerta'),
-            ),
-          ],
+                maxLines: 10,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa el detalle';
+                  }
+                  if (value.length < 10) {
+                    return 'El contenido debe tener al menos 10 caracteres';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  // CONTENEDOR DE TIPO
+                  Expanded(
+                    flex: 2,
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: 'Tipo',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      ),
+                      child: Row(
+                        children: [
+                          _buildSelectableChip(
+                            label: 'Comprar',
+                            icon: Icons.arrow_downward,
+                            value: AlertType.buy,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildSelectableChip(
+                            label: 'Vender',
+                            icon: Icons.arrow_upward,
+                            value: AlertType.sell,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 6),
+                  // CONTENEDOR DE IMAGEN
+                  Expanded(
+                    flex: 1,
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        contentPadding: const EdgeInsets.all(8),
+                      ),
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey.shade400),
+                                color: Colors.grey.shade200,
+                              ),
+                              child: _isPickingImage
+                                  ? Center(
+                                child: SizedBox(
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                              )
+                                  : (_selectedImage == null
+                                  ? Icon(
+                                Icons.camera_alt_outlined,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 24,
+                              )
+                                  : ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  _selectedImage!,
+                                  fit: BoxFit.cover,
+                                ),
+                              )),
+                            ),
+                            const SizedBox(width: 6),
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: _pickImage,
+                                child: Text(
+                                  "Imagen",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                         ]
+                        ),
+                      ),
+                    ),
+
+                ],
+              ),
+              const SizedBox(height: 16),
+              SwitchListTile(
+                title: const Text('¿Es una alerta pública?'),
+                subtitle: const Text('Las alertas públicas son visibles para todos los usuarios'),
+                value: _isPublic,
+                onChanged: (value) => setState(() => _isPublic = value),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE63330))),
+                onPressed: _isLoading ? null : _submitForm,
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    :  Text('Crear Alerta', style: GoogleFonts.montserrat(fontSize: 16,
+                  fontWeight: FontWeight.normal, color: Colors.white)),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
- /* Widget _buildSelectableChip({
+  Widget _buildSelectableChip({required String label, required IconData icon,
+    required AlertType value,
+  }) {
+    final bool isSelected = _selectedType == value;
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+
+    return ChoiceChip(
+      avatar: Icon(
+        icon,
+        size: 18,
+        color: isSelected ? colors.onPrimary : colors.onSurface,
+      ),
+      showCheckmark: false,
+      label: Text(label),
+      selected: isSelected,
+
+      selectedColor: colors.primary,
+      backgroundColor: colors.surface,
+      labelStyle: TextStyle(
+        color: isSelected ? colors.onPrimary : colors.onSurface,
+        fontWeight: FontWeight.w600,
+      ),
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: isSelected ? colors.primary : colors.secondary,
+          width: 1.4,
+        ),
+      ),
+      onSelected: (_) {
+        setState(() {
+          _selectedType = value;
+        });
+      },
+    );
+  }
+
+/* Widget _buildSelectableChip({
     required String label,
     required IconData icon,
     required Color color,

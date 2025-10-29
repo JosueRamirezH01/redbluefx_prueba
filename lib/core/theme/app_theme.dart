@@ -119,6 +119,36 @@ class AppTheme {
         error: AppColors.error,
       ),
       scaffoldBackgroundColor: AppColors.background,
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.secondary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.secondary.withOpacity(0.5)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+        ),
+        labelStyle: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary,
+        ),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary.withOpacity(0.5),
+        ),
+      ),
       textTheme: TextTheme(
         displayLarge: AppTextStyles.displayLarge,
         displayMedium: AppTextStyles.displayMedium,
@@ -140,6 +170,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
+
       appBarTheme: AppBarTheme(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -151,6 +182,7 @@ class AppTheme {
         elevation: 0,
         titleTextStyle: AppTextStyles.titleLarge.copyWith(color: Colors.white),
       ),
+
     );
   }
 
@@ -182,19 +214,41 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
+      chipTheme: ChipThemeData(
+        backgroundColor: AppColors.secondary.withOpacity(0.25),
+        labelStyle: AppTextStyles.bodySmall.copyWith(color: Colors.white),
+        side: const BorderSide(color: AppColors.secondary),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: const Color(0xFF1A1A1A),
+        fillColor: const Color(0xFF0D1D35),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: AppColors.secondary),
         ),
-        labelStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white70),
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white54),
+        labelStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
       ),
       textTheme: GoogleFonts.montserratTextTheme().apply(
         bodyColor: Colors.white,
         displayColor: Colors.white,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textLight,
+          textStyle: AppTextStyles.bodyLarge.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 12,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
       ),
     );
   }

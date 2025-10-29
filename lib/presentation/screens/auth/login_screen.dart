@@ -412,6 +412,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                     child: TextFormField(
                                       controller: _emailController,
                                       style: GoogleFonts.poppins(),
+                                      textInputAction: TextInputAction.done,
                                       decoration: InputDecoration(
                                         labelText: 'Email',
                                         labelStyle: GoogleFonts.poppins(
@@ -431,6 +432,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                       ),
                                       keyboardType: TextInputType.emailAddress,
                                       autocorrect: false,
+                                      enableSuggestions: false,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Por favor ingresa tu email';
@@ -461,6 +463,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                     child: TextFormField(
                                       controller: _passwordController,
                                       style: GoogleFonts.poppins(),
+                                      autocorrect: false,
+                                      enableSuggestions: false,
+
                                       decoration: InputDecoration(
                                         labelText: 'Contraseña',
                                         labelStyle: GoogleFonts.poppins(
