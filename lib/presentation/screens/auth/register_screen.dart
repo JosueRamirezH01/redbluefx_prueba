@@ -311,7 +311,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                               child: TextFormField(
                                 controller: _fullNameController,
                                 focusNode: _fullNameFocus,
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.poppins(color: Colors.black),
                                 onTap: () {
                                   print('🔧 [REGISTER-DEBUG] FullName field tapped');
                                 },
@@ -371,7 +371,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                               child: TextFormField(
                                 controller: _emailController,
                                 focusNode: _emailFocus,
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.poppins(color: Colors.black),
                                 onTap: () {
                                   print('🔧 [REGISTER-DEBUG] Email field tapped');
                                 },
@@ -432,7 +432,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                               child: TextFormField(
                                 controller: _passwordController,
                                 focusNode: _passwordFocus,
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.poppins(color: Colors.black),
                                 onTap: () {
                                   print('🔧 [REGISTER-DEBUG] Password field tapped');
                                 },
@@ -512,7 +512,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                               child: TextFormField(
                                 controller: _confirmPasswordController,
                                 focusNode: _confirmPasswordFocus,
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.poppins(color: Colors.black),
                                 onTap: () {
                                   print('🔧 [REGISTER-DEBUG] Confirm password field tapped');
                                 },

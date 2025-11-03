@@ -26,9 +26,9 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
   final List<TextEditingController> _controllers = List.generate(6, (index) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
   String _code = '';
-  bool _emailSent = true; // Ya se envió el email al registrarse
+  //bool _emailSent = true; // Ya se envió el email al registrarse
   int _resendAttempts = 0;
-  int _maxResendAttempts = 5;
+  final int _maxResendAttempts = 5;
   Timer? _resendTimer;
   int _resendCountdown = 0;
   bool _canResend = true;
@@ -211,7 +211,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
           
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Código reenviado (${_resendAttempts}/$_maxResendAttempts)'),
+              content: Text('Código reenviado ($_resendAttempts/$_maxResendAttempts)'),
               backgroundColor: Colors.green,
             ),
           );
@@ -503,8 +503,8 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                             onPressed: _canResend && !authState.isLoading ? _resendCode : null,
                             child: Text(
                               _canResend 
-                                ? '¿No recibiste el código? Reenviar (${_resendAttempts}/$_maxResendAttempts)'
-                                : 'Reenviar en ${_resendCountdown}s (${_resendAttempts}/$_maxResendAttempts)',
+                                ? '¿No recibiste el código? Reenviar ($_resendAttempts/$_maxResendAttempts)'
+                                : 'Reenviar en ${_resendCountdown}s ($_resendAttempts/$_maxResendAttempts)',
                               style: GoogleFonts.poppins(
                                 color: _canResend ? Colors.white : Colors.white.withOpacity(0.5),
                                 fontWeight: FontWeight.w500,

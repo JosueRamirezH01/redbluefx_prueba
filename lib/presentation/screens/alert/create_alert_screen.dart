@@ -159,14 +159,13 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               const SizedBox(height: 16),
               Row(
                 children: [
-
                   // Campo de texto para el título
                   Expanded(
                     flex: 2,
                     child: TextFormField(
                       controller: _titleController,
                       decoration: const InputDecoration(
-                        labelText: 'Título',
+                        labelText: 'Título adicional',
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -193,7 +192,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     child: TextFormField(
                       controller: _entradaController,
                       decoration: const InputDecoration(
-                        labelText: 'Entrada',
+                        labelText: 'Entrada ',
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -273,7 +272,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 children: [
                   // CONTENEDOR DE TIPO
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: InputDecorator(
                       decoration: InputDecoration(
                         labelText: 'Tipo',
@@ -284,26 +283,32 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       ),
                       child: Row(
                         children: [
-                          _buildSelectableChip(
-                            label: 'Comprar',
-                            icon: Icons.arrow_downward,
-                            value: AlertType.buy,
+                          Expanded(
+                            child: _buildSelectableChip(
+                              label: 'Compra',
+                              icon: Icons.arrow_downward,
+                              value: AlertType.buy,
+                              color: Colors.green
+                            ),
                           ),
-                          const SizedBox(width: 8),
-                          _buildSelectableChip(
-                            label: 'Vender',
-                            icon: Icons.arrow_upward,
-                            value: AlertType.sell,
+                          const SizedBox(width: 2),
+                          Expanded(
+                            child: _buildSelectableChip(
+                              label: 'Venta',
+                              icon: Icons.arrow_upward,
+                              value: AlertType.sell,
+                              color: Colors.red
+
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-
-                  const SizedBox(width: 6),
+                  const SizedBox(width: 2),
                   // CONTENEDOR DE IMAGEN
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: InputDecorator(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -313,14 +318,15 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       ),
                       child: Row(
                           mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               width: 50,
                               height: 50,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey.shade400),
-                                color: Colors.grey.shade200,
+                                border: Border.all(color: Colors.red),
+                                color: Colors.red.withOpacity(0.5),
                               ),
                               child: _isPickingImage
                                   ? Center(
@@ -351,11 +357,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             Flexible(
                               child: GestureDetector(
                                 onTap: _pickImage,
-                                child: Text(
+                                child: const Text(
                                   "Imagen",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.primary,
+                                    decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
                                   ),
@@ -396,33 +402,42 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
 
-  Widget _buildSelectableChip({required String label, required IconData icon,
-    required AlertType value,
-  }) {
+  Widget _buildSelectableChip({required String label, required IconData icon, required AlertType value, required Color color}) {
     final bool isSelected = _selectedType == value;
-    final theme = Theme.of(context);
-    final colors = theme.colorScheme;
+    final colors = Theme.of(context).colorScheme;
 
     return ChoiceChip(
-      avatar: Icon(
-        icon,
-        size: 18,
-        color: isSelected ? colors.onPrimary : colors.onSurface,
-      ),
       showCheckmark: false,
-      label: Text(label),
-      selected: isSelected,
 
-      selectedColor: colors.primary,
-      backgroundColor: colors.surface,
-      labelStyle: TextStyle(
-        color: isSelected ? colors.onPrimary : colors.onSurface,
-        fontWeight: FontWeight.w600,
+      label: Row(
+        children: [
+          Flexible(
+            flex: 10,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                color: isSelected ? colors.onPrimary : colors.onSurface,
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Icon(
+              icon,
+              size: 11,
+              color: isSelected ? colors.onPrimary : colors.onSurface,
+            ),
+          ),
+        ],
       ),
+      selected: isSelected,
+      selectedColor: color,
+      backgroundColor: colors.surface,
       shape: StadiumBorder(
         side: BorderSide(
-          color: isSelected ? colors.primary : colors.secondary,
-          width: 1.4,
+          color: isSelected ? color : color,
+          width: 1.2,
         ),
       ),
       onSelected: (_) {

@@ -186,7 +186,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                 ),
                                 child: TextFormField(
                                   controller: _passwordController,
-                                  style: GoogleFonts.poppins(),
+                                  style: GoogleFonts.poppins(color: Colors.black),
                                   obscureText: !_isPasswordVisible,
                                   decoration: InputDecoration(
                                     labelText: 'Nueva Contraseña',
@@ -247,7 +247,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                 ),
                                 child: TextFormField(
                                   controller: _confirmPasswordController,
-                                  style: GoogleFonts.poppins(),
+                                  style: GoogleFonts.poppins(color: Colors.black),
                                   obscureText: !_isConfirmPasswordVisible,
                                   decoration: InputDecoration(
                                     labelText: 'Confirmar Contraseña',

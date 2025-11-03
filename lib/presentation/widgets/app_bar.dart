@@ -27,6 +27,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: 75,
       titleSpacing: 0,
+      automaticallyImplyLeading: false,
       title: Row(
         children: [
           const CircleAvatar(
@@ -52,7 +53,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.white,
-                    fontSize: 11
+                    fontSize: 10
                   ),
                 ),
               ],
@@ -61,6 +62,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ],
       ),
       actions: [
+
         if(icons ?? true)...[
           Container(
             width: 40,
@@ -122,7 +124,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ...?additionalActions,
         const SizedBox(width: 6),
         _buildProfileButton(context, authState),
-        IconButton(
+        /*IconButton(
           icon: const Icon(Icons.logout),
           tooltip: 'Cerrar sesión',
           onPressed: () async {
@@ -143,7 +145,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
               }
             }
           },
-        ),
+        ),*/
       ],
     );
   }

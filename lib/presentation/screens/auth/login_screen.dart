@@ -411,7 +411,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                     ),
                                     child: TextFormField(
                                       controller: _emailController,
-                                      style: GoogleFonts.poppins(),
+                                      style: GoogleFonts.poppins(color: Colors.black),
                                       textInputAction: TextInputAction.done,
                                       decoration: InputDecoration(
                                         labelText: 'Email',
@@ -462,7 +462,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                     ),
                                     child: TextFormField(
                                       controller: _passwordController,
-                                      style: GoogleFonts.poppins(),
+                                      style: GoogleFonts.poppins(color: Colors.black),
                                       autocorrect: false,
                                       enableSuggestions: false,
 

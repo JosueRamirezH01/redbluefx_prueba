@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../providers/auth_provider.dart';
@@ -17,7 +16,7 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  bool _emailSent = false;
+  final bool _emailSent = false;
   late AnimationController _animationController;
 
   @override
@@ -185,14 +184,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> wit
                                       ),
                                       child: TextFormField(
                                         controller: _emailController,
-                                        style: GoogleFonts.poppins(),
+                                        style: GoogleFonts.poppins(color: Colors.black),
                                         decoration: InputDecoration(
                                           labelText: 'Email',
                                           labelStyle: GoogleFonts.poppins(
                                             color: AppColors.primary,
                                           ),
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                                          prefixIcon: Icon(
+                                          prefixIcon: const Icon(
                                             Icons.email_outlined,
                                             color: AppColors.primary,
                                           ),
