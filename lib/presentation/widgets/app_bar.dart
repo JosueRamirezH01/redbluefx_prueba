@@ -53,7 +53,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.white,
-                    fontSize: 10
+                    fontSize: 9
                   ),
                 ),
               ],
@@ -81,7 +81,8 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
               onPressed: () => context.pushNamed('createAlert'),
             ),
           ),
-          /*Container(
+          const SizedBox(width: 6),
+          Container(
             width: 40,
             height: 40,
             decoration: BoxDecoration(
@@ -98,7 +99,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
               tooltip: 'Buscar',
               onPressed: () {},
             ),
-          ),*/
+          ),
         ],
 
         if (isAdmin && (icons ?? true)) ...[

@@ -9,6 +9,7 @@ import '../../widgets/app_bar.dart';
 import '../../../domain/entities/alert.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../widgets/custom_bottom_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -258,6 +259,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           ),
         ),
       ),
+      bottomNavigationBar: CustomBottomBar(
+        onNoticias: () {
+          AppLogger.info("Noticias tapped");
+        },
+        onAnuncios: () {
+          AppLogger.info("Anuncios tapped");
+        },
+      ),
+      floatingActionButton: _buildCenterButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
     );
   }
 
@@ -297,4 +309,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       ),
     );
   }
-} 
+
+  Widget _buildCenterButton() {
+    return Transform.translate(
+      offset: const Offset(0, 16), // Ajusta este valor si lo quieres más abajo o más arriba
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFF00A5FF),
+              Color(0xFF004C8F),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: IconButton(
+          icon: const Icon(Icons.trending_up, color: Colors.white, size: 25),
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
+
+}
