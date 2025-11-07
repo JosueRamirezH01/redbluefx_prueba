@@ -19,6 +19,7 @@ class CreateAlertScreen extends ConsumerStatefulWidget {
 class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
+  final List<TextEditingController> _tpControllers = [TextEditingController()];
   final _entradaController = TextEditingController();
   final _tpController = TextEditingController();
   final _slController = TextEditingController();
@@ -33,6 +34,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   void dispose() {
     _titleController.dispose();
     _contentController.dispose();
+    for (var c in _tpControllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -156,97 +160,142 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 children: [
                   const Icon(Icons.add, color: Color(0xFFE63330), size: 30,),Text('Crear Alerta', style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold)),
                 ],),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  // Campo de texto para el título
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      controller: _titleController,
-                      decoration: const InputDecoration(
-                        labelText: 'Título adicional',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa un título';
-                        }
-                        if (value.length < 3) {
-                          return 'El título debe tener al menos 3 caracteres';
-                        }
-                        return null;
-                      },
-                    ),
+              const SizedBox(height: 12),
+              InputDecorator(
+                decoration: InputDecoration(
+                  labelText: 'Tipo',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  const SizedBox(width: 12),
-                  // Selector de moneda con buscador
-                  ///ULTIMO PARA AGREGAR UN SELECT BUSCADOR DE MONEDAS...... PARA EL ULTIMO...... :)
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: _buildSelectableChip(
+                          label: 'Compra',
+                          icon: Icons.arrow_downward,
+                          value: AlertType.buy,
+                          color: Colors.green
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: _buildSelectableChip(
+                          label: 'Venta',
+                          icon: Icons.arrow_upward,
+                          value: AlertType.sell,
+                          color: Colors.red
+
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Par de Divisas',
+                  hintText: 'ej: GBP/JPY',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un título';
+                  }
+                  if (value.length < 3) {
+                    return 'El título debe tener al menos 3 caracteres';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _entradaController,
+                decoration: const InputDecoration(
+                  labelText: 'Entrada ➡️',
+                  hintText:'1.0820',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa una entrada';
+                  }
+                  if (value.length < 3) {
+                    return 'El título debe tener al menos 3 caracteres';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 8),
+              const Text('Take Profit 🎯'),
+              const SizedBox(height: 4),
+
+              Column(
+                children: [
+                  for (int i = 0; i < _tpControllers.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _tpControllers[i],
+                              decoration: InputDecoration(
+                                labelText: 'TP ${i + 1}',
+                                border: const OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) return 'Ingresa un TP';
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          if (_tpControllers.length > 1)
+                            IconButton(
+                              icon: const Icon(Icons.close, color: Colors.red),
+                              onPressed: () {
+                                setState(() {
+                                  _tpControllers.removeAt(i);
+                                });
+                              },
+                            ),
+                        ],
+                      ),
+                    ),
+
+                  // Botón para agregar otro TP
+                  if (_tpControllers.length < 5)
+                    TextButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          _tpControllers.add(TextEditingController());
+                        });
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text("Agregar TP"),
+                    ),
                 ],
               ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      controller: _entradaController,
-                      decoration: const InputDecoration(
-                        labelText: 'Entrada ',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa una entrada';
-                        }
-                        if (value.length < 3) {
-                          return 'El título debe tener al menos 3 caracteres';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      controller: _tpController,
-                      decoration: const InputDecoration(
-                        labelText: 'TP',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa un TP';
-                        }
-                        if (value.length < 3) {
-                          return 'El título debe tener al menos 3 caracteres';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      controller: _slController,
-                      decoration: const InputDecoration(
-                        labelText: 'SL',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa un SL';
-                        }
-                        if (value.length < 3) {
-                          return 'El título debe tener al menos 3 caracteres';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
+
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _slController,
+                decoration: const InputDecoration(
+                  labelText: 'SL',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un SL';
+                  }
+                  if (value.length < 3) {
+                    return 'El título debe tener al menos 3 caracteres';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -270,43 +319,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  // CONTENEDOR DE TIPO
-                  Expanded(
-                    flex: 3,
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: 'Tipo',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: _buildSelectableChip(
-                              label: 'Compra',
-                              icon: Icons.arrow_downward,
-                              value: AlertType.buy,
-                              color: Colors.green
-                            ),
-                          ),
-                          const SizedBox(width: 2),
-                          Expanded(
-                            child: _buildSelectableChip(
-                              label: 'Venta',
-                              icon: Icons.arrow_upward,
-                              value: AlertType.sell,
-                              color: Colors.red
-
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 2),
-                  // CONTENEDOR DE IMAGEN
                   Expanded(
                     flex: 2,
                     child: InputDecorator(
@@ -372,7 +384,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         ),
                       ),
                     ),
-
                 ],
               ),
               const SizedBox(height: 16),
@@ -408,8 +419,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
 
     return ChoiceChip(
       showCheckmark: false,
-
       label: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Flexible(
             flex: 10,
