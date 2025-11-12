@@ -59,6 +59,7 @@ dependencies:
   image: ^4.1.7
   # Toast y alertas
   fluttertoast: ^8.2.4
+  custom_sliding_segmented_control: ^1.8.5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -106,9 +107,9 @@ flutter:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/icono_reload.png"
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/images/logo.png"
+  adaptive_icon_foreground: "assets/images/icono_reload.png"
   min_sdk_android: 21
   remove_alpha_ios: true
   web:

@@ -8,6 +8,7 @@ class AppColors {
   static const background = Color(0xFFEFEFEF);
   static const basic = Color(0xFF0D1D35);
   static const basicBack = Color(0xFF066BAF);
+  static const lightModeBlue = Color(0xFF005EA3);
 
 
   // Variaciones de colores principales para estados
@@ -196,7 +197,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          foregroundColor: AppColors.lightModeBlue,
           textStyle: AppTextStyles.bodyLarge.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -268,6 +269,14 @@ class AppTheme {
         backgroundColor: const Color(0xFF0D1D35),
         foregroundColor: Colors.white,
         titleTextStyle: AppTextStyles.titleLarge.copyWith(color: Colors.white),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStateProperty.all(AppColors.primary),
+          textStyle: WidgetStateProperty.all(
+            AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ),
       ),
       cardTheme: CardTheme(
         color: const Color(0xFF0D1D35),

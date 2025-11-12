@@ -25,16 +25,37 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final authState = ref.watch(authStateProvider);
     final isAdmin = authState.currentUser?.role == 'admin';
     return AppBar(
-      toolbarHeight: 75,
+      toolbarHeight: 90,
       titleSpacing: 0,
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          const CircleAvatar(
-            radius: 45,
-            backgroundColor: Colors.transparent,
-            backgroundImage: AssetImage('assets/images/logo.png'),
+          GestureDetector(
+            onTap: () {
+              context.go('/home');
+            },
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF0A84FF).withOpacity(0.4),
+                    blurRadius: 50,
+                    spreadRadius: 6,
+                    offset: const Offset(0, 4), // ligera sombra/luz hacia abajo
+                  ),
+                ],
+              ),
+              child: const CircleAvatar(
+                radius: 45,
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage('assets/images/logo.png'),
+              ),
+            ),
           ),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,25 +85,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: [
 
         if(icons ?? true)...[
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1), // Fondo translúcido
-              borderRadius: BorderRadius.circular(10), // Bordes redondeados
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3), // Color del borde
-                width: 1.5,
-              ),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.add),
-              tooltip: 'Crear alerta',
-              onPressed: () => context.pushNamed('createAlert'),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Container(
+           Container(
             width: 40,
             height: 40,
             decoration: BoxDecoration(

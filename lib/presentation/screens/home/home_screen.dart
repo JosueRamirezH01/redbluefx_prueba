@@ -312,7 +312,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
 
   Widget _buildCenterButton() {
     return Transform.translate(
-      offset: const Offset(0, 16), // Ajusta este valor si lo quieres más abajo o más arriba
+      offset: const Offset(0, 16), // Mantiene la posición del botón
       child: Container(
         height: 60,
         width: 60,
@@ -329,8 +329,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.4),
-              blurRadius: 8,
+              blurRadius: 10,
               offset: const Offset(0, 4),
+            ),
+            BoxShadow(
+              color: const Color(0xFF00A5FF).withOpacity(0.6),
+              blurRadius: 20,
+              spreadRadius: 6,
             ),
           ],
         ),
@@ -341,6 +346,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       ),
     );
   }
+
+
+
+
+
 
 
 }

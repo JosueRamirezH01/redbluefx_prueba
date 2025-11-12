@@ -1,5 +1,4 @@
 import 'package:logger/logger.dart';
-import '../config/app_config.dart';
 
 class AppLogger {
   static final _logger = Logger(
