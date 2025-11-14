@@ -75,10 +75,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authStateProvider);
+    final isSearching = ref.watch(isSearchingProvider);
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: const SharedAppBar(title: 'RedBlue FX'),
       body: Container(
         height: double.infinity,
@@ -97,6 +98,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           onRefresh: _loadAlerts,
           child: Column(
             children: [
+              // Filtros
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -105,20 +107,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                       label: 'Todas',
                       isSelected: _selectedType == AlertType.all,
                       onSelected: (selected) {
-                        if (selected) {
-                          _onFilterByType(AlertType.all);
-                        }
+                        if (selected) _onFilterByType(AlertType.all);
                       },
-                      color:  const Color(0xFF066BAF),
+                      color: const Color(0xFF066BAF),
                     ),
                     const SizedBox(width: 8),
                     _buildFilterChip(
                       label: 'Compra',
                       isSelected: _selectedType == AlertType.buy,
                       onSelected: (selected) {
-                        if (selected) {
-                          _onFilterByType(AlertType.buy);
-                        }
+                        if (selected) _onFilterByType(AlertType.buy);
                       },
                       color: Colors.green,
                     ),
@@ -127,130 +125,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                       label: 'Venta',
                       isSelected: _selectedType == AlertType.sell,
                       onSelected: (selected) {
-                        if (selected) {
-                          _onFilterByType(AlertType.sell);
-                        }
+                        if (selected) _onFilterByType(AlertType.sell);
                       },
                       color: Colors.red,
                     ),
                   ],
                 ),
               ),
-              // Sección de búsqueda y filtros con animación
-              /*FadeInDown(
-                duration: const Duration(milliseconds: 800),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      // Campo de búsqueda mejorado
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 5,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          controller: _searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Buscar alertas...',
-                            hintStyle: GoogleFonts.poppins(
-                              color: Colors.grey.shade500,
-                            ),
-                            prefixIcon: const Icon(
-                              Icons.search,
-                              color: AppColors.primary,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey.shade100,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                          ),
-                          onChanged: _onSearch,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      // Filtros mejorados
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            _buildFilterChip(
-                              label: 'Todas',
-                              isSelected: _selectedType == AlertType.all,
-                              onSelected: (selected) {
-                                if (selected) {
-                                  _onFilterByType(AlertType.all);
-                                }
-                              },
-                              color: AppColors.primary,
-                            ),
-                            const SizedBox(width: 8),
-                            _buildFilterChip(
-                              label: 'Compra',
-                              isSelected: _selectedType == AlertType.buy,
-                              onSelected: (selected) {
-                                if (selected) {
-                                  _onFilterByType(AlertType.buy);
-                                }
-                              },
-                              color: Colors.green,
-                            ),
-                            const SizedBox(width: 8),
-                            _buildFilterChip(
-                              label: 'Venta',
-                              isSelected: _selectedType == AlertType.sell,
-                              onSelected: (selected) {
-                                if (selected) {
-                                  _onFilterByType(AlertType.sell);
-                                }
-                              },
-                              color: Colors.red,
-                            ),
-                            const SizedBox(width: 8),
-                            _buildFilterChip(
-                              label: 'Info',
-                              isSelected: _selectedType == AlertType.info,
-                              onSelected: (selected) {
-                                if (selected) {
-                                  _onFilterByType(AlertType.info);
-                                }
-                              },
-                              color: Colors.blue,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),*/
               // Lista de alertas
               const Expanded(
                 child: AlertList(),
@@ -260,16 +141,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         ),
       ),
       bottomNavigationBar: CustomBottomBar(
-        onNoticias: () {
-          AppLogger.info("Noticias tapped");
-        },
-        onAnuncios: () {
-          AppLogger.info("Anuncios tapped");
-        },
+        onNoticias: () => AppLogger.info("Noticias tapped"),
+        onAnuncios: () => AppLogger.info("Anuncios tapped"),
       ),
       floatingActionButton: _buildCenterButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
     );
   }
 
@@ -347,10 +223,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     );
   }
 
-
-
-
-
-
-
 }
+
+

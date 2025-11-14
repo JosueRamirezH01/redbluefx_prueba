@@ -7,11 +7,18 @@ import 'alert_card.dart';
 import '../../domain/entities/alert.dart';
 import '../../../core/utils/logger.dart';
 
-class AlertList extends ConsumerWidget {
+class AlertList extends ConsumerStatefulWidget {
   const AlertList({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AlertList> createState() => _AlertListState();
+}
+class _AlertListState extends ConsumerState<AlertList> {
+  int? expandedIndex;
+  int? expandedDetailsIndex;
+
+  @override
+  Widget build(BuildContext context) {
     final alertsState = ref.watch(alertsProvider);
 
     if (alertsState.isLoading && alertsState.alerts.isEmpty) {
@@ -145,8 +152,28 @@ class AlertList extends ConsumerWidget {
               },
               child: AlertCard(
                 alert: alert,
-                onTap: () => context.push('/alerts/${alert.id}'),
-                onEdit: () => context.push('/alerts/${alert.id}/edit'),
+                index: index,
+                expandedIndex: expandedIndex,
+                expandedDetailsIndex: expandedDetailsIndex,
+                onExpandDetailsChange: (value) {
+                  setState(() {
+                    // Si se está abriendo un nuevo card diferente, cierra el TP del anterior
+                    if (value != null && value != expandedDetailsIndex && expandedIndex != null && expandedIndex != value) {
+                      expandedIndex = null;
+                    }
+                    expandedDetailsIndex = value;
+                  });
+                },
+                onExpandChange: (value) {
+                  setState(() {
+                    if (value != null && value != expandedIndex && expandedDetailsIndex != null && expandedDetailsIndex != value) {
+                      expandedDetailsIndex = null;
+                    }
+                    expandedIndex = value;
+                  });
+                },
+                //onTap: () => context.push('/alerts/${alert.id}'),
+                //onEdit: () => context.push('/alerts/${alert.id}/edit'),
                 onDelete: () async {
                   try {
                     await ref.read(alertsProvider.notifier).deleteAlert(alert.id);

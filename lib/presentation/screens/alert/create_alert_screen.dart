@@ -1,3 +1,5 @@
+
+
 import 'dart:io';
 
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
@@ -412,6 +414,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             const SizedBox(height: 8),
             TextFormField(
               controller: _titleController,
+              maxLength: 20,
               decoration: const InputDecoration(
                 labelText: 'Par de Divisas',
                 hintText: 'ej: GBP/JPY',
@@ -524,6 +527,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 border: OutlineInputBorder(),
                 alignLabelWithHint: true,
               ),
+              maxLength: 120,
               maxLines: null,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -722,4 +726,4 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }*/
 
-} 
+}

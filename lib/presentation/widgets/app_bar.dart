@@ -2,14 +2,69 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/auth_provider.dart';
 import '../../domain/entities/auth_state.dart';
-import '../../core/utils/logger.dart';
 
-class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
+final isSearchingProvider = StateProvider<bool>((ref) => false);
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
+final searchHistoryProvider = StateNotifierProvider<SearchHistoryNotifier, List<String>>((ref) => SearchHistoryNotifier(),
+
+);
+
+class SearchHistoryNotifier extends StateNotifier<List<String>> {
+  static const _key = 'search_history';
+  static const int _maxItems = 3;
+
+  SearchHistoryNotifier() : super([]) {
+    _loadHistory();
+  }
+
+  // Carga historial desde SharedPreferences al iniciar
+  Future<void> _loadHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    final history = prefs.getStringList(_key) ?? [];
+    state = history;
+  }
+  Future<void> removeSearch(String term) async {
+    final prefs = await SharedPreferences.getInstance();
+    final newState = List<String>.from(state)..remove(term);
+    state = newState;
+    await prefs.setStringList(_key, newState);
+  }
+  // Agrega nueva búsqueda al historial
+  Future<void> addSearch(String term) async {
+    if (term.trim().length < 3) return;
+
+    final prefs = await SharedPreferences.getInstance();
+
+    // Elimina duplicados
+    final newState = [term, ...state.where((t) => t != term)];
+
+    // Mantiene solo los últimos _maxItems
+    if (newState.length > _maxItems) {
+      newState.removeRange(_maxItems, newState.length);
+    }
+
+    state = newState;
+    await prefs.setStringList(_key, newState);
+  }
+
+  // Limpiar historial
+  Future<void> clear() async {
+    state = [];
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_key);
+  }
+}
+
+
+class SharedAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? additionalActions;
   final bool? icons;
+
   const SharedAppBar({
     super.key,
     required this.title,
@@ -21,14 +76,73 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(90);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SharedAppBar> createState() => _SharedAppBarState();
+}
+
+class _SharedAppBarState extends ConsumerState<SharedAppBar> {
+  final GlobalKey _appBarKey = GlobalKey();
+  OverlayEntry? _overlayEntry;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _removeOverlay();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  void _showSearchHistory() {
+    final searchHistory = ref.read(searchHistoryProvider);
+    if (searchHistory.isEmpty) return;
+
+    final RenderBox? renderBox = _appBarKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+
+    final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: offset.dy + size.height - 22,
+        left: 16,
+        right: 16,
+        child: Material(
+          color: Colors.transparent,
+          child: _SearchHistoryOverlay(
+            onTermSelected: (term) {
+              _searchController.text = term;
+              ref.read(searchQueryProvider.notifier).state = term;
+              ref.read(searchHistoryProvider.notifier).addSearch(term);
+              _removeOverlay();
+            },
+            onClose: _removeOverlay,
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
+    final isSearching = ref.watch(isSearchingProvider);
     final isAdmin = authState.currentUser?.role == 'admin';
+
     return AppBar(
+      key: _appBarKey,
       toolbarHeight: 90,
       titleSpacing: 0,
       automaticallyImplyLeading: false,
-      title: Row(
+      title: isSearching
+          ? _buildSearchBar(context, ref)
+          : Row(
         children: [
           GestureDetector(
             onTap: () {
@@ -44,7 +158,7 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     color: const Color(0xFF0A84FF).withOpacity(0.4),
                     blurRadius: 50,
                     spreadRadius: 6,
-                    offset: const Offset(0, 4), // ligera sombra/luz hacia abajo
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
@@ -55,14 +169,13 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  title,
+                  widget.title,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -73,8 +186,8 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.white,
-                    fontSize: 9
+                      color: Colors.white,
+                      fontSize: 9
                   ),
                 ),
               ],
@@ -83,73 +196,135 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ],
       ),
       actions: [
-
-        if(icons ?? true)...[
-           Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1), // Fondo translúcido
-              borderRadius: BorderRadius.circular(10), // Bordes redondeados
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3), // Color del borde
-                width: 1.5,
+        if (!isSearching) ...[
+          if(widget.icons ?? true)...[
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.3),
+                  width: 1.5,
+                ),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.search),
+                color: Colors.white,
+                onPressed: () {
+                  ref.read(isSearchingProvider.notifier).state = true;
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _showSearchHistory();
+                  });
+                },
               ),
             ),
-            child: IconButton(
-              icon: const Icon(Icons.search),
-              color: Colors.white,
-              tooltip: 'Buscar',
-              onPressed: () {},
-            ),
-          ),
+          ],
         ],
-
-        if (isAdmin && (icons ?? true)) ...[
+        if (!isSearching) ...[
+          if (isAdmin && (widget.icons ?? true)) ...[
+            const SizedBox(width: 6),
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.3),
+                  width: 1.5,
+                ),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.add),
+                tooltip: 'Crear alerta',
+                onPressed: () => context.pushNamed('createAlert'),
+              ),
+            ),
+          ],
+          ...?widget.additionalActions,
           const SizedBox(width: 6),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1), // Fondo translúcido
-              borderRadius: BorderRadius.circular(10), // Bordes redondeados
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3), // Color del borde
-                width: 1.5,
-              ),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.add),
-              tooltip: 'Crear alerta',
-              onPressed: () => context.pushNamed('createAlert'),
+          _buildProfileButton(context, authState),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildSearchBar(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.white.withOpacity(0.3),
+              width: 1.5,
             ),
           ),
-        ],
-        ...?additionalActions,
-        const SizedBox(width: 6),
-        _buildProfileButton(context, authState),
-        /*IconButton(
-          icon: const Icon(Icons.logout),
-          tooltip: 'Cerrar sesión',
-          onPressed: () async {
-            try {
-              await ref.read(authStateProvider.notifier).logout();
-              if (context.mounted) {
-                context.go('/login');
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              ref.read(isSearchingProvider.notifier).state = false;
+              _removeOverlay();
+            },
+          ),
+        ),
+        const SizedBox(width: 10),
+        Container(
+          height: 40,
+          width: MediaQuery.of(context).size.width * 0.75,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFF005EA3).withOpacity(0.4),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF005EA3).withOpacity(0.4),
+                blurRadius: 20,
+                spreadRadius: 6,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: TextField(
+            controller: _searchController,
+            autofocus: true,
+            style: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.search, color: Colors.white),
+              hintText: 'Filtrar alertas...',
+              hintStyle: TextStyle(color: Colors.white),
+              border: InputBorder.none,
+              fillColor: Color(0xFF0D1D35),
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            ),
+            onTap: () {
+              if (_overlayEntry == null) {
+                _showSearchHistory();
               }
-            } catch (e, stack) {
-              AppLogger.error('Error al cerrar sesión: $e', error: e, stackTrace: stack);
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Error al cerrar sesión. Por favor, intenta de nuevo.'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+            },
+            onSubmitted: (value) {
+              final text = value.trim();
+              if (text.length >= 3) {
+                ref.read(searchHistoryProvider.notifier).addSearch(text);
               }
-            }
-          },
-        ),*/
+              ref.read(searchQueryProvider.notifier).state = text;
+              _removeOverlay();
+            },
+            onChanged: (value) {
+              ref.read(searchQueryProvider.notifier).state = value;
+              if (_overlayEntry == null && value.isEmpty) {
+                _showSearchHistory();
+              }
+            },
+          ),
+        ),
       ],
     );
   }
@@ -184,52 +359,179 @@ class SharedAppBar extends ConsumerWidget implements PreferredSizeWidget {
             borderRadius: BorderRadius.circular(10),
             child: hasProfilePicture
                 ? CachedNetworkImage(
-                    imageUrl: user.profilePictureUrl!,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: Colors.grey.shade300,
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: Colors.grey.shade300,
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
-                    ),
-                  )
+              imageUrl: user.profilePictureUrl!,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: Colors.grey.shade300,
+                child: const Icon(
+                  Icons.person,
+                  color: Colors.grey,
+                  size: 20,
+                ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                color: Colors.grey.shade300,
+                child: const Icon(
+                  Icons.person,
+                  color: Colors.grey,
+                  size: 20,
+                ),
+              ),
+            )
                 : Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.7),
-                        ],
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        user?.fullName.isNotEmpty == true
-                            ? user!.fullName.split(' ').map((name) => name[0]).take(2).join().toUpperCase()
-                            : 'U',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor.withOpacity(0.7),
+                  ],
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  user?.fullName.isNotEmpty == true
+                      ? user!.fullName.split(' ').map((name) => name[0]).take(2).join().toUpperCase()
+                      : 'U',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
+                ),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
-} 
+}
+
+class _SearchHistoryOverlay extends ConsumerWidget {
+  final Function(String) onTermSelected;
+  final VoidCallback onClose;
+
+  const _SearchHistoryOverlay({
+    required this.onTermSelected,
+    required this.onClose,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchHistory = ref.watch(searchHistoryProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    if (searchHistory.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return GestureDetector(
+      onTap: onClose,
+      behavior: HitTestBehavior.translucent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1A2A3A) : Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Búsquedas recientes',
+                          style: TextStyle(
+                            color: isDark ? Colors.white70 : Colors.grey.shade600,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            onClose();
+                          },
+                          child: Icon(
+                            Icons.close,
+                            size: 18,
+                            color: isDark ? Colors.white38 : Colors.grey.shade400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ...searchHistory.map((term) => InkWell(
+                    onTap: () => onTermSelected(term),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: isDark
+                                ? Colors.white.withOpacity(0.1)
+                                : Colors.grey.shade200,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            size: 20,
+                            color: isDark ? Colors.white60 : Colors.grey.shade600,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              term,
+                              style: TextStyle(
+                                color: isDark ? Colors.white : Colors.grey.shade800,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.close,
+                                size: 14,
+                                color: isDark ? Colors.white38 : Colors.grey.shade500),
+                            onPressed: () {
+                              ref.read(searchHistoryProvider.notifier).removeSearch(term);
+
+                              // Si quieres que se cierre después de borrar el item:
+                              // onClose();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
