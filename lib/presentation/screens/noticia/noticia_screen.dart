@@ -12,14 +12,14 @@ import '../../../core/theme/app_theme.dart';
 import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class NoticiaScreen extends ConsumerStatefulWidget {
+  const NoticiaScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<NoticiaScreen> createState() => _NoticiaScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProviderStateMixin {
+class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTickerProviderStateMixin {
   final _searchController = TextEditingController();
   AlertType? _selectedType;
   late AnimationController _animationController;
@@ -31,9 +31,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     )..forward();
-    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadAlerts();
+     // _loadAlerts();
     });
   }
 
@@ -45,7 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   }
 
   Future<void> _loadAlerts() async {
-    try {
+    /*try {
       await ref.read(alertsProvider.notifier).loadAlerts();
     } catch (e, stack) {
       AppLogger.error('Error cargando alertas: $e', error: e, stackTrace: stack);
@@ -57,12 +57,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           ),
         );
       }
-    }
+    }*/
   }
 
 
 
-  void _onFilterByType(AlertType? type) {
+ /* void _onFilterByType(AlertType? type) {
     AppLogger.debug('🔄 HomeScreen _onFilterByType - before: $_selectedType, after: $type');
     setState(() {
       _selectedType = type;
@@ -70,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     AppLogger.debug('🔄 HomeScreen _onFilterByType - after setState: $_selectedType');
     AppLogger.debug('🔄 HomeScreen _onFilterByType - sending to provider: $type');
     ref.read(alertsProvider.notifier).filterByType(type);
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -102,41 +102,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                   duration: const Duration(milliseconds: 300),
                   child: _buildSearchResultCounter(),
                 ),
-              if (!isSearching)
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _buildFilterChip(
-                      label: 'Todas',
-                      isSelected: _selectedType == AlertType.all,
-                      onSelected: (selected) {
-                        if (selected) _onFilterByType(AlertType.all);
-                      },
-                      color: const Color(0xFF066BAF),
-                    ),
-                    const SizedBox(width: 8),
-                    _buildFilterChip(
-                      label: 'Compra',
-                      isSelected: _selectedType == AlertType.buy,
-                      onSelected: (selected) {
-                        if (selected) _onFilterByType(AlertType.buy);
-                      },
-                      color: Colors.green,
-                    ),
-                    const SizedBox(width: 8),
-                    _buildFilterChip(
-                      label: 'Venta',
-                      isSelected: _selectedType == AlertType.sell,
-                      onSelected: (selected) {
-                        if (selected) _onFilterByType(AlertType.sell);
-                      },
-                      color: Colors.red,
-                    ),
-                  ],
-                ),
-              ),
-              // Lista de alertas
+
               const Expanded(
                 child: AlertList(),
               ),

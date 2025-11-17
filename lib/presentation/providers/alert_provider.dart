@@ -105,6 +105,18 @@ class AlertNotifier extends StateNotifier<AlertState> {
     await loadAlerts(refresh: true);
   }
 
+  void clearFilters() {
+    state = const AlertState(
+      alerts: [],
+      isLoading: false,
+      error: null,
+      hasMore: true,
+      currentPage: 1,
+      selectedType: null,
+      searchQuery: null,
+    );
+  }
+
   void filterByType(AlertType? type) {
     AppLogger.debug('🔄 AlertNotifier filterByType - before: ${state.selectedType}, after: $type');
     AppLogger.debug('🔄 AlertNotifier filterByType - type is null: ${type == null}');
@@ -173,13 +185,7 @@ class AlertNotifier extends StateNotifier<AlertState> {
     }
   }
 
-  Future<void> updateAlert(
-    String id, {
-    String? title,
-    String? content,
-    AlertType? type,
-    bool? isPublic,
-  }) async {
+  Future<void> updateAlert(String id, {String? title, String? content, AlertType? type, bool? isPublic}) async {
     try {
       final updatedAlert = await _repository.updateAlert(
         id,
@@ -224,12 +230,7 @@ class AlertNotifier extends StateNotifier<AlertState> {
     }
   }
 
-  Future<Alert> createAlert({
-    required String title,
-    required String content,
-    required AlertType type,
-    required bool isPublic,
-  }) async {
+  Future<Alert> createAlert({required String title, required String content, required AlertType type, required bool isPublic,}) async {
     try {
       final alert = await _repository.createAlert(
         title: title,

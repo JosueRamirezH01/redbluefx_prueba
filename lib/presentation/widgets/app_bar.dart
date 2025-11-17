@@ -1,64 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../providers/alert_provider.dart';
 import '../providers/auth_provider.dart';
 import '../../domain/entities/auth_state.dart';
+import '../providers/search_provider.dart';
 
 final isSearchingProvider = StateProvider<bool>((ref) => false);
-final searchQueryProvider = StateProvider<String>((ref) => '');
-
-final searchHistoryProvider = StateNotifierProvider<SearchHistoryNotifier, List<String>>((ref) => SearchHistoryNotifier(),
-
-);
-
-class SearchHistoryNotifier extends StateNotifier<List<String>> {
-  static const _key = 'search_history';
-  static const int _maxItems = 3;
-
-  SearchHistoryNotifier() : super([]) {
-    _loadHistory();
-  }
-
-  // Carga historial desde SharedPreferences al iniciar
-  Future<void> _loadHistory() async {
-    final prefs = await SharedPreferences.getInstance();
-    final history = prefs.getStringList(_key) ?? [];
-    state = history;
-  }
-  Future<void> removeSearch(String term) async {
-    final prefs = await SharedPreferences.getInstance();
-    final newState = List<String>.from(state)..remove(term);
-    state = newState;
-    await prefs.setStringList(_key, newState);
-  }
-  // Agrega nueva búsqueda al historial
-  Future<void> addSearch(String term) async {
-    if (term.trim().length < 3) return;
-
-    final prefs = await SharedPreferences.getInstance();
-
-    // Elimina duplicados
-    final newState = [term, ...state.where((t) => t != term)];
-
-    // Mantiene solo los últimos _maxItems
-    if (newState.length > _maxItems) {
-      newState.removeRange(_maxItems, newState.length);
-    }
-
-    state = newState;
-    await prefs.setStringList(_key, newState);
-  }
-
-  // Limpiar historial
-  Future<void> clear() async {
-    state = [];
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_key);
-  }
-}
-
 
 class SharedAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -83,11 +34,12 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
   final GlobalKey _appBarKey = GlobalKey();
   OverlayEntry? _overlayEntry;
   final TextEditingController _searchController = TextEditingController();
-
+  Timer? _debounce;
   @override
   void dispose() {
     _removeOverlay();
     _searchController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -118,6 +70,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               _searchController.text = term;
               ref.read(searchQueryProvider.notifier).state = term;
               ref.read(searchHistoryProvider.notifier).addSearch(term);
+              _onSearch(_searchController.text);
               _removeOverlay();
             },
             onClose: _removeOverlay,
@@ -268,9 +221,19 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
           ),
           child: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              ref.read(isSearchingProvider.notifier).state = false;
+            onPressed: () async {
+              // 1. Limpiamos el overlay
               _removeOverlay();
+              // 2. Limpiamos el TextField
+              _searchController.clear();
+              // 3. Limpiamos el estado de búsqueda
+              ref.read(searchQueryProvider.notifier).state = '';
+              // 4. Reseteamos completamente el estado a inicial
+              ref.read(alertsProvider.notifier).clearFilters();
+              // 5. Salimos del modo búsqueda
+              ref.read(isSearchingProvider.notifier).state = false;
+              // 6. Cargamos todas las alertas
+              await Future.microtask(() => ref.read(alertsProvider.notifier).loadAlerts());
             },
           ),
         ),
@@ -318,10 +281,14 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               _removeOverlay();
             },
             onChanged: (value) {
+
               ref.read(searchQueryProvider.notifier).state = value;
               if (_overlayEntry == null && value.isEmpty) {
                 _showSearchHistory();
               }
+
+              _onSearch(_searchController.text);
+
             },
           ),
         ),
@@ -407,7 +374,32 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
       ),
     );
   }
+
+  void _onSearch(String value) {
+    // Cancelar el temporizador anterior si existe
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    _debounce = Timer(const Duration(milliseconds: 400), () {
+      final isSearching = ref.read(isSearchingProvider);
+      if (!isSearching) return;
+
+
+      if (value.trim().isEmpty) {
+        // Si el campo está vacío, resetear completamente el estado
+        ref.read(alertsProvider.notifier).clearFilters();
+        // Cargar todas las alertas
+        ref.read(alertsProvider.notifier).loadAlerts();
+      } else {
+        // Búsqueda normal
+        ref.read(alertsProvider.notifier).search(value.trim());
+        FocusScope.of(context).unfocus();
+      }
+    });
+  }
 }
+
+
+
 
 class _SearchHistoryOverlay extends ConsumerWidget {
   final Function(String) onTermSelected;

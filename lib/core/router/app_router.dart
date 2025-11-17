@@ -129,6 +129,12 @@ final router = GoRouter(
       name: 'adminAlerts',
       builder: (context, state) => const AdminAlertsScreen(),
     ),
+    GoRoute(
+      path: '/admin/alerts',
+      name: 'adminAlerts',
+      builder: (context, state) => const AdminAlertsScreen(),
+    ),
+
   ],
   errorBuilder: (context, state) => Scaffold(
     body: Center(

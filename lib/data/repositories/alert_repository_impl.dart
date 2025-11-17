@@ -28,22 +28,26 @@ class AlertRepositoryImpl implements AlertRepository {
       
       AppLogger.debug('🔄 AlertRepositoryImpl getAlerts - queryParams: $queryParams');
 
-      final response = await _dio.get(
-        ApiRoutes.alerts,
-        queryParameters: queryParams,
-      );
+      final response = await _dio.get(ApiRoutes.alerts, queryParameters: queryParams);
 
       if (response.data == null) {
         throw Exception('No se recibieron datos del servidor');
       }
 
       final List<dynamic> data = response.data['data'] as List<dynamic>;
+      var alerts = data.map((json) => Alert.fromJson(json)).toList();
+      if (search != null && search.isNotEmpty) {
+        alerts = alerts.where((alert) =>
+        alert.title.toLowerCase().contains(search.toLowerCase()) ||
+            alert.content.toLowerCase().contains(search.toLowerCase())
+        ).toList();
+      }
       AppLogger.debug('🔄 AlertRepositoryImpl getAlerts - received ${data.length} alerts');
       if (data.isNotEmpty) {
         AppLogger.debug('🔄 AlertRepositoryImpl getAlerts - first alert type: ${data[0]['type']}');
       }
       
-      return data.map((json) => Alert.fromJson(json)).toList();
+      return alerts;
     } catch (e, stack) {
       AppLogger.error(
         'Error en getAlerts',
@@ -142,12 +146,7 @@ class AlertRepositoryImpl implements AlertRepository {
   }
 
   @override
-  Future<Alert> createAlert({
-    required String title,
-    required String content,
-    required AlertType type,
-    required bool isPublic,
-  }) async {
+  Future<Alert> createAlert({required String title, required String content, required AlertType type, required bool isPublic,}) async {
     try {
       final response = await _dio.post(
         ApiRoutes.alerts,
@@ -171,12 +170,7 @@ class AlertRepositoryImpl implements AlertRepository {
   }
 
   @override
-  Future<Alert> updateAlert(String id, {
-    String? title,
-    String? content,
-    AlertType? type,
-    bool? isPublic,
-  }) async {
+  Future<Alert> updateAlert(String id, {String? title, String? content, AlertType? type, bool? isPublic,}) async {
     try {
       final response = await _dio.put(
         ApiRoutes.alert(id),
