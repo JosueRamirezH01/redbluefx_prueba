@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
-import '../../providers/auth_provider.dart';
 import '../../providers/alert_provider.dart';
 import '../../widgets/alert_list.dart';
 import '../../widgets/app_bar.dart';
@@ -145,7 +145,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         ),
       ),
       bottomNavigationBar: CustomBottomBar(
-        onNoticias: () => AppLogger.info("Noticias tapped"),
+        onNoticias:() {
+          AppLogger.info("Noticias tapped");
+          context.pushNamed('notice_list');
+        },
         onAnuncios: () => AppLogger.info("Anuncios tapped"),
       ),
       floatingActionButton: CenterFloatingButton(onPressed: () {  },),

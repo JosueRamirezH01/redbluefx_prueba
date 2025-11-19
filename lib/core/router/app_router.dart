@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redbluefx_mobile/presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/admin/users_screen.dart';
 import '../../presentation/screens/admin/admin_alerts_screen.dart';
 import '../../presentation/screens/auth/login_screen.dart';
@@ -11,7 +12,7 @@ import '../../presentation/screens/auth/reset_password_screen.dart';
 import '../../presentation/screens/auth/verify_email_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
 import '../../presentation/screens/splash_screen.dart';
-import '../../presentation/screens/alert/alert_detail_screen.dart';
+import '../../presentation/screens/noticia/notice_detail_screen.dart';
 import '../../presentation/screens/alert/create_alert_screen.dart';
 import '../../presentation/screens/profile/profile_screen.dart';
 import '../../presentation/screens/alert/edit_alert_screen.dart';
@@ -106,9 +107,9 @@ final router = GoRouter(
       builder: (context, state) => const CreateAlertScreen(),
     ),
     GoRoute(
-      path: '/alerts/:id',
-      name: 'alertDetail',
-      builder: (context, state) => AlertDetailScreen(
+      path: '/notice/:id',
+      name: 'noticeDetail',
+      builder: (context, state) => NoticeDetailScreen(
         alertId: state.pathParameters['id']!,
       ),
     ),
@@ -130,9 +131,9 @@ final router = GoRouter(
       builder: (context, state) => const AdminAlertsScreen(),
     ),
     GoRoute(
-      path: '/admin/alerts',
-      name: 'adminAlerts',
-      builder: (context, state) => const AdminAlertsScreen(),
+      path: '/notice_list',
+      name: 'notice_list',
+      builder: (context, state) => const NoticiaScreen(),
     ),
 
   ],

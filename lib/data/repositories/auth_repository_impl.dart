@@ -27,8 +27,8 @@ class AuthRepositoryImpl implements AuthRepository {
   final http.Client _httpClient;
   static const _tokenKey = 'auth_token';
   static const _refreshTokenKey = 'refresh_token';
-  static const _userKey = 'user_data';
-  static const _deviceTokenKey = 'device_token';
+  //static const _userKey = 'user_data';
+  //static const _deviceTokenKey = 'device_token';
 
   @override
   Future<void> deleteAccount() async {

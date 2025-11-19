@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
-import '../../providers/auth_provider.dart';
 import '../../providers/alert_provider.dart';
-import '../../widgets/alert_list.dart';
 import '../../widgets/app_bar.dart';
-import '../../../domain/entities/alert.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
+import '../../widgets/notice_list.dart';
 
 class NoticiaScreen extends ConsumerStatefulWidget {
   const NoticiaScreen({super.key});
@@ -21,7 +20,6 @@ class NoticiaScreen extends ConsumerStatefulWidget {
 
 class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTickerProviderStateMixin {
   final _searchController = TextEditingController();
-  AlertType? _selectedType;
   late AnimationController _animationController;
 
   @override
@@ -32,9 +30,9 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
       duration: const Duration(milliseconds: 1500),
     )..forward();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-     // _loadAlerts();
-    });
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadAlerts();
+    });*/
   }
 
   @override
@@ -104,14 +102,17 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
                 ),
 
               const Expanded(
-                child: AlertList(),
+                child: NoticeList(),
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: CustomBottomBar(
-        onNoticias: () => AppLogger.info("Noticias tapped"),
+        onNoticias: () {
+          AppLogger.info("Noticias tapped");
+          context.pushNamed('notice_list');
+        },
         onAnuncios: () => AppLogger.info("Anuncios tapped"),
       ),
       floatingActionButton: CenterFloatingButton(onPressed: () {  },),
@@ -154,42 +155,6 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
     );
   }
 
-  Widget _buildFilterChip({required String label, required bool isSelected, required Function(bool) onSelected, required Color color,}) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isSelected
-        ? color
-        : (isDark ?  const Color(0xFF0D1D35) : Colors.white);
-
-    final textColor = isSelected
-        ? Colors.white
-        : (isDark ? Colors.white70 : Colors.black87);
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      child: FilterChip(
-        label: Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: textColor,
-          ),
-        ),
-        selected: isSelected,
-        onSelected: onSelected,
-        backgroundColor: backgroundColor,
-        selectedColor: color,
-        checkmarkColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(
-            color: isSelected ? color : color.withOpacity(0.3),
-            width: 1,
-          ),
-        ),
-      ),
-    );
-  }
 
 }
 

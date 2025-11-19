@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import '../../../domain/entities/user.dart';
 import '../../providers/user_provider.dart';
 import '../../../core/utils/logger.dart';

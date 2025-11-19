@@ -21,7 +21,6 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
   AlertStatus? _selectedStatus;
   DateTime? _startDate;
   DateTime? _endDate;
-  bool _showArchived = false;
   bool _hasSearchText = false;
   
   @override

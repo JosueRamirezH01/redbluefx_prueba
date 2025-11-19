@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class AppDateUtils {
   // Zona horaria de Perú (GMT-5)
-  static const String _peruTimeZone = 'America/Lima';
+  //static const String _peruTimeZone = 'America/Lima';
   
   /// Formatea una fecha a zona horaria de Perú (GMT-5)
   /// y retorna en formato "dd/MM/yyyy HH:mm"

@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
+import 'package:redbluefx_mobile/presentation/widgets/notice_card.dart';
 import '../providers/alert_provider.dart';
-import 'alert_card.dart';
 import '../../../core/utils/logger.dart';
 
-class AlertList extends ConsumerStatefulWidget {
-  const AlertList({super.key});
+class NoticeList extends ConsumerStatefulWidget {
+  const NoticeList({super.key});
 
   @override
-  ConsumerState<AlertList> createState() => _AlertListState();
+  ConsumerState<NoticeList> createState() => _NoticeListState();
 }
-class _AlertListState extends ConsumerState<AlertList> {
-  int? expandedIndex;
-  int? expandedDetailsIndex;
+class _NoticeListState extends ConsumerState<NoticeList> {
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +69,8 @@ class _AlertListState extends ConsumerState<AlertList> {
               ),
               const SizedBox(height: 16),
               Text(
-                'No se encontraron señales',
-                style: AppTextStyles.titleLarge
+                  'No se encontraron señales',
+                  style: AppTextStyles.titleLarge
               ),
               const SizedBox(height: 12),
               Text(
@@ -153,53 +152,10 @@ class _AlertListState extends ConsumerState<AlertList> {
                   }
                 }
               },
-              child: AlertCard(
+              child: NoticeCard(
                 alert: alert,
-                index: index,
-                expandedIndex: expandedIndex,
-                expandedDetailsIndex: expandedDetailsIndex,
-                onExpandDetailsChange: (value) {
-                  setState(() {
-                    // Si se está abriendo un nuevo card diferente, cierra el TP del anterior
-                    if (value != null && value != expandedDetailsIndex && expandedIndex != null && expandedIndex != value) {
-                      expandedIndex = null;
-                    }
-                    expandedDetailsIndex = value;
-                  });
-                },
-                onExpandChange: (value) {
-                  setState(() {
-                    if (value != null && value != expandedIndex && expandedDetailsIndex != null && expandedDetailsIndex != value) {
-                      expandedDetailsIndex = null;
-                    }
-                    expandedIndex = value;
-                  });
-                },
-                //onTap: () => context.push('/alerts/${alert.id}'),
+                onTap: () => context.push('/notice/${alert.id}'),
                 //onEdit: () => context.push('/alerts/${alert.id}/edit'),
-                onDelete: () async {
-                  try {
-                    await ref.read(alertsProvider.notifier).deleteAlert(alert.id);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Alerta eliminada correctamente'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    }
-                  } catch (e, stack) {
-                    AppLogger.error('Error al eliminar alerta: $e', error: e, stackTrace: stack);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Error al eliminar la alerta'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  }
-                },
               ),
             ),
           ),
@@ -207,4 +163,4 @@ class _AlertListState extends ConsumerState<AlertList> {
       },
     );
   }
-} 
+}

@@ -6,7 +6,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../../core/utils/logger.dart';
-import '../../providers/theme_provider.dart';
 import '../../widgets/theme_switch.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -296,6 +295,30 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           const Divider(),
           const SizedBox(height: 16),
           const ThemeSwitchTile(),
+          const Divider(),
+          ListTile(
+            title: const Text('Cerrar Session'),
+            leading: const Icon(Icons.logout),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () async {
+              try {
+                await ref.read(authStateProvider.notifier).logout();
+                if (context.mounted) {
+                  context.go('/login');
+                }
+              } catch (e, stack) {
+                AppLogger.error('Error al cerrar sesión: $e', error: e, stackTrace: stack);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Error al cerrar sesión. Por favor, intenta de nuevo.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            },
+          ),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: user != null ? () {

@@ -7,7 +7,6 @@ import 'package:redbluefx_mobile/presentation/providers/theme_provider.dart';
 import 'core/config/app_config.dart';
 import 'core/router/app_router.dart';
 import 'core/services/firebase_messaging_service.dart';
-import 'core/services/navigation_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/logger.dart';
 import 'core/widgets/app_scaffold.dart';

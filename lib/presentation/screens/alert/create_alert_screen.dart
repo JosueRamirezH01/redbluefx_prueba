@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/alert.dart';
 import '../../providers/alert_provider.dart';
 import '../../widgets/app_bar.dart';

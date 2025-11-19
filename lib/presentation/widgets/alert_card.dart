@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../../core/theme/app_theme.dart';
 import '../../domain/entities/alert.dart';
 import '../providers/auth_provider.dart';
 import '../../core/utils/date_utils.dart';
