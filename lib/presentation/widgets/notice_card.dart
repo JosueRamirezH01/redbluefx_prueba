@@ -15,6 +15,8 @@ class NoticeCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
@@ -25,7 +27,7 @@ class NoticeCard extends ConsumerWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(screenWidth * 0.04),
           child: Column(
             children: [
               Row(
@@ -33,25 +35,39 @@ class NoticeCard extends ConsumerWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      'assets/images/notice.png',
-                      width: 120,
-                      height: 100,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: 120,
-                          height: 100,
-                          color: Colors.green.shade50,
-                          child: Icon(
-                            Icons.show_chart,
-                            color: Colors.green.shade300,
-                            size: 40,
-                          ),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+
+                        final imageSize = screenWidth * 0.25;
+
+                        // Limitar para que no se vea ni muy grande ni muy pequeño
+                        final finalSize = imageSize.clamp(80.0, 120.0);
+
+                        return Image.asset(
+                          'assets/images/notice.png',
+                          width: finalSize,
+                          height: finalSize,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: finalSize,
+                              height: finalSize,
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                Icons.show_chart,
+                                color: Colors.green.shade300,
+                                size: finalSize * 0.4,
+                              ),
+                            );
+                          },
                         );
                       },
                     ),
                   ),
+
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(
@@ -63,17 +79,17 @@ class NoticeCard extends ConsumerWidget {
                               "Por: Sergio Avila",
                               style: TextStyle(
                                 color: Color(0xFF005EA3),
-                                fontSize: 12,
+                                fontSize: 10,
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const Spacer(),
                             _buildTypeChip(),
                           ],
                         ),
                         const Text(
                             'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.w700,
 
                             )
@@ -91,7 +107,7 @@ class NoticeCard extends ConsumerWidget {
                 children: [
                   Icon(
                     Icons.access_time,
-                    size: 16,
+                    size: MediaQuery.of(context).size.width * 0.045,
                     color: Colors.grey.shade400,
                   ),
                   const SizedBox(width: 4),
@@ -123,7 +139,7 @@ class NoticeCard extends ConsumerWidget {
 
   Widget _buildTypeChip() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.grey.shade200,

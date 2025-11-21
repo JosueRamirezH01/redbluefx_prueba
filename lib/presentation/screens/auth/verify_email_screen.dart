@@ -269,6 +269,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -289,276 +290,270 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
               constraints: BoxConstraints(
                 minHeight: size.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
               ),
-              child: IntrinsicHeight(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Spacer(flex: 1),
-                      
-                      // Logo
-                      FadeInDown(
-                        duration: const Duration(milliseconds: 1000),
-                        child: Hero(
-                          tag: 'logo',
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                            height: 120,
-                            width: 120,
-                          ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    // Logo
+                    FadeInDown(
+                      duration: const Duration(milliseconds: 1000),
+                      child: Hero(
+                        tag: 'logo',
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          height: 120,
+                          width: 120,
                         ),
                       ),
-                      
-                      const SizedBox(height: 30),
-                      
-                      // Título
-                      FadeInDown(
-                        duration: const Duration(milliseconds: 1000),
-                        delay: const Duration(milliseconds: 200),
-                        child: Text(
-                          'Verificar Email',
-                          style: GoogleFonts.poppins(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Título
+                    FadeInDown(
+                      duration: const Duration(milliseconds: 1000),
+                      delay: const Duration(milliseconds: 200),
+                      child: Text(
+                        'Verificar Email',
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
-                      
-                      const SizedBox(height: 10),
-                      
-                      // Subtítulo
-                      FadeInDown(
-                        duration: const Duration(milliseconds: 1000),
-                        delay: const Duration(milliseconds: 400),
-                        child: Text(
-                          'Hemos enviado un código de 6 dígitos a\n${widget.email}',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            color: Colors.white.withOpacity(0.8),
-                          ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    // Subtítulo
+                    FadeInDown(
+                      duration: const Duration(milliseconds: 1000),
+                      delay: const Duration(milliseconds: 400),
+                      child: Text(
+                        'Hemos enviado un código de 6 dígitos a\n${widget.email}',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: Colors.white.withOpacity(0.8),
                         ),
                       ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Recordatorio de revisar spam
-                      FadeInDown(
-                        duration: const Duration(milliseconds: 1000),
-                        delay: const Duration(milliseconds: 500),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.2),
-                              width: 1,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                                color: Colors.white.withOpacity(0.9),
-                                size: 20,
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  '¿No lo encuentras? Revisa tu carpeta de spam o correo no deseado',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    color: Colors.white.withOpacity(0.9),
-                                    height: 1.3,
-                                  ),
-                                ),
-                              ),
-                            ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Recordatorio de revisar spam
+                    FadeInDown(
+                      duration: const Duration(milliseconds: 1000),
+                      delay: const Duration(milliseconds: 500),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 1,
                           ),
                         ),
-                      ),
-                      
-                      const SizedBox(height: 40),
-                      
-                      // Campos de código
-                      FadeInUp(
-                        duration: const Duration(milliseconds: 1000),
-                        delay: const Duration(milliseconds: 600),
-                        child: Column(
+                        child: Row(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: List.generate(6, (index) {
-                                return Container(
-                                  width: 45,
-                                  height: 55,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 5),
-                                      ),
-                                    ],
-                                  ),
-                                  child: RawKeyboardListener(
-                                    focusNode: FocusNode(),
-                                    onKey: (event) => _onKeyPressed(event, index),
-                                    child: TextFormField(
-                                      controller: _controllers[index],
-                                      focusNode: _focusNodes[index],
-                                      textAlign: TextAlign.center,
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 1,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.primary,
-                                      ),
-                                      decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        counterText: '',
-                                      ),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
-                                      onChanged: (value) => _onCodeChanged(index, value),
-                                    ),
-                                  ),
-                                );
-                              }),
+                            Icon(
+                              Icons.info_outline,
+                              color: Colors.white.withOpacity(0.9),
+                              size: 20,
                             ),
-                            
-                            const SizedBox(height: 20),
-                            
-                            // Botón pegar código
-                            TextButton.icon(
-                              onPressed: _pasteCode,
-                              icon: const Icon(
-                                Icons.content_paste,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                              label: Text(
-                                'Pegar código',
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                '¿No lo encuentras? Revisa tu carpeta de spam o correo no deseado',
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  color: Colors.white.withOpacity(0.9),
+                                  height: 1.3,
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      
-                      const SizedBox(height: 30),
-                      
-                      // Botón verificar
-                      FadeInUp(
-                        duration: const Duration(milliseconds: 1000),
-                        delay: const Duration(milliseconds: 800),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 56,
-                          child: ElevatedButton(
-                            onPressed: (_code.length == 6 && !authState.isLoading) ? _verifyEmail : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColors.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              elevation: 5,
-                            ),
-                            child: authState.isLoading
-                                ? const CircularProgressIndicator(
-                                    color: AppColors.primary,
-                                  )
-                                : Text(
-                                    'Verificar Email',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Campos de código
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 1000),
+                      delay: const Duration(milliseconds: 600),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: List.generate(6, (index) {
+                              return Container(
+                                width: 45,
+                                height: 55,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 5),
                                     ),
+                                  ],
+                                ),
+                                child: RawKeyboardListener(
+                                  focusNode: FocusNode(),
+                                  onKey: (event) => _onKeyPressed(event, index),
+                                  child: TextFormField(
+                                    controller: _controllers[index],
+                                    focusNode: _focusNodes[index],
+                                    textAlign: TextAlign.center,
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 1,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      counterText: '',
+                                    ),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    onChanged: (value) => _onCodeChanged(index, value),
                                   ),
+                                ),
+                              );
+                            }),
                           ),
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Reenviar código
-                      if (_resendAttempts < _maxResendAttempts) ...[
-                        FadeInUp(
-                          duration: const Duration(milliseconds: 1000),
-                          delay: const Duration(milliseconds: 1000),
-                          child: TextButton(
-                            onPressed: _canResend && !authState.isLoading ? _resendCode : null,
-                            child: Text(
-                              _canResend 
-                                ? '¿No recibiste el código? Reenviar ($_resendAttempts/$_maxResendAttempts)'
-                                : 'Reenviar en ${_resendCountdown}s ($_resendAttempts/$_maxResendAttempts)',
-                              style: GoogleFonts.poppins(
-                                color: _canResend ? Colors.white : Colors.white.withOpacity(0.5),
-                                fontWeight: FontWeight.w500,
-                                decoration: _canResend ? TextDecoration.underline : null,
-                              ),
+
+                          const SizedBox(height: 20),
+
+                          // Botón pegar código
+                          TextButton.icon(
+                            onPressed: _pasteCode,
+                            icon: const Icon(
+                              Icons.content_paste,
+                              color: Colors.white,
+                              size: 20,
                             ),
-                          ),
-                        ),
-                      ] else ...[
-                        FadeInUp(
-                          duration: const Duration(milliseconds: 1000),
-                          delay: const Duration(milliseconds: 1000),
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.red.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Colors.red.withOpacity(0.3),
-                              ),
-                            ),
-                            child: Text(
-                              'Has alcanzado el límite de reenvíos. Por favor contacta soporte si necesitas ayuda.',
-                              textAlign: TextAlign.center,
+                            label: Text(
+                              'Pegar código',
                               style: GoogleFonts.poppins(
                                 color: Colors.white,
-                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Botón verificar
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 1000),
+                      delay: const Duration(milliseconds: 800),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: ElevatedButton(
+                          onPressed: (_code.length == 6 && !authState.isLoading) ? _verifyEmail : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: AppColors.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            elevation: 5,
+                          ),
+                          child: authState.isLoading
+                              ? const CircularProgressIndicator(
+                                  color: AppColors.primary,
+                                )
+                              : Text(
+                                  'Verificar Email',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
-                      ],
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Botón volver
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Reenviar código
+                    if (_resendAttempts < _maxResendAttempts) ...[
                       FadeInUp(
                         duration: const Duration(milliseconds: 1000),
-                        delay: const Duration(milliseconds: 1200),
+                        delay: const Duration(milliseconds: 1000),
                         child: TextButton(
-                          onPressed: () => context.go('/login'),
+                          onPressed: _canResend && !authState.isLoading ? _resendCode : null,
                           child: Text(
-                            'Volver',
+                            _canResend
+                              ? '¿No recibiste el código? Reenviar ($_resendAttempts/$_maxResendAttempts)'
+                              : 'Reenviar en ${_resendCountdown}s ($_resendAttempts/$_maxResendAttempts)',
                             style: GoogleFonts.poppins(
-                              color: Colors.white.withOpacity(0.8),
+                              color: _canResend ? Colors.white : Colors.white.withOpacity(0.5),
                               fontWeight: FontWeight.w500,
+                              decoration: _canResend ? TextDecoration.underline : null,
                             ),
                           ),
                         ),
                       ),
-                      
-                      const Spacer(flex: 1),
+                    ] else ...[
+                      FadeInUp(
+                        duration: const Duration(milliseconds: 1000),
+                        delay: const Duration(milliseconds: 1000),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.red.withOpacity(0.3),
+                            ),
+                          ),
+                          child: Text(
+                            'Has alcanzado el límite de reenvíos. Por favor contacta soporte si necesitas ayuda.',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
-                  ),
+
+                    const SizedBox(height: 20),
+
+                    // Botón volver
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 1000),
+                      delay: const Duration(milliseconds: 1200),
+                      child: TextButton(
+                        onPressed: () => context.go('/login'),
+                        child: Text(
+                          'Volver',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white.withOpacity(0.8),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
