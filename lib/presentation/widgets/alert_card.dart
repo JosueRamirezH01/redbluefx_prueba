@@ -55,9 +55,7 @@ class AlertCard extends ConsumerWidget {
                   color: Colors.grey.shade500,
                 ),
               ),
-              const SizedBox(height: 10),
               _buildPricesSection(context),
-              const SizedBox(height: 14),
               // Gráfico y descripción (solo cuando presionas "Ver detalles")
               _buildDetailsSection(),
               const Divider(),

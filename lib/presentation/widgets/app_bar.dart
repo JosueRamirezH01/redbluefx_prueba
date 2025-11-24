@@ -108,7 +108,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF0A84FF).withOpacity(0.4),
+                    color: const Color(0xFF0A84FF).withOpacity(0.25),
                     blurRadius: 50,
                     spreadRadius: 6,
                     offset: const Offset(0, 4),
@@ -127,20 +127,21 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  widget.title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                const Text(
+                  'Bienvenido',
+                  style: TextStyle(fontSize: 17),
+                  /*style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                  ),
+                  ),*/
                 ),
                 Text(
-                  'Bienvenido, ${authState.currentUser?.fullName}',
+                  '${authState.currentUser?.fullName}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.white,
-                      fontSize: 9
+                      fontSize: 12
                   ),
                 ),
               ],

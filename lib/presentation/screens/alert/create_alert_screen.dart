@@ -167,146 +167,163 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const SharedAppBar(title: 'RedBlue FX', icons: false),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          CustomSlidingSegmentedControl<int>(
-            initialValue: _selectedIndex,
-            innerPadding: const EdgeInsets.all(6),
-            children: {
-              0: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Alerta',
-                      style: GoogleFonts.montserrat(
-                        color: _selectedIndex == 0 ? Colors.white : Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+      body: SafeArea(
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment.bottomLeft,
+              radius: 0.8,
+              colors: [
+                const Color(0xFF0D1D35).withOpacity(0.3),
+                const Color(0xFF0D1D35).withOpacity(0.3),
+                const Color(0xFFFF0006).withOpacity(0.01),
+              ],
+            ),
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              CustomSlidingSegmentedControl<int>(
+                initialValue: _selectedIndex,
+                innerPadding: const EdgeInsets.all(6),
+                children: {
+                  0: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Alerta',
+                          style: GoogleFonts.montserrat(
+                            color: _selectedIndex == 0 ? Colors.white : Colors.black87,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.trending_up,
+                          size: 20,
+                          color: _selectedIndex == 0
+                              ? Colors.white
+                              : Colors.red.shade300,
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    Icon(
-                      Icons.trending_up,
-                      size: 20,
-                      color: _selectedIndex == 0
-                          ? Colors.white
-                          : Colors.red.shade300,
+                  ),
+                  1: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Anuncio',
+                          style: GoogleFonts.montserrat(
+                            color: _selectedIndex == 1 ? Colors.white : Colors.black87,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.campaign_rounded,
+                          size: 20,
+                          color: _selectedIndex == 1
+                              ? Colors.white
+                              : Colors.blue.shade300,
+                        ),
+                      ],
+                    ),
+                  ),
+                },
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFCECECE),
+                      Color(0xFFEFEFEF),
+                      Color(0xFFEFEFEF),
+                    ],
+                    transform:GradientRotation(BorderSide.strokeAlignCenter),
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(40),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-3, -3),
+                      blurRadius: 6,
+                      spreadRadius: -1,
+                    ),
+                    BoxShadow(
+                      color: Color(0x33000000),
+                      offset: Offset(3, 3),
+                      blurRadius: 6,
+                      spreadRadius: -1,
                     ),
                   ],
                 ),
-              ),
-              1: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Anuncio',
-                      style: GoogleFonts.montserrat(
-                        color: _selectedIndex == 1 ? Colors.white : Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                thumbDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: _selectedIndex == 0
+                        ? [const Color(0xFFEC0006), const Color(0xFFFFCDD2)] // rojo intenso → claro
+                        : [const Color(0xFF066BAF), const Color(0xFF90CAF9)], // azul intenso → claro
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-3, -3),
+                      blurRadius: 6,
+                      spreadRadius: -1,
                     ),
-                    const SizedBox(width: 8),
-                    Icon(
-                      Icons.campaign_rounded,
-                      size: 20,
-                      color: _selectedIndex == 1
-                          ? Colors.white
-                          : Colors.blue.shade300,
+                    BoxShadow(
+                      color: Color(0x33000000),
+                      offset: Offset(3, 3),
+                      blurRadius: 6,
+                      spreadRadius: -1,
                     ),
                   ],
                 ),
-              ),
-            },
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFFCECECE),
-                  Color(0xFFEFEFEF),
-                  Color(0xFFEFEFEF),
-                ],
-                transform:GradientRotation(BorderSide.strokeAlignCenter),
-                begin: Alignment.topRight,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(40),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-3, -3),
-                  blurRadius: 6,
-                  spreadRadius: -1,
-                ),
-                BoxShadow(
-                  color: Color(0x33000000),
-                  offset: Offset(3, 3),
-                  blurRadius: 6,
-                  spreadRadius: -1,
-                ),
-              ],
-            ),
-            thumbDecoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: _selectedIndex == 0
-                    ? [const Color(0xFFEC0006), const Color(0xFFFFCDD2)] // rojo intenso → claro
-                    : [const Color(0xFF066BAF), const Color(0xFF90CAF9)], // azul intenso → claro
-              ),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-3, -3),
-                  blurRadius: 6,
-                  spreadRadius: -1,
-                ),
-                BoxShadow(
-                  color: Color(0x33000000),
-                  offset: Offset(3, 3),
-                  blurRadius: 6,
-                  spreadRadius: -1,
-                ),
-              ],
-            ),
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-            onValueChanged: (value) async {
-              setState(() => _selectedIndex = value);
-              if (_selectedImage != null && await _selectedImage!.exists()) {
-                await _selectedImage!.delete();
-              }
-
-              setState(() {
-                _selectedImage = null;
-              });
-              _pageController.animateToPage(
-                value,
-                duration: const Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
-              );
-            },
+                onValueChanged: (value) async {
+                  setState(() => _selectedIndex = value);
+                  if (_selectedImage != null && await _selectedImage!.exists()) {
+                    await _selectedImage!.delete();
+                  }
+        
+                  setState(() {
+                    _selectedImage = null;
+                  });
+                  _pageController.animateToPage(
+                    value,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                  );
+                },
+              ),
+              const SizedBox(height: 12),
+              // === CONTENIDO CAMBIANTE ===
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (value) {
+                    setState(() => _selectedIndex = value);
+                  },
+                  children: [
+                    _buildCrearAlertaForm(),
+                    _buildCrearAnuncioForm(),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          // === CONTENIDO CAMBIANTE ===
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (value) {
-                setState(() => _selectedIndex = value);
-              },
-              children: [
-                _buildCrearAlertaForm(),
-                _buildCrearAnuncioForm(),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

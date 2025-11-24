@@ -77,7 +77,10 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const SharedAppBar(title: 'RedBlue FX'),
+      appBar: AppBar(
+         title: Text('Noticias del mercado', style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w500),),
+        elevation: 8,
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -113,9 +116,10 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
           AppLogger.info("Noticias tapped");
           context.pushNamed('notice_list');
         },
-        onAnuncios: () => AppLogger.info("Anuncios tapped"),
+        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.noticias,
       ),
-      floatingActionButton: CenterFloatingButton(onPressed: () {  },),
+      floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+      context.goNamed('home'); },),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

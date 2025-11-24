@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+enum BottomTab { home, noticias, anuncios }
 
 class AppColors {
   // Colores principales

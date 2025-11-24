@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CenterFloatingButton extends StatelessWidget {
+class CenterFloatingButton extends ConsumerWidget {
   final VoidCallback onPressed;
 
   const CenterFloatingButton({
@@ -9,9 +10,9 @@ class CenterFloatingButton extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {  // 👈 ConsumerWidget usa WidgetRef
     return Transform.translate(
-      offset: const Offset(0, 16), // Mantiene la posición del botón
+      offset: const Offset(0, 16),
       child: Container(
         height: 60,
         width: 60,
@@ -40,7 +41,7 @@ class CenterFloatingButton extends StatelessWidget {
         ),
         child: IconButton(
           icon: const Icon(Icons.trending_up, color: Colors.white, size: 25),
-          onPressed: () {},
+          onPressed: onPressed,
         ),
       ),
     );

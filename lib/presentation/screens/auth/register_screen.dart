@@ -194,7 +194,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
       //   Future.microtask(() => context.go('/home'));
       // }
       return Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -353,7 +353,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           color: Colors.grey[600],
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
-                                        prefixIcon: Icon(
+                                        prefixIcon: const Icon(
                                           Icons.person_outline,
                                           color: AppColors.primary,
                                         ),
@@ -413,7 +413,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           color: Colors.grey[600],
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
-                                        prefixIcon: Icon(
+                                        prefixIcon: const Icon(
                                           Icons.email_outlined,
                                           color: AppColors.primary,
                                         ),
@@ -557,7 +557,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           color: Colors.grey[600],
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
-                                        prefixIcon: Icon(
+                                        prefixIcon: const Icon(
                                           Icons.lock_outline,
                                           color: AppColors.primary,
                                         ),

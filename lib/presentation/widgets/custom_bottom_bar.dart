@@ -7,11 +7,12 @@ import '../../core/theme/app_theme.dart';
 class CustomBottomBar extends ConsumerWidget {
   final VoidCallback onNoticias;
   final VoidCallback onAnuncios;
-
+  final BottomTab selectedTab;
   const CustomBottomBar({
     super.key,
     required this.onNoticias,
     required this.onAnuncios,
+    required this.selectedTab,
   });
 
   @override
@@ -31,9 +32,21 @@ class CustomBottomBar extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _item(Icons.article_outlined, "Noticias", onNoticias, context),
+              _item(
+                Icons.article_outlined,
+                "Noticias",
+                selectedTab == BottomTab.noticias,
+                onNoticias,
+                context,
+              ),
               const SizedBox(width: 80),
-              _item(Icons.campaign_outlined, "Anuncios", onAnuncios, context),
+              _item(
+                Icons.campaign_outlined,
+                "Anuncios",
+                selectedTab == BottomTab.anuncios,
+                onAnuncios,
+                context,
+              ),
             ],
           ),
         ],
@@ -41,8 +54,16 @@ class CustomBottomBar extends ConsumerWidget {
     );
   }
 
-  Widget _item(IconData icon, String label, VoidCallback onTap, BuildContext context) {
+  Widget _item(
+      IconData icon,
+      String label,
+      bool isSelected,
+      VoidCallback onTap,
+      BuildContext context,
+      ) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final color = isSelected ? const Color(0xFF066BAF) : Colors.white70;
+
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding * 0.5),
       child: GestureDetector(
@@ -50,17 +71,22 @@ class CustomBottomBar extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white, size: 24),
+            Icon(icon, color: color, size: 24),
             const SizedBox(height: 4),
             Text(
               label,
-              style: GoogleFonts.poppins(color: Colors.white, fontSize: 12),
+              style: GoogleFonts.montserrat(
+                color: Colors.white70,
+                fontSize: 12,
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
+
 }
 
 class _BottomBarPainter extends CustomPainter {

@@ -85,7 +85,7 @@ class _AlertListState extends ConsumerState<AlertList> {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(10),
       itemCount: alertsState.alerts.length,
       itemBuilder: (context, index) {
         final alert = alertsState.alerts[index];

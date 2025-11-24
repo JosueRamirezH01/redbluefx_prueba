@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/notification_service.dart';
@@ -44,6 +45,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
 
   Future<void> _showAccountInactiveDialog(BuildContext context, String message) async {
     return showDialog(
+      useSafeArea: true,
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
@@ -53,173 +55,175 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
         ),
         insetPadding: const EdgeInsets.symmetric(horizontal: 10),
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.95,
+          width: MediaQuery.of(context).size.width * 0.90,
           constraints: const BoxConstraints(
             maxWidth: 500,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Header con gradiente azul
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF0D1D35),
-                      Color(0xFF26559B),
-                      Color(0xFF1A3968),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Header con gradiente azul
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color(0xFF0D1D35),
+                        Color(0xFF26559B),
+                        Color(0xFF1A3968),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Icono principal
+                      Image.asset(
+                        'assets/icons/icon_pendiente.png',
+                        width: 46,
+                        height: 46,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Cuenta pendiente',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Tu cuenta está en proceso de activación',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
                     ],
                   ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Icono principal
-                    Image.asset(
-                      'assets/icons/icon_pendiente.png',
-                      width: 80,
-                      height: 80,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Cuenta pendiente',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+            
+                // Contenido principal
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    children: [
+                      // Step 1: Registro completado
+                      _buildStepWithLine(
+                        icon: Icons.email,
+                        iconColor: const Color(0xFF3B82F6),
+                        iconBgColor: const Color(0xFF3B82F6).withOpacity(0.1),
+                        title: 'Registro completado',
+                        subtitle: 'Tu solicitud ha sido enviada exitosamente',
+                        isCompleted: true,
+                        showLine: true,
+                        lineActive: true,
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Tu cuenta está en proceso de activación',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        color: Colors.white.withOpacity(0.9),
+            
+                      // Step 2: Revisión en proceso
+                      _buildStepWithLine(
+                        icon: Icons.schedule,
+                        iconColor: const Color(0xFF3B82F6),
+                        iconBgColor: const Color(0xFF3B82F6).withOpacity(0.1),
+                        title: 'Revisión en proceso',
+                        subtitle: 'Un administrador está revisando la información',
+                        isCompleted: false,
+                        isActive: true,
+                        showLine: true,
+                        lineActive: false,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-
-              // Contenido principal
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    // Step 1: Registro completado
-                    _buildStepWithLine(
-                      icon: Icons.email,
-                      iconColor: const Color(0xFF3B82F6),
-                      iconBgColor: const Color(0xFF3B82F6).withOpacity(0.1),
-                      title: 'Registro completado',
-                      subtitle: 'Tu solicitud ha sido enviada exitosamente',
-                      isCompleted: true,
-                      showLine: true,
-                      lineActive: true,
-                    ),
-
-                    // Step 2: Revisión en proceso
-                    _buildStepWithLine(
-                      icon: Icons.schedule,
-                      iconColor: const Color(0xFF3B82F6),
-                      iconBgColor: const Color(0xFF3B82F6).withOpacity(0.1),
-                      title: 'Revisión en proceso',
-                      subtitle: 'Un administrador está revisando la información',
-                      isCompleted: false,
-                      isActive: true,
-                      showBadge: true,
-                      showLine: true,
-                      lineActive: false,
-                    ),
-
-                    // Step 3: Activación
-                    _buildStepWithLine(
-                      icon: Icons.check,
-                      iconColor: Colors.grey.shade400,
-                      iconBgColor: Colors.grey.shade200,
-                      title: 'Activación',
-                      subtitle: 'Recibirás un correo cuando tu cuenta esté lista',
-                      isCompleted: false,
-                      showLine: false,
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Mensaje informativo
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade700,
-                          height: 1.5,
-                        ),
-                        children: const [
-                          TextSpan(text: 'Normalmente aprobamos cuentas en\nmenos de '),
-                          TextSpan(
-                            text: '24 horas.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
+            
+                      // Step 3: Activación
+                      _buildStepWithLine(
+                        icon: Icons.check,
+                        iconColor: Colors.grey.shade400,
+                        iconBgColor: Colors.grey.shade200,
+                        title: 'Activación',
+                        subtitle: 'Recibirás un correo cuando tu cuenta esté lista',
+                        isCompleted: false,
+                        showLine: false,
                       ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Botón Entendido
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+            
+                      const SizedBox(height: 12),
+            
+                      // Mensaje informativo
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.shade700,
+                            height: 1.5,
                           ),
-                        ),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFFFF1B21),
-                                Color(0xFFBB0004),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Entendido',
+                          children: const [
+                            TextSpan(text: 'Normalmente aprobamos cuentas en\nmenos de '),
+                            TextSpan(
+                              text: '24 horas.',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+            
+                      const SizedBox(height: 12),
+            
+                      // Botón Entendido
+                      SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFFFF1B21),
+                                  Color(0xFFBB0004),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                'Entendido',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -242,11 +246,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
 
     Future<void> _login() async {
       AppLogger.info('🔑 Iniciando proceso de login para: ${_emailController.text}');
-      final errorString = e.toString();
-      final message = errorString.replaceFirst('Exception: ACCOUNT_INACTIVE:', '');
-      await _showAccountInactiveDialog(context, message);
 
-      /*if (_formKey.currentState?.validate() ?? false) {
+      if (_formKey.currentState?.validate() ?? false) {
         try {
           AppLogger.info('🔑 Formulario válido, intentando autenticación...');
 
@@ -310,7 +311,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
       } else {
         AppLogger.warning('⚠️ Formulario no válido');
         NotificationService.showWarningToast('Por favor completa todos los campos correctamente');
-      }*/
+      }
     }
 
   @override
@@ -325,6 +326,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
     }
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
           height: double.infinity,
           width: double.infinity,
@@ -707,21 +709,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
   }
 
 
-  Widget _buildStepWithLine({required IconData icon, required Color iconColor, required Color iconBgColor, required String title, required String subtitle, required bool isCompleted, bool isActive = false, bool showBadge = false, bool showLine = false, bool lineActive = false,}) {
+  Widget _buildStepWithLine({required IconData icon, required Color iconColor, required Color iconBgColor, required String title, required String subtitle, required bool isCompleted, bool isActive = false, bool showLine = false, bool lineActive = false,}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Columna del icono con línea debajo
         Column(
           children: [
             SizedBox(
               width: 56,
+              height: 56,
               child: Stack(
                 clipBehavior: Clip.none,
+                alignment: Alignment.center,
                 children: [
+
+                  // Ondas SIN cambiar tamaño visual
+                  if (isActive)
+                    Positioned(
+                      width: 80,
+                      height: 80,
+                      child: RippleAnimation(
+                        color: iconColor.withOpacity(0.6),
+                        minRadius: 12,
+                        maxRadius: 20,
+                        ripplesCount: 3,
+                        repeat: true,
+                        duration: const Duration(milliseconds: 1600),
+                        child: const SizedBox(),
+                      ),
+                    ),
+
+                  // círculo original
                   Container(
-                    width: 56,
-                    height: 56,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: iconBgColor,
                       shape: BoxShape.circle,
@@ -732,31 +753,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                     child: Icon(
                       icon,
                       color: iconColor,
-                      size: 28,
+                      size: 24,
                     ),
                   ),
-                  if (showBadge)
-                    Positioned(
-                      right: -2,
-                      top: -2,
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF3B82F6),
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                      ),
-                    ),
+
                 ],
               ),
             ),
-            // Línea vertical debajo del icono
             if (showLine)
               Container(
                 width: 2,
-                height: 40,
+                height: 25,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -776,37 +783,46 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               ),
           ],
         ),
-        const SizedBox(width: 16),
-        // Texto
+        const SizedBox(width: 8),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: isActive || isCompleted ? Colors.black87 : Colors.grey.shade600,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              decoration: BoxDecoration(
+                color: isActive
+                    ? const Color(0xFFAFDDFC)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: isActive
+                          ? const Color(0xFF005EA3)
+                          : (isCompleted ? Colors.black87 : Colors.grey.shade600),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade600,
-                    height: 1.4,
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey.shade600,
+                      height: 1.4,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ],
     );
   }
-
 }
