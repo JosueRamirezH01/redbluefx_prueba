@@ -26,6 +26,7 @@ class NoticeDetailScreen extends ConsumerWidget {
         title: Text(
           'Detalles de la noticia',
           style: GoogleFonts.montserrat(
+            fontSize: 17,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -88,18 +89,16 @@ class NoticeDetailScreen extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        const Spacer(),
-                        _buildTypeChip(),
+                       /* const Spacer(),
+                        _buildTypeChip(),*/
                       ],
                     ),
                     const SizedBox(height: 10),
                     Text(
                       'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
-                      style: GoogleFonts.inter(
-                        fontSize: 24,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black87,
-                        height: 1.3,
                       ),
                     ),
           
@@ -145,8 +144,8 @@ class NoticeDetailScreen extends ConsumerWidget {
                         'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
                         'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
                         'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. ',),
-                      style: const TextStyle(
-                        fontSize: 14,
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
                       ),
                     ),
                   ],

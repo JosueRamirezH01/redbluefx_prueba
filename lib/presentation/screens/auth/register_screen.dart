@@ -199,22 +199,28 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: Container(
-            height: double.infinity,
+          child: Stack(
+            children: [
+              // Fondo principal
+            Container(
             width: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment.topRight,
-                radius: 1.0,
-                colors: [
-
-                  Color(0xFF943B3B),
-                  Color(0xFF0A2540),
-                  Color(0xFF0A2540),
-                ],
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color(0xFF0D1D35),
+                    Color(0xFF073E6C),
+                    Color(0xFF034E87),
+                    Color(0xFF0D1D35),
+                  ],
+                ),
               ),
             ),
-            child: Container(
+
+            // Luz roja inferior izquierda
+            Container(
               decoration: BoxDecoration(
                 gradient: RadialGradient(
                   center: Alignment.bottomLeft,
@@ -225,10 +231,28 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                   ],
                 ),
               ),
-            child: SafeArea(
-              child: Center(
-                child: SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
+            ),
+
+            // Luz roja superior derecha
+            Container(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.topRight,
+                  radius: 1.0,
+                  colors: [
+                    const Color(0xFFE6332F).withOpacity(0.4),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+            SafeArea(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
@@ -241,30 +265,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                           duration: const Duration(milliseconds: 1000),
                           child: Hero(
                             tag: 'logo',
-                            child: Container(
-                              width: 140,
-                              height: 140,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: RadialGradient(
-                                  colors: [
-                                    const Color(0xFF066BAF).withOpacity(0.5), // luz
-                                    Colors.transparent,               // se desvanece
-                                  ],
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFF4975D6).withOpacity(0.6),
-                                    blurRadius: 50,
-                                  ),
-                                ],
-                              ),
+                            child: SizedBox(
+                              width: 170,
+                              height: 180,
                               child: Center(
                                 child: ClipOval(
                                   child: Image.asset(
-                                    'assets/images/logo.png',
-                                    height: 140,
-                                    width: 140,
+                                    'assets/images/Container.png',
+                                    height: 170,
+                                    width: 180,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -273,17 +282,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                           ),
                         ),
 
-
                         // Card del formulario
                         FadeInUp(
                           duration: const Duration(milliseconds: 800),
                           delay: const Duration(milliseconds: 400),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFF2C4A6B).withOpacity(0.6),
+                              color: const Color(0xFFFFFFFF).withOpacity(0.2),
                               borderRadius: BorderRadius.circular(24),
                               border: Border.all(
-                                color: Colors.transparent,
+                                color: Colors.white24,
                               ),
                               boxShadow: const [
                                 BoxShadow(
@@ -303,9 +311,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                     padding: const EdgeInsets.symmetric(horizontal: 8),
                                     child: Text(
                                       'Crear Cuenta',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 20,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -314,18 +321,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8),
                                     child: Text(
-                                      'Regístrate para comenzar a usar la aplicación',
-                                       style: GoogleFonts.poppins(
-                                        fontSize: 16,
+                                      'Completa tus datos para registrarte',
+                                       style: GoogleFonts.montserrat(
+                                        fontSize: 14,
                                         color: Colors.white.withOpacity(0.8),
                                       ),
                                     ),
                                   ),
 
-                                  const SizedBox(height: 24),
+                                  const SizedBox(height: 14),
 
                                   // Campo: Nombre completo
                                   Container(
+                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -349,8 +357,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       decoration: InputDecoration(
                                         labelText: 'Nombre Completo',
-                                        labelStyle: GoogleFonts.poppins(
+                                        labelStyle: GoogleFonts.inter(
                                           color: Colors.grey[600],
+                                          fontSize: 16
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
@@ -382,10 +391,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                     ),
                                   ),
 
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: 14),
 
                                   // Campo de email - CON FOCUS NODE
                                   Container(
+                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -409,8 +419,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       decoration: InputDecoration(
                                         labelText: 'Email',
-                                        labelStyle: GoogleFonts.poppins(
+                                        labelStyle: GoogleFonts.inter(
                                           color: Colors.grey[600],
+                                          fontSize: 16
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
@@ -443,11 +454,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                     ),
                                   ),
 
-
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: 14),
 
                                   // Campo de contraseña - CON FOCUS NODE
                                   Container(
+                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -471,8 +482,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       decoration: InputDecoration(
                                         labelText: 'Contraseña',
-                                        labelStyle: GoogleFonts.poppins(
+                                        labelStyle: GoogleFonts.inter(
                                           color: Colors.grey[600],
+                                          fontSize: 16
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
@@ -524,12 +536,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                     ),
                                   ),
 
-
-
-                                  const SizedBox(height: 16),
-
+                                  const SizedBox(height: 8),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text('Mínimo 6 caracteres', style: GoogleFonts.montserrat(fontSize: 12, color: Color(0xFFDADADA))),
+                                  ),
                                   // Campo de confirmar contraseña - CON FOCUS NODE
+                                  const SizedBox(height: 8),
                                   Container(
+                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -553,8 +568,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       decoration: InputDecoration(
                                         labelText: 'Confirmar Contraseña',
-                                        labelStyle: GoogleFonts.poppins(
+                                        labelStyle: GoogleFonts.inter(
                                           color: Colors.grey[600],
+                                          fontSize: 16
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
@@ -599,11 +615,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: 8),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text('Al registrarme, entiendo los Términos y condiciones y la Política de privacidad', style: GoogleFonts.montserrat(fontSize: 12, color: Color(0xFFDADADA))),
+                                  ),
+                                  const SizedBox(height: 8),
+
                                   // Botón "Crear Cuenta"
                                   SizedBox(
                                     width: double.infinity,
-                                    height: 48,
+                                    height: 42,
                                     child: ElevatedButton(
                                       onPressed: authState.isLoading ? null : _register,
                                       style: ElevatedButton.styleFrom(
@@ -612,7 +634,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(8),
                                         ),
-                                        elevation: 0,
+                                        elevation: 6,
                                       ),
                                       child: authState.isLoading
                                           ? const SizedBox(
@@ -625,15 +647,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       )
                                           : Text(
                                         'Crear Cuenta',
-                                        style: GoogleFonts.inter(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
                                   ),
-
-                                  const SizedBox(height: 16),
 
                                   // Link "¿Ya tienes cuenta? Inicia sesión"
                                   Padding(
@@ -643,8 +663,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       children: [
                                         Text(
                                           '¿Ya tienes cuenta?',
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.white,
+                                          style: GoogleFonts.inter(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                         const Spacer(),
@@ -655,8 +676,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           },
                                           child: Text(
                                             'Inicia sesión',
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.white,
+                                            style: GoogleFonts.inter(
+                                              color: const Color(0xFFAFDDFC),
                                               fontWeight: FontWeight.bold,
                                               decoration: TextDecoration.underline,
                                             ),
@@ -673,17 +694,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                           ),
                         ),
 
-                        SizedBox(height: keyboardHeight > 0 ? 20 : 40),
-
                       ],
                     ),
                   ),
-              ),
-            ),
+                ),
+                            ),
+          ),
+        ]
           ),
           ),
-          ),
-        )
-      );
+        );
     }
 }

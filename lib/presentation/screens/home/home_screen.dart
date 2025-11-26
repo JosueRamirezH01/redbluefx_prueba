@@ -240,9 +240,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           Flexible(
             child: Text(
               label,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.montserrat(
                 color: textColor,
-                fontSize: 13,
+                fontSize: 14,
               ),
             ),
           ),

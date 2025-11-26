@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../providers/alert_provider.dart';
 import '../providers/auth_provider.dart';
 import '../../domain/entities/auth_state.dart';
@@ -101,24 +102,13 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
             onTap: () {
               context.go('/home');
             },
-            child: Container(
+            child: const SizedBox(
               width: 80,
               height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF0A84FF).withOpacity(0.25),
-                    blurRadius: 50,
-                    spreadRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 45,
                 backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage('assets/images/logo.png'),
+                backgroundImage: AssetImage('assets/images/Container.png'),
               ),
             ),
           ),
@@ -127,9 +117,11 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'Bienvenido',
-                  style: TextStyle(fontSize: 17),
+                  style: GoogleFonts.inter(
+                    fontSize: 17,
+                  ),
                   /*style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -140,7 +132,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.white,
+                      color: Colors.white.withOpacity(0.6),
                       fontSize: 12
                   ),
                 ),
@@ -326,7 +318,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
             child: hasProfilePicture
                 ? CachedNetworkImage(
               imageUrl: user.profilePictureUrl!,
-              fit: BoxFit.cover,
+              fit: BoxFit. cover,
               placeholder: (context, url) => Container(
                 color: Colors.grey.shade300,
                 child: const Icon(

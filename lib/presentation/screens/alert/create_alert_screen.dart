@@ -328,7 +328,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
 
-  Widget _buildSelectableChip({required String label, required IconData icon, required AlertType value, required Color color}) {
+  Widget _buildSelectableChip({required String label, required IconData icon, required AlertType value, required Color color, required Color colorRelleno,}) {
     final bool isSelected = _selectedType == value;
     final colors = Theme.of(context).colorScheme;
 
@@ -337,28 +337,23 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       label: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Flexible(
-            flex: 10,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                color: isSelected ? colors.onPrimary : colors.onSurface,
-              ),
+          Text(
+            label,
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
+              color: isSelected ? colors.onSurface : colors.onSurface,
             ),
           ),
           const SizedBox(width: 4),
-          Flexible(
-            child: Icon(
-              icon,
-              size: 11,
-              color: isSelected ? colors.onPrimary : colors.onSurface,
-            ),
+          Icon(
+            icon,
+            size: 14,
+            color: isSelected ? colors.onSurface : colors.onSurface,
           ),
         ],
       ),
       selected: isSelected,
-      selectedColor: color,
+      selectedColor: colorRelleno,
       backgroundColor: colors.surface,
       shape: StadiumBorder(
         side: BorderSide(
@@ -385,8 +380,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.trending_up, color: Color(0xFFE63330), size: 30),
-                const SizedBox(width: 8),
                 Text('Crear Alerta',
                   style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -402,27 +395,22 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child: _buildSelectableChip(
-                        label: 'Compra',
-                        icon: Icons.arrow_downward,
-                        value: AlertType.buy,
-                        color: Colors.green
-                    ),
+                  _buildSelectableChip(
+                      label: 'Compra',
+                      icon: Icons.arrow_downward,
+                      value: AlertType.buy,
+                      color: const Color(0xFF10B981),
+                      colorRelleno: const Color(0xFFDCFCE7),
                   ),
-                  const Spacer(flex: 3,),
-                  //const SizedBox(width: 20),
-                  Expanded(
-                    flex: 2,
-                    child: _buildSelectableChip(
-                        label: 'Venta',
-                        icon: Icons.arrow_upward,
-                        value: AlertType.sell,
-                        color: Colors.red
-
-                    ),
+                  const SizedBox(width: 20),
+                  _buildSelectableChip(
+                      label: 'Venta',
+                      icon: Icons.arrow_upward,
+                      value: AlertType.sell,
+                    color: const Color(0xFFDD2E44),
+                      colorRelleno: const Color(0xFFFFE1E0),
                   ),
                 ],
               ),
@@ -431,10 +419,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             TextFormField(
               controller: _titleController,
               maxLength: 20,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 labelText: 'Par de Divisas',
+                labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
                 hintText: 'ej: GBP/JPY',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -449,10 +438,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             const SizedBox(height: 8),
             TextFormField(
               controller: _entradaController,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 labelText: 'Entrada ➡️',
+                labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
                 hintText:'1.0820',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -465,7 +455,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               },
             ),
             const SizedBox(height: 8),
-            const Text('Take Profit 🎯'),
+            Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF717171))),
             const SizedBox(height: 4),
             Column(
               children: [
@@ -479,6 +469,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             controller: _tpControllers[i],
                             decoration: InputDecoration(
                               labelText: 'TP ${i + 1}',
+
                               border: const OutlineInputBorder(),
                             ),
                             validator: (value) {
@@ -674,17 +665,17 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         children: [
                           GestureDetector(
                             onTap: _pickImage,
-                            child: const Text(
+                            child:  Text(
                               "Subir Imagen (Opcional)",
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 decoration: TextDecoration.underline,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                                fontSize: 16,
                               ),
                             ),
                           ),
-                          const Text('PNG, JPG hasta 1MB', style: TextStyle(fontSize: 8),)
+                          Text('PNG, JPG hasta 1MB', style: GoogleFonts.poppins(fontSize: 11, color: Color(0xFF555555)),)
                         ],
                       ),
                     ]

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../domain/entities/alert.dart';
 import '../../core/utils/date_utils.dart';
 
@@ -41,13 +42,13 @@ class NoticeCard extends ConsumerWidget {
                         final imageSize = screenWidth * 0.25;
 
                         // Limitar para que no se vea ni muy grande ni muy pequeño
-                        final finalSize = imageSize.clamp(80.0, 120.0);
+                        final finalSize = imageSize.clamp(100.0, 120.0);
 
                         return Image.asset(
                           'assets/images/notice.png',
                           width: finalSize,
                           height: finalSize,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               width: finalSize,
@@ -70,50 +71,24 @@ class NoticeCard extends ConsumerWidget {
 
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              "Por: Sergio Avila",
-                              style: TextStyle(
-                                color: Color(0xFF005EA3),
-                                fontSize: 10,
-                              ),
-                            ),
-                            const Spacer(),
-                            _buildTypeChip(),
-                          ],
-                        ),
-                        const Text(
-                            'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
+                    child: Text(
+                        'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
 
-                            )
-                        ),
-                        /// FECHA
-
-                      ],
+                        )
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
               const Divider(),
               Row(
                 children: [
-                  Icon(
-                    Icons.access_time,
-                    size: MediaQuery.of(context).size.width * 0.045,
-                    color: Colors.grey.shade400,
-                  ),
-                  const SizedBox(width: 4),
+
                   Text(
                     _formatDate(alert.createdAt),
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                       fontSize: 12,
                       color: Colors.grey.shade400,
                     ),
@@ -121,10 +96,10 @@ class NoticeCard extends ConsumerWidget {
                   const Spacer(),
                   Text(
                     "Ver detalles →",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.blue.shade700,
-                      fontWeight: FontWeight.w600,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 12,
+                      color: const Color(0xFF036BAF),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],

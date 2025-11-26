@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../domain/entities/alert.dart';
 import '../providers/auth_provider.dart';
@@ -50,9 +51,8 @@ class AlertCard extends ConsumerWidget {
               _buildHeader(),
               Text(
                 timeago.format(alert.createdAt, locale: 'es'),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade500,
+                style: GoogleFonts.montserrat(
+                  fontSize: 10,
                 ),
               ),
               _buildPricesSection(context),
@@ -69,19 +69,21 @@ class AlertCard extends ConsumerWidget {
 
   Widget _buildHeader() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           flex: 2,
           child: Text(
             alert.title,
-            style: const TextStyle(
+            style: GoogleFonts.montserrat(
               fontSize: 16,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.bold,
 
             )
           ),
         ),
-        Expanded(child: _buildTypeChip()),
+
+        Flexible(fit: FlexFit.loose,child: _buildTypeChip()),
       ],
     );
   }
@@ -102,17 +104,16 @@ class AlertCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Entrada",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey.shade600,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 11,
                         )),
                     const SizedBox(height: 2),
-                    Text(
+                    const Text(
                       '1.0820',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green.shade600,
+                        color: Color(0xFF10B981),
                       ),
                     ),
                   ],
@@ -130,14 +131,13 @@ class AlertCard extends ConsumerWidget {
                     children: [
                       Text(
                         "TP",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey.shade600,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 11,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                         decoration: BoxDecoration(
                           color: isTPExpanded ? Colors.blue.shade100 : null,
                           borderRadius: BorderRadius.circular(10),
@@ -147,8 +147,8 @@ class AlertCard extends ConsumerWidget {
                           children: [
                             Text(
                               "${currentTP.toStringAsFixed(4)} (${mockTPs.length})",
-                              style: TextStyle(
-                                fontSize: 15,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: isTPExpanded ? Colors.blue.shade800 : null,
                               ),
@@ -176,17 +176,16 @@ class AlertCard extends ConsumerWidget {
                   children: [
                     Text(
                       "SL",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey.shade600,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 11,
                       ),
                     ),
                     const SizedBox(height: 2),
-                    const Text(
+                    Text(
                       '1.0780',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold   ,
                       ),
                     ),
                   ],
@@ -220,7 +219,7 @@ class AlertCard extends ConsumerWidget {
                           children: [
                             Text(
                               "TP${i + 1}",
-                              style: TextStyle(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 12,
                                 color: Colors.grey.shade600,
                                 fontWeight: FontWeight.w500,
@@ -229,10 +228,10 @@ class AlertCard extends ConsumerWidget {
                             const SizedBox(height: 4),
                             Text(
                               mockTPs[i].toStringAsFixed(4),
-                              style: TextStyle(
-                                fontSize: 15,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue.shade900,
+                                color: const Color(0xFF454545),
                               ),
                             ),
                           ],
@@ -291,10 +290,8 @@ class AlertCard extends ConsumerWidget {
               Expanded(
                 child: Text(
                   "Lorem ipsum suspendisse lacus urna arcu ut pretium tellus etiam sollicitudin parturient pellentesque sed id cursus quisque.",
-                  style: TextStyle(
+                  style: GoogleFonts.montserrat(
                     fontSize: 13,
-                    color: Colors.grey.shade700,
-                    height: 1.4,
                   ),
                 ),
               ),
@@ -314,9 +311,8 @@ class AlertCard extends ConsumerWidget {
       children: [
         Text(
           AppDateUtils.formatToPeruTime(alert.createdAt),
-          style: TextStyle(
+          style: GoogleFonts.montserrat(
             fontSize: 12,
-            color: Colors.grey.shade500,
           ),
         ),
         const Spacer(),
@@ -326,9 +322,9 @@ class AlertCard extends ConsumerWidget {
           },
           child: Text(
             isDetailsExpanded ? "Cerrar +" : "Ver detalles →",
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.blue.shade700,
+            style: GoogleFonts.montserrat(
+              fontSize: 12,
+              color: const Color(0xFF036BAF),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -373,17 +369,19 @@ class AlertCard extends ConsumerWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(
+          vertical: 4,
+          horizontal: 8
+        ),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: color)
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: color, size: 16),
-          const SizedBox(width: 4),
           Text(
             text,
             style: TextStyle(
@@ -392,6 +390,8 @@ class AlertCard extends ConsumerWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+          const SizedBox(width: 4),
+          Icon(icon, color: color, size: 16),
         ],
       ),
     );

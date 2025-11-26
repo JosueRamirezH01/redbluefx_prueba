@@ -246,6 +246,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
 
     Future<void> _login() async {
       AppLogger.info('🔑 Iniciando proceso de login para: ${_emailController.text}');
+      //final errorString = e.toString();
+     // final message = errorString.replaceFirst('Exception: ACCOUNT_INACTIVE:', '');
+     // await _showAccountInactiveDialog(context, message);
 
       if (_formKey.currentState?.validate() ?? false) {
         try {
@@ -330,15 +333,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment.topRight,
-              radius: 1.0,
+          decoration:  const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
               colors: [
-
-                Color(0xFF943B3B),
-                Color(0xFF0A2540),
-                Color(0xFF0A2540),
+                Color(0xFF0D1D35),
+                Color(0xFF073E6C),
+                Color(0xFF034E87),
+                Color(0xFF0D1D35),
               ],
             ),
           ),
@@ -353,8 +356,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                 ],
               ),
             ),
-            child: SafeArea(
-                child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.topRight,
+                  radius: 1.0,
+                  colors: [
+                    const Color(0xFFE6332F).withOpacity(0.4),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: SafeArea(
                   child: SingleChildScrollView(
                     physics: const ClampingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -363,36 +376,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                         minHeight: size.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          const SizedBox(height: 10),
+
                       FadeInDown(
                       duration: const Duration(milliseconds: 1000),
                       child: Hero(
                         tag: 'logo',
-                        child: Container(
-                          width: 140,
-                          height: 140,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: RadialGradient(
-                              colors: [
-                                const Color(0xFF066BAF).withOpacity(0.5), // luz
-                                Colors.transparent,               // se desvanece
-                              ],
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFF066BAF).withOpacity(0.6),
-                                blurRadius: 50,
-                              ),
-                            ],
-                          ),
+                        child: SizedBox(
+                          width: 180,
+                          height: 200,
                           child: Center(
                             child: ClipOval(
                               child: Image.asset(
-                                'assets/images/logo.png',
-                                height: 140,
-                                width: 140,
+                                'assets/images/Container.png',
+                                height: 200,
+                                width: 180,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -400,15 +400,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                         ),
                       ),
                     ),
+                      const SizedBox(height: 10,),
                       FadeInUp(
                             duration: const Duration(milliseconds: 800),
                             delay: const Duration(milliseconds: 400),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: const Color(0xFF2C4A6B).withOpacity(0.6),
+                                color: const Color(0xFFFFFFFF).withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(24),
                                 border: Border.all(
-                                  color: Colors.transparent,
+                                  color: Colors.white24,
                                 ),
                                 boxShadow: const [
                                   BoxShadow(
@@ -429,7 +430,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                       child: Text(
                                         'Bienvenido',
                                         style: GoogleFonts.montserrat(
-                                          fontSize: 24,
+                                          fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                         ),
@@ -469,7 +470,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                         textInputAction: TextInputAction.done,
                                         decoration: InputDecoration(
                                           labelText: 'Email',
-                                          labelStyle: GoogleFonts.poppins(
+                                          labelStyle: GoogleFonts.inter(
                                             color: Colors.grey[600],
                                           ),
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -522,7 +523,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
 
                                         decoration: InputDecoration(
                                           labelText: 'Contraseña',
-                                          labelStyle: GoogleFonts.poppins(
+                                          labelStyle: GoogleFonts.inter(
                                             color: Colors.grey[600],
                                           ),
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -616,7 +617,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                             '¿Olvidaste tu contraseña?',
                                             style: GoogleFonts.montserrat(
                                               color: Colors.white.withOpacity(0.9),
-                                              fontSize: 13,
+                                              fontSize: 14,
                                               decoration: TextDecoration.underline,
                                             ),
                                           ),
@@ -680,7 +681,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                             child: Text(
                                               'Regístrate',
                                               style: GoogleFonts.montserrat(
-                                                color: const Color(0xFF3498DB),
+                                                color: const Color(0xFFAFDDFC),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                                 decoration: TextDecoration.underline,
@@ -700,8 +701,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                         ],
                       ),
                     ),
-                  ),
-                )
+                  )
+              ),
             ),
           ),
         )

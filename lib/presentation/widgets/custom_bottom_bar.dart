@@ -71,7 +71,7 @@ class CustomBottomBar extends ConsumerWidget {
               label,
               style: GoogleFonts.montserrat(
                 color: Colors.white70,
-                fontSize: 12,
+                fontSize: 14,
               ),
             ),
           ],
