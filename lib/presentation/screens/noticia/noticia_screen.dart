@@ -85,12 +85,14 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          gradient: RadialGradient(
+            center: Alignment.bottomLeft,
+            radius: 0.8,
             colors: [
-              AppColors.primary.withOpacity(0.05),
-              AppColors.secondary.withOpacity(0.1),
+              Colors.transparent,
+              const Color(0xFF0D1D35).withOpacity(0.3),
+              const Color(0xFF0D1D35).withOpacity(0.3),
+              const Color(0xFFFF0006).withOpacity(0.01),
             ],
           ),
         ),

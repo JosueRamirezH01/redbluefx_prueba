@@ -54,13 +54,7 @@ class CustomBottomBar extends ConsumerWidget {
     );
   }
 
-  Widget _item(
-      IconData icon,
-      String label,
-      bool isSelected,
-      VoidCallback onTap,
-      BuildContext context,
-      ) {
+  Widget _item(IconData icon, String label, bool isSelected, VoidCallback onTap, BuildContext context,) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     final color = isSelected ? const Color(0xFF066BAF) : Colors.white70;
 
@@ -85,8 +79,6 @@ class CustomBottomBar extends ConsumerWidget {
       ),
     );
   }
-
-
 }
 
 class _BottomBarPainter extends CustomPainter {

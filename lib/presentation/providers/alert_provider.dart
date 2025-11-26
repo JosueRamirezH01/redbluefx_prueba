@@ -3,7 +3,9 @@ import '../../core/utils/logger.dart';
 import '../../domain/entities/alert.dart';
 import '../../domain/repositories/alert_repository.dart';
 import '../../data/repositories/alert_repository_impl.dart';
-
+final showNewsCarouselProvider = StateProvider<bool>((ref) {
+  return true; // visible por defecto
+});
 final alertRepositoryProvider = Provider<AlertRepository>((ref) {
   return AlertRepositoryImpl();
 });

@@ -77,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
-    final size = MediaQuery.of(context).size;
+    //final size = MediaQuery.of(context).size;
     final width = MediaQuery.of(context).size.width;
     final isSmall = width < 380;
     return Scaffold(
@@ -93,6 +93,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               center: Alignment.bottomLeft,
               radius: 0.8,
               colors: [
+                Colors.transparent,
                 const Color(0xFF0D1D35).withOpacity(0.3),
                 const Color(0xFF0D1D35).withOpacity(0.3),
                 const Color(0xFFFF0006).withOpacity(0.01),
@@ -104,7 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             child: Column(
               children: [
                 const SizedBox(height: 10),
-                _buildNewsCarousel(isSmall,context),
+                _buildNewsCarousel(isSmall,context, ref),
         
                 if (isSearching)
                   FadeInDown(
@@ -267,7 +268,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
 
 
 /// POR MIENTRAS, MOVER ESO EN EN UN WIDGET APARTE
-  Widget _buildNewsCarousel(bool isSmall, BuildContext context) {
+  Widget _buildNewsCarousel(bool isSmall, BuildContext context, WidgetRef ref) {
+    final showCarousel = ref.watch(showNewsCarouselProvider);
+
+    if (!showCarousel) return const SizedBox(); // 👈 Si está oculto, no se muestra
+
     final List<Map<String, String>> newsItems = [
       {
         'title': 'Nueva funcionalidad',
@@ -324,16 +329,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                             fit: StackFit.expand,
                             children: [
                               Image.asset(
-                                'assets/images/fondoCard.png', // Cambia por la ruta de tu imagen
+                                'assets/images/fondoCard.png',
                                 fit: BoxFit.fill,
                               ),
 
-                              // Botón de cerrar
+                              /// BOTÓN X PARA OCULTAR
                               Positioned(
                                 top: 12,
                                 right: 12,
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    ref.read(showNewsCarouselProvider.notifier).state = false;
+                                  },
                                   child: Container(
                                     width: 24,
                                     height: 24,
@@ -356,7 +363,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    // Círculo con emoji/ícono
                                     Container(
                                       width: isSmall ? 60 : 70,
                                       height: isSmall ? 60 : 70,
@@ -479,6 +485,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                         ],
                                       ),
                                     ),
+
                                   ],
                                 ),
                               ),
@@ -490,30 +497,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                   ),
                 ),
                 const SizedBox(height: 6),
-                // Indicadores del carrusel
+
+                /// Indicadores
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(newsItems.length, (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        _carouselPageController.animateToPage(
-                          index,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                        setState(() => _currentCarouselIndex = index);
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 3),
-                        width: _currentCarouselIndex == index ? 20 : 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: _currentCarouselIndex == index
-                              ? const Color(0xFF2E7EC2)
-                              : const Color(0xFFB0BEC5),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 3),
+                      width: _currentCarouselIndex == index ? 20 : 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: _currentCarouselIndex == index
+                            ? const Color(0xFF2E7EC2)
+                            : const Color(0xFFB0BEC5),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                     );
                   }),
@@ -525,6 +523,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       },
     );
   }
+
 }
 
 

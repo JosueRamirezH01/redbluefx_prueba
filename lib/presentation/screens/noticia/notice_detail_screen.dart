@@ -21,134 +21,139 @@ class NoticeDetailScreen extends ConsumerWidget {
     final alert = alertState.alerts.firstWhere((a) => a.id == alertId);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
           'Detalles de la noticia',
-          style: GoogleFonts.inter(
+          style: GoogleFonts.montserrat(
             fontWeight: FontWeight.w600,
           ),
         ),
-        elevation: 0,
+        elevation: 6,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// ---- IMAGEN PRINCIPAL ----
-            ClipRRect(
-              borderRadius: BorderRadius.circular(0),
-              child: Image.asset(
-                'assets/images/cabecera.png',
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.28,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height * 0.28,
-                    color: Colors.green.shade50,
-                    child: Icon(
-                      Icons.image_not_supported,
-                      size: 50,
-                      color: Colors.green.shade300,
-                    ),
-                  );
-                },
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top * 2.1,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// ---- IMAGEN PRINCIPAL ----
+              ClipRRect(
+                borderRadius: BorderRadius.circular(0),
+                child: Image.asset(
+                  'assets/images/cabecera.png',
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.28,
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.28,
+                      color: Colors.green.shade50,
+                      child: Icon(
+                        Icons.image_not_supported,
+                        size: 50,
+                        color: Colors.green.shade300,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-
-            /// ---- CONTENIDO ----
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header: Autor y Tipo
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
+          
+              /// ---- CONTENIDO ----
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header: Autor y Tipo
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF005EA3).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            "Por: Sergio Ávila",
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF005EA3),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF005EA3).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(6),
+                        const Spacer(),
+                        _buildTypeChip(),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
+                      style: GoogleFonts.inter(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                        height: 1.3,
+                      ),
+                    ),
+          
+                    const SizedBox(height: 12),
+          
+                    // Fecha
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          size: 16,
+                          color: Colors.grey.shade500,
                         ),
-                        child: Text(
-                          "Por: Sergio Ávila",
+                        const SizedBox(width: 6),
+                        Text(
+                          _formatDate(alert.createdAt),
                           style: GoogleFonts.inter(
-                            color: const Color(0xFF005EA3),
-                            fontSize: 12,
+                            fontSize: 13,
+                            color: Colors.grey.shade600,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                      ),
-                      const Spacer(),
-                      _buildTypeChip(),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
-                    style: GoogleFonts.inter(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black87,
-                      height: 1.3,
+                      ],
                     ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  // Fecha
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.access_time,
-                        size: 16,
-                        color: Colors.grey.shade500,
+          
+                    const SizedBox(height: 10),
+          
+                    // Divider decorativo
+                    Container(
+                      height: 3,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF005EA3),
+                        borderRadius: BorderRadius.circular(2),
                       ),
-                      const SizedBox(width: 6),
-                      Text(
-                        _formatDate(alert.createdAt),
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+          
+                    const SizedBox(height: 12),
+          
+                    // Contenido de la noticia
+                    Text(
+                      _formatTextWithLineBreaks(  'Lorem ipsum dolor sit amet consectetur. Bibendum ut massa congue a in. Rhoncus risus vel risus ac amet fermentum. Amet consequat non lorem mattis integer nunc cursus ut lobortis.'
+                        'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
+                        'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
+                        'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. ',),
+                      style: const TextStyle(
+                        fontSize: 14,
                       ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // Divider decorativo
-                  Container(
-                    height: 3,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF005EA3),
-                      borderRadius: BorderRadius.circular(2),
                     ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  // Contenido de la noticia
-                  Text(
-                    _formatTextWithLineBreaks(  'Lorem ipsum dolor sit amet consectetur. Bibendum ut massa congue a in. Rhoncus risus vel risus ac amet fermentum. Amet consequat non lorem mattis integer nunc cursus ut lobortis.'
-                      'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
-                      'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
-                      'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. ',),
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

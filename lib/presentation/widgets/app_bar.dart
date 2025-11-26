@@ -287,9 +287,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               if (_overlayEntry == null && value.isEmpty) {
                 _showSearchHistory();
               }
-
               _onSearch(_searchController.text);
-
             },
           ),
         ),
@@ -393,7 +391,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
       } else {
         // Búsqueda normal
         ref.read(alertsProvider.notifier).search(value.trim());
-        FocusScope.of(context).unfocus();
+       // FocusScope.of(context).unfocus();
       }
     });
   }
