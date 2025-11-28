@@ -73,7 +73,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
   @override
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
-    final size = MediaQuery.of(context).size;
+    //final size = MediaQuery.of(context).size;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -118,7 +118,10 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
           AppLogger.info("Noticias tapped");
           context.pushNamed('notice_list');
         },
-        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.noticias,
+        onAnuncios: () {
+          AppLogger.info("Anuncios tapped");
+          context.pushNamed('anuncio_list');
+        }, selectedTab: BottomTab.noticias,
       ),
       floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
       context.goNamed('home'); },),

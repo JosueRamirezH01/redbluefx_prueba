@@ -5,11 +5,11 @@ import '../../domain/entities/alert.dart';
 import '../../core/utils/date_utils.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class AnuncioCard extends ConsumerWidget {
+class AnuncioRecienteCard extends ConsumerWidget {
   final Alert alert;
   final VoidCallback? onTap;
 
-  const AnuncioCard({
+  const AnuncioRecienteCard({
     super.key,
     required this.alert,
     this.onTap,
@@ -34,13 +34,13 @@ class AnuncioCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsetsGeometry.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final imageSize = screenWidth * 0.25;
-                      final finalSize = imageSize.clamp(100.0, 120.0);
+                      final finalSize = imageSize.clamp(70.0, 76.0);
                       return _buildImage(finalSize);
                     },
                   ),
@@ -57,8 +57,8 @@ class AnuncioCard extends ConsumerWidget {
                     maxLines: 2,
                   ),
                     Text('Perspectivas y estrategías recomendadas', style: GoogleFonts.montserrat(
-                        fontSize: 15
-                    ),),
+                        fontSize: 14
+                    )),
                     Text(
                       timeago.format(alert.createdAt, locale: 'es'),
                       style: GoogleFonts.montserrat(
@@ -66,7 +66,8 @@ class AnuncioCard extends ConsumerWidget {
                       ),
                     ),
                 ],),
-              )
+              ),
+              const Icon(Icons.arrow_forward_ios, size: 13, color: Color(0xFF066BAF))
             ],
           ),
         ),

@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:animate_do/animate_do.dart';
-import 'package:redbluefx_mobile/presentation/widgets/anuncio_list.dart';
-import '../../providers/alert_provider.dart';
-import '../../widgets/app_bar.dart';
+import 'package:redbluefx_mobile/presentation/widgets/anuncio_destacado_list.dart';
+import 'package:redbluefx_mobile/presentation/widgets/anuncio_reciente_list.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
-import '../../widgets/notice_list.dart';
 
 class AnuncioScreen extends ConsumerStatefulWidget {
   const AnuncioScreen({super.key});
@@ -73,8 +70,8 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    final isSearching = ref.watch(isSearchingProvider);
-    final size = MediaQuery.of(context).size;
+    //final isSearching = ref.watch(isSearchingProvider);
+   // final size = MediaQuery.of(context).size;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -89,37 +86,50 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
          ),
         elevation: 8,
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment.bottomLeft,
-            radius: 0.8,
-            colors: [
-              Colors.transparent,
-              const Color(0xFF0D1D35).withOpacity(0.3),
-              const Color(0xFF0D1D35).withOpacity(0.3),
-              const Color(0xFFFF0006).withOpacity(0.01),
-            ],
+      body: SafeArea(
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment.bottomLeft,
+              radius: 0.8,
+              colors: [
+                Colors.transparent,
+                const Color(0xFF0D1D35).withOpacity(0.3),
+                const Color(0xFF0D1D35).withOpacity(0.3),
+                const Color(0xFFFF0006).withOpacity(0.01),
+              ],
+            ),
           ),
-        ),
-        child: RefreshIndicator(
-          onRefresh: _loadAlerts,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
-                child: Text('Recientes',style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18
-                ),),
-              ),
-              const Expanded(
-                child: AnuncioList(),
-              ),
-            ],
+          child: RefreshIndicator(
+            onRefresh: _loadAlerts,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
+                  child: Text('Destacados',style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18
+                  ),),
+                ),
+                const Expanded(
+                  child: AnuncioDestacadoList(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
+                  child: Text('Recientes',style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18
+                  ),),
+                ),
+                const Expanded(
+                  child: AnuncioRecienteList(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -128,7 +138,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
           AppLogger.info("Noticias tapped");
           context.pushNamed('notice_list');
         },
-        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.noticias,
+        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
       ),
       floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
       context.goNamed('home'); },),

@@ -7,6 +7,7 @@ class AppColors {
   static const primary = Color(0xFFE63330);
   static const secondary = Color(0xFF5AADE1);
   static const background = Color(0xFFEFEFEF);
+  static const borderTetxForm = Color(0xFFCACACA);
   static const basic = Color(0xFF0D1D35);
   static const basicBack = Color(0xFF066BAF);
   static const lightModeBlue = Color(0xFF005EA3);
@@ -217,7 +218,7 @@ class AppTheme {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColors.secondary.withOpacity(0.5)),
+          borderSide: const BorderSide(color: AppColors.borderTetxForm),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
