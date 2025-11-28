@@ -165,7 +165,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           AppLogger.info("Noticias tapped");
           context.pushNamed('notice_list');
         },
-        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.home,
+        onAnuncios: () {
+          AppLogger.info("Anuncios tapped");
+          context.pushNamed('anuncio_list');
+        },  selectedTab: BottomTab.home,
       ),
       floatingActionButton: CenterFloatingButton(
         onPressed: () {

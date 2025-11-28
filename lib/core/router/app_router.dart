@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/admin/users_screen.dart';
 import '../../presentation/screens/admin/admin_alerts_screen.dart';
@@ -134,6 +135,11 @@ final router = GoRouter(
       path: '/notice_list',
       name: 'notice_list',
       builder: (context, state) => const NoticiaScreen(),
+    ),
+    GoRoute(
+      path: '/anuncio_list',
+      name: 'anuncio_list',
+      builder: (context, state) => const AnuncioScreen(),
     ),
 
   ],
