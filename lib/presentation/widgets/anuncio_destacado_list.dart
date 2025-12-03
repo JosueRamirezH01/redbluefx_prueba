@@ -4,18 +4,17 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
-import 'package:redbluefx_mobile/presentation/widgets/notice_card.dart';
 import '../providers/alert_provider.dart';
 import '../../../core/utils/logger.dart';
-import 'anuncio_card.dart';
+import 'anuncio_destacado_card.dart';
 
-class AnuncioList extends ConsumerStatefulWidget {
-  const AnuncioList({super.key});
+class AnuncioDestacadoList extends ConsumerStatefulWidget {
+  const AnuncioDestacadoList({super.key});
 
   @override
-  ConsumerState<AnuncioList> createState() => _AnuncioListState();
+  ConsumerState<AnuncioDestacadoList> createState() => _AnuncioDestacadoListState();
 }
-class _AnuncioListState extends ConsumerState<AnuncioList> {
+class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +152,7 @@ class _AnuncioListState extends ConsumerState<AnuncioList> {
                   }
                 }
               },
-              child: AnuncioCard(
+              child: AnuncioDestacadoCard(
                 alert: alert,
                 onTap: () => context.push('/notice/${alert.id}'),
                 //onEdit: () => context.push('/alerts/${alert.id}/edit'),

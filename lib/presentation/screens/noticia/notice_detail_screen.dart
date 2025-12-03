@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../domain/entities/alert.dart';
 import '../../providers/alert_provider.dart';
 import '../../../core/utils/date_utils.dart';
 

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/error_dialog.dart';
 import '../../../core/theme/app_theme.dart';
 import 'dart:convert';
-import 'dart:math';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
