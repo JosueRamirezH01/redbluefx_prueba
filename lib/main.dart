@@ -27,6 +27,7 @@ void main() async {
     env: Environment.prod,
     baseUrl: 'http://192.168.101.6:3502',
   );
+  //http://192.168.101.6:3502
   //https://redbluefx-production.up.railway.app
   //baseUrl: 'https://redbluefx-production.up.railway.app',
   AppLogger.info('Iniciando aplicación con configuración: ${AppConfig.instance.toJson()}');
