@@ -52,7 +52,7 @@ class AnuncioRecienteCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                   Text('Análisis semanal del mercado', style: GoogleFonts.montserrat(
-                    fontSize: 15
+                    fontSize: 15, fontWeight: FontWeight.w500
                   ),
                     maxLines: 2,
                   ),
@@ -62,7 +62,7 @@ class AnuncioRecienteCard extends ConsumerWidget {
                     Text(
                       timeago.format(alert.createdAt, locale: 'es'),
                       style: GoogleFonts.montserrat(
-                        fontSize: 10,
+                        fontSize: 12,
                       ),
                     ),
                 ],),

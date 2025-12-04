@@ -154,7 +154,7 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
               },
               child: AnuncioDestacadoCard(
                 alert: alert,
-                onTap: () => context.push('/notice/${alert.id}'),
+                onTap: () => context.push('/anuncio/${alert.id}'),
                 //onEdit: () => context.push('/alerts/${alert.id}/edit'),
               ),
             ),

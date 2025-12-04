@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../domain/entities/alert.dart';
-import '../../core/utils/date_utils.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class AnuncioDestacadoCard extends ConsumerWidget {
@@ -71,7 +70,7 @@ class AnuncioDestacadoCard extends ConsumerWidget {
                         Text(
                           'Análisis semanal del mercado',
                           style: GoogleFonts.montserrat(
-                            fontSize: 15,
+                            fontSize: 17,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                             shadows: [
@@ -101,11 +100,11 @@ class AnuncioDestacadoCard extends ConsumerWidget {
                         Text(
                           timeago.format(alert.createdAt, locale: 'es'),
                           style: GoogleFonts.montserrat(
-                            fontSize: 10,
+                            fontSize: 12,
                             color: Colors.white.withOpacity(0.9),
                             shadows: [
                               Shadow(
-                                color: Colors.black.withOpacity(0.3),
+                                color: Colors.black.withOpacity(0.8),
                                 blurRadius: 4,
                                 offset: const Offset(0, 1),
                               ),

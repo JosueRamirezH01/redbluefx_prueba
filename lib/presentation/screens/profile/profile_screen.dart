@@ -160,113 +160,135 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       appBar: AppBar(
         title: const Text('Mi Perfil'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                      width: 3,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: user?.profilePictureUrl != null && user!.profilePictureUrl!.isNotEmpty
-                      ? ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl: user.profilePictureUrl!,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              width: 100,
-                              height: 100,
-                              color: Colors.grey[200],
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context).colorScheme.primary,
-                                strokeWidth: 2,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              width: 100,
-                              height: 100,
-                              color: Colors.grey[200],
-                              child: Icon(Icons.person, size: 50, color: Colors.grey[500]),
-                            ),
-                          ),
-                        )
-                      : CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.grey[200],
-                          child: Icon(Icons.person, size: 50, color: Colors.grey[500]),
-                        ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Center(
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  // CONTENEDOR BASE CON BORDE BLANCO + DEGRADADO + SOMBRA
+                  Container(
+                    padding: const EdgeInsets.all(4), // grosor del borde blanco
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                      boxShadow: [
+                      color: Colors.white, // borde blanco
+                      borderRadius: BorderRadius.circular(32), // borde exterior
+                      boxShadow: const [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
+                          color: Color(0xFF85C1E9),
+                          blurRadius: 8,
                         ),
                       ],
                     ),
-                    child: IconButton(
-                      icon: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
-                      onPressed: profileState.isUploading ? null : () => _showImagePickerDialog(context, ref),
-                      iconSize: 20,
-                      constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.blue.shade100,
+                            Colors.blue.shade50,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: user?.profilePictureUrl != null &&
+                            user!.profilePictureUrl!.isNotEmpty
+                            ? CachedNetworkImage(
+                          imageUrl: user.profilePictureUrl!,
+                          fit: BoxFit.cover,
+                        )
+                            : Container(
+                          color: Colors.grey[200],
+                          child: Icon(Icons.person,
+                              size: 60, color: Colors.grey[500]),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                if (profileState.isUploading)
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 3,
+        
+                  // BOTÓN DE CÁMARA
+                  Positioned(
+                    bottom: 2,
+                    right: 5,
+                    child: GestureDetector(
+                      onTap: profileState.isUploading
+                          ? null
+                          : () => _showImagePickerDialog(context, ref),
+                      child: Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child:
+                        const Icon(Icons.camera_alt, color: Colors.white, size: 18),
+                      ),
                     ),
                   ),
-              ],
-            ),
-          ),
-          if (profileState.isUploading && profileState.uploadProgress != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Column(
-                children: [
-                  Text(
-                    profileState.uploadProgress!,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500,
+        
+                  // INDICADOR DE SUBIDA
+                  if (profileState.isUploading)
+                    Container(
+                      width: 120 + 12, // ajustar por el borde
+                      height: 120 + 12,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(32),
+                        color: Colors.black.withOpacity(0.4),
+                      ),
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 3,
+                        ),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
-          const SizedBox(height: 24),
-          ListTile(
+        
+            if (profileState.isUploading && profileState.uploadProgress != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      profileState.uploadProgress!,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+        
+          ],
+        
+            ),
+          )
+      );
+  }
+}
+
+
+
+/*    const SizedBox(height: 24),
+           ListTile(
             title: const Text('Nombre completo'),
             subtitle: Text(user?.fullName ?? 'No disponible'),
             leading: const Icon(Icons.person_outline),
@@ -352,9 +374,4 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
             child: const Text('Eliminar cuenta'),
           ),
-          const SizedBox(height: 16),
-        ],
-      ),
-    );
-  }
-} 
+          const SizedBox(height: 16),*/

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:redbluefx_mobile/presentation/providers/theme_provider.dart';
-
 import 'core/config/app_config.dart';
 import 'core/router/app_router.dart';
 import 'core/services/firebase_messaging_service.dart';
@@ -25,7 +24,7 @@ void main() async {
   // Inicializar configuración
   AppConfig.initialize(
     env: Environment.prod,
-    baseUrl: 'http://192.168.101.6:3502',
+    baseUrl: 'https://redbluefx-production.up.railway.app',
   );
   //http://192.168.101.6:3502
   //https://redbluefx-production.up.railway.app

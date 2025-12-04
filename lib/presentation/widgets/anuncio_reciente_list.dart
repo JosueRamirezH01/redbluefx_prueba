@@ -154,7 +154,7 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
               },
               child: AnuncioRecienteCard(
                 alert: alert,
-                onTap: () => context.push('/notice/${alert.id}'),
+                onTap: () => context.push('/anuncio/${alert.id}'),
                 //onEdit: () => context.push('/alerts/${alert.id}/edit'),
               ),
             ),

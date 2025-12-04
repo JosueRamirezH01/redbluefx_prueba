@@ -152,7 +152,6 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: Colors.white.withOpacity(0.3),
-                  width: 1.5,
                 ),
               ),
               child: IconButton(
@@ -179,7 +178,6 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: Colors.white.withOpacity(0.3),
-                  width: 1.5,
                 ),
               ),
               child: IconButton(
@@ -209,7 +207,6 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Colors.white.withOpacity(0.3),
-              width: 1.5,
             ),
           ),
           child: IconButton(
@@ -303,7 +300,6 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Colors.white.withOpacity(0.3),
-              width: 2,
             ),
             boxShadow: [
               BoxShadow(

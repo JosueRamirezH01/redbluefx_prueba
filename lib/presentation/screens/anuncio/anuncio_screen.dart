@@ -118,6 +118,8 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
                 const Expanded(
                   child: AnuncioDestacadoList(),
                 ),
+                const SizedBox(height: 10),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
                   child: Text('Recientes',style: GoogleFonts.montserrat(

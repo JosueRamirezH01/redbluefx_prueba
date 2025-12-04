@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_details_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/admin/users_screen.dart';
@@ -141,7 +142,13 @@ final router = GoRouter(
       name: 'anuncio_list',
       builder: (context, state) => const AnuncioScreen(),
     ),
-
+    GoRoute(
+      path: '/anuncio/:id',
+      name: 'anuncioDetail',
+      builder: (context, state) => AnuncioDetailScreen(
+        alertId: state.pathParameters['id']!,
+      ),
+    ),
   ],
   errorBuilder: (context, state) => Scaffold(
     body: Center(

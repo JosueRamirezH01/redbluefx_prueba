@@ -12,6 +12,7 @@ class AlertCard extends ConsumerWidget {
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final int index;
+  final bool? borde;
   final int? expandedIndex;
   final Function(int?) onExpandChange;
   final int? expandedDetailsIndex;
@@ -21,6 +22,7 @@ class AlertCard extends ConsumerWidget {
     super.key,
     required this.alert,
     required this.index,
+    this.borde = false,
     required this.expandedIndex,
     required this.onExpandChange,
     required this.expandedDetailsIndex,
@@ -38,8 +40,9 @@ class AlertCard extends ConsumerWidget {
 
     return Card(
       elevation: 1,
+
       margin: const EdgeInsets.only(bottom: 14),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16) , side: BorderSide(color: borde == true ? Color(0xFFFF0006) : Colors.transparent)),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
@@ -52,13 +55,13 @@ class AlertCard extends ConsumerWidget {
               Text(
                 timeago.format(alert.createdAt, locale: 'es'),
                 style: GoogleFonts.montserrat(
-                  fontSize: 10,
+                  fontSize: 11,
                 ),
               ),
               _buildPricesSection(context),
               // Gráfico y descripción (solo cuando presionas "Ver detalles")
               _buildDetailsSection(),
-              const Divider(),
+              const Divider(thickness: 0.5),
               _buildFooter(context, isAdmin),
             ],
           ),
@@ -139,9 +142,9 @@ class AlertCard extends ConsumerWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                         decoration: BoxDecoration(
-                          color: isTPExpanded ? Colors.blue.shade100 : null,
+                          color: isTPExpanded ? Colors.blue.shade100 : const Color(0xFFEDF9FF),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey.shade300),
+                          border: Border.all(color: const Color(0xFF005EA3)),
                         ),
                         child: Row(
                           children: [

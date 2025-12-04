@@ -126,7 +126,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                         color: const Color(0xFF066BAF),
                         colorRelleno: const Color(0xFF066BAF),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       _buildFilterChip(
                         label: 'Compra',
                         isSelected: _selectedType == AlertType.buy,
@@ -137,7 +137,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                         colorRelleno: const Color(0xFFDCFCE7),
                         icon: Icons.arrow_upward
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       _buildFilterChip(
                         label: 'Venta',
                         isSelected: _selectedType == AlertType.sell,
@@ -233,24 +233,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       duration: const Duration(milliseconds: 300),
       child: FilterChip(
         showCheckmark: false,
-        label: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          if (icon != null) ...[
-            Icon(icon, size: 14, color: color),
-          ],
-          Flexible(
-            child: Text(
+        label: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
               label,
               style: GoogleFonts.montserrat(
                 color: textColor,
                 fontSize: 14,
               ),
             ),
-          ),
-        ],
-      ),
+            if (icon != null) ...[
+              Icon(icon, size: 13, color: color),
+            ],
+          ],
+                ),
+        ),
 
       selected: isSelected,
         onSelected: onSelected,

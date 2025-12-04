@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../core/utils/borderPainter.dart';
 import '../../../domain/entities/alert.dart';
-import '../../providers/alert_provider.dart';
 import '../../widgets/app_bar.dart';
-import '../../../core/utils/logger.dart';
+import '../../widgets/previewAlert.dart';
 
 class CreateAlertScreen extends ConsumerStatefulWidget {
   const CreateAlertScreen({super.key});
@@ -20,7 +20,9 @@ class CreateAlertScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeyAlerta = GlobalKey<FormState>();
+  final _formKeyAnuncio = GlobalKey<FormState>();
+
   final _titleController = TextEditingController();
   final List<TextEditingController> _tpControllers = [TextEditingController()];
   final _entradaController = TextEditingController();
@@ -29,7 +31,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   final PageController _pageController = PageController();
   AlertType? _selectedType;
   bool _isPublic = true;
-  bool _isLoading = false;
+  final bool _isLoadingAlerta = false;
+  final bool _isLoadingAnuncio = false;
   File? _selectedImage;
   bool _isPickingImage = false;
   int _selectedIndex = 0;
@@ -45,8 +48,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   }
 
   Future<void> _submitForm() async {
-
-    if (_selectedType == null) {
+    showDialog(
+      context: context,
+      builder: (_) => const TradingAlertPreviewDialog(),
+    );
+   /* if (_selectedType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Por favor selecciona un tipo: Comprar o Vender'),
@@ -88,7 +94,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
-    }
+    }*/
   }
   Future<void> _pickImage() async {
     showDialog(
@@ -271,7 +277,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: _selectedIndex == 0
-                        ? [const Color(0xFFEC0006), const Color(0xFFFFCDD2)] // rojo intenso → claro
+                        ? [const Color(0xFFEC0006), const Color(0xFFFFCDD2),] // rojo intenso → claro
                         : [const Color(0xFF066BAF), const Color(0xFF90CAF9)], // azul intenso → claro
                   ),
                   boxShadow: const [
@@ -307,7 +313,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   );
                 },
               ),
-              const SizedBox(height: 12),
               // === CONTENIDO CAMBIANTE ===
               Expanded(
                 child: PageView(
@@ -372,248 +377,344 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   Widget _buildCrearAlertaForm() {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
-          ),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Crear Alerta',
-                      style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                InputDecorator(
-                  decoration: InputDecoration(
-                    labelText: 'Tipo',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+      child: Form(
+        key: _formKeyAlerta,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildSelectableChip(
-                          label: 'Compra',
-                          icon: Icons.arrow_downward,
-                          value: AlertType.buy,
-                          color: const Color(0xFF10B981),
-                          colorRelleno: const Color(0xFFDCFCE7),
-                      ),
-                      const SizedBox(width: 20),
-                      _buildSelectableChip(
-                          label: 'Venta',
-                          icon: Icons.arrow_upward,
-                          value: AlertType.sell,
-                        color: const Color(0xFFDD2E44),
-                          colorRelleno: const Color(0xFFFFE1E0),
+                      Text('Crear Alerta',
+                        style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: _titleController,
-                  maxLength: 20,
-                  decoration:  InputDecoration(
-                    labelText: 'Par de Divisas',
-                    labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
-                    hintText: 'ej: GBP/JPY',
-                    border: const OutlineInputBorder(),
+                  const SizedBox(height: 12),
+                  InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: 'Tipo',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        _buildSelectableChip(
+                          label: 'Compra',
+                          icon: Icons.arrow_upward,
+                          value: AlertType.buy,
+                          color: const Color(0xFF10B981),
+                          colorRelleno: const Color(0xFFDCFCE7),
+                        ),
+                        const SizedBox(width: 20),
+                        _buildSelectableChip(
+                          label: 'Venta',
+                          icon: Icons.arrow_downward,
+                          value: AlertType.sell,
+                          color: const Color(0xFFDD2E44),
+                          colorRelleno: const Color(0xFFFFE1E0),
+                        ),
+                      ],
+                    ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingresa un título';
-                    }
-                    if (value.length < 3) {
-                      return 'El título debe tener al menos 3 caracteres';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: _entradaController,
-                  decoration:  InputDecoration(
-                    labelText: 'Entrada ➡️',
-                    labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
-                    hintText:'1.0820',
-                    border: const OutlineInputBorder(),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _titleController,
+                    maxLength: 20,
+                    decoration:  InputDecoration(
+                      labelText: 'Par de Divisas',
+                      labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
+                      hintText: 'ej: GBP/JPY',
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa un título';
+                      }
+                      if (value.length < 3) {
+                        return 'El título debe tener al menos 3 caracteres';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingresa una entrada';
-                    }
-                    if (value.length < 3) {
-                      return 'El título debe tener al menos 3 caracteres';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 8),
-                Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF717171))),
-                const SizedBox(height: 4),
-                Column(
-                  children: [
-                    for (int i = 0; i < _tpControllers.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: _tpControllers[i],
-                                decoration: InputDecoration(
-                                  labelText: 'TP ${i + 1}',
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _entradaController,
+                    decoration:  InputDecoration(
+                      labelText: 'Entrada ➡️',
+                      labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
+                      hintText:'1.0820',
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa una entrada';
+                      }
+                      if (value.length < 3) {
+                        return 'El título debe tener al menos 3 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF717171))),
+                  const SizedBox(height: 4),
+                  Column(
+                    children: [
+                      for (int i = 0; i < _tpControllers.length; i++)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _tpControllers[i],
+                                  decoration: InputDecoration(
+                                    labelText: 'TP ${i + 1}',
 
-                                  border: const OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) return 'Ingresa un TP';
+                                    return null;
+                                  },
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) return 'Ingresa un TP';
-                                  return null;
-                                },
+                              ),
+                              const SizedBox(width: 8),
+                              if (_tpControllers.length > 1)
+                                IconButton(
+                                  icon: const Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () {
+                                    setState(() {
+                                      _tpControllers.removeAt(i);
+                                    });
+                                  },
+                                ),
+                            ],
+                          ),
+                        ),
+
+                      // Botón para agregar otro TP
+                      if (_tpControllers.length < 5)
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: TextButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                _tpControllers.add(TextEditingController());
+                              });
+                            },
+                            icon: const Icon(Icons.add),
+                            label:  const Text("Agregar TP"),
+                          ),
+                        ),
+                    ],
+                  ),
+                  Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 11),),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _slController,
+                    decoration: const InputDecoration(
+                      labelText: 'SL ⛔',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa un SL';
+                      }
+                      if (value.length < 3) {
+                        return 'El título debe tener al menos 3 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _contentController,
+                    decoration: const InputDecoration(
+                      labelText: 'Análisis (Opcional)',
+                      border: OutlineInputBorder(),
+                      alignLabelWithHint: true,
+                    ),
+                    maxLength: 120,
+                    maxLines: null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa el detalle';
+                      }
+                      if (value.length < 10) {
+                        return 'El contenido debe tener al menos 10 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  imagenSwitch(),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '¿Es una Alerta pública?',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            if (_tpControllers.length > 1)
-                              IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () {
-                                  setState(() {
-                                    _tpControllers.removeAt(i);
-                                  });
-                                },
-                              ),
+                            const SizedBox(height: 6),
+
+                            Text(
+                              'Las alertas públicas son visibles para todos los usuarios',
+                              style: GoogleFonts.poppins(fontSize: 12),
+                            ),
                           ],
                         ),
                       ),
 
-                    // Botón para agregar otro TP
-                    if (_tpControllers.length < 5)
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: TextButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              _tpControllers.add(TextEditingController());
-                            });
-                          },
-                          icon: const Icon(Icons.add),
-                          label:  const Text("Agregar TP"),
-                        ),
+                      Switch(
+                        value: _isPublic,
+                        onChanged: (value) {
+                          setState(() {
+                            _isPublic = value;
+                          });
+                        },
                       ),
-                  ],
-                ),
-                Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 11),),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: _slController,
-                  decoration: const InputDecoration(
-                    labelText: 'SL ⛔',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingresa un SL';
-                    }
-                    if (value.length < 3) {
-                      return 'El título debe tener al menos 3 caracteres';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _contentController,
-                  decoration: const InputDecoration(
-                    labelText: 'Análisis (Opcional)',
-                    border: OutlineInputBorder(),
-                    alignLabelWithHint: true,
-                  ),
-                  maxLength: 120,
-                  maxLines: null,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingresa el detalle';
-                    }
-                    if (value.length < 10) {
-                      return 'El contenido debe tener al menos 10 caracteres';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                imagenSwitch(),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE63330)), elevation: WidgetStatePropertyAll(8)),
-                  onPressed: _isLoading ? null : _submitForm,
-                  child: _isLoading
-                      ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    ],
                   )
-                      :  Text('Crear Alerta', style: GoogleFonts.montserrat(fontSize: 16,
-                      fontWeight: FontWeight.normal, color: Colors.white)),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+            const SizedBox(height: 12),
+
+            ElevatedButton(
+              style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE63330)), elevation: WidgetStatePropertyAll(8)),
+              onPressed: _isLoadingAlerta ? null : _submitForm,
+              child: _isLoadingAlerta
+                  ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+                  :  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Crear Alerta', style: GoogleFonts.montserrat(fontSize: 16,
+                      fontWeight: FontWeight.normal, color: Colors.white)),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.trending_up,size: 25),
+                    ],
+                  ),
+            ),
+          ],
         ),
       ),
     );
   }
   Widget _buildCrearAnuncioForm() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return Form(
+      key: _formKeyAnuncio,
       child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.campaign, color: Color(0xFFE63330), size: 30),
-              const SizedBox(width: 8),
-              Text('Crear Anuncio',
-                style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
+            ),
+            child: Column(
+              children: [
+                Text('Crear Anuncio',
+                  style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
 
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Título',
-              border: OutlineInputBorder(),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Título',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    labelText: 'Contenido',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                imagenSwitch(),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '¿Destacar?',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+
+                          Text(
+                            '(Carrusel home)',
+                            style: GoogleFonts.poppins(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Switch(
+                      value: _isPublic,
+                      onChanged: (value) {
+                        setState(() {
+                          _isPublic = value;
+                        });
+                      },
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
-          const SizedBox(height: 12),
-
-          TextFormField(
-            maxLines: null,
-            decoration: const InputDecoration(
-              labelText: 'Contenido',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 12),
-          imagenSwitch(),
+          const SizedBox(height: 16),
           ElevatedButton(
             style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE63330)), elevation: WidgetStatePropertyAll(8)),
             onPressed: () {},
-            child: Text('Publicar Anuncio',
-                style: GoogleFonts.montserrat(fontSize: 16, color: Colors.white)),
+            child:  _isLoadingAnuncio
+                ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+                :   Row(
+              mainAxisAlignment:  MainAxisAlignment.center,
+              children: [
+                Text('Publicar Anuncio',
+                    style: GoogleFonts.montserrat(fontSize: 16, color: Colors.white)),
+                const SizedBox(width: 10),
+                const Icon(Icons.campaign,size: 25),
+
+              ],
+            ),
           ),
         ],
       ),
@@ -626,110 +727,86 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
         Row(
           children: [
             Expanded(
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  contentPadding: const EdgeInsets.all(8),
-                ),
-                child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.red),
-                        ),
-                        child: _isPickingImage
-                            ? Center(
-                          child: SizedBox(
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        )
-                            : (_selectedImage == null
-                            ? Image.asset(
-                          'assets/icons/iconCamara.png',
-                          fit: BoxFit.contain,
-                        )
-                            : ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.file(
-                            _selectedImage!,
-                            fit: BoxFit.cover,
-                          ),
-                        )),
-                      ),
-                      const SizedBox(width: 6),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              child: GestureDetector(
+                onTap: _pickImage,
+                child: CustomPaint(
+                  painter: DashedBorderPainter(),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            onTap: _pickImage,
-                            child:  Text(
-                              "Subir Imagen (Opcional)",
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.poppins(
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xFFFEE2E2),
                             ),
+                            child: _isPickingImage
+                                ? Center(
+                              child: SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            )
+                                : (_selectedImage == null
+                                ? Image.asset(
+                              'assets/icons/iconCamara.png',
+                              fit: BoxFit.contain,
+                            )
+                                : ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                _selectedImage!,
+                                fit: BoxFit.cover,
+                              ),
+                            )),
                           ),
-                          Text('PNG, JPG hasta 1MB', style: GoogleFonts.poppins(fontSize: 11, color: Color(0xFF555555)),)
-                        ],
-                      ),
-                    ]
+                          const SizedBox(width: 6),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Subir Imagen (Opcional)",
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                 // decoration: TextDecoration.underline,
+                                  //fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                'PNG, JPG hasta 1MB',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 11,
+                                  color: const Color(0xFF555555),
+                                ),
+                              )
+                            ],
+                          ),
+                        ]
+                    ),
+                  ),
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '¿Es una alerta pública?',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-
-                  Text(
-                    'Las alertas públicas son visibles para todos los usuarios',
-                    style: GoogleFonts.poppins(fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-
-            Switch(
-              value: _isPublic,
-              onChanged: (value) {
-                setState(() {
-                  _isPublic = value;
-                });
-              },
-            ),
-          ],
-        )
-
       ],
     );
   }
+
+
 
 /* Widget _buildSelectableChip({
     required String label,
@@ -770,3 +847,4 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   }*/
 
 }
+

@@ -74,7 +74,7 @@ class NoticeCard extends ConsumerWidget {
                     child: Text(
                         'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
                         style: GoogleFonts.montserrat(
-                          fontSize: 16,
+                          fontSize: 15.5,
                           fontWeight: FontWeight.w500,
 
                         )
