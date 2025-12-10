@@ -528,7 +528,7 @@ class AuthRepositoryImpl implements AuthRepository {
       AppLogger.debug('🔄 Cast de url exitoso: $presignedUrl');
       
       // Los campos van directamente en la URL presignada para UploadThing
-      final fields = <String, dynamic>{};
+      //final fields = <String, dynamic>{};
       
       // La URL final se construye a partir del key
       final key = uploadData['key'] as String;

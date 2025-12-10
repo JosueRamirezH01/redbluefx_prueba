@@ -88,76 +88,11 @@ class _NoticeListState extends ConsumerState<NoticeList> {
       itemCount: alertsState.alerts.length,
       itemBuilder: (context, index) {
         final alert = alertsState.alerts[index];
-        return FadeInUp(
+        return SlideInDown(
           duration: Duration(milliseconds: 300 + (index * 100)),
-          child: SlideInRight(
-            duration: Duration(milliseconds: 300 + (index * 100)),
-            child: Dismissible(
-              key: Key(alert.id),
-              direction: DismissDirection.endToStart,
-              background: Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.only(right: 20),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade100,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.delete_outline,
-                  color: Colors.red.shade700,
-                ),
-              ),
-              confirmDismiss: (direction) async {
-                return await showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Eliminar alerta'),
-                    content: const Text('¿Estás seguro de que deseas eliminar esta alerta?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: const Text('Cancelar'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: Text(
-                          'Eliminar',
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              onDismissed: (direction) async {
-                try {
-                  await ref.read(alertsProvider.notifier).deleteAlert(alert.id);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Alerta eliminada correctamente'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  }
-                } catch (e, stack) {
-                  AppLogger.error('Error al eliminar alerta: $e', error: e, stackTrace: stack);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error al eliminar la alerta'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
-                }
-              },
-              child: NoticeCard(
-                alert: alert,
-                onTap: () => context.push('/notice/${alert.id}'),
-                //onEdit: () => context.push('/alerts/${alert.id}/edit'),
-              ),
-            ),
+          child: NoticeCard(
+            alert: alert,
+            onTap: () => context.push('/notice/${alert.id}'),
           ),
         );
       },

@@ -84,7 +84,7 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       itemCount: alertsState.alerts.length,
       itemBuilder: (context, index) {
         final alert = alertsState.alerts[index];

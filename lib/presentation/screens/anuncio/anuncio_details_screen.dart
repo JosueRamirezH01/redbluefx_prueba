@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/logger.dart';
 import '../../providers/alert_provider.dart';
 import '../../../core/utils/date_utils.dart';
+import '../../widgets/center_button.dart';
+import '../../widgets/custom_bottom_bar.dart';
 
 class AnuncioDetailScreen extends ConsumerWidget {
   final String alertId;
@@ -155,6 +160,16 @@ Todas las funcionalidades ya están disponibles en tu cuenta. Explora el menú d
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomBar(
+        onNoticias: () {
+          AppLogger.info("Noticias tapped");
+          context.pushNamed('notice_list');
+        },
+        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
+      ),
+      floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+      context.goNamed('home'); },),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

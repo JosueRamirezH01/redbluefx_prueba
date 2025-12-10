@@ -40,7 +40,6 @@ class AlertCard extends ConsumerWidget {
 
     return Card(
       elevation: 1,
-
       margin: const EdgeInsets.only(bottom: 14),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16) , side: BorderSide(color: borde == true ? Color(0xFFFF0006) : Colors.transparent)),
       child: InkWell(
@@ -59,6 +58,7 @@ class AlertCard extends ConsumerWidget {
                 ),
               ),
               _buildPricesSection(context),
+              const SizedBox(height: 8),
               // Gráfico y descripción (solo cuando presionas "Ver detalles")
               _buildDetailsSection(),
               const Divider(thickness: 0.5),
@@ -143,7 +143,7 @@ class AlertCard extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                         decoration: BoxDecoration(
                           color: isTPExpanded ? Colors.blue.shade100 : const Color(0xFFEDF9FF),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           border: Border.all(color: const Color(0xFF005EA3)),
                         ),
                         child: Row(
@@ -300,7 +300,7 @@ class AlertCard extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 8),
         ],
       )
           : const SizedBox.shrink(),
@@ -324,7 +324,7 @@ class AlertCard extends ConsumerWidget {
             onExpandDetailsChange(isDetailsExpanded ? null : index);
           },
           child: Text(
-            isDetailsExpanded ? "Cerrar +" : "Ver detalles →",
+            isDetailsExpanded ? "Cerrar x" : "Ver detalles →",
             style: GoogleFonts.montserrat(
               fontSize: 12,
               color: const Color(0xFF036BAF),

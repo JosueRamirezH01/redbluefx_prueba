@@ -98,15 +98,10 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
         ),
         child: RefreshIndicator(
           onRefresh: _loadAlerts,
-          child: Column(
+          child: const Column(
             children: [
-              if (isSearching)
-                FadeInDown(
-                  duration: const Duration(milliseconds: 300),
-                  child: _buildSearchResultCounter(),
-                ),
 
-              const Expanded(
+              Expanded(
                 child: NoticeList(),
               ),
             ],
@@ -126,41 +121,6 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
       floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
       context.goNamed('home'); },),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-  Widget _buildSearchResultCounter() {
-    final alertsState = ref.watch(alertsProvider);
-    final count = alertsState.alerts.length;
-
-    return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 8),
-      width: MediaQuery.of(context).size.width * 0.9,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEFF7FC), // Fondo suave azul
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            '$count ',
-            style: GoogleFonts.montserrat(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF066BAF), // Azul del número
-            ),
-          ),
-          Text(
-            count == 1 ? 'Señal encontrada' : 'Señales encontradas',
-            style: GoogleFonts.montserrat(
-              fontSize: 14,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
     );
   }
 

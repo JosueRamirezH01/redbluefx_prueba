@@ -190,6 +190,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
           ...?widget.additionalActions,
           const SizedBox(width: 6),
           _buildProfileButton(context, authState),
+          const SizedBox(width: 6),
         ],
       ],
     );

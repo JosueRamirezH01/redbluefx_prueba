@@ -20,7 +20,6 @@ class AnuncioRecienteCard extends ConsumerWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -33,6 +32,7 @@ class AnuncioRecienteCard extends ConsumerWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(width: 6),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: ClipRRect(
@@ -46,7 +46,7 @@ class AnuncioRecienteCard extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 6,),
+              const SizedBox(width: 10,),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

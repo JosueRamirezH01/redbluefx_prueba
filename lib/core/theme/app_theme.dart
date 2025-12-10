@@ -141,7 +141,7 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(32),
+            bottom: Radius.circular(28),
           ),
         ),
         backgroundColor: const Color(0xFF0D1D35),

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/logger.dart';
 import '../../providers/alert_provider.dart';
 import '../../../core/utils/date_utils.dart';
+import '../../widgets/center_button.dart';
+import '../../widgets/custom_bottom_bar.dart';
 
 class NoticeDetailScreen extends ConsumerWidget {
   final String alertId;
@@ -32,7 +37,7 @@ class NoticeDetailScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top * 2.1,
+            top: MediaQuery.of(context).padding.top * 2,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,6 +157,19 @@ class NoticeDetailScreen extends ConsumerWidget {
           ),
         ),
       ),
+      bottomNavigationBar: CustomBottomBar(
+        onNoticias: () {
+          AppLogger.info("Noticias tapped");
+          context.pushNamed('notice_list');
+        },
+        onAnuncios: () {
+          AppLogger.info("Anuncios tapped");
+          context.pushNamed('anuncio_list');
+        }, selectedTab: BottomTab.noticias,
+      ),
+      floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+      context.goNamed('home'); },),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
   String _formatTextWithLineBreaks(String text) {
