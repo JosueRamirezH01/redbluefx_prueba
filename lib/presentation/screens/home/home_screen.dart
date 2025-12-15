@@ -106,7 +106,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               children: [
                 const SizedBox(height: 10),
                 _buildNewsCarousel(isSmall,context, ref),
-        
+                const SizedBox(height: 10),
+
                 if (isSearching)
                   FadeInDown(
                     duration: const Duration(milliseconds: 300),
@@ -423,7 +424,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                             item['desc']!,
                                             style: TextStyle(
                                               color: Colors.white.withOpacity(0.95),
-                                              fontSize: isSmall ? 12 : 14,
+                                              fontSize: isSmall ? 14 : 14,
                                               height: 1.3,
                                               shadows: [
                                                 Shadow(
@@ -436,7 +437,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          const SizedBox(height: 8),
+                                         // const SizedBox(height: 8),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment: CrossAxisAlignment.end,

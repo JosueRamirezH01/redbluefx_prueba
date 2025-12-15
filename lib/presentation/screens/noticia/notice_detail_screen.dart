@@ -32,12 +32,21 @@ class NoticeDetailScreen extends ConsumerWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        toolbarHeight: 75,
+        leadingWidth: 70,
+        leading: IconButton(
+          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
+        ),
         elevation: 6,
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top * 2,
+            top: MediaQuery.of(context).padding.top * 2.55,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

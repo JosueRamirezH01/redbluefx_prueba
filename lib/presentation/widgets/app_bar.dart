@@ -119,8 +119,9 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               children: [
                 Text(
                   'Bienvenido',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.montserrat(
                     fontSize: 17,
+                    fontWeight: FontWeight.w600
                   ),
                   /*style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,

@@ -85,6 +85,8 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
 
     return ListView.builder(
       padding: const EdgeInsets.all(8),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: alertsState.alerts.length,
       itemBuilder: (context, index) {
         final alert = alertsState.alerts[index];

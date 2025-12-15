@@ -109,6 +109,7 @@ class AlertCard extends ConsumerWidget {
                     Text("Entrada",
                         style: GoogleFonts.montserrat(
                           fontSize: 11,
+                          fontWeight: FontWeight.w500
                         )),
                     const SizedBox(height: 2),
                     const Text(
@@ -130,39 +131,63 @@ class AlertCard extends ConsumerWidget {
                     onExpandChange(isTPExpanded ? null : index);
                   },
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "TP",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 11,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
-                          color: isTPExpanded ? Colors.blue.shade100 : const Color(0xFFEDF9FF),
+                          color: isTPExpanded ? null : const Color(0xFFEDF9FF),
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(color: const Color(0xFF005EA3)),
+                          gradient:isTPExpanded ? const LinearGradient(colors: [Color(0xFF025591),Color(0xFF066BAF)]): null,
                         ),
-                        child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${currentTP.toStringAsFixed(4)} (${mockTPs.length})",
+                              "TP",
                               style: GoogleFonts.montserrat(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: isTPExpanded ? Colors.blue.shade800 : null,
+                                fontSize: 11,
+                                color: isTPExpanded ? Colors.white : null,
+                                fontWeight: FontWeight.w500
                               ),
                             ),
-                            const SizedBox(width: 6),
-                            Icon(
-                              isTPExpanded
-                                  ? Icons.keyboard_arrow_up
-                                  : Icons.keyboard_arrow_down,
-                              size: 20,
-                              color: isTPExpanded ? Colors.blue.shade800 : null,
+                            Row(
+                              children: [
+                                Text(
+                                  "${currentTP.toStringAsFixed(4)} ",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: isTPExpanded ? Colors.white : null,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 4),
+                                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFEBF8FF),
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${mockTPs.length}',
+                                        style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF066BAF)),
+                                      ),
+                                      Icon(
+                                        isTPExpanded
+                                            ? Icons.keyboard_arrow_up
+                                            : Icons.keyboard_arrow_down,
+                                        size: 20,
+                                        color: const Color(0xFF066BAF),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),
@@ -181,6 +206,7 @@ class AlertCard extends ConsumerWidget {
                       "SL",
                       style: GoogleFonts.montserrat(
                         fontSize: 11,
+                        fontWeight: FontWeight.w500
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -202,7 +228,7 @@ class AlertCard extends ConsumerWidget {
               child: isTPExpanded
                   ? Container(
                 margin: const EdgeInsets.only(top: 12),
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.only(right: 10, left: 10, top: 5, bottom: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.grey.shade300),
@@ -387,11 +413,9 @@ class AlertCard extends ConsumerWidget {
         children: [
           Text(
             text,
-            style: TextStyle(
-              fontSize: 12,
-              color: color,
-              fontWeight: FontWeight.w600,
-            ),
+            style: GoogleFonts.montserrat(
+              fontSize: 11
+            )
           ),
           const SizedBox(width: 4),
           Icon(icon, color: color, size: 16),

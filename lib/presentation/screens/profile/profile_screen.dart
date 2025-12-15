@@ -163,7 +163,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi Perfil'),
+        title: Text('Mi Perfil', style: GoogleFonts.montserrat(fontSize: 17 , fontWeight: FontWeight.w600)),
+        centerTitle: true,
+        toolbarHeight: 75,
+        leadingWidth: 70,
+        leading: IconButton(
+          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
+        ),
       ),
       body: SafeArea(
         child: GestureDetector(
@@ -175,105 +185,110 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               children: [
                 const SizedBox(height: 16),
 
-                Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(32),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0xFF85C1E9),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(28),
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.blue.shade100,
-                                Colors.blue.shade50,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(28),
-                            child: user?.profilePictureUrl != null &&
-                                user!.profilePictureUrl!.isNotEmpty
-                                ? CachedNetworkImage(
-                              imageUrl: user.profilePictureUrl!,
-                              fit: BoxFit.cover,
-                            )
-                                : Container(
-                              color: Colors.grey[200],
-                              child: Icon(Icons.person,
-                                  size: 60, color: Colors.grey[500]),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 2,
-                        right: 5,
-                        child: GestureDetector(
-                          onTap: profileState.isUploading
-                              ? null
-                              : () => _showImagePickerDialog(context, ref),
-                          child: Container(
-                            width: 38,
-                            height: 38,
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 3),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  blurRadius: 6,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: const Icon(Icons.camera_alt,
-                                color: Colors.white, size: 18),
-                          ),
-                        ),
-                      ),
-                      if (profileState.isUploading)
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/fondoPerfil.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Center(
+                    child: Stack(
+                      children: [
                         Container(
-                          width: 132,
-                          height: 132,
+                          padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(32),
-                            color: Colors.black.withOpacity(0.4),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0xFF85C1E9),
+                                blurRadius: 8,
+                              ),
+                            ],
                           ),
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 3,
+                          child: Container(
+                            width: 94,
+                            height: 94,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(28),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.blue.shade100,
+                                  Colors.blue.shade50,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(28),
+                              child: user?.profilePictureUrl != null &&
+                                  user!.profilePictureUrl!.isNotEmpty
+                                  ? CachedNetworkImage(
+                                imageUrl: user.profilePictureUrl!,
+                                fit: BoxFit.cover,
+                              )
+                                  : Container(
+                                color: Colors.grey[200],
+                                child: Icon(Icons.person,
+                                    size: 60, color: Colors.grey[500]),
+                              ),
                             ),
                           ),
                         ),
-                    ],
+                        Positioned(
+                          bottom: 2,
+                          right: 5,
+                          child: GestureDetector(
+                            onTap: profileState.isUploading
+                                ? null
+                                : () => _showImagePickerDialog(context, ref),
+                            child: Container(
+                              width: 38,
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: Colors.redAccent,
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white, width: 3),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(Icons.camera_alt,
+                                  color: Colors.white, size: 18),
+                            ),
+                          ),
+                        ),
+                        if (profileState.isUploading)
+                          Container(
+                            width: 132,
+                            height: 132,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32),
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
                 // Nombre de usuario
                 Text(
                   user?.fullName ?? 'Usuario',
-                  style: GoogleFonts.montserrat(fontSize: 16, color: const Color(0xFF000000).withOpacity(0.6), fontWeight: FontWeight.w600 , shadows: [Shadow(
-                    offset: const Offset(1.5, 1.5), // Desplazamiento de la sombra
-                    blurRadius: 3,                   // Difuminado
-                    color: Colors.black.withOpacity(0.3), // Color de sombra
-                  ),])
+                  style: GoogleFonts.montserrat(fontSize: 16, color: const Color(0xFF000000).withOpacity(0.6), fontWeight: FontWeight.w600 )
 
                 ),
                 // Email
@@ -283,10 +298,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     ),
                 const SizedBox(height: 16),
-                _buildSection(
-                  context,
-                  title: 'Cuenta',
-                  children: [
+                _buildSection(context, title: 'Cuenta', children: [
                     _cambiarPassword(),
 
                     //if (user?.role == 'admin')
@@ -297,11 +309,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       onTap: () {
                       },
                     ),
-                    _buildMenuItem(
-                      icon: isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-                      title: 'Modo ${isDarkMode ? "oscuro" : "claro"}',
-                      color: const Color(0xFF555555),
-                      trailing: SizedBox(
+                    _buildMenuItem(icon: isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined, title: 'Modo ${isDarkMode ? "oscuro" : "claro"}', color: const Color(0xFF555555), trailing: SizedBox(
                         width: 51,
                         height: 31,
                         child: Stack(
@@ -333,10 +341,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                _buildSection(
-                  context,
-                  title: 'Soporte',
-                  children: [
+                _buildSection(context, title: 'Soporte', children: [
                     _buildMenuItem(
                       icon: Icons.star_outline,
                       title: 'Feedback',
@@ -365,9 +370,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
                 const SizedBox(height: 12),
 
-                _buildSection(
-                    context,
-                    children: [
+                _buildSection(context, children: [
                   _buildMenuItem(
                     icon: Icons.logout,
                     title: 'Cerrar sesión',
@@ -404,7 +407,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         shape: BoxShape.circle,
                                       ),
                                       child: const Icon(
-                                        Icons.delete,
+                                        Icons.logout,
                                         color: Color(0xFFD92D20),
                                         size: 24,
                                       ),
@@ -426,21 +429,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               children: [
 
                                 Expanded(
-                                  child: GestureDetector(
-                                    onTap: () => Navigator.pop(context),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: Colors.grey.shade400, width: 1.5),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFFFFFFF),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),side: const BorderSide(color: Color(0xFFD5D7DA))
                                       ),
-                                      alignment: Alignment.center,
-                                      child:  Text(
-                                        'Cancelar',
-                                        style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                        ),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                    ),
+                                    onPressed: () {
+                                     Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'Cancelar',
+                                      style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color:const Color(0xFF414651)
                                       ),
                                     ),
                                   ),
@@ -449,9 +454,72 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 const SizedBox(width: 12),
 
                                 Expanded(
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      try {
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF1F2937),
+                                      elevation: 8,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                    ),
+                                    onPressed: () {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                          backgroundColor: Colors.white,
+                                          content: Stack(
+                                            children: [
+                                              Center(
+                                                child: Column(
+                                                  children: [
+                                                    Container(padding: const EdgeInsets.all(10),decoration: const BoxDecoration( shape: BoxShape.circle, color: Color(0xFFECFDF3)),child: Container(padding: const EdgeInsets.all(6),decoration: const BoxDecoration( shape: BoxShape.circle, color: Color(0xFFD1FADF)),child: const Icon(Icons.check_circle_outline, color: Colors.green))),
+                                                    const SizedBox(width: 12),
+                                                    Text('Recibimos tu Feedback', style: GoogleFonts.inter(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.w600),),
+                                                    Text('Gracias por tu opinion', style: GoogleFonts.inter(color: Colors.grey[600], fontSize: 16),),
+                                                  ],
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: -8,
+                                                right: -8,
+                                                child: IconButton(
+                                                  icon: const Icon(Icons.close),
+                                                  color: const Color(0xFF9CA3AF),
+                                                  iconSize: 20,
+                                                  splashRadius: 18,
+                                                  onPressed: () {
+                                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                                  },
+                                                ),
+                                              ),
+                                            ]
+                                          ),
+                                          duration: const Duration(seconds: 10),
+                                        ),
+                                      );
+                                     /* ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(14),
+                                          ),
+                                          backgroundColor: Colors.white,
+                                          content: Row(
+                                            children: [
+                                              Container(padding: const EdgeInsets.all(6),decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), color: const Color(0xFFC4F4D0)),child: const Icon(Icons.check_box, color: Colors.green)),
+                                              const SizedBox(width: 12),
+                                              Text('Contraseña Actualizada', style: GoogleFonts.inter(color: Colors.black87, fontSize: 16),),
+                                            ],
+                                          ),
+                                          duration: const Duration(seconds: 2),
+                                        ),
+                                      );*/ /// MENSAJE DE CONTRASEÑA ACTUALIZADA
+
+                                      /*try {
                                         await ref.read(authStateProvider.notifier).logout();
                                         if (context.mounted) {
                                           context.go('/login');
@@ -466,22 +534,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                             ),
                                           );
                                         }
-                                      }
+                                      }*/
                                     },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: Colors.redAccent,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child:  Text(
-                                        'Si, Salir',
-                                        style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
+                                    child: Text(
+                                      'Si, Salir',
+                                      style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
@@ -509,7 +569,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                             side: const BorderSide(
-                              color: Color(0xFFE6332F),
+                              color: Color(0xFF1F2937),
                               width: 2,
                             ),
                           ),
@@ -531,7 +591,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         shape: BoxShape.circle,
                                       ),
                                       child: const Icon(
-                                        Icons.delete,
+                                        Icons.delete_outline,
                                         color: Color(0xFFD92D20),
                                         size: 24,
                                       ),
@@ -553,21 +613,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               children: [
 
                                 Expanded(
-                                  child: GestureDetector(
-                                    onTap: () => Navigator.pop(context),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: Colors.grey.shade400, width: 1.5),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFFFFFFF),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),side: const BorderSide(color: Color(0xFFD5D7DA))
                                       ),
-                                      alignment: Alignment.center,
-                                      child:  Text(
-                                        'Cancelar',
-                                        style: GoogleFonts.montserrat(
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'Cancelar',
+                                      style: GoogleFonts.montserrat(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
-                                        ),
+                                          color:const Color(0xFF414651)
                                       ),
                                     ),
                                   ),
@@ -576,29 +638,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 const SizedBox(width: 12),
 
                                 Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                      ref.read(authStateProvider.notifier).deleteAccount();
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: Colors.redAccent,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF1F2937),
+                                      elevation: 8,
+                                      shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      alignment: Alignment.center,
-                                      child:  Text(
-                                        'Si, Eliminar',
-                                        style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          color: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                    ),
+                                    onPressed: () {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          backgroundColor: Colors.green,
+                                          content: Row(
+                                            children: [
+                                              Icon(Icons.check_circle, color: Colors.white),
+                                              SizedBox(width: 12),
+                                              Text('Operación realizada con éxito'),
+                                            ],
+                                          ),
+                                          duration: Duration(seconds: 2),
                                         ),
+                                      );
+
+                                      /*Navigator.pop(context);
+                                      ref.read(authStateProvider.notifier).deleteAccount();*/
+                                    },
+                                    child: Text(
+                                      'Si, Eliminar',
+                                      style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
                                 ),
+
 
                               ],
                             )

@@ -31,6 +31,15 @@ class AnuncioDetailScreen extends ConsumerWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        toolbarHeight: 80,
+        leadingWidth: 70,
+        leading: IconButton(
+          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
+        ),
         elevation: 6,
       ),
       body: SingleChildScrollView(

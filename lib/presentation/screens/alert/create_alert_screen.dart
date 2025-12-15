@@ -201,11 +201,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Alerta',
+                          'Señal',
                           style: GoogleFonts.montserrat(
                             color: _selectedIndex == 0 ? Colors.white : Colors.black87,
                             fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -229,7 +229,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           style: GoogleFonts.montserrat(
                             color: _selectedIndex == 1 ? Colors.white : Colors.black87,
                             fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -389,11 +389,12 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Crear Alerta',
+                      Text('Crear Señal',
                         style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -402,6 +403,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   InputDecorator(
                     decoration: InputDecoration(
                       labelText: 'Tipo',
+                      labelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -434,6 +436,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     maxLength: 20,
                     decoration:  InputDecoration(
                       labelText: 'Par de Divisas',
+                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
                       hintText: 'ej: GBP/JPY',
                       border: const OutlineInputBorder(),
@@ -453,6 +457,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     controller: _entradaController,
                     decoration:  InputDecoration(
                       labelText: 'Entrada ➡️',
+                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
                       hintText:'1.0820',
                       border: const OutlineInputBorder(),
@@ -468,7 +474,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     },
                   ),
                   const SizedBox(height: 8),
-                  Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF717171))),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 15, color: const Color(0xFF515151), fontWeight: FontWeight.w500)),
+                  ),
                   const SizedBox(height: 4),
                   Column(
                     children: [
@@ -504,7 +513,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             ],
                           ),
                         ),
-
+                      Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF606060), fontWeight: FontWeight.w400),),
                       // Botón para agregar otro TP
                       if (_tpControllers.length < 5)
                         Align(
@@ -515,19 +524,20 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                                 _tpControllers.add(TextEditingController());
                               });
                             },
-                            icon: const Icon(Icons.add),
-                            label:  const Text("Agregar TP"),
+                            icon: const Icon(Icons.add, color: Color(0xFF005EA3), size: 20),
+                            label: Text("Agregar TP", style: GoogleFonts.poppins(fontSize: 15, color: const Color(0xFF005EA3), fontWeight: FontWeight.w600),),
                           ),
                         ),
                     ],
                   ),
-                  Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 11),),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: _slController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'SL ⛔',
-                      border: OutlineInputBorder(),
+                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -569,7 +579,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '¿Es una Alerta pública?',
+                              '¿Es una Señal pública?',
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                               ),
@@ -577,7 +587,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             const SizedBox(height: 6),
 
                             Text(
-                              'Las alertas públicas son visibles para todos los usuarios',
+                              'Las señales públicas son visibles para todos los usuarios',
                               style: GoogleFonts.poppins(fontSize: 12),
                             ),
                           ],
@@ -598,26 +608,65 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               ),
             ),
             const SizedBox(height: 12),
+            Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFF1B21),
+                    Color(0xFFDD0E13),
+                    Color(0xFFBB0004),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Color(0xFFED7053),
+                      blurRadius: 16,
+                      offset: Offset(2, 8)
 
-            ElevatedButton(
-              style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE63330)), elevation: WidgetStatePropertyAll(8)),
-              onPressed: _isLoadingAlerta ? null : _submitForm,
-              child: _isLoadingAlerta
-                  ? const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-                  :  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Crear Alerta', style: GoogleFonts.montserrat(fontSize: 16,
-                      fontWeight: FontWeight.normal, color: Colors.white)),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.trending_up,size: 25),
-                    ],
                   ),
+                ],
+              ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: _isLoadingAlerta ? null : _submitForm,
+                child: _isLoadingAlerta
+                    ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+                    : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Crear Señal',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.trending_up, size: 25, color: Colors.white),
+                  ],
+                ),
+              ),
             ),
+            const SizedBox(height: 30),
+
           ],
         ),
       ),
@@ -638,23 +687,27 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             child: Column(
               children: [
                 Text('Crear Anuncio',
-                  style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 12),
 
                 TextFormField(
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Título',
-                    border: OutlineInputBorder(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 12),
 
                 TextFormField(
                   maxLines: null,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Contenido',
-                    border: OutlineInputBorder(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -670,6 +723,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             '¿Destacar?',
                             style: GoogleFonts.poppins(
                               fontSize: 16,
+                              fontWeight: FontWeight.w500
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -696,24 +750,51 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE63330)), elevation: WidgetStatePropertyAll(8)),
-            onPressed: () {},
-            child:  _isLoadingAnuncio
-                ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-                :   Row(
-              mainAxisAlignment:  MainAxisAlignment.center,
-              children: [
-                Text('Publicar Anuncio',
-                    style: GoogleFonts.montserrat(fontSize: 16, color: Colors.white)),
-                const SizedBox(width: 10),
-                const Icon(Icons.campaign,size: 25),
-
+          Container(decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFFFF1B21),
+                Color(0xFFDD0E13),
+                Color(0xFFBB0004),
               ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0xFFED7053),
+                  blurRadius: 16,      // intensidad
+                  offset: Offset(2, 8) // altura
+              ),
+            ],
+          ),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                elevation: 12,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {},
+              child:  _isLoadingAnuncio
+                  ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+                  :   Row(
+                mainAxisAlignment:  MainAxisAlignment.center,
+                children: [
+                  Text('Crear Anuncio',
+                      style: GoogleFonts.montserrat(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)),
+                  const SizedBox(width: 10),
+                  const Icon(Icons.campaign,size: 25),
+
+                ],
+              ),
             ),
           ),
         ],
@@ -734,7 +815,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: const Color(0xFFF7F7F7),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
@@ -745,7 +826,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: const Color(0xFFFF0006)),
                               color: const Color(0xFFFEE2E2),
                             ),
                             child: _isPickingImage
@@ -760,10 +842,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                               ),
                             )
                                 : (_selectedImage == null
-                                ? Image.asset(
-                              'assets/icons/iconCamara.png',
-                              fit: BoxFit.contain,
-                            )
+                                ? const Icon(Icons.photo_outlined, color: Color(0xFFFF0006) , size: 30)
                                 : ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.file(
@@ -780,8 +859,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                                 "Subir Imagen (Opcional)",
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
-                                 // decoration: TextDecoration.underline,
-                                  //fontWeight: FontWeight.w500,
                                   fontSize: 14,
                                 ),
                               ),

@@ -76,14 +76,23 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        toolbarHeight: 75,
+        automaticallyImplyLeading: false,
          title: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
            children: [
              Text('Anuncio', style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w500),),
              Text('Ultimas novedades', style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w200),),
-
            ],
          ),
+        leadingWidth: 70,
+        leading: IconButton(
+          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/home');
+          },
+        ),
         elevation: 8,
       ),
       body: SafeArea(
@@ -104,35 +113,34 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
           ),
           child: RefreshIndicator(
             onRefresh: _loadAlerts,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
-                  child: Text('Destacados',style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18
-                  ),),
-                ),
-                const Expanded(
-                  child: AnuncioDestacadoList(),
-                ),
-                const SizedBox(height: 10),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
-                  child: Text('Recientes',style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18
-                  ),),
-                ),
-                const Expanded(
-                  child: AnuncioRecienteList(),
-                ),
-              ],
+            child:  SingleChildScrollView(
+              physics:  AlwaysScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:  [
+                  SizedBox(height: 8),
+                  Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 16.0) ,
+                    child: Text('Destacados',style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18
+                    ),),
+                  ),
+                  AnuncioDestacadoList(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
+                    child: Text('Recientes',style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18
+                    ),),
+                  ),
+                  AnuncioRecienteList(),
+                  SizedBox(height: 80), // espacio para FAB
+                ],
+              ),
             ),
           ),
+
         ),
       ),
       bottomNavigationBar: CustomBottomBar(

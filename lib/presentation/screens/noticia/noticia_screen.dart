@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:animate_do/animate_do.dart';
-import '../../providers/alert_provider.dart';
-import '../../widgets/app_bar.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../widgets/center_button.dart';
@@ -72,14 +69,23 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    final isSearching = ref.watch(isSearchingProvider);
     //final size = MediaQuery.of(context).size;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        toolbarHeight: 75,
+        automaticallyImplyLeading: false,
          title: Text('Noticias del mercado', style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w500),),
         elevation: 8,
+        leadingWidth: 70,
+        leading: IconButton(
+          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/home');
+          },
+        ),
       ),
       body: Container(
         height: double.infinity,
@@ -100,7 +106,6 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
           onRefresh: _loadAlerts,
           child: const Column(
             children: [
-
               Expanded(
                 child: NoticeList(),
               ),

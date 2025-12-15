@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
 import '../providers/alert_provider.dart';
 import 'alert_card.dart';
-import '../../../core/utils/logger.dart';
 
 class AlertList extends ConsumerStatefulWidget {
   const AlertList({super.key});
@@ -89,58 +88,55 @@ class _AlertListState extends ConsumerState<AlertList> {
       itemCount: alertsState.alerts.length,
       itemBuilder: (context, index) {
         final alert = alertsState.alerts[index];
-        return FadeInUp(
+        return SlideInDown(
           duration: Duration(milliseconds: 300 + (index * 100)),
-          child: SlideInRight(
-            duration: Duration(milliseconds: 300 + (index * 100)),
-            child: AlertCard(
-              alert: alert,
-              index: index,
-              expandedIndex: expandedIndex,
-              expandedDetailsIndex: expandedDetailsIndex,
-              onExpandDetailsChange: (value) {
-                setState(() {
-                  // Si se está abriendo un nuevo card diferente, cierra el TP del anterior
-                  if (value != null && value != expandedDetailsIndex && expandedIndex != null && expandedIndex != value) {
-                    expandedIndex = null;
-                  }
-                  expandedDetailsIndex = value;
-                });
-              },
-              onExpandChange: (value) {
-                setState(() {
-                  if (value != null && value != expandedIndex && expandedDetailsIndex != null && expandedDetailsIndex != value) {
-                    expandedDetailsIndex = null;
-                  }
-                  expandedIndex = value;
-                });
-              },
-              //onTap: () => context.push('/alerts/${alert.id}'),
-              //onEdit: () => context.push('/alerts/${alert.id}/edit'),
-              /*onDelete: () async {
-                try {
-                  await ref.read(alertsProvider.notifier).deleteAlert(alert.id);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Alerta eliminada correctamente'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  }
-                } catch (e, stack) {
-                  AppLogger.error('Error al eliminar alerta: $e', error: e, stackTrace: stack);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error al eliminar la alerta'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
+          child: AlertCard(
+            alert: alert,
+            index: index,
+            expandedIndex: expandedIndex,
+            expandedDetailsIndex: expandedDetailsIndex,
+            onExpandDetailsChange: (value) {
+              setState(() {
+                // Si se está abriendo un nuevo card diferente, cierra el TP del anterior
+                if (value != null && value != expandedDetailsIndex && expandedIndex != null && expandedIndex != value) {
+                  expandedIndex = null;
                 }
-              },*/
-            ),
+                expandedDetailsIndex = value;
+              });
+            },
+            onExpandChange: (value) {
+              setState(() {
+                if (value != null && value != expandedIndex && expandedDetailsIndex != null && expandedDetailsIndex != value) {
+                  expandedDetailsIndex = null;
+                }
+                expandedIndex = value;
+              });
+            },
+            //onTap: () => context.push('/alerts/${alert.id}'),
+            //onEdit: () => context.push('/alerts/${alert.id}/edit'),
+            /*onDelete: () async {
+              try {
+                await ref.read(alertsProvider.notifier).deleteAlert(alert.id);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Alerta eliminada correctamente'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+              } catch (e, stack) {
+                AppLogger.error('Error al eliminar alerta: $e', error: e, stackTrace: stack);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Error al eliminar la alerta'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            },*/
           ),
         );
       },

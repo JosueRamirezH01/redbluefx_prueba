@@ -84,6 +84,8 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
     }
 
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(12),
       itemCount: alertsState.alerts.length,
       itemBuilder: (context, index) {
