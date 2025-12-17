@@ -114,19 +114,19 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
           child: RefreshIndicator(
             onRefresh: _loadAlerts,
             child:  SingleChildScrollView(
-              physics:  AlwaysScrollableScrollPhysics(),
+              physics:  const AlwaysScrollableScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children:  [
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 16.0) ,
+                    padding:  const EdgeInsets.symmetric(horizontal: 16.0) ,
                     child: Text('Destacados',style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w500,
                         fontSize: 18
                     ),),
                   ),
-                  AnuncioDestacadoList(),
+                  const AnuncioDestacadoList(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
                     child: Text('Recientes',style: GoogleFonts.montserrat(
@@ -134,8 +134,8 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
                         fontSize: 18
                     ),),
                   ),
-                  AnuncioRecienteList(),
-                  SizedBox(height: 80), // espacio para FAB
+                  const AnuncioRecienteList(),
+                  const SizedBox(height: 80), // espacio para FAB
                 ],
               ),
             ),
@@ -143,15 +143,23 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
 
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        onNoticias: () {
-          AppLogger.info("Noticias tapped");
-          context.pushNamed('notice_list');
-        },
-        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: CustomBottomBar(
+          onNoticias: () {
+            AppLogger.info("Noticias tapped");
+            context.pushNamed('notice_list');
+          },
+          onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
+        ),
       ),
-      floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-      context.goNamed('home'); },),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
+        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+        context.goNamed('home'); },),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

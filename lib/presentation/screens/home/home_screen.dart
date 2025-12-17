@@ -28,6 +28,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
+    _selectedType = AlertType.all;
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -91,91 +92,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           decoration: BoxDecoration(
             gradient: RadialGradient(
               center: Alignment.bottomLeft,
-              radius: 0.8,
+              radius: 0.6,
               colors: [
-                Colors.transparent,
-                const Color(0xFF0D1D35).withOpacity(0.3),
-                const Color(0xFF0D1D35).withOpacity(0.3),
+                const Color(0xFF066BAF).withOpacity(0.3),
+                const Color(0xFFE6332F).withOpacity(0.3),
                 const Color(0xFFFF0006).withOpacity(0.01),
               ],
             ),
           ),
-          child: RefreshIndicator(
-            onRefresh: _loadAlerts,
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                _buildNewsCarousel(isSmall,context, ref),
-                const SizedBox(height: 10),
-
-                if (isSearching)
-                  FadeInDown(
-                    duration: const Duration(milliseconds: 300),
-                    child: _buildSearchResultCounter(),
-                  ),
-                if (!isSearching)
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child:Row(
-                    children: [
-                      _buildFilterChip(
-                        label: 'Todas',
-                        isSelected: _selectedType == AlertType.all,
-                        onSelected: (selected) {
-                          if (selected) _onFilterByType(AlertType.all);
-                        },
-                        color: const Color(0xFF066BAF),
-                        colorRelleno: const Color(0xFF066BAF),
-                      ),
-                      const SizedBox(width: 6),
-                      _buildFilterChip(
-                        label: 'Compra',
-                        isSelected: _selectedType == AlertType.buy,
-                        onSelected: (selected) {
-                          if (selected) _onFilterByType(AlertType.buy);
-                        },
-                        color: const Color(0xFF10B981),
-                        colorRelleno: const Color(0xFFDCFCE7),
-                        icon: Icons.arrow_upward
-                      ),
-                      const SizedBox(width: 6),
-                      _buildFilterChip(
-                        label: 'Venta',
-                        isSelected: _selectedType == AlertType.sell,
-                        onSelected: (selected) {
-                          if (selected) _onFilterByType(AlertType.sell);
-                        },
-                        color: const Color(0xFFDD2E44),
-                        colorRelleno: const Color(0xFFFFE1E0),
-                        icon: Icons.arrow_downward
-                      ),
-                    ],
-                  ),
-                ),
-                // Lista de alertas
-                const Expanded(
-                  child: AlertList(),
-                ),
-              ],
-            ),
+          child: OrientationBuilder(
+            builder: (context, orientation) {
+              final isLandscape = orientation == Orientation.landscape;
+              return isLandscape
+                  ? _buildLandscape(context,isSearching)
+                  : _buildPortrait(context, isSearching);
+            },
           ),
+
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        onNoticias:() {
-          AppLogger.info("Noticias tapped");
-          context.pushNamed('notice_list');
-        },
-        onAnuncios: () {
-          AppLogger.info("Anuncios tapped");
-          context.pushNamed('anuncio_list');
-        },  selectedTab: BottomTab.home,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: CustomBottomBar(
+          onNoticias:() {
+            AppLogger.info("Noticias tapped");
+            context.pushNamed('notice_list');
+          },
+          onAnuncios: () {
+            AppLogger.info("Anuncios tapped");
+            context.pushNamed('anuncio_list');
+          },  selectedTab: BottomTab.home,
+        ),
       ),
-      floatingActionButton: CenterFloatingButton(
-        onPressed: () {
-          AppLogger.info("Home");
-          context.goNamed('home');
-        },
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
+        child: CenterFloatingButton(
+          onPressed: () {
+            AppLogger.info("Home");
+            context.goNamed('home');
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
@@ -270,8 +228,100 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     );
   }
 
+  Widget _buildPortrait(BuildContext context, isSearching) {
+    return RefreshIndicator(
+      onRefresh: _loadAlerts,
+      child: Column(
+        children: [
+          const SizedBox(height: 10),
+          _buildNewsCarousel(false, context, ref),
+          const SizedBox(height: 10),
+          if (isSearching)
+            FadeInDown(
+              duration: const Duration(milliseconds: 300),
+              child: _buildSearchResultCounter(),
+            ),
+          if (!ref.watch(isSearchingProvider))
+            _buildFilters(),
+          const Expanded(
+            child: AlertList(),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildLandscape(BuildContext context, isSearching) {
+    return RefreshIndicator(
+      onRefresh: _loadAlerts,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            _buildNewsCarousel(false, context, ref),
+            if (isSearching)
+              FadeInDown(
+                duration: const Duration(milliseconds: 300),
+                child: _buildSearchResultCounter(),
+              ),
+            const SizedBox(height: 10),
+            if (!ref.watch(isSearchingProvider))
+              _buildFilters(),
 
-/// POR MIENTRAS, MOVER ESO EN EN UN WIDGET APARTE
+            const SizedBox(height: 12),
+
+            /// 👇 Altura controlada para la lista
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.65,
+              child: const AlertList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget _buildFilters() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          _buildFilterChip(
+            label: 'Todas',
+            isSelected: _selectedType == AlertType.all,
+            onSelected: (selected) {
+              if (selected) _onFilterByType(AlertType.all);
+            },
+            color: const Color(0xFF066BAF),
+            colorRelleno: const Color(0xFF066BAF),
+          ),
+          const SizedBox(width: 6),
+          _buildFilterChip(
+              label: 'Compra',
+              isSelected: _selectedType == AlertType.buy,
+              onSelected: (selected) {
+                if (selected) _onFilterByType(AlertType.buy);
+              },
+              color: const Color(0xFF10B981),
+              colorRelleno: const Color(0xFFDCFCE7),
+              icon: Icons.arrow_upward
+          ),
+          const SizedBox(width: 6),
+          _buildFilterChip(
+              label: 'Venta',
+              isSelected: _selectedType == AlertType.sell,
+              onSelected: (selected) {
+                if (selected) _onFilterByType(AlertType.sell);
+              },
+              color: const Color(0xFFDD2E44),
+              colorRelleno: const Color(0xFFFFE1E0),
+              icon: Icons.arrow_downward
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// POR MIENTRAS, MOVER ESO EN EN UN WIDGET APARTE
   Widget _buildNewsCarousel(bool isSmall, BuildContext context, WidgetRef ref) {
     final showCarousel = ref.watch(showNewsCarouselProvider);
 
@@ -363,7 +413,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
 
                               // Contenido principal
                               Padding(
-                                padding: const EdgeInsets.all(20),
+                                padding: const EdgeInsets.only(left: 20, right: 20,top: 15),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -419,7 +469,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(height: 4),
+                                          const SizedBox(height: 10),
                                           Text(
                                             item['desc']!,
                                             style: TextStyle(
@@ -437,7 +487,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                         // const SizedBox(height: 8),
+                                         const SizedBox(height: 8),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -500,7 +550,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                     },
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 10),
 
                 /// Indicadores
                 Row(

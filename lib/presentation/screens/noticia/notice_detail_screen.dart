@@ -109,7 +109,7 @@ class NoticeDetailScreen extends ConsumerWidget {
                       'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
           
@@ -166,18 +166,26 @@ class NoticeDetailScreen extends ConsumerWidget {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        onNoticias: () {
-          AppLogger.info("Noticias tapped");
-          context.pushNamed('notice_list');
-        },
-        onAnuncios: () {
-          AppLogger.info("Anuncios tapped");
-          context.pushNamed('anuncio_list');
-        }, selectedTab: BottomTab.noticias,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: CustomBottomBar(
+          onNoticias: () {
+            AppLogger.info("Noticias tapped");
+            context.pushNamed('notice_list');
+          },
+          onAnuncios: () {
+            AppLogger.info("Anuncios tapped");
+            context.pushNamed('anuncio_list');
+          }, selectedTab: BottomTab.noticias,
+        ),
       ),
-      floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-      context.goNamed('home'); },),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
+        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+        context.goNamed('home'); },),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

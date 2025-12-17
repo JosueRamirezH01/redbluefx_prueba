@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:redbluefx_mobile/presentation/widgets/feedbackDialog.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../../core/utils/logger.dart';
@@ -299,7 +300,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                 const SizedBox(height: 16),
                 _buildSection(context, title: 'Cuenta', children: [
-                    _cambiarPassword(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9.0),
+                      child: _cambiarPassword(),
+                    ),
 
                     //if (user?.role == 'admin')
                     _buildMenuItem(
@@ -307,6 +311,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       title: 'Gestión de usuarios',
                       color: const Color(0xFF555555),
                       onTap: () {
+                        context.pushNamed('adminUsers');
                       },
                     ),
                     _buildMenuItem(icon: isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined, title: 'Modo ${isDarkMode ? "oscuro" : "claro"}', color: const Color(0xFF555555), trailing: SizedBox(
@@ -347,7 +352,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       title: 'Feedback',
                       color: const Color(0xFF555555),
                       onTap: () {
-                        // TODO: Implementar feedback
+                        showFeedbackDialog(context);
                       },
                     ),
                     _buildMenuItem(
@@ -731,7 +736,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               children: [
                 if(title != null)
                 Padding(
-                  padding: const EdgeInsets.only(top: 10,left: 10),
+                  padding: const EdgeInsets.only(top: 12,left: 16),
                   child: Text(
                     title,
                     style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: const Color(0xFF353535))
@@ -750,15 +755,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 7),
         child: Row(
           children: [
             Icon(icon, size: 20, color: color),
-            const SizedBox(width: 16),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
                 title,
-                style: GoogleFonts.montserrat(fontSize: 16, color: const  Color(0xFF000000).withOpacity(0.75),
+                style: GoogleFonts.montserrat(fontSize: 15, color: const  Color(0xFF000000).withOpacity(0.75), fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -799,15 +804,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               onExpansionChanged: (expanded) {
                 setState(() => _isExpanded = expanded);
               },
-              leading: const Icon(Icons.lock_outline, size: 20, color: Color(0xFF555555)),
-              title: Text(
-                "Cambiar Contraseña",
-                style: GoogleFonts.montserrat(
-                  fontSize: 16,
-                  color: const Color(0xFF000000).withOpacity(0.75),
-                  fontWeight: _isExpanded ? FontWeight.w600 : FontWeight.normal
-                ),
+              visualDensity: VisualDensity.compact,
+              title: Row(
+                children: [
+                  const Icon(Icons.lock_outline, size: 20, color: Color(0xFF555555)),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Cambiar Contraseña",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      color: const Color(0xFF000000).withOpacity(0.75),
+                      fontWeight: _isExpanded ? FontWeight.w600 : FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
+              leading: null,
+
 
               children: [
                 _passwordField("Contraseña actual"),
@@ -832,6 +845,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color(0xFFED7053),
+                            blurRadius: 16,      // intensidad
+                            offset: Offset(2, 8) // altura
+                        ),
+                      ],
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: ElevatedButton.icon(

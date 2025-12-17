@@ -7,12 +7,12 @@ import '../../core/theme/app_theme.dart';
 class CustomBottomBar extends ConsumerWidget {
   final VoidCallback onNoticias;
   final VoidCallback onAnuncios;
-  final BottomTab selectedTab;
+  final BottomTab? selectedTab;
   const CustomBottomBar({
     super.key,
     required this.onNoticias,
     required this.onAnuncios,
-    required this.selectedTab,
+    this.selectedTab,
   });
 
   @override

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/user.dart';
 import '../../providers/user_provider.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/utils/date_utils.dart';
+import '../../widgets/center_button.dart';
+import '../../widgets/custom_bottom_bar.dart';
 
 class UsersScreen extends ConsumerStatefulWidget {
   const UsersScreen({Key? key}) : super(key: key);
@@ -71,12 +77,12 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       AppLogger.debug('🔄 Logging: Toggling user status for ${user.fullName} (${user.id}) from ${user.isActive} to ${!user.isActive}');
       await ref.read(usersProvider.notifier).updateUserStatus(user.id, !user.isActive);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${user.fullName} ${user.isActive ? 'deshabilitado' : 'habilitado'} correctamente'),
+        Fluttertoast.showToast(
+            msg: '${user.fullName} ${user.isActive ? 'deshabilitado' : 'habilitado'} correctamente',
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
             backgroundColor: Colors.green,
-            duration: const Duration(seconds: 2),
-          ),
         );
       }
     } catch (e) {
@@ -133,13 +139,15 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         AppLogger.debug('🔄 Logging: Deleting user ${user.fullName} (${user.id})');
         await ref.read(usersProvider.notifier).deleteUser(user.id);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('${user.fullName} eliminado correctamente'),
+          Fluttertoast.showToast(
+              msg: '${user.fullName} eliminado correctamente',
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
               backgroundColor: Colors.green,
-              duration: const Duration(seconds: 2),
-            ),
+              fontSize: 16.0
           );
+
         }
       } catch (e) {
         AppLogger.error('Error deleting user', error: e);
@@ -177,7 +185,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Gestión de Usuarios'),
+            Text('Gestión de Usuarios', style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, fontSize: 17)),
             if (userState.searchQuery != null)
               Text(
                 '${userState.users.length} resultado${userState.users.length != 1 ? 's' : ''} encontrado${userState.users.length != 1 ? 's' : ''}',
@@ -185,31 +193,16 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               ),
           ],
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Buscar por nombre o email...',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _hasSearchText
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: _clearSearch,
-                      )
-                    : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.surface,
-              ),
-              onChanged: _onSearchChanged,
-            ),
-          ),
+        toolbarHeight: 75,
+        leadingWidth: 70,
+        leading: IconButton(
+          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
         ),
+        elevation: 6,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -218,12 +211,101 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
           ),
         ],
       ),
-      body: _buildBody(userState),
+      body: Stack(
+        children: [
+          Positioned(
+            top: -80,
+            right: 0,
+            child: Image.asset(
+              'assets/images/colores.png',
+              width: 260,
+              height: 380,
+              fit: BoxFit.contain,
+
+            ),
+          ),
+
+          Positioned(
+            bottom: -50,
+            left: 0,
+            child: Image.asset(
+              'assets/images/colores_2.png',
+              width: 201,
+              height: 280,
+              fit: BoxFit.contain,
+            ),
+          ),
+          OrientationBuilder(
+            builder: (context, orientation) {
+              final isLandscape = orientation == Orientation.landscape;
+
+              return Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(18)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: _onSearchChanged,
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por nombre o email...',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: _hasSearchText
+                              ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: _clearSearch,
+                          )
+                              : null,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  if (isLandscape)
+                    Expanded(child: _buildBody(userState,isLandscape))
+                  else
+                    _buildBody(userState,isLandscape),
+                ],
+              );
+            },
+          ),
+
+        ]
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: CustomBottomBar(
+          onNoticias: () {
+            AppLogger.info("Noticias tapped");
+            context.pushNamed('notice_list');
+          },
+          onAnuncios: () {
+            AppLogger.info("Anuncios tapped");
+            context.pushNamed('anuncio_list');
+          }, selectedTab: null,
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
+        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+        context.goNamed('home'); },),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+  Widget _buildBody(UserState state, bool isLandscape){
 
-  Widget _buildBody(UserState state) {
-    if (state.isLoading) {
+  if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -273,111 +355,145 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         ),
       );
     }
+  if (isLandscape) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: _dataTable(state)
+        ),
+      ),
+    );
+  }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: SingleChildScrollView(
-          child: DataTable(
-            headingRowColor: MaterialStateProperty.all(
-              Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
-            ),
-            sortColumnIndex: _sortColumnIndex,
-            sortAscending: _sortAscending,
-            columns: [
-              DataColumn(
-                label: const Text(
-                  'Nombre',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onSort: (columnIndex, ascending) => _sort<String>((user) => user.fullName, columnIndex),
-              ),
-              DataColumn(
-                label: const Text(
-                  'Email',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onSort: (columnIndex, ascending) => _sort<String>((user) => user.email, columnIndex),
-              ),
-              DataColumn(
-                label: const Text(
-                  'Estado',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onSort: (columnIndex, ascending) => _sort<String>((user) => user.isActive ? 'Activo' : 'Inactivo', columnIndex),
-              ),
-              const DataColumn(
-                label: Text(
-                  'Acciones',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              DataColumn(
-                label: const Text(
-                  'Creado',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onSort: (columnIndex, ascending) => _sort<String>((user) => user.createdAt ?? '', columnIndex),
-              ),
-            ],
-          rows: state.users.map((user) {
-            return DataRow(
-              cells: [
-                DataCell(Text(user.fullName)),
-                DataCell(Text(user.email)),
-                DataCell(
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: user.isActive ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      user.isActive ? 'Activo' : 'Inactivo',
-                      style: TextStyle(
-                        color: user.isActive ? Colors.green : Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-                DataCell(
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          user.isActive ? Icons.block : Icons.check_circle,
-                          color: user.isActive ? Colors.red : Colors.green,
-                        ),
-                        onPressed: () => _toggleUserStatus(user),
-                        tooltip: user.isActive ? 'Deshabilitar' : 'Habilitar',
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () => _deleteUser(user),
-                        tooltip: 'Eliminar usuario',
-                      ),
-                    ],
-                  ),
-                ),
-                DataCell(
-                  Text(
-                    user.createdAt != null 
-                        ? AppDateUtils.formatIsoStringToPeruTime(user.createdAt!)
-                        : 'N/A',
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
-              ],
-            );
-          }).toList(),
+        child: ClipRRect( borderRadius: BorderRadius.circular(16),child: _dataTable(state)),
+      ),
+    );
+  }
+  Widget _dataTable(UserState state){
+    return DataTable(
+      dataRowMinHeight: 72,
+      dataRowMaxHeight: 88,
+      headingRowHeight: 48,
+      headingRowColor: WidgetStateProperty.all(
+        const Color(0xFFFEF4F4),
+      ),
+      decoration: const BoxDecoration(color: Colors.white),
+      sortColumnIndex: _sortColumnIndex,
+      sortAscending: _sortAscending,
+      columns: [
+        DataColumn(
+          label: Text(
+            'Usuario',
+            style: GoogleFonts.montserrat(fontWeight: FontWeight.bold, fontSize: 14),
           ),
         ),
-      ),
+        DataColumn(
+          label: Text(
+            'Estado',
+            style: GoogleFonts.montserrat(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          onSort: (columnIndex, ascending) => _sort<String>((user) => user.isActive ? 'Activo' : 'Inactivo', columnIndex),
+        ),
+        DataColumn(
+          label: Text(
+            'Acciones',
+            style: GoogleFonts.montserrat(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+        ),
+      ],
+      rows: state.users.map((user) {
+        return DataRow(
+          cells: [
+            DataCell(
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // NOMBRE
+                    Text(
+                        user.fullName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600)
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    // EMAIL
+                    Text(
+                      user.email,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w400,  decoration: TextDecoration.underline,),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    // FECHA
+                    Text(
+                      user.createdAt != null
+                          ? 'Creado: ${AppDateUtils.formatIsoStringToPeruTime(user.createdAt!)}'
+                          : 'Creado: N/A',
+                      style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF4B5563)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            DataCell(
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: user.isActive ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  user.isActive ? 'Activo' : 'Inactivo',
+                  style: TextStyle(
+                    color: user.isActive ? Colors.green : Colors.red,
+                  ),
+                ),
+              ),
+            ),
+            DataCell(
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFDCFCE7)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF16A34A),onPressed: (){}, icon: const Icon(Icons.check)),
+                  IconButton(style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE3E3E3)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF000000),onPressed: (){}, icon: const Icon(Icons.close))
+
+                  /*IconButton(
+                    icon: Icon(
+                      user.isActive ? Icons.block : Icons.check_circle,
+                      color: user.isActive ? Colors.red : Colors.green,
+                    ),
+                    onPressed: () => _toggleUserStatus(user),
+                    tooltip: user.isActive ? 'Deshabilitar' : 'Habilitar',
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    onPressed: () => _deleteUser(user),
+                    tooltip: 'Eliminar usuario',
+                  ),*/
+                ],
+              ),
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
 } 

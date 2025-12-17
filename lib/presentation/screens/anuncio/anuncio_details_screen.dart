@@ -47,84 +47,53 @@ class AnuncioDetailScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8),
-              child: Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: SizedBox(
-                  width: 350,
-                  height: 110,
-                  child: Stack(
-                    children: [
-                      // Fondo azul degradado
-                      Positioned.fill(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            'assets/images/fondoCard.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      // Contenido centrado
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  if (alert.imageUrl == null || alert.imageUrl!.isEmpty) {
-                                    return _defaultImage(60);
-                                  }
-                                  return Image.network(
-                                    alert.imageUrl!,
-                                    width: 65,
-                                    height: 60,
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return _defaultImage(60);
-                                    },
-                                    loadingBuilder: (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return const SizedBox(
-                                        width: 65,
-                                        height: 60,
-                                        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(height: 8,),
-
-                            Text(
-                              'Nueva funcionalidad',
-                              style: GoogleFonts.montserrat(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+              padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        if (alert.imageUrl == null || alert.imageUrl!.isEmpty) {
+                          return _defaultImage(70);
+                        }
+                        return Image.network(
+                          alert.imageUrl!,
+                          width: 85,
+                          height: 70,
+                          fit: BoxFit.fill,
+                          errorBuilder: (context, error, stackTrace) {
+                            return _defaultImage(70);
+                          },
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const SizedBox(
+                              width: 65,
+                              height: 60,
+                              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 8,),
+
+                  Text(
+                    'Nueva funcionalidad',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
             ),
 
 
             Padding(
-              padding: const EdgeInsets.only(right: 20,left: 20),
+              padding: const EdgeInsets.only(right: 20,left: 20, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -169,15 +138,23 @@ Todas las funcionalidades ya están disponibles en tu cuenta. Explora el menú d
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        onNoticias: () {
-          AppLogger.info("Noticias tapped");
-          context.pushNamed('notice_list');
-        },
-        onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: CustomBottomBar(
+          onNoticias: () {
+            AppLogger.info("Noticias tapped");
+            context.pushNamed('notice_list');
+          },
+          onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
+        ),
       ),
-      floatingActionButton: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-      context.goNamed('home'); },),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
+        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+        context.goNamed('home'); },),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -185,7 +162,7 @@ Todas las funcionalidades ya están disponibles en tu cuenta. Explora el menú d
 
   Widget _defaultImage(double size) {
     return Container(
-      width: 65,
+      width: 85,
       height: size,
       decoration: BoxDecoration(
         color: const Color(0xFFE6F2FB),
