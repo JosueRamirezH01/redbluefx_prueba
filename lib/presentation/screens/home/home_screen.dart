@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
+import '../../../core/services/loginStorage.dart';
 import '../../providers/alert_provider.dart';
 import '../../widgets/alert_list.dart';
 import '../../widgets/app_bar.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
+
     _selectedType = AlertType.all;
     _animationController = AnimationController(
       vsync: this,
@@ -46,7 +48,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     _carouselPageController.dispose();
     super.dispose();
   }
-
   Future<void> _loadAlerts() async {
     try {
       await ref.read(alertsProvider.notifier).loadAlerts();

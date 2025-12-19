@@ -468,8 +468,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       ),
                                       padding: const EdgeInsets.symmetric(vertical: 12),
                                     ),
-                                    onPressed: () {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    onPressed: () async {
+                                     /* ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                           behavior: SnackBarBehavior.floating,
                                           shape: RoundedRectangleBorder(
@@ -505,7 +505,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                           ),
                                           duration: const Duration(seconds: 10),
                                         ),
-                                      );
+                                      );*/
                                      /* ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                           behavior: SnackBarBehavior.floating,
@@ -524,7 +524,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         ),
                                       );*/ /// MENSAJE DE CONTRASEÑA ACTUALIZADA
 
-                                      /*try {
+                                      try {
                                         await ref.read(authStateProvider.notifier).logout();
                                         if (context.mounted) {
                                           context.go('/login');
@@ -539,7 +539,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                             ),
                                           );
                                         }
-                                      }*/
+                                      }
                                     },
                                     child: Text(
                                       'Si, Salir',

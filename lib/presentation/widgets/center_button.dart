@@ -10,34 +10,21 @@ class CenterFloatingButton extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {  // 👈 ConsumerWidget usa WidgetRef
+  Widget build(BuildContext context, WidgetRef ref) {
     return Transform.translate(
       offset: const Offset(0, 16),
       child: Container(
         height: 60,
         width: 60,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          gradient: const LinearGradient(
+          gradient: RadialGradient(
             colors: [
-              Color(0xFF00A5FF),
-              Color(0xFF004C8F),
+              Color(0xFF61CDFF),
+              Color(0xFF005089),
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-            BoxShadow(
-              color: const Color(0xFF00A5FF).withOpacity(0.6),
-              blurRadius: 20,
-              spreadRadius: 6,
-            ),
-          ],
         ),
         child: IconButton(
           icon: const Icon(Icons.trending_up, color: Colors.white, size: 25),

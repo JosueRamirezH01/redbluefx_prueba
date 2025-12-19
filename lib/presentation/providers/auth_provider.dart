@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:redbluefx_mobile/core/services/loginStorage.dart';
 import '../../domain/entities/auth_state.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -132,7 +133,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = newState;
       
       await _persistState(newState);
-      
+
       _updateDeviceToken();
     } catch (e) {
       state = state.copyWith(
@@ -189,7 +190,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _repository.logout();
       
       await AuthPersistenceService.clearAuthState();
-      
+      await LoginStorage.clearCredentials();
       state = const AuthState();
     } catch (e) {
       await AuthPersistenceService.clearAuthState();

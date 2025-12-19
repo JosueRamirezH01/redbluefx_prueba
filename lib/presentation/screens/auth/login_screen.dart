@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:redbluefx_mobile/core/services/loginStorage.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/theme/app_theme.dart';
@@ -24,7 +25,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
   late AnimationController _animationController;
   bool _isPasswordVisible = false;
   bool _rememberMe = false;
-
   @override
   void initState() {
     super.initState();
@@ -258,10 +258,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                 _passwordController.text,
                 rememberMe: _rememberMe,
               );
-
+          Future.microtask(() => context.go('/home'));
           AppLogger.info('✅ Login exitoso');
           NotificationService.showSuccessToast('¡Bienvenido!');
-
+          if(_rememberMe){
+            print('--------- ${_rememberMe}');
+            await LoginStorage.saveCredentials(email: _emailController.text, password: _passwordController.text);
+          }else{
+            await LoginStorage.clearCredentials();
+          }
         } catch (e) {
           AppLogger.error('❌ Error en login', error: e);
 
@@ -322,10 +327,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
     final size = MediaQuery.of(context).size;
 
     // Redireccionar si está autenticado
-    if (authState.isAuthenticated) {
+    /*if (authState.isAuthenticated) {
       AppLogger.info('✅ Usuario autenticado, redirigiendo a home');
       Future.microtask(() => context.go('/home'));
-    }
+    }*/
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -631,8 +636,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                       width: double.infinity,
                                       height: 56,
                                       child: ElevatedButton(
-                                        onPressed: () => context.pushNamed('preLogin'),
-                                          //authState.isLoading ? null : _login,
+                                        onPressed: authState.isLoading ? null : _login,
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: const Color(0xFFBB0004),
                                           foregroundColor: Colors.white,

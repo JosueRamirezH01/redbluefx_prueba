@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redbluefx_mobile/core/services/loginStorage.dart';
 import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_details_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/auth/pre_login_screem.dart';
@@ -26,36 +27,44 @@ final router = GoRouter(
   navigatorKey: NavigationService().navigatorKey,
   initialLocation: '/',
   debugLogDiagnostics: false,
-  redirect: (context, state) {
+  redirect: (context, state) async {
+
     final location = state.matchedLocation;
+    bool rememberMe = await LoginStorage.getRememberMe();
     final isInitialLocation = location == '/';
     final isAuthRoute = location == '/login' || 
                        location == '/register' || 
                        location == '/forgot-password' ||
                        location == '/verify-reset-code' ||
                        location == '/reset-password' ||
-                       location == '/verify-email'||
-                        location == '/preLogin';
+                       location == '/verify-email';
 
-    if (isInitialLocation) return '/login';
+    if (isInitialLocation) return '/';
 
     final authState = ProviderScope.containerOf(context).read(authStateProvider);
     final isAuthenticated = authState.isAuthenticated;
 
-    if (!isAuthenticated && !isAuthRoute) return '/login';
-    if (isAuthenticated && isAuthRoute) return '/home';
+    if(!rememberMe){
+      if (!isAuthenticated) {
+        if (isInitialLocation || isAuthRoute) return null;
+        return '/';
+      }
+    }/*else{
+      if (isAuthenticated) {
+        if (isAuthRoute || isInitialLocation) return '/home';
+      }
+    }*/
 
     return null;
+   /* if (!isAuthenticated && !isAuthRoute) return '/login';
+    if (isAuthenticated && isAuthRoute) return '/home';
+
+    return null;*/
   },
   routes: [
     GoRoute(
       path: '/',
       name: 'splash',
-      builder: (context, state) => const SplashScreen(),
-    ),
-    GoRoute(
-      path: '/preLogin',
-      name: 'preLogin',
       builder: (context, state) => const PreLoginScreen(),
     ),
     GoRoute(
