@@ -631,7 +631,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                       width: double.infinity,
                                       height: 56,
                                       child: ElevatedButton(
-                                        onPressed: authState.isLoading ? null : _login,
+                                        onPressed: () => context.pushNamed('preLogin'),
+                                          //authState.isLoading ? null : _login,
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: const Color(0xFFBB0004),
                                           foregroundColor: Colors.white,

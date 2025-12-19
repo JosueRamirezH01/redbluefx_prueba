@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_details_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_screen.dart';
+import 'package:redbluefx_mobile/presentation/screens/auth/pre_login_screem.dart';
 import 'package:redbluefx_mobile/presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/admin/users_screen.dart';
 import '../../presentation/screens/admin/admin_alerts_screen.dart';
@@ -33,7 +34,8 @@ final router = GoRouter(
                        location == '/forgot-password' ||
                        location == '/verify-reset-code' ||
                        location == '/reset-password' ||
-                       location == '/verify-email';
+                       location == '/verify-email'||
+                        location == '/preLogin';
 
     if (isInitialLocation) return '/login';
 
@@ -50,6 +52,11 @@ final router = GoRouter(
       path: '/',
       name: 'splash',
       builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      path: '/preLogin',
+      name: 'preLogin',
+      builder: (context, state) => const PreLoginScreen(),
     ),
     GoRoute(
       path: '/login',
