@@ -355,7 +355,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                 center: Alignment.bottomLeft,
                 radius: 1.0,
                 colors: [
-                  const Color(0xFFE6332F).withOpacity(0.4),
+                  const Color(0xFFF1948A).withOpacity(0.4),
                   Colors.transparent,
                 ],
               ),
@@ -366,7 +366,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   center: Alignment.topRight,
                   radius: 1.0,
                   colors: [
-                    const Color(0xFFE6332F).withOpacity(0.4),
+                    const Color(0xFFF1948A).withOpacity(0.4),
                     Colors.transparent,
                   ],
                 ),

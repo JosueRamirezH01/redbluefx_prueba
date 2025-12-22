@@ -331,7 +331,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
 
                                   // Campo: Nombre completo
                                   Container(
-                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -358,6 +357,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                         labelStyle: GoogleFonts.inter(
                                           color: Colors.grey[600],
                                           fontSize: 16
+                                        ),
+                                        errorMaxLines: 2,
+                                        contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 14,
+                                          horizontal: 12,
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
@@ -393,7 +397,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
 
                                   // Campo de email - CON FOCUS NODE
                                   Container(
-                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -421,6 +424,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           color: Colors.grey[600],
                                           fontSize: 16
                                         ),
+                                        contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 14,
+                                          horizontal: 12,
+                                        ),
+                                        errorMaxLines: 2,
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
                                           Icons.email_outlined,
@@ -456,7 +464,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
 
                                   // Campo de contraseña - CON FOCUS NODE
                                   Container(
-                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -484,6 +491,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           color: Colors.grey[600],
                                           fontSize: 16
                                         ),
+                                        contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 14,
+                                          horizontal: 12,
+                                        ),
+                                        errorMaxLines: 2,
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
                                           Icons.lock_outline,
@@ -524,7 +536,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           return 'La contraseña debe tener al menos 6 caracteres';
                                         }
                                         if (!value.contains(RegExp(r'[A-Z]'))) {
-                                          return 'La contraseña debe contener al menos una mayúscula';
+                                          return 'La contraseña debe contener al menos\n una mayúscula';
                                         }
                                         if (!value.contains(RegExp(r'[0-9]'))) {
                                           return 'La contraseña debe contener al menos un número';
@@ -542,7 +554,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                   // Campo de confirmar contraseña - CON FOCUS NODE
                                   const SizedBox(height: 8),
                                   Container(
-                                    height: 52,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -569,6 +580,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                         labelStyle: GoogleFonts.inter(
                                           color: Colors.grey[600],
                                           fontSize: 16
+                                        ),
+                                        errorMaxLines: 2,
+                                        contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 14,
+                                          horizontal: 12,
                                         ),
                                         floatingLabelBehavior: FloatingLabelBehavior.never,
                                         prefixIcon: const Icon(
