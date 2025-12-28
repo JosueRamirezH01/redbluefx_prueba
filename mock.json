@@ -1,0 +1,100 @@
+{
+    "success": true,
+    "message": "Ranking del concurso obtenido exitosamente",
+    "data": {
+        "contest": {
+            "id": 1,
+            "title": "Infinity Health - Bootcamp",
+            "description": "Descripcion para  Infinity Health - Bootcamp",
+            "start_date": "2025-12-01T00:00:00Z",
+            "end_date": "2025-12-31T00:00:00Z",
+            "is_active": true,
+            "is_ongoing": true,
+            "has_ended": false
+        },
+        "ranking": [
+            {
+                "rank": 1,
+                "id": 9,
+                "username": "elonmosk",
+                "email": "yamizakiarakaki@gmail.com",
+                "first_name": "",
+                "last_name": "",
+                "full_name": "elonmosk",
+                "stk_user": true,
+                "referral_code": "REF-39A260EE",
+                "total_consumption": "2161.80",
+                "orders_count": 1
+            },
+            {
+                "rank": 2,
+                "id": 170,
+                "username": "ciroalata7",
+                "email": "ciroalata7@gmail.com",
+                "first_name": "Ciro",
+                "last_name": "",
+                "full_name": "Ciro",
+                "stk_user": true,
+                "referral_code": "REF-CC3EEEA0",
+                "total_consumption": "1489.00",
+                "orders_count": 2
+            },
+            {
+                "rank": 3,
+                "id": 56,
+                "username": "ELIZA24",
+                "email": "elizacusi2420@gmail.com",
+                "first_name": "ELIZA CAROLINA",
+                "last_name": "Cusi Chuquihuayta",
+                "full_name": "ELIZA CAROLINA Cusi Chuquihuayta",
+                "stk_user": true,
+                "referral_code": "REF-64FDCD98",
+                "total_consumption": "1444.50",
+                "orders_count": 2
+            },
+            {
+                "rank": 4,
+                "id": 586,
+                "username": "NapoPro.C",
+                "email": "procer_02@hotmail.com",
+                "first_name": "Prospero Napoleon",
+                "last_name": "",
+                "full_name": "Prospero Napoleon",
+                "stk_user": true,
+                "referral_code": "REF-E11F22EF",
+                "total_consumption": "1205.00",
+                "orders_count": 1
+            },
+            {
+                "rank": 5,
+                "id": 368,
+                "username": "maytealine",
+                "email": "camachomaytealine@gmail.com",
+                "first_name": "MAYTE ALINE",
+                "last_name": "",
+                "full_name": "MAYTE ALINE",
+                "stk_user": true,
+                "referral_code": "REF-22903BE8",
+                "total_consumption": "1205.00",
+                "orders_count": 1
+            }
+        ],
+        "current_user_position": {
+            "rank": 1,
+            "id": 9,
+            "username": "elonmosk",
+            "email": "yamizakiarakaki@gmail.com",
+            "first_name": "",
+            "last_name": "",
+            "full_name": "elonmosk",
+            "stk_user": true,
+            "referral_code": "REF-39A260EE",
+            "total_consumption": "2161.80",
+            "orders_count": 1
+        },
+        "is_in_ranking": true
+    }
+}
+
+"current_user_position": null,
+        "is_in_ranking": null

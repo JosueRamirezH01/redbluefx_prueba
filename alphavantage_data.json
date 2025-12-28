@@ -1,0 +1,1146 @@
+{
+  "tech_stocks": [
+    {
+      "title": "Apple Inc. $AAPL es la posición más grande de Berkshire Hathaway Inc.",
+      "description": "Berkshire Hathaway Inc. redujo su participación en Apple Inc. en un 6,7% en el segundo trimestre, pero Apple todavía constituye el 22,3% de las participaciones de Berkshire, lo que la convierte en su posición más grande. Apple recientemente superó las expectativas de ganancias, reportando un EPS de 1,85 dólares e ingresos de 102,47 mil millones de dólares, lo que llevó a una calificación de analista de \"Compra moderada\". A pesar de las ventas internas, los inversores institucionales poseen el 67,73% de la empresa y sus acciones muestran una capitalización de mercado de 4,11 billones de dólares.",
+      "url": "https://www.marketbeat.com/instant-alerts/filing-apple-inc-aapl-is-berkshire-hathaway-incs-largest-position-2025-12-13/",
+      "image_url": "https://www.marketbeat.com/logos/apple-inc-logo-1200x675.png",
+      "source": "MarketBeat",
+      "published_at": "20251213T095019",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.161008,
+      "tickers": [
+        "AAPL",
+        "MSFT",
+        "GOOGL",
+        "TSLA"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "finance",
+        "technology"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "Perspectiva de las acciones de Snap Inc (SNAP) – diciembre de 2025: la prohibición de Rusia, las ofertas de IA y las apuestas de RA vuelven a poner el foco en Snapchat",
+      "description": "Snap Inc. (SNAP) cerró a 7,91 dólares el 5 de diciembre de 2025, marcando su tercer día consecutivo de ganancias, pero permaneciendo significativamente por debajo de su máximo histórico de 2021 en medio de innovaciones de productos y desafíos regulatorios. Los resultados del tercer trimestre de 2025 de la compañía mostraron un crecimiento de los ingresos y una mejora de las métricas de los usuarios, impulsados ​​por herramientas publicitarias impulsadas por IA, la expansión de la plataforma AR y el creciente servicio de suscripción Snapchat+. Sin embargo, la acción enfrenta obstáculos debido a una prohibición de Rusia, la ley de la nueva era de Australia y una demanda colectiva, lo que lleva a los analistas a mantener una calificación de \"Mantener\" con objetivos de precios mixtos.",
+      "url": "https://ts2.tech/en/snap-inc-snap-stock-outlook-december-2025-russia-ban-ai-deals-and-ar-bets-put-the-spotlight-back-on-snapchat/",
+      "image_url": "https://ts2.tech/wp-content/plugins/wp-youtube-lyte/lyteCache.php?origThumbUrl=https%3A%2F%2Fi.ytimg.com%2Fvi%2FOFRr8toLihc%2F0.jpg",
+      "source": "ts2.tech",
+      "published_at": "20251211T180922",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.039404,
+      "tickers": [
+        "SNAP",
+        "MSFT",
+        "GOOGL",
+        "AAPL"
+      ],
+      "topics": [
+        "earnings",
+        "technology",
+        "financial_markets"
+      ],
+      "authors": [
+        "Khadija Saeed"
+      ]
+    },
+    {
+      "title": "Alphabet Inc. (GOOGL): Navegando por la frontera de la IA en medio de obstáculos regulatorios",
+      "description": "Alphabet Inc. (GOOGL) sigue siendo una fuerza dominante en la industria tecnológica, impulsada por su agresivo liderazgo en inteligencia artificial, su sólido crecimiento en Google Cloud y la fortaleza duradera de sus principales negocios publicitarios. La compañía enfrenta importantes desafíos regulatorios, en particular demandas antimonopolio en los EE. UU. y la UE, pero sus inversiones estratégicas en infraestructura de inteligencia artificial y su cartera diversa la posicionan para un crecimiento continuo a largo plazo. Los inversores son en gran medida optimistas, aunque siguen siendo cautelosos respecto de los actuales gastos de capital y la intensa competencia en el espacio de la IA.",
+      "url": "https://markets.financialcontent.com/wral/article/predictstreet-2025-12-11-alphabet-inc-googl-navigating-the-ai-frontier-amidst-regulatory-headwinds",
+      "image_url": "https://news.predictstreet.ai/wp-content/uploads/2025/12/51caf791-4250-4df7-af28-126e683a4b29-1024x683.png",
+      "source": "Markets Financial Content",
+      "published_at": "20251211T162300",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.13189,
+      "tickers": [
+        "GOOGL",
+        "MSFT",
+        "AMZN",
+        "AAPL",
+        "META"
+      ],
+      "topics": [
+        "technology",
+        "earnings",
+        "financial_markets",
+        "economy_macro"
+      ],
+      "authors": [
+        "PredictStreet"
+      ]
+    },
+    {
+      "title": "Por qué las acciones de Microsoft cayeron hoy",
+      "description": "Las acciones de Microsoft cayeron casi un 3% tras una carta de un grupo bipartidista de fiscales generales estatales que expresaban su preocupación por los chatbots de IA. La carta advertía a las principales empresas tecnológicas, incluida Microsoft, sobre \"resultados aduladores y delirantes\" y problemas de seguridad infantil, y pedía acciones inmediatas y auditorías independientes. A pesar de esta presión regulatoria, el artículo sugiere que Microsoft probablemente encontrará una manera de operar de manera efectiva, como lo ha hecho con desafíos regulatorios anteriores.",
+      "url": "https://finviz.com/news/251132/why-microsoft-stock-tumbled-today",
+      "image_url": "https://g.foolcdn.com/image/?url=https%3A%2F%2Fg.foolcdn.com%2Feditorial%2Fimages%2F846587%2Fconcerned-young-person-with-head-in-hands-gazing-at-a-screen.jpg&w=700",
+      "source": "Finviz",
+      "published_at": "20251210T220913",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.001,
+      "tickers": [
+        "MSFT",
+        "META",
+        "GOOGL",
+        "AAPL",
+        "ORCL"
+      ],
+      "topics": [
+        "technology",
+        "financial_markets"
+      ],
+      "authors": [
+        "Eric Volkman"
+      ]
+    },
+    {
+      "title": "Adobe Photoshop, Express y Acrobat ahora disponibles gratis en ChatGPT",
+      "description": "Adobe está integrando funciones de Photoshop, Express y Acrobat directamente en ChatGPT de forma gratuita, lo que permite a los usuarios realizar ediciones de imágenes, crear animaciones y administrar archivos PDF mediante indicaciones en lenguaje natural. Esta integración tiene como objetivo hacer que las herramientas de Adobe sean más accesibles y proporcionar una forma más rápida para que los usuarios nuevos y profesionales realicen ediciones rápidas dentro de ChatGPT, con opciones para realizar una transición sin problemas a las aplicaciones completas basadas en web para un control avanzado. Las nuevas funcionalidades están disponibles en ChatGPT de escritorio, web e iOS, y pronto habrá soporte de Android para Photoshop y Acrobat.",
+      "url": "https://9to5mac.com/2025/12/10/adobe-photoshop-express-and-acrobat-now-available-for-free-on-chatgpt/",
+      "image_url": "https://9to5mac.com/wp-content/uploads/sites/6/2025/12/chatgpt-photoshop.jpg?quality=82&strip=all&w=1600",
+      "source": "9to5Mac",
+      "published_at": "20251210T130804",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.333357,
+      "tickers": [
+        "ADBE",
+        "GOOGL",
+        "MSFT",
+        "AAPL"
+      ],
+      "topics": [
+        "technology"
+      ],
+      "authors": [
+        "Marcus Mendes"
+      ]
+    },
+    {
+      "title": "Datos clave: Apple invierte en IA; Se enfrenta a cambios de liderazgo y competencia",
+      "description": "Apple Inc. (AAPL) está invirtiendo activamente en infraestructura de IA y centros de datos, alineándose con otras empresas tecnológicas importantes en la carrera de la IA. La empresa está experimentando importantes cambios de liderazgo, incluidas renuncias de ejecutivos clave en inteligencia artificial y diseño, que están afectando al equipo directivo del director ejecutivo Tim Cook. Estos cambios, junto con la caza furtiva de talentos por parte de los rivales y los retrasos en los productos, han provocado reacciones negativas en el mercado.",
+      "url": "https://www.tradingview.com/news/tradingview:873f3e1a91c6c:0-key-facts-apple-invests-in-ai-faces-leadership-changes-and-competition/",
+      "image_url": "NULL",
+      "source": "TradingView",
+      "published_at": "20251207T200804",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.116731,
+      "tickers": [
+        "AAPL",
+        "MSFT",
+        "GOOGL",
+        "AMZN",
+        "META"
+      ],
+      "topics": [
+        "technology",
+        "financial_markets"
+      ],
+      "authors": [
+        "NULL"
+      ]
+    },
+    {
+      "title": "Acciones de Spotify (SPOT) el 7 de diciembre de 2025: reestructuración del liderazgo, alta valoración y previsiones para 2026",
+      "description": "Las acciones de Spotify (SPOT) están atravesando una transición de liderazgo con Daniel Ek dando un paso atrás mientras enfrenta una alta valoración y opiniones mixtas de los analistas a partir del 7 de diciembre de 2025. La compañía continúa mostrando un fuerte crecimiento de usuarios, aprovechando su campaña Wrapped y expandiéndose al video, pero los inversores están observando cómo el modelo de co-CEO afectará su desempeño y abordará los riesgos competitivos y económicos en 2026. La trayectoria actual de la acción resalta un tira y afloja entre el optimismo de crecimiento a largo plazo y preocupaciones sobre la volatilidad a corto plazo.",
+      "url": "https://ts2.tech/en/spotify-spot-stock-on-december-7-2025-leadership-shake-up-high-valuation-and-2026-forecasts/",
+      "image_url": "https://ts2.tech/wp-content/plugins/wp-youtube-lyte/lyteCache.php?origThumbUrl=https%3A%2F%2Fi.ytimg.com%2Fvi%2F6K__q64fdIE%2F0.jpg",
+      "source": "ts2.tech",
+      "published_at": "20251207T170858",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.001,
+      "tickers": [
+        "SPOT",
+        "GOOGL",
+        "AAPL",
+        "AMZN",
+        "MSFT"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "technology",
+        "economy_macro",
+        "finance"
+      ],
+      "authors": [
+        "Shan Ahmed Khan"
+      ]
+    },
+    {
+      "title": "S&P: Las perspectivas crediticias globales para 2026 parecen resistentes, aunque desiguales, según un informe",
+      "description": "S&P Global Ratings predice una perspectiva crediticia global resiliente pero desigual para 2026, impulsada por un crecimiento económico sostenido, inversiones en tecnología y refinanciamiento proactivo. Si bien se espera que los impagos se mantengan contenidos, las tensiones geopolíticas y la posible sobreinversión en IA podrían generar volatilidad y desafíos. El informe destaca desempeños divergentes entre sectores y geografías: Estados Unidos y China se desaceleran mientras la eurozona se recupera y los mercados emergentes continúan su racha de resiliencia.",
+      "url": "https://press.spglobal.com/2025-12-03-S-P-Global-Credit-Outlook-For-2026-Looks-Resilient,-If-Uneven,-Report-Says",
+      "image_url": "https://mma.prnewswire.com/media/2837675/SP_Global_Ratings_Logo.jpg",
+      "source": "S&P Global",
+      "published_at": "20251203T220832",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.158413,
+      "tickers": [
+        "SPGI",
+        "MSFT",
+        "GOOGL",
+        "AMZN",
+        "AAPL"
+      ],
+      "topics": [
+        "financial_markets",
+        "economy_macro",
+        "economy_monetary",
+        "technology"
+      ],
+      "authors": []
+    },
+    {
+      "title": "Acciones de Google (Alfabeto GOOGL) hoy, 3 de diciembre de 2025: chips AI, Gemini 3 y nuevos precios objetivos de $ 375",
+      "description": "Las acciones de Alphabet (GOOGL) cotizan cerca de máximos históricos, impulsadas por el optimismo en materia de IA, las nuevas actualizaciones de Wall Street y la creciente creencia de que sus chips internos de IA podrían rivalizar con el dominio de Nvidia. El artículo cubre el precio, el impulso, la valoración de GOOGL, el impacto de los chips Gemini 3 y TPU, el crecimiento de Google Cloud y los desafíos regulatorios, junto con los objetivos de precios de los analistas y la inversión institucional.",
+      "url": "https://ts2.tech/en/google-stock-alphabet-googl-today-december-3-2025-ai-chips-gemini-3-and-new-375-price-targets/",
+      "image_url": null,
+      "source": "ts2.tech",
+      "published_at": "20251203T153703",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.307458,
+      "tickers": [
+        "GOOGL",
+        "GOOG",
+        "NVDA",
+        "MSFT",
+        "AAPL"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "technology"
+      ],
+      "authors": [
+        "Marcin Frąckiewicz"
+      ]
+    },
+    {
+      "title": "Garante: JPMorgan Chase & Co.",
+      "description": "JPMorgan Chase Financial Company LLC ofrece Auto Callable Accelerated Barrier Notes vinculados al desempeño del Dow Jones Industrial Average®, el Nasdaq-100® Technology Sector Index y el Russell 2000® Index, con pagos totalmente garantizados por JPMorgan Chase & Co. Estas inversiones estructuradas se dirigen a inversores que buscan una salida anticipada con una prima o una apreciación sin límite, pero también implican riesgos que incluyen una posible pérdida de capital y riesgos crediticios. Está previsto que los pagarés coticen su precio alrededor del 10 de diciembre de 2025 y se liquiden alrededor del 15 de diciembre de 2025.",
+      "url": "https://www.streetinsider.com/SEC+Filings/Form+424B2+JPMORGAN+CHASE+%26amp%3B+CO/25693361.html",
+      "image_url": null,
+      "source": "StreetInsider",
+      "published_at": "20251203T142300",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.037073,
+      "tickers": [
+        "JPM",
+        "GOOGL",
+        "AAPL",
+        "MSFT"
+      ],
+      "topics": [
+        "financial_markets",
+        "finance",
+        "technology"
+      ],
+      "authors": []
+    }
+  ],
+  "crypto": [
+    {
+      "title": "MSCI no se equivoca al ser cauteloso con los DAT",
+      "description": "La posible exclusión por parte de MSCI de los tesoros de activos digitales (DAT) de sus índices es una medida cautelosa y válida, considerando los importantes riesgos y problemas estructurales asociados con muchos de estos vehículos de inversión. Si bien algunos DAT establecidos como Strategy son sólidos, la rápida proliferación de DAT nuevos, altamente apalancados y a menudo mal estructurados plantea riesgos sustanciales para los inversores, particularmente en medio de las caídas del mercado criptográfico. El autor sostiene que la postura de MSCI es un paso necesario para la protección de los inversores y una señal de la integración del mercado de criptomonedas en las finanzas tradicionales, lo que en última instancia fortalecerá a las empresas legítimas de activos digitales.",
+      "url": "https://www.coindesk.com/opinion/2025/12/12/msci-isn-t-wrong-to-be-cautious-on-dats",
+      "image_url": "https://cdn.sanity.io/images/s3y3vcno/production/8ea70dcf25af8f0f672cfd4eb347ce6d5d14c497-3840x2160.png?auto=format&w=3840&q=75",
+      "source": "CoinDesk",
+      "published_at": "20251213T160237",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.054198,
+      "tickers": [
+        "MSCI",
+        "COIN",
+        "JPM"
+      ],
+      "topics": [
+        "financial_markets",
+        "blockchain"
+      ],
+      "authors": [
+        "Nic Puckrin"
+      ]
+    },
+    {
+      "title": "La brecha de las acciones de Eightco (NASDAQ:ORBS) disminuye: ¿debería vender?",
+      "description": "Las acciones de Eightco (NASDAQ:ORBS) cayeron 0,13 dólares, abriendo a 2,77 dólares después de cerrar a 2,90 dólares, con un volumen de 723.260 acciones. Los analistas tienen una perspectiva bajista, con Weiss Ratings reiterando \"vender (d-)\" y Wall Street Zen rebajando su calificación a \"vender\", lo que resultó en una calificación de consenso de MarketBeat de \"Vender\". Los fundamentos de la empresa son débiles: reportan un beneficio por acción (BPA) ($0,58), un margen neto negativo de ~74%, un ROE negativo de -14,76% y un P/U negativo de -2,02.",
+      "url": "https://www.marketbeat.com/instant-alerts/eightco-nasdaqorbs-shares-gap-down-should-you-sell-2025-12-11/",
+      "image_url": "https://www.marketbeat.com/logos/eightco-holdings-inc-logo-1200x675.png?v=20251202075006",
+      "source": "MarketBeat",
+      "published_at": "20251213T140849",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.001,
+      "tickers": [
+        "ORBS"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "finance",
+        "blockchain"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "Las acciones de Iris Energy se ven afectadas por una liquidación en todo el sector",
+      "description": "Las acciones de Iris Energy (IREN) experimentaron una importante caída del 8,7% debido a una liquidación en todo el sector provocada por los decepcionantes resultados trimestrales de Oracle, que generaron preocupaciones sobre las inversiones en infraestructura de IA. La acción cerró por debajo del precio de su reciente aumento de capital, lo que indica una señal bajista para los inversores. A pesar del retroceso, los analistas siguen confiando en el potencial a largo plazo de Iris Energy, con objetivos de precios que oscilan entre 56 y 69 dólares por acción.",
+      "url": "https://www.ad-hoc-news.de/boerse/news/ueberblick/iris-energy-shares-hit-by-sector-wide-sell-off/68419775",
+      "image_url": "NULL",
+      "source": "AD HOC NEWS",
+      "published_at": "20251213T135804",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.047479,
+      "tickers": [
+        "IREN"
+      ],
+      "topics": [
+        "financial_markets",
+        "technology",
+        "blockchain",
+        "earnings",
+        "economy_macro"
+      ],
+      "authors": [
+        "NULL"
+      ]
+    },
+    {
+      "title": "Netcapital surge con el nombramiento de Rich Wheeless como director ejecutivo",
+      "description": "Netcapital Inc. (NCPL) ha experimentado un aumento de acciones del 4,72% tras el nombramiento de Rich Wheeless como director ejecutivo y su movimiento estratégico para duplicar las inversiones en nuevas empresas de IA. A pesar de este sentimiento positivo del mercado y de iniciativas estratégicas como la integración de blockchain, la empresa todavía enfrenta importantes desafíos financieros, incluidos índices de rentabilidad negativos y una disminución de los ingresos. El artículo destaca que, si bien estos cambios ofrecen potencial para el crecimiento futuro, los obstáculos operativos actuales exigen una cuidadosa asignación estratégica de recursos.",
+      "url": "https://www.timothysykes.com/news/netcapitalinc-ncpl-news-2025_12_12-2/",
+      "image_url": "https://content.timothysykes.com/cdn-cgi/image/quality=90,format=webp,width=740/https://content.timothysykes.com/wp-content/uploads/2025/12/netcapitals-stock-soars-sceo-appointment-sparks-investor-confidences.png",
+      "source": "www.timothysykes.com",
+      "published_at": "20251213T110953",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.001,
+      "tickers": [
+        "NCPL"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "finance",
+        "technology",
+        "blockchain"
+      ],
+      "authors": [
+        "Bryce Tuohey",
+        "Tim Sykes",
+        "Matt Monaco"
+      ]
+    },
+    {
+      "title": "El ETF ProShares Short Ether Strategy experimenta una importante salida en medio del declive del Ether",
+      "description": "El ETF ProShares Short Ether Strategy (SETH) experimentó una importante salida de más de 1,2 millones de dólares, lo que representa el 10,60 % de sus activos bajo gestión, al 5 de diciembre de 2025. Esta salida coincide con una caída del 29,22 % en ETH-USD durante los últimos tres meses y una señal técnica actual de \"Venta\" para Ether, lo que indica un cambio bajista en el sentimiento de los inversores.",
+      "url": "https://www.tipranks.com/news/cryptocurrencies/proshares-short-ether-strategy-etf-sees-major-outflow-amidst-ethers-decline",
+      "image_url": "https://blog.tipranks.com/wp-content/uploads/2025/06/01a183bb10deb98bba1b5041018b2551-750x406.png",
+      "source": "TipRanks",
+      "published_at": "20251213T100934",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.001,
+      "tickers": [
+        "SETH"
+      ],
+      "topics": [
+        "blockchain",
+        "financial_markets",
+        "finance"
+      ],
+      "authors": [
+        "TipRanks FXCryptoETFsAuto-Generated Newsdesk"
+      ]
+    },
+    {
+      "title": "Volatility Shares Trust XRP 2X ETF recibe una entrada de 3,95 millones de dólares en medio de un sentimiento criptográfico bajista",
+      "description": "El 12 de diciembre de 2025, el ETF Volatility Shares Trust XRP 2X (XRPT) experimentó una importante entrada de 3,95 millones de dólares, a pesar de que el activo relacionado, XRP-USD, mostró un sentimiento bajista con una caída del 32,75% en los últimos tres meses. Esta entrada aumentó los activos bajo gestión del fondo en un 3,33%, lo que sugiere una posible confianza de los inversores o un posicionamiento estratégico en medio de las condiciones del mercado. XRP-USD cotiza actualmente a 2,0312 dólares, con una señal técnica de 1 día de \"Vender\".",
+      "url": "https://www.tipranks.com/news/cryptocurrencies/volatility-shares-trust-xrp-2x-etf-sees-3-95m-inflow-amidst-bearish-crypto-sentiment",
+      "image_url": "https://blog.tipranks.com/wp-content/uploads/2025/06/64f6a82af66066f0168d5ecb047ed582-750x406.png",
+      "source": "TipRanks",
+      "published_at": "20251213T100921",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.132742,
+      "tickers": [
+        "XRPT"
+      ],
+      "topics": [
+        "blockchain",
+        "financial_markets"
+      ],
+      "authors": [
+        "TipRanks FXCryptoETFsAuto-Generated Newsdesk"
+      ]
+    },
+    {
+      "title": "Volatility Shares Trust XRP ETF registra entradas de más de 1,2 millones de dólares en medio de la volatilidad del mercado",
+      "description": "El ETF Volatility Shares Trust XRP (XRPI) experimentó importantes entradas de más de 1,2 millones de dólares el 5 de diciembre de 2025, lo que representa el 0,78% de sus activos totales bajo gestión. Esta afluencia se produjo a pesar de una caída del 32,75% en el activo relacionado, XRP-USD, durante los últimos tres meses, y el análisis técnico actual indica una señal de \"venta\". Se recomienda a los inversores que tengan precaución debido a la volatilidad del mercado.",
+      "url": "https://www.tipranks.com/news/cryptocurrencies/volatility-shares-trust-xrp-etf-sees-over-1-2m-inflows-amidst-market-volatility",
+      "image_url": "https://blog.tipranks.com/wp-content/uploads/2025/06/b560812f4cb0e6652c5e46340308fc2d-750x406.png",
+      "source": "TipRanks",
+      "published_at": "20251213T100845",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.320589,
+      "tickers": [
+        "XRPI"
+      ],
+      "topics": [
+        "blockchain",
+        "financial_markets",
+        "finance"
+      ],
+      "authors": [
+        "NULL"
+      ]
+    },
+    {
+      "title": "Beryl Capital Management LLC adquiere acciones de 400.000 IREN Limited $IREN",
+      "description": "Beryl Capital Management LLC compró recientemente 400.000 acciones de IREN Limited, valoradas en aproximadamente 5,83 millones de dólares, lo que la convierte en su decimosexta participación más grande. Otros inversores institucionales también han ajustado sus posiciones en IREN, que actualmente tiene una calificación de consenso de \"compra moderada\" por parte de los analistas con un precio objetivo promedio de 69,85 dólares. La empresa, anteriormente conocida como Iris Energy Limited, opera centros de datos de minería de bitcoins.",
+      "url": "https://www.marketbeat.com/instant-alerts/filing-beryl-capital-management-llc-acquires-shares-of-400000-iren-limited-iren-2025-12-13/",
+      "image_url": "https://www.marketbeat.com/logos/iren-limited-logo-1200x675.png?v=20250721171954",
+      "source": "MarketBeat",
+      "published_at": "20251213T090844",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.517801,
+      "tickers": [
+        "IREN"
+      ],
+      "topics": [
+        "financial_markets",
+        "earnings",
+        "technology",
+        "blockchain"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "HIVE Digital Technologies Ltd. (NASDAQ:HIVE) recibió una recomendación promedio de \"compra moderada\" por parte de las casas de bolsa",
+      "description": "Diez firmas de corretaje han otorgado a HIVE Digital Technologies Ltd. (NASDAQ:HIVE) una calificación promedio de \"compra moderada\", con ocho calificaciones de compra, una de retención y una de venta, y un precio objetivo de 8,125 dólares. Los principales fondos de cobertura han aumentado sus participaciones, elevando la propiedad institucional al 24,42%. A pesar de no cumplir con las expectativas de BPA, la empresa superó las previsiones de ingresos, aunque sigue generando pérdidas.",
+      "url": "https://www.marketbeat.com/instant-alerts/hive-digital-technologies-ltd-nasdaqhive-given-average-recommendation-of-moderate-buy-by-brokerages-2025-12-13/",
+      "image_url": "https://www.marketbeat.com/logos/hive-digital-technologies-ltd-logo-1200x675.png?v=20240523105317",
+      "source": "MarketBeat",
+      "published_at": "20251213T060948",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.29516,
+      "tickers": [
+        "HIVE"
+      ],
+      "topics": [
+        "earnings",
+        "blockchain",
+        "financial_markets"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "El ETF 2x Solana pasará a ser ex dividendo el 15 de diciembre de 2025 con un dividendo de 0,004 USD por acción",
+      "description": "Está previsto que el ETF 2x Solana (SOLT.US) funcione sin dividendo el 15 de diciembre de 2025, con un pago de dividendo de 0,004 USD por acción. Los accionistas registrados en esta fecha recibirán el dividendo el 16 de diciembre de 2025. El artículo también proporciona definiciones generales de dividendos en efectivo y en acciones.",
+      "url": "https://news.futunn.com/en/post/66154765/2x-solana-etf-to-go-ex-dividend-on-december-15th",
+      "image_url": "NULL",
+      "source": "富途牛牛",
+      "published_at": "20251213T060926",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.001,
+      "tickers": [
+        "SOLT"
+      ],
+      "topics": [
+        "earnings",
+        "blockchain"
+      ],
+      "authors": [
+        "NULL"
+      ]
+    }
+  ],
+  "commodities": [
+    {
+      "title": "Union Pacific nombra al director ejecutivo de CF Industries, Tony Will, miembro de la junta directiva",
+      "description": "Union Pacific Corporation anunció el nombramiento de W. Anthony \"Tony\" Will, director ejecutivo de CF Industries Holdings, a su junta directiva, a partir del 6 de enero de 2026. Will, que planea retirarse de CF Industries el 4 de enero de 2026, aporta una amplia experiencia de liderazgo al gigante ferroviario con capitalización de mercado de $142 mil millones. Esta medida se produce tras un sólido desempeño financiero y aprobaciones estratégicas para Union Pacific, incluido el apoyo abrumador de los accionistas a una fusión con Norfolk Southern.",
+      "url": "https://www.investing.com/news/company-news/union-pacific-appoints-cf-industries-ceo-tony-will-to-board-of-directors-93CH-4406706",
+      "image_url": "https://i-invdn-com.investing.com/news/news_pile_69x52._800x533_L_1419494209.jpg",
+      "source": "Investing.com",
+      "published_at": "20251213T170910",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.242353,
+      "tickers": [
+        "UNP",
+        "CF",
+        "NSC"
+      ],
+      "topics": [
+        "mergers_and_acquisitions",
+        "finance",
+        "earnings",
+        "energy_transportation"
+      ],
+      "authors": [
+        "Investing.com"
+      ]
+    },
+    {
+      "title": "Petroleo Brasileiro S.A.- Petrobras (NYSE:PBR) planea dividendo especial de $0,07",
+      "description": "Petroleo Brasileiro S.A.- Petrobras (NYSE:PBR) ha declarado un dividendo especial de 0,0658 dólares por acción, pagadero el 27 de marzo a los accionistas registrados el 26 de diciembre. El dividendo está bien cubierto, con un índice de pago actual del 28,7% y un índice de pago futuro proyectado del 22,6%, respaldado por las estimaciones de EPS de los analistas de 3,10 dólares para el próximo año. Las acciones de la compañía muestran sólidos indicadores financieros, incluida una relación P/E de 5,64 y ganancias recientes superiores.",
+      "url": "https://www.marketbeat.com/instant-alerts/petroleo-brasileiro-sa-petrobras-nysepbr-plans-007-special-dividend-2025-12-12/",
+      "image_url": "https://www.marketbeat.com/logos/petroleo-brasileiro-sa-logo-1200x675.jpg",
+      "source": "MarketBeat",
+      "published_at": "20251213T170252",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.038825,
+      "tickers": [
+        "PBR-A"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "energy_transportation",
+        "finance"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "Jim Cramer sobre AES: \"Me ha gustado estar aquí\"",
+      "description": "Jim Cramer expresó una perspectiva positiva sobre The AES Corporation (NYSE: AES), viendo una oportunidad de compra debido a su valoración actual a pesar de las aversiones pasadas. Esta perspectiva surge en un momento en que AES se beneficia de una importante demanda de energía renovable en los centros de datos, y los recientes rumores de interés de adquisición aumentan aún más el potencial de las acciones. Sin embargo, el artículo también sugiere que ciertas acciones de IA podrían ofrecer mayores ventajas con menos riesgo.",
+      "url": "https://finviz.com/news/253496/jim-cramer-on-aes-ive-taken-a-liking-to-it-down-here",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2021/11/24100003/joshua-mayo-bmj1Vl77ZWM-unsplash.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T170117",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.402815,
+      "tickers": [
+        "AES"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation",
+        "earnings",
+        "economy_macro"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer sobre J.B. Hunt: \"Creo que la larga recesión del transporte por carretera ha terminado\"",
+      "description": "Jim Cramer recomendó a J.B. Hunt Transport Services (NASDAQ: JBHT), afirmando que la larga recesión del transporte por carretera ha terminado, especialmente con un recorte previsto de tipos de la Fed que beneficiará a las acciones del transporte. Parnassus Investments también posee J.B. Hunt, a pesar de la reciente lentitud, y cree que está bien posicionada para la recuperación cuando mejore la demanda de transporte. El artículo destaca el optimismo de Cramer para el sector del transporte.",
+      "url": "https://www.insidermonkey.com/blog/jim-cramer-on-j-b-hunt-i-think-the-long-trucking-recessions-over-1659091/",
+      "image_url": "https://imonkey-blog.imgix.net/blog/wp-content/uploads/2025/01/29194602/pexels-rdne-7947707.jpg?auto=format&fit=clip&expires=1797120000&width=480&height=320",
+      "source": "Insider Monkey",
+      "published_at": "20251213T170045",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.048407,
+      "tickers": [
+        "JBHT"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation",
+        "economy_monetary",
+        "earnings"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer elogia al director ejecutivo de FedEx",
+      "description": "Jim Cramer ha destacado a FedEx Corporation (NYSE:FDX) como una acción recomendada, especialmente para la temporada navideña, y elogió al director ejecutivo Raj Subramaniam. Describió a FedEx como un \"resorte en espiral\" con una configuración fantástica, anticipando un desempeño sólido similar al de J.B. Hunt y ArcBest. Cramer cree que la acción podría subir por encima de los 300 dólares, atribuyendo su éxito potencial al liderazgo de Subramaniam.",
+      "url": "https://ca.finance.yahoo.com/news/jim-cramer-praises-fedex-ceo-165212098.html",
+      "image_url": "NULL",
+      "source": "Yahoo! Finance Canada",
+      "published_at": "20251213T165437",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.03748,
+      "tickers": [
+        "FDX"
+      ],
+      "topics": [
+        "financial_markets",
+        "retail_wholesale",
+        "energy_transportation"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer espera un \"trimestre espectacular\" de FedEx",
+      "description": "Jim Cramer expresó un sentimiento alcista hacia FedEx y predijo un \"trimestre espectacular\" para la empresa. Ariel Investments también destacó el potencial de FedEx debido a la eficiencia de costos, la escisión planificada de FedEx Freight y las mejoras operativas a pesar de las incertidumbres económicas. La empresa ofrece servicios de transporte, envío y logística a nivel mundial.",
+      "url": "https://finviz.com/news/253480/jim-cramer-expects-a-breakout-quarter-from-fedex",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2020/07/05125754/Fedex-Ground-FDX-obi-onyeador-8LCZb66I4wg-unsplash.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T162437",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.439874,
+      "tickers": [
+        "FDX"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "economy_monetary",
+        "energy_transportation",
+        "economy_macro"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer destaca el entusiasmo del director ejecutivo de Southwest Air por las perspectivas de la empresa",
+      "description": "Jim Cramer destacó el entusiasmo del director ejecutivo de Southwest Airlines Co., Bob Jordan, con respecto a las perspectivas de la compañía, especialmente después de la colaboración con inversores activistas de Elliott Management. Cramer observó que Southwest Air y Alaska Air han experimentado ganancias significativas desde noviembre. También hizo referencia a un comentario anterior en el que llamó a Southwest Airlines una acción del \"campo Delta\" que era barata pero que podría no seguir siéndolo, destacando que las acciones de LUV han subido desde entonces casi un 65%.",
+      "url": "https://finance.yahoo.com/news/jim-cramer-highlights-southwest-air-153423960.html",
+      "image_url": "NULL",
+      "source": "Yahoo Finance",
+      "published_at": "20251213T160833",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.122375,
+      "tickers": [
+        "LUV",
+        "DAL",
+        "BA"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation",
+        "earnings"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Haciendo balance de Sempra (SRE): evaluación de la valoración tras el reciente enfriamiento del precio de las acciones",
+      "description": "Sempra (SRE) ha experimentado una reciente caída del 4% en el precio de las acciones durante el último mes, lo que contrasta con rendimientos positivos a largo plazo, lo que presenta una oportunidad de valoración intrigante. Si bien un valor razonable narrativo sugiere que Sempra está infravalorada un 12,2% debido a importantes proyectos de exportación de GNL, un modelo de flujo de caja descontado (DCF) indica que puede estar ligeramente sobrevalorada a su precio actual de 88,49 dólares. Se insta a los inversores a considerar tanto el potencial alcista del crecimiento del GNL como los posibles desafíos derivados de los cambios regulatorios y la volátil demanda global de GNL.",
+      "url": "https://simplywall.st/stocks/us/utilities/nyse-sre/sempra/news/taking-stock-of-sempra-sre-assessing-valuation-after-recent",
+      "image_url": "NULL",
+      "source": "Simply Wall Street",
+      "published_at": "20251213T155649",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.155131,
+      "tickers": [
+        "SRE",
+        "ED",
+        "DTE"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "energy_transportation"
+      ],
+      "authors": [
+        "Simply Wall St"
+      ]
+    },
+    {
+      "title": "Jim Cramer sobre NRG: \"Creo que es una empresa muy bien gestionada\"",
+      "description": "Este artículo es un marcador de posición que indica un título y un cuerpo de contenido vacío. Se sugiere que el analista financiero Jim Cramer expresó una opinión positiva sobre NRG, calificándola de \"una empresa muy bien administrada\". Sin embargo, no se proporcionan más detalles ni contexto en el contenido actual.",
+      "url": "https://www.msn.com/en-us/money/markets/jim-cramer-on-nrg-i-think-it-s-a-very-well-run-company/ar-AA1ShEJD?ocid=finance-verthp-feeds",
+      "image_url": "NULL",
+      "source": "MSN",
+      "published_at": "20251213T155339",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.415708,
+      "tickers": [
+        "NRG"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation"
+      ],
+      "authors": [
+        "NULL"
+      ]
+    },
+    {
+      "title": "Edison International (NYSE:EIX) aumenta el dividendo a 0,88 dólares por acción",
+      "description": "Edison International (NYSE:EIX) anunció un aumento de dividendo trimestral a 0,8775 dólares por acción, pagadero el 31 de enero a los accionistas registrados el 7 de enero. Este aumento del 6,0% eleva el rendimiento de dividendos anualizado al 6,0%, respaldado por un índice de pago de aproximadamente el 54% y ganancias esperadas por acción de 5,76 dólares el próximo año. Las acciones de la compañía subieron recientemente un 0,5% a 58,21 dólares y sus ganancias trimestrales superaron las estimaciones del consenso.",
+      "url": "https://www.marketbeat.com/instant-alerts/edison-international-nyseeix-increases-dividend-to-088-per-share-2025-12-12/",
+      "image_url": "https://www.marketbeat.com/logos/edison-international-logo-1200x675.png?v=20240102162522",
+      "source": "MarketBeat",
+      "published_at": "20251213T155217",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.283324,
+      "tickers": [
+        "EIX",
+        "NRG"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "finance",
+        "energy_transportation"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    }
+  ],
+  "financial_markets": [
+    {
+      "title": "Petroleo Brasileiro S.A.- Petrobras (NYSE:PBR) planea dividendo especial de $0,07",
+      "description": "Petroleo Brasileiro S.A.- Petrobras (NYSE:PBR) ha declarado un dividendo especial de 0,0658 dólares por acción, pagadero el 27 de marzo a los accionistas registrados el 26 de diciembre. El dividendo está bien cubierto, con un índice de pago actual del 28,7% y un índice de pago futuro proyectado del 22,6%, respaldado por las estimaciones de EPS de los analistas de 3,10 dólares para el próximo año. Las acciones de la compañía muestran sólidos indicadores financieros, incluida una relación P/E de 5,64 y ganancias recientes superiores.",
+      "url": "https://www.marketbeat.com/instant-alerts/petroleo-brasileiro-sa-petrobras-nysepbr-plans-007-special-dividend-2025-12-12/",
+      "image_url": "https://www.marketbeat.com/logos/petroleo-brasileiro-sa-logo-1200x675.jpg",
+      "source": "MarketBeat",
+      "published_at": "20251213T170252",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.030869,
+      "tickers": [
+        "PBR-A"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "energy_transportation",
+        "finance"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "Jim Cramer sobre AES: \"Me ha gustado estar aquí\"",
+      "description": "Jim Cramer expresó una perspectiva positiva sobre The AES Corporation (NYSE: AES), viendo una oportunidad de compra debido a su valoración actual a pesar de las aversiones pasadas. Esta perspectiva surge en un momento en que AES se beneficia de una importante demanda de energía renovable en los centros de datos, y los recientes rumores de interés de adquisición aumentan aún más el potencial de las acciones. Sin embargo, el artículo también sugiere que ciertas acciones de IA podrían ofrecer mayores ventajas con menos riesgo.",
+      "url": "https://finviz.com/news/253496/jim-cramer-on-aes-ive-taken-a-liking-to-it-down-here",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2021/11/24100003/joshua-mayo-bmj1Vl77ZWM-unsplash.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T170117",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.400979,
+      "tickers": [
+        "AES"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation",
+        "earnings",
+        "economy_macro"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer sobre J.B. Hunt: \"Creo que la larga recesión del transporte por carretera ha terminado\"",
+      "description": "Jim Cramer recomendó a J.B. Hunt Transport Services (NASDAQ: JBHT), afirmando que la larga recesión del transporte por carretera ha terminado, especialmente con un recorte previsto de tipos de la Fed que beneficiará a las acciones del transporte. Parnassus Investments también posee J.B. Hunt, a pesar de la reciente lentitud, y cree que está bien posicionada para la recuperación cuando mejore la demanda de transporte. El artículo destaca el optimismo de Cramer para el sector del transporte.",
+      "url": "https://www.insidermonkey.com/blog/jim-cramer-on-j-b-hunt-i-think-the-long-trucking-recessions-over-1659091/",
+      "image_url": "https://imonkey-blog.imgix.net/blog/wp-content/uploads/2025/01/29194602/pexels-rdne-7947707.jpg?auto=format&fit=clip&expires=1797120000&width=480&height=320",
+      "source": "Insider Monkey",
+      "published_at": "20251213T170045",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.032231,
+      "tickers": [
+        "JBHT"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation",
+        "economy_monetary",
+        "earnings"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer elogia al director ejecutivo de FedEx",
+      "description": "Jim Cramer ha destacado a FedEx Corporation (NYSE:FDX) como una acción recomendada, especialmente para la temporada navideña, y elogió al director ejecutivo Raj Subramaniam. Describió a FedEx como un \"resorte en espiral\" con una configuración fantástica, anticipando un desempeño sólido similar al de J.B. Hunt y ArcBest. Cramer cree que la acción podría subir por encima de los 300 dólares, atribuyendo su éxito potencial al liderazgo de Subramaniam.",
+      "url": "https://ca.finance.yahoo.com/news/jim-cramer-praises-fedex-ceo-165212098.html",
+      "image_url": "NULL",
+      "source": "Yahoo! Finance Canada",
+      "published_at": "20251213T165437",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.045352,
+      "tickers": [
+        "FDX"
+      ],
+      "topics": [
+        "financial_markets",
+        "retail_wholesale",
+        "energy_transportation"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer dice que el objetivo \"podría rugir si puede demostrar algún tipo de cambio\"",
+      "description": "Jim Cramer comentó sobre Target (NYSE: TGT) después del recorte de tasas de la Reserva Federal, sugiriendo que los minoristas, incluido Target, podrían tener un buen desempeño si la Reserva Federal continúa recortando las tasas. A pesar de un reciente informe de ganancias desalentador con una pérdida de ingresos y una disminución en las ventas en las mismas tiendas, Cramer cree que Target \"podría rugir si puede demostrar algún tipo de cambio\". La compañía espera un nuevo director ejecutivo en febrero, Michael Fiddelke, quien tiene planes de mejorar la mercancía e implementar tecnología para revitalizar el negocio.",
+      "url": "https://finviz.com/news/253465/jim-cramer-says-target-could-roar-if-it-can-demonstrate-any-sort-of-turnaround",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2021/08/02154507/adam-nowakowski-MFms-wkv3Ow-unsplash.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T164706",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.039887,
+      "tickers": [
+        "TGT",
+        "TJX",
+        "WMT"
+      ],
+      "topics": [
+        "retail_wholesale",
+        "earnings",
+        "financial_markets",
+        "economy_monetary"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer dice que “los industriales siempre trabajan en respuesta a un recorte de tarifas” y destaca a 3M Company",
+      "description": "Jim Cramer destacó el sector industrial como un sector que se desempeña bien en respuesta a los recortes de las tasas de interés. Mencionó específicamente a 3M Company como una acción a tener en cuenta en este contexto. Esto sugiere que Cramer ve a 3M como un beneficiario potencial de un entorno de política monetaria más acomodaticio.",
+      "url": "https://www.msn.com/en-us/money/markets/jim-cramer-says-industrials-always-work-in-response-to-a-rate-cut-and-highlights-3m-company/ar-AA1ShHpS?ocid=finance-verthp-feeds",
+      "image_url": null,
+      "source": "MSN",
+      "published_at": "20251213T164151",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.393357,
+      "tickers": [
+        "MMM"
+      ],
+      "topics": [
+        "financial_markets",
+        "economy_monetary",
+        "manufacturing"
+      ],
+      "authors": []
+    },
+    {
+      "title": "Jim Cramer espera un \"trimestre espectacular\" de FedEx",
+      "description": "Jim Cramer expresó un sentimiento alcista hacia FedEx y predijo un \"trimestre espectacular\" para la empresa. Ariel Investments también destacó el potencial de FedEx debido a la eficiencia de costos, la escisión planificada de FedEx Freight y las mejoras operativas a pesar de las incertidumbres económicas. La empresa ofrece servicios de transporte, envío y logística a nivel mundial.",
+      "url": "https://finviz.com/news/253480/jim-cramer-expects-a-breakout-quarter-from-fedex",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2020/07/05125754/Fedex-Ground-FDX-obi-onyeador-8LCZb66I4wg-unsplash.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T162437",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.409633,
+      "tickers": [
+        "FDX"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "economy_monetary",
+        "energy_transportation",
+        "economy_macro"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Jim Cramer destaca el entusiasmo del director ejecutivo de Southwest Air por las perspectivas de la empresa",
+      "description": "Jim Cramer destacó el entusiasmo del director ejecutivo de Southwest Airlines Co., Bob Jordan, con respecto a las perspectivas de la compañía, especialmente después de la colaboración con inversores activistas de Elliott Management. Cramer observó que Southwest Air y Alaska Air han experimentado ganancias significativas desde noviembre. También hizo referencia a un comentario anterior en el que llamó a Southwest Airlines una acción del \"campo Delta\" que era barata pero que podría no seguir siéndolo, destacando que las acciones de LUV han subido desde entonces casi un 65%.",
+      "url": "https://finance.yahoo.com/news/jim-cramer-highlights-southwest-air-153423960.html",
+      "image_url": "NULL",
+      "source": "Yahoo Finance",
+      "published_at": "20251213T160833",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.123222,
+      "tickers": [
+        "LUV",
+        "DAL",
+        "BA"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation",
+        "earnings"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "MSCI no se equivoca al ser cauteloso con los DAT",
+      "description": "La posible exclusión por parte de MSCI de los tesoros de activos digitales (DAT) de sus índices es una medida cautelosa y válida, considerando los importantes riesgos y problemas estructurales asociados con muchos de estos vehículos de inversión. Si bien algunos DAT establecidos como Strategy son sólidos, la rápida proliferación de DAT nuevos, altamente apalancados y a menudo mal estructurados plantea riesgos sustanciales para los inversores, particularmente en medio de las caídas del mercado criptográfico. El autor sostiene que la postura de MSCI es un paso necesario para la protección de los inversores y una señal de la integración del mercado de criptomonedas en las finanzas tradicionales, lo que en última instancia fortalecerá a las empresas legítimas de activos digitales.",
+      "url": "https://www.coindesk.com/opinion/2025/12/12/msci-isn-t-wrong-to-be-cautious-on-dats",
+      "image_url": "https://cdn.sanity.io/images/s3y3vcno/production/8ea70dcf25af8f0f672cfd4eb347ce6d5d14c497-3840x2160.png?auto=format&w=3840&q=75",
+      "source": "CoinDesk",
+      "published_at": "20251213T160237",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.076019,
+      "tickers": [
+        "MSCI",
+        "COIN",
+        "JPM"
+      ],
+      "topics": [
+        "financial_markets",
+        "blockchain"
+      ],
+      "authors": [
+        "Nic Puckrin"
+      ]
+    },
+    {
+      "title": "Haciendo balance de Sempra (SRE): evaluación de la valoración tras el reciente enfriamiento del precio de las acciones",
+      "description": "Sempra (SRE) ha experimentado una reciente caída del 4% en el precio de las acciones durante el último mes, lo que contrasta con rendimientos positivos a largo plazo, lo que presenta una oportunidad de valoración intrigante. Si bien un valor razonable narrativo sugiere que Sempra está infravalorada un 12,2% debido a importantes proyectos de exportación de GNL, un modelo de flujo de caja descontado (DCF) indica que puede estar ligeramente sobrevalorada a su precio actual de 88,49 dólares. Se insta a los inversores a considerar tanto el potencial alcista del crecimiento del GNL como los posibles desafíos derivados de los cambios regulatorios y la volátil demanda global de GNL.",
+      "url": "https://simplywall.st/stocks/us/utilities/nyse-sre/sempra/news/taking-stock-of-sempra-sre-assessing-valuation-after-recent",
+      "image_url": "NULL",
+      "source": "Simply Wall Street",
+      "published_at": "20251213T155649",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.195999,
+      "tickers": [
+        "SRE",
+        "ED",
+        "DTE"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "energy_transportation"
+      ],
+      "authors": [
+        "Simply Wall St"
+      ]
+    }
+  ],
+  "economy": [
+    {
+      "title": "Jim Cramer sobre AES: \"Me ha gustado estar aquí\"",
+      "description": "Jim Cramer expresó una perspectiva positiva sobre The AES Corporation (NYSE: AES), viendo una oportunidad de compra debido a su valoración actual a pesar de las aversiones pasadas. Esta perspectiva surge en un momento en que AES se beneficia de una importante demanda de energía renovable en los centros de datos, y los recientes rumores de interés de adquisición aumentan aún más el potencial de las acciones. Sin embargo, el artículo también sugiere que ciertas acciones de IA podrían ofrecer mayores ventajas con menos riesgo.",
+      "url": "https://finviz.com/news/253496/jim-cramer-on-aes-ive-taken-a-liking-to-it-down-here",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2021/11/24100003/joshua-mayo-bmj1Vl77ZWM-unsplash.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T170117",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.402815,
+      "tickers": [
+        "AES"
+      ],
+      "topics": [
+        "financial_markets",
+        "energy_transportation",
+        "earnings",
+        "economy_macro"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Apollo y KKR cortejados por Jared Kushner para unirse a la reconstrucción de posguerra de Ucrania: NYP",
+      "description": "Según se informa, Jared Kushner se ha acercado a las firmas de inversión Apollo Global Management y KKR & Co. Inc. para involucrarlas en los esfuerzos de reconstrucción de Ucrania en la posguerra. Kushner, que fue una figura clave en pasadas negociaciones de paz, busca su apoyo para la reconstrucción del país devastado por la guerra, según The New York Post.",
+      "url": "https://seekingalpha.com/news/4531232-apollo-kkr-wooed-by-kushner-join-ukraines-reconstruction",
+      "image_url": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2240441839/image_2240441839.jpg?io=getty-c-w630",
+      "source": "Seeking Alpha",
+      "published_at": "20251213T162447",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.140101,
+      "tickers": [
+        "KKR",
+        "APO"
+      ],
+      "topics": [
+        "finance",
+        "economy_macro"
+      ],
+      "authors": [
+        "Dulan Lokuwithana"
+      ]
+    },
+    {
+      "title": "Jim Cramer espera un \"trimestre espectacular\" de FedEx",
+      "description": "Jim Cramer expresó un sentimiento alcista hacia FedEx y predijo un \"trimestre espectacular\" para la empresa. Ariel Investments también destacó el potencial de FedEx debido a la eficiencia de costos, la escisión planificada de FedEx Freight y las mejoras operativas a pesar de las incertidumbres económicas. La empresa ofrece servicios de transporte, envío y logística a nivel mundial.",
+      "url": "https://finviz.com/news/253480/jim-cramer-expects-a-breakout-quarter-from-fedex",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2020/07/05125754/Fedex-Ground-FDX-obi-onyeador-8LCZb66I4wg-unsplash.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T162437",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.439874,
+      "tickers": [
+        "FDX"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "economy_monetary",
+        "energy_transportation",
+        "economy_macro"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Preferred Bank emitirá un dividendo anual de 3,20 dólares (NASDAQ:PFBC)",
+      "description": "Preferred Bank (NASDAQ:PFBC) ha declarado un dividendo anual de 3,20 dólares por acción, pagadero el 20 de enero a los accionistas registrados el 6 de enero, lo que representa una rentabilidad por dividendo del 327,0%. El dividendo está bien cubierto con un ratio de pago del 30,6% y el banco ha aumentado constantemente su dividendo durante los últimos cinco años. Los analistas esperan que la empresa gane 10,20 dólares por acción el próximo año, lo que respalda el dividendo.",
+      "url": "https://www.marketbeat.com/instant-alerts/preferred-bank-to-issue-annual-dividend-of-320-nasdaqpfbc-2025-12-12/",
+      "image_url": "https://www.marketbeat.com/logos/preferred-bank-logo-1200x675.png?v=20240524115346",
+      "source": "MarketBeat",
+      "published_at": "20251213T155134",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.609179,
+      "tickers": [
+        "PFBC"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "finance",
+        "economy_macro"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "Jim Cramer considera que Delta es \"una de las mejores y más grandes aerolíneas\"",
+      "description": "Jim Cramer ha expresado una perspectiva positiva sobre Delta Air Lines (NYSE: DAL), refiriéndose a ella como \"una especie de la mejor y más grande entre las aerolíneas\". Observó el fuerte repunte del sector de viajes desde los mínimos de noviembre y destacó que el beneficio antes de impuestos estimado de 200 millones de dólares de Delta afectado por el cierre del gobierno fue menos grave de lo previsto. Cramer citó una presentación de Delta 8-K que indica una demanda saludable para el trimestre de diciembre y fuertes tendencias para principios de 2026, lo que refuerza su sentimiento alcista.",
+      "url": "https://finviz.com/news/253444/jim-cramer-considers-delta-kind-of-the-biggest-and-best-in-the-airlines",
+      "image_url": "https://d2gr5kl7dt2z3t.cloudfront.net/blog/wp-content/uploads/2019/11/20061818/Delta-Airlines.jpg",
+      "source": "Finviz",
+      "published_at": "20251213T155013",
+      "sentiment": "Bullish",
+      "sentiment_score": 0.721604,
+      "tickers": [
+        "DAL"
+      ],
+      "topics": [
+        "financial_markets",
+        "earnings",
+        "energy_transportation",
+        "economy_macro"
+      ],
+      "authors": [
+        "Syeda Seirut Javed"
+      ]
+    },
+    {
+      "title": "Truist Financial rebaja la calificación de M&T Bank (NYSE:MTB) a Mantener",
+      "description": "Truist Financial ha rebajado la calificación de M&T Bank (NYSE:MTB) de \"Comprar\" a \"Mantener\", estableciendo un nuevo precio objetivo de 217,00 dólares. Esto implica una subida potencial del 5,57% con respecto al cierre anterior de la acción, a pesar de que otros analistas mantienen calificaciones de \"Comprar\" con varios precios objetivos. El informe también destaca la reciente actividad de venta de información privilegiada y las tenencias de inversores institucionales en M&T Bank.",
+      "url": "https://www.marketbeat.com/instant-alerts/truist-financial-downgrades-mt-bank-nysemtb-to-hold-2025-12-12/",
+      "image_url": "https://www.marketbeat.com/logos/mt-bank-co-logo-1200x675.png?v=20240118082034",
+      "source": "MarketBeat",
+      "published_at": "20251213T142126",
+      "sentiment": "Somewhat-Bullish",
+      "sentiment_score": 0.242368,
+      "tickers": [
+        "TFC",
+        "MTB",
+        "JPM",
+        "WFC",
+        "BAC"
+      ],
+      "topics": [
+        "finance",
+        "earnings",
+        "financial_markets",
+        "economy_macro"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "Third Point LLC reduce la posición accionaria en Telephone and Data Systems, Inc. $TDS",
+      "description": "Third Point LLC redujo su participación en Telephone and Data Systems, Inc. (NYSE:TDS) en un 0,5% en el segundo trimestre, vendiendo 35.000 acciones para poseer un total de 6.725.000 acciones. Esta posición representa ahora aproximadamente el 5,90% de TDS y el 3,1% de la cartera de Third Point. Mientras tanto, la directora de contabilidad de TDS, Anita J. Kroll, redujo significativamente su participación personal en un 94,9% mediante la venta de 16.217 acciones.",
+      "url": "https://www.marketbeat.com/instant-alerts/filing-third-point-llc-reduces-stock-position-in-telephone-and-data-systems-inc-tds-2025-12-12/",
+      "image_url": "https://www.marketbeat.com/logos/telephone-and-data-systems-inc-logo-1200x675.png?v=20240426130633",
+      "source": "MarketBeat",
+      "published_at": "20251213T140938",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.071374,
+      "tickers": [
+        "TDS-P-U",
+        "C",
+        "T"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "finance",
+        "technology",
+        "economy_macro"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "\\SL Green Realty (NYSE:SLG) Precio objetivo reducido a 47,00 dólares por analistas de Mizuho",
+      "description": "Mizuho ha reducido su precio objetivo para SL Green Realty (NYSE:SLG) de 67,00 dólares a 47,00 dólares, manteniendo una calificación \"neutral\". Este ajuste implica un potencial alza del 5,24% respecto al cierre anterior. A pesar de las opiniones mixtas de los analistas, con un precio objetivo promedio de 58,65 dólares, SL Green Realty superó recientemente las expectativas de ganancias, reportando un beneficio por acción de 1,58 dólares frente a unos ingresos estimados de 1,34 y 244,8 millones de dólares.",
+      "url": "https://www.marketbeat.com/instant-alerts/sl-green-realty-nyseslg-price-target-cut-to-4700-by-analysts-at-mizuho-2025-12-12/",
+      "image_url": "https://www.marketbeat.com/logos/sl-green-realty-corp-logo-1200x675.png?v=20240523125040",
+      "source": "MarketBeat",
+      "published_at": "20251213T140920",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.001,
+      "tickers": [
+        "SLG"
+      ],
+      "topics": [
+        "earnings",
+        "real_estate",
+        "financial_markets",
+        "finance",
+        "economy_macro"
+      ],
+      "authors": [
+        "MarketBeat"
+      ]
+    },
+    {
+      "title": "Las acciones de Iris Energy se ven afectadas por una liquidación en todo el sector",
+      "description": "Las acciones de Iris Energy (IREN) experimentaron una importante caída del 8,7% debido a una liquidación en todo el sector provocada por los decepcionantes resultados trimestrales de Oracle, que generaron preocupaciones sobre las inversiones en infraestructura de IA. La acción cerró por debajo del precio de su reciente aumento de capital, lo que indica una señal bajista para los inversores. A pesar del retroceso, los analistas siguen confiando en el potencial a largo plazo de Iris Energy, con objetivos de precios que oscilan entre 56 y 69 dólares por acción.",
+      "url": "https://www.ad-hoc-news.de/boerse/news/ueberblick/iris-energy-shares-hit-by-sector-wide-sell-off/68419775",
+      "image_url": "NULL",
+      "source": "AD HOC NEWS",
+      "published_at": "20251213T135804",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.046956,
+      "tickers": [
+        "IREN"
+      ],
+      "topics": [
+        "financial_markets",
+        "technology",
+        "blockchain",
+        "earnings",
+        "economy_macro"
+      ],
+      "authors": [
+        "NULL"
+      ]
+    },
+    {
+      "title": "Procter & Gamble (PG): ¿La caída del 14% en el precio de las acciones ha abierto una oportunidad de valoración?",
+      "description": "Las acciones de Procter & Gamble cayeron un 14% durante el año pasado, lo que generó un debate entre los inversores sobre su valoración actual. Si bien una narrativa sugiere que la acción está sobrevaluada en un 19,2% con un valor razonable de $119,81 debido a expectativas de crecimiento modestas, el modelo de flujo de caja descontado (DCF) de Simply Wall St indica que puede estar infravalorada en aproximadamente un 26% de un valor razonable estimado de $194,19. Esto presenta una divergencia en las perspectivas de valoración, lo que lleva a los inversores a considerar si PG es un blue chip defensivo en venta o si su crecimiento futuro ya está descontado.",
+      "url": "https://simplywall.st/stocks/us/household/nyse-pg/procter-gamble/news/procter-gamble-pg-has-the-14-share-price-slide-opened-a-valu",
+      "image_url": "NULL",
+      "source": "Simply Wall Street",
+      "published_at": "20251213T133111",
+      "sentiment": "Neutral",
+      "sentiment_score": 0.049583,
+      "tickers": [
+        "PG"
+      ],
+      "topics": [
+        "earnings",
+        "financial_markets",
+        "economy_macro",
+        "finance",
+        "retail_wholesale"
+      ],
+      "authors": [
+        "Simply Wall St"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,320 @@
+[
+    {
+        "label": "webdriver",
+        "importPath": "selenium",
+        "description": "selenium",
+        "isExtraImport": true,
+        "detail": "selenium",
+        "documentation": {}
+    },
+    {
+        "label": "By",
+        "importPath": "selenium.webdriver.common.by",
+        "description": "selenium.webdriver.common.by",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.common.by",
+        "documentation": {}
+    },
+    {
+        "label": "By",
+        "importPath": "selenium.webdriver.common.by",
+        "description": "selenium.webdriver.common.by",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.common.by",
+        "documentation": {}
+    },
+    {
+        "label": "WebDriverWait",
+        "importPath": "selenium.webdriver.support.ui",
+        "description": "selenium.webdriver.support.ui",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.support.ui",
+        "documentation": {}
+    },
+    {
+        "label": "WebDriverWait",
+        "importPath": "selenium.webdriver.support.ui",
+        "description": "selenium.webdriver.support.ui",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.support.ui",
+        "documentation": {}
+    },
+    {
+        "label": "expected_conditions",
+        "importPath": "selenium.webdriver.support",
+        "description": "selenium.webdriver.support",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.support",
+        "documentation": {}
+    },
+    {
+        "label": "expected_conditions",
+        "importPath": "selenium.webdriver.support",
+        "description": "selenium.webdriver.support",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.support",
+        "documentation": {}
+    },
+    {
+        "label": "Options",
+        "importPath": "selenium.webdriver.chrome.options",
+        "description": "selenium.webdriver.chrome.options",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.chrome.options",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleTranslator",
+        "importPath": "deep_translator",
+        "description": "deep_translator",
+        "isExtraImport": true,
+        "detail": "deep_translator",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleTranslator",
+        "importPath": "deep_translator",
+        "description": "deep_translator",
+        "isExtraImport": true,
+        "detail": "deep_translator",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleTranslator",
+        "importPath": "deep_translator",
+        "description": "deep_translator",
+        "isExtraImport": true,
+        "detail": "deep_translator",
+        "documentation": {}
+    },
+    {
+        "label": "BeautifulSoup",
+        "importPath": "bs4",
+        "description": "bs4",
+        "isExtraImport": true,
+        "detail": "bs4",
+        "documentation": {}
+    },
+    {
+        "label": "BeautifulSoup",
+        "importPath": "bs4",
+        "description": "bs4",
+        "isExtraImport": true,
+        "detail": "bs4",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "undetected_chromedriver",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "undetected_chromedriver",
+        "description": "undetected_chromedriver",
+        "detail": "undetected_chromedriver",
+        "documentation": {}
+    },
+    {
+        "label": "traducir_texto",
+        "kind": 2,
+        "importPath": "forex_factory",
+        "description": "forex_factory",
+        "peekOfCode": "def traducir_texto(texto, idioma_destino='es'):\n    \"\"\"\n    Traduce texto al español usando Google Translator\n    \"\"\"\n    try:\n        if not texto or texto.strip() == \"\":\n            return texto\n        if len(texto) > 4500:\n            chunks = [texto[i:i+4500] for i in range(0, len(texto), 4500)]\n            traduccion = \"\"",
+        "detail": "forex_factory",
+        "documentation": {}
+    },
+    {
+        "label": "extract_real_news_links",
+        "kind": 2,
+        "importPath": "forex_factory",
+        "description": "forex_factory",
+        "peekOfCode": "def extract_real_news_links(html):\n    \"\"\"\n    Extrae SOLO noticias reales (excluye comentarios/likes) del HTML\n    Similar a extractNewsWithTypeInfo del script JS\n    \"\"\"\n    soup = BeautifulSoup(html, 'html.parser')\n    # Buscar TODOS los contenedores de noticias (.flexBox.news)\n    all_news_blocks = soup.find_all('div', class_=['flexBox', 'news'])\n    if not all_news_blocks:\n        print('No se encontraron bloques .flexBox.news')",
+        "detail": "forex_factory",
+        "documentation": {}
+    },
+    {
+        "label": "scrape_forex_news_selenium",
+        "kind": 2,
+        "importPath": "forex_factory",
+        "description": "forex_factory",
+        "peekOfCode": "def scrape_forex_news_selenium():\n    \"\"\"\n    Extrae noticias usando Selenium para evitar bloqueos\n    \"\"\"\n    # Configurar Chrome en modo headless\n    chrome_options = Options()\n    # chrome_options.add_argument('--headless')  # Ejecutar sin interfaz gráfica\n    chrome_options.add_argument('--no-sandbox')\n    chrome_options.add_argument('--disable-dev-shm-usage')\n    chrome_options.add_argument('--disable-blink-features=AutomationControlled')",
+        "detail": "forex_factory",
+        "documentation": {}
+    },
+    {
+        "label": "translate_to_spanish",
+        "kind": 2,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "def translate_to_spanish(text):\n    \"\"\"\n    Traduce texto de inglés a español usando Google Translate\n    Args:\n        text (str): Texto a traducir\n    Returns:\n        str: Texto traducido o texto original si hay error\n    \"\"\"\n    if not text or text.strip() == '':\n        return text",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "get_news_sentiment",
+        "kind": 2,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "def get_news_sentiment(tickers=None, topics=None, limit=10, sort='LATEST'):\n    \"\"\"\n    Obtiene noticias con análisis de sentimiento de Alpha Vantage\n    Args:\n        tickers (str): Símbolos separados por coma, ej: \"AAPL,MSFT,GOOGL\"\n        topics (str): Temas: 'blockchain', 'earnings', 'ipo', 'mergers_and_acquisitions',\n                     'financial_markets', 'economy_fiscal', 'economy_monetary', \n                     'economy_macro', 'energy_transportation', 'finance', \n                     'life_sciences', 'manufacturing', 'real_estate', 'retail_wholesale', \n                     'technology'",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "extract_articles_data",
+        "kind": 2,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "def extract_articles_data(response, translate=True, max_articles=10):\n    \"\"\"\n    Extrae los atributos específicos de cada artículo y traduce si es necesario\n    Args:\n        response (dict): Respuesta completa de la API\n        translate (bool): Si debe traducir al español\n        max_articles (int): Cantidad máxima de artículos a procesar\n    Returns:\n        list: Lista de diccionarios con los datos extraídos\n    \"\"\"",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "get_sentiment_emoji",
+        "kind": 2,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "def get_sentiment_emoji(sentiment):\n    \"\"\"Retorna emoji según el sentimiento\"\"\"\n    sentiment_map = {\n        'Bullish': '📈 Alcista',\n        'Bearish': '📉 Bajista',\n        'Neutral': '➖ Neutral',\n        'Somewhat-Bullish': '📊 Algo Alcista',\n        'Somewhat-Bearish': '📊 Algo Bajista'\n    }\n    return sentiment_map.get(sentiment, sentiment)",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "print_article",
+        "kind": 2,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "def print_article(article, index):\n    \"\"\"Imprime un artículo de forma legible\"\"\"\n    print(f\"\\n{'='*80}\")\n    print(f\"ARTÍCULO #{index + 1}\")\n    print(f\"{'='*80}\")\n    print(f\"Título: {article['title']}\")\n    print(f\"Descripción: {article['description'][:200]}...\" if len(article['description']) > 200 else f\"Descripción: {article['description']}\")\n    print(f\"Fuente: {article['source']}\")\n    print(f\"Fecha: {article['published_at']}\")\n    print(f\"Sentimiento: {get_sentiment_emoji(article['sentiment'])} (Score: {article['sentiment_score']:.3f})\")",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "save_to_json",
+        "kind": 2,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "def save_to_json(data, filename='alphavantage_data.json'):\n    \"\"\"Guarda los datos en un archivo JSON\"\"\"\n    with open(filename, 'w', encoding='utf-8') as f:\n        json.dump(data, f, ensure_ascii=False, indent=2)\n    print(f\"\\n✅ Datos guardados en {filename}\")\n# ============================================================================\n# EJEMPLO DE USO - 5 LLAMADAS A DIFERENTES MERCADOS\n# ============================================================================\nif __name__ == \"__main__\":\n    print(\"🚀 Iniciando recopilación de datos de Alpha Vantage API...\\n\")",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "API_KEY",
+        "kind": 5,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "API_KEY = 'VI0M1JJXWO1VNE6K'\nBASE_URL = 'https://www.alphavantage.co/query'\ndef translate_to_spanish(text):\n    \"\"\"\n    Traduce texto de inglés a español usando Google Translate\n    Args:\n        text (str): Texto a traducir\n    Returns:\n        str: Texto traducido o texto original si hay error\n    \"\"\"",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_URL",
+        "kind": 5,
+        "importPath": "news_extract",
+        "description": "news_extract",
+        "peekOfCode": "BASE_URL = 'https://www.alphavantage.co/query'\ndef translate_to_spanish(text):\n    \"\"\"\n    Traduce texto de inglés a español usando Google Translate\n    Args:\n        text (str): Texto a traducir\n    Returns:\n        str: Texto traducido o texto original si hay error\n    \"\"\"\n    if not text or text.strip() == '':",
+        "detail": "news_extract",
+        "documentation": {}
+    },
+    {
+        "label": "random_sleep",
+        "kind": 2,
+        "importPath": "new_v",
+        "description": "new_v",
+        "peekOfCode": "def random_sleep(min_seconds=2, max_seconds=5):\n    \"\"\"Duerme una cantidad aleatoria de tiempo para simular humano\"\"\"\n    time.sleep(random.uniform(min_seconds, max_seconds))\ndef traducir_texto(texto, idioma_destino='es'):\n    \"\"\"\n    Traduce texto al español usando Google Translator\n    Maneja textos largos dividiéndolos en chunks\n    \"\"\"\n    try:\n        if not texto or texto.strip() == \"\":",
+        "detail": "new_v",
+        "documentation": {}
+    },
+    {
+        "label": "traducir_texto",
+        "kind": 2,
+        "importPath": "new_v",
+        "description": "new_v",
+        "peekOfCode": "def traducir_texto(texto, idioma_destino='es'):\n    \"\"\"\n    Traduce texto al español usando Google Translator\n    Maneja textos largos dividiéndolos en chunks\n    \"\"\"\n    try:\n        if not texto or texto.strip() == \"\":\n            return texto\n        if len(texto) > 4500:\n            chunks = [texto[i:i+4500] for i in range(0, len(texto), 4500)]",
+        "detail": "new_v",
+        "documentation": {}
+    },
+    {
+        "label": "traducir_noticia",
+        "kind": 2,
+        "importPath": "new_v",
+        "description": "new_v",
+        "peekOfCode": "def traducir_noticia(noticia):\n    \"\"\"\n    Traduce los campos de texto de una noticia al español\n    \"\"\"\n    noticia_traducida = noticia.copy()\n    if noticia_traducida.get('title'):\n        noticia_traducida['title'] = traducir_texto(noticia_traducida['title'])\n    if noticia_traducida.get('content'):\n        noticia_traducida['content'] = traducir_texto(noticia_traducida['content'])\n    return noticia_traducida",
+        "detail": "new_v",
+        "documentation": {}
+    },
+    {
+        "label": "extract_news_details",
+        "kind": 2,
+        "importPath": "new_v",
+        "description": "new_v",
+        "peekOfCode": "def extract_news_details(driver, href):\n    \"\"\"\n    Extrae detalles con comportamiento humanizado\n    \"\"\"\n    try:\n        full_url = f\"https://www.forexfactory.com{href}\"\n        driver.get(full_url)\n        # 1. Espera aleatoria inicial (simula carga y lectura visual)\n        # random_sleep(2, 4) \n        # 2. Simular Scroll suave hacia abajo (muy importante para evitar detección)",
+        "detail": "new_v",
+        "documentation": {}
+    },
+    {
+        "label": "extract_forex_links",
+        "kind": 2,
+        "importPath": "new_v",
+        "description": "new_v",
+        "peekOfCode": "def extract_forex_links(url):\n    options = uc.ChromeOptions()\n    # options.add_argument('--headless') # Ojo: Headless en UC a veces es detectado más fácil. Úsalo solo si es necesario.\n    options.add_argument('--no-sandbox')\n    # Iniciamos el driver \"indetectable\"\n    driver = uc.Chrome(options=options)\n    try:\n        print(f\"🌐 Accediendo al feed principal...\")\n        driver.get(url)\n        print(\"⏳ Esperando carga inicial...\")",
+        "detail": "new_v",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "new_v",
+        "description": "new_v",
+        "peekOfCode": "def main():\n    FOREX_URL = \"https://www.forexfactory.com/news\"\n    data = extract_forex_links(FOREX_URL)\n    if data:\n        print(f\"\\n🔄 Traduciendo {len(data)} noticias al español...\")\n        data_traducida = [traducir_noticia(noticia) for noticia in data]\n        with open('forex_news_safe.json', 'w', encoding='utf-8') as f:\n            json.dump(data_traducida, f, ensure_ascii=False, indent=2)\n        print(f\"\\n✅ Éxito: {len(data_traducida)} noticias traducidas y guardadas.\")\nif __name__ == \"__main__\":",
+        "detail": "new_v",
+        "documentation": {}
+    }
+]

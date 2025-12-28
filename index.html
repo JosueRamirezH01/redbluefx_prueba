@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketAux - Noticias Financieras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">MarketAux</h1>
+            <p class="subtitle">Noticias Financieras en Tiempo Real</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <nav class="category-nav">
+                <button class="category-btn active" data-category="all">Todas</button>
+                <button class="category-btn" data-category="tech_stocks">Tech Stocks</button>
+                <button class="category-btn" data-category="crypto">Crypto</button>
+                <button class="category-btn" data-category="financial_markets">Mercados Financieros</button>
+                <button class="category-btn" data-category="commodities">Commodities</button>
+            </nav>
+
+            <div class="news-grid" id="newsGrid">
+                <!-- Las noticias se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MarketAux. Datos financieros actualizados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forex News - Noticias de Divisas</title>
+    <link rel="stylesheet" href="forex-styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Forex News</h1>
+            <p class="subtitle">Noticias de Divisas y Mercados Financieros</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="controls">
+                <div class="language-toggle">
+                    <button class="lang-btn active" data-lang="es">Español</button>
+                    <button class="lang-btn" data-lang="en">English</button>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Buscar noticias..." class="search-input">
+                    <button onclick="searchNews()" class="search-btn">🔍</button>
+                </div>
+            </div>
+
+            <div class="news-grid" id="newsGrid">
+                <!-- Las noticias se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Forex News. Datos de ForexFactory actualizados.</p>
+        </div>
+    </footer>
+
+    <script src="forex-script.js"></script>
+</body>
+</html>
