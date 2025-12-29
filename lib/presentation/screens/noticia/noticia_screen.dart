@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/presentation/providers/notice_provider.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../domain/entities/alert.dart';
+import '../../../domain/entities/notice.dart';
 import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/notice_list.dart';
@@ -18,19 +21,28 @@ class NoticiaScreen extends ConsumerStatefulWidget {
 class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTickerProviderStateMixin {
   final _searchController = TextEditingController();
   late AnimationController _animationController;
-
+  NoticeCategory? _selectedType;
   @override
   void initState() {
     super.initState();
+    _selectedType = NoticeCategory.all;
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     )..forward();
 
-    /*WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadAlerts();
-    });*/
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadNotice();
+    });
   }
+  static final List<Map<String, NoticeCategory>> _filterMap = [
+    const {'Todas': NoticeCategory.all},
+    const {'Forex Factory': NoticeCategory.forex},
+    const {'Tech': NoticeCategory.tech},
+    const {'Crypto': NoticeCategory.crypto},
+    const {'Materias': NoticeCategory.materias},
+    const {'Mercados': NoticeCategory.mercados},
+  ];
 
   @override
   void dispose() {
@@ -39,39 +51,42 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
     super.dispose();
   }
 
-  Future<void> _loadAlerts() async {
-    /*try {
-      await ref.read(alertsProvider.notifier).loadAlerts();
+  Future<void> _loadNotice() async {
+    try {
+      await ref.read(noticeProvider.notifier).loadNotices();
     } catch (e, stack) {
-      AppLogger.error('Error cargando alertas: $e', error: e, stackTrace: stack);
+      AppLogger.error(
+          'Error cargando notices: $e', error: e, stackTrace: stack);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Error al cargar las alertas. Por favor, intenta de nuevo.'),
+            content: Text(
+                'Error al cargar las notices. Por favor, intenta de nuevo.'),
             backgroundColor: Colors.red,
           ),
         );
       }
-    }*/
+    }
   }
 
 
 
- /* void _onFilterByType(AlertType? type) {
-    AppLogger.debug('🔄 HomeScreen _onFilterByType - before: $_selectedType, after: $type');
+  void _onFilterByType(NoticeCategory? category) {
+    AppLogger.debug('🔄 HomeScreen _onFilterByType - before: $_selectedType, after: $category');
     setState(() {
-      _selectedType = type;
+      _selectedType = category;
     });
     AppLogger.debug('🔄 HomeScreen _onFilterByType - after setState: $_selectedType');
-    AppLogger.debug('🔄 HomeScreen _onFilterByType - sending to provider: $type');
-    ref.read(alertsProvider.notifier).filterByType(type);
-  }*/
+    AppLogger.debug('🔄 HomeScreen _onFilterByType - sending to provider: $category');
+    ref.read(noticeProvider.notifier).filterByType(category);
+  }
 
   @override
   Widget build(BuildContext context) {
     //final size = MediaQuery.of(context).size;
 
     return Scaffold(
+
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 75,
@@ -86,6 +101,13 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
             context.go('/home');
           },
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: Padding(
+           padding: const EdgeInsets.only(bottom: 8),
+            child: _buildFilterNoticias(),
+          ),
+        ),
       ),
       body: Container(
         height: double.infinity,
@@ -93,17 +115,16 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
         decoration: BoxDecoration(
           gradient: RadialGradient(
             center: Alignment.bottomLeft,
-            radius: 0.8,
+            radius: 0.6,
             colors: [
-              Colors.transparent,
-              const Color(0xFF0D1D35).withOpacity(0.3),
-              const Color(0xFF0D1D35).withOpacity(0.3),
+              const Color(0xFF066BAF).withOpacity(0.3),
+              const Color(0xFFE6332F).withOpacity(0.3),
               const Color(0xFFFF0006).withOpacity(0.01),
             ],
           ),
         ),
         child: RefreshIndicator(
-          onRefresh: _loadAlerts,
+          onRefresh: _loadNotice,
           child: const Column(
             children: [
               Expanded(
@@ -136,6 +157,69 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+
+  Widget _buildFilterNoticias() {
+    return SizedBox(
+      height: 45,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: _filterMap.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        itemBuilder: (context, index) {
+          final label = _filterMap[index].keys.first;
+          final category = _filterMap[index].values.first;
+
+          final bool isSelected = _selectedType == category;
+
+          final bool isForex = category == NoticeCategory.forex;
+          final bool isForexHighlighted = isForex && _selectedType != NoticeCategory.forex;
+
+          Color backgroundColor = Colors.transparent;
+          Color borderColor = const Color(0xFF2A3A52);
+          Color textColor = Colors.white70;
+
+          if (isSelected) {
+            backgroundColor = isForex ? AppColors.selectedColor : AppColors.selectedColor;
+            borderColor = backgroundColor;
+            textColor = Colors.white;
+          } else if (isForexHighlighted) {
+            backgroundColor = AppColors.forexColor;
+            borderColor = AppColors.forexColor;
+          }
+
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedType = category;
+              });
+              AppLogger.info('Filtro seleccionado: $label');
+              _onFilterByType(_selectedType);
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: borderColor),
+              ),
+              child: Text(
+                label,
+                style: GoogleFonts.montserrat(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: textColor,
+                ),
+              ),
+            ),
+          );
+        },
+
+      ),
+    );
+  }
+
 
 
 }

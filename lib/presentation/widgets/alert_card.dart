@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/core/theme/app_theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../domain/entities/alert.dart';
 import '../providers/auth_provider.dart';
@@ -34,6 +35,7 @@ class AlertCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final auth = ref.watch(authStateProvider);
     final isAdmin = auth.currentUser?.role == 'admin';
     timeago.setLocaleMessages('es', timeago.EsMessages());
@@ -50,7 +52,7 @@ class AlertCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(),
+              _buildHeader(theme),
               Text(
                 timeago.format(alert.createdAt, locale: 'es'),
                 style: GoogleFonts.montserrat(
@@ -62,7 +64,7 @@ class AlertCard extends ConsumerWidget {
               // Gráfico y descripción (solo cuando presionas "Ver detalles")
               _buildDetailsSection(),
               const Divider(thickness: 0.5),
-              _buildFooter(context, isAdmin),
+              _buildFooter(context, isAdmin, theme),
             ],
           ),
         ),
@@ -70,7 +72,7 @@ class AlertCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(ThemeData theme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -86,7 +88,7 @@ class AlertCard extends ConsumerWidget {
           ),
         ),
 
-        Flexible(fit: FlexFit.loose,child: _buildTypeChip()),
+        Flexible(fit: FlexFit.loose,child: _buildTypeChip(theme)),
       ],
     );
   }
@@ -333,9 +335,8 @@ class AlertCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildFooter(BuildContext context, bool isAdmin) {
+  Widget _buildFooter(BuildContext context, bool isAdmin, ThemeData theme) {
     bool isDetailsExpanded = expandedDetailsIndex == index;
-
     return Row(
       children: [
         Text(
@@ -353,8 +354,10 @@ class AlertCard extends ConsumerWidget {
             isDetailsExpanded ? "Cerrar x" : "Ver detalles →",
             style: GoogleFonts.montserrat(
               fontSize: 12,
-              color: const Color(0xFF036BAF),
               fontWeight: FontWeight.w600,
+              color: theme.linkColor,
+              decoration: TextDecoration.underline,
+              decorationColor: theme.linkColor,
             ),
           ),
         ),
@@ -370,29 +373,33 @@ class AlertCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildTypeChip() {
-    late Color color;
+  Widget _buildTypeChip(ThemeData theme) {
+    late Color colorFondo;
     late IconData icon;
     late String text;
-
+    late Color colorBorde;
     switch (alert.type) {
       case AlertType.buy:
-        color = Colors.green;
+        colorFondo = const Color(0xFFDCFCE7);
+        colorBorde = const Color(0xFF10B981);
         icon = Icons.arrow_upward;
         text = "Compra";
         break;
       case AlertType.sell:
-        color = Colors.red;
+        colorFondo = const Color(0xFFFFE1E0);
+        colorBorde = const Color(0xFFDD2E44);
         icon = Icons.arrow_downward;
         text = "Venta";
         break;
       case AlertType.info:
-        color = Colors.blue;
+        colorFondo = Colors.blue;
+        colorBorde = const Color(0xFFDCFCE7);
         icon = Icons.info_outline;
         text = "Info";
         break;
       default:
-        color = Colors.grey;
+        colorFondo = Colors.grey;
+        colorBorde = Colors.grey;
         icon = Icons.all_inclusive;
         text = "Todas";
     }
@@ -403,9 +410,9 @@ class AlertCard extends ConsumerWidget {
           horizontal: 8
         ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: colorFondo,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color)
+        border: Border.all(color: colorBorde)
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -414,11 +421,13 @@ class AlertCard extends ConsumerWidget {
           Text(
             text,
             style: GoogleFonts.montserrat(
-              fontSize: 11
+              fontSize: 11,
+              color: theme.chipsColors,
+              decorationColor: theme.chipsColors
             )
           ),
           const SizedBox(width: 4),
-          Icon(icon, color: color, size: 16),
+          Icon(icon, color: colorBorde, size: 16),
         ],
       ),
     );

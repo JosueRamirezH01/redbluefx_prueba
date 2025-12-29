@@ -74,11 +74,11 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
 
   Future<void> _toggleUserStatus(User user) async {
     try {
-      AppLogger.debug('🔄 Logging: Toggling user status for ${user.fullName} (${user.id}) from ${user.isActive} to ${!user.isActive}');
-      await ref.read(usersProvider.notifier).updateUserStatus(user.id, !user.isActive);
+      AppLogger.debug('🔄 Logging: Toggling user status for ${user.fullName} (${user.id}) from ${user.isActive} to ${!user.isActive!}');
+      await ref.read(usersProvider.notifier).updateUserStatus(user.id, !user.isActive!);
       if (mounted) {
         Fluttertoast.showToast(
-            msg: '${user.fullName} ${user.isActive ? 'deshabilitado' : 'habilitado'} correctamente',
+            msg: '${user.fullName} ${user.isActive! ? 'deshabilitado' : 'habilitado'} correctamente',
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -399,7 +399,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
             'Estado',
             style: GoogleFonts.montserrat(fontWeight: FontWeight.bold, fontSize: 14),
           ),
-          onSort: (columnIndex, ascending) => _sort<String>((user) => user.isActive ? 'Activo' : 'Inactivo', columnIndex),
+          onSort: (columnIndex, ascending) => _sort<String>((user) => user.isActive! ? 'Activo' : 'Inactivo', columnIndex),
         ),
         DataColumn(
           label: Text(
@@ -454,13 +454,13 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: user.isActive ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
+                  color: user.isActive! ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  user.isActive ? 'Activo' : 'Inactivo',
+                  user.isActive! ? 'Activo' : 'Inactivo',
                   style: TextStyle(
-                    color: user.isActive ? Colors.green : Colors.red,
+                    color: user.isActive! ? Colors.green : Colors.red,
                   ),
                 ),
               ),

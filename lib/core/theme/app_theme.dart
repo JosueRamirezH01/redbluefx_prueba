@@ -12,6 +12,8 @@ class AppColors {
   static const basicBack = Color(0xFF066BAF);
   static const lightModeBlue = Color(0xFF005EA3);
 
+  static const forexColor = Color(0xFF066BAF);
+  static const selectedColor = Color(0xFFE53935);
 
   // Variaciones de colores principales para estados
   static const primaryLight = Color(0xFFFF5652);
@@ -257,8 +259,7 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         secondary: AppColors.secondary,
-        surface: Color(0xFF121212),
-        background: Color(0xFF0D0D0D),
+        surface: Color(0xFF0F172A),
         error: AppColors.error,
       ),
       scaffoldBackgroundColor: const Color(0xFF242121),
@@ -270,6 +271,7 @@ class AppTheme {
         ),
         backgroundColor: const Color(0xFF0D1D35),
         foregroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         titleTextStyle: AppTextStyles.titleLarge.copyWith(color: Colors.white),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -281,7 +283,7 @@ class AppTheme {
         ),
       ),
       cardTheme: CardTheme(
-        color: const Color(0xFF0D1D35),
+        color: const Color(0xFF123D61),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -290,7 +292,6 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.secondary.withOpacity(0.25),
         labelStyle: AppTextStyles.bodySmall.copyWith(color: Colors.white),
-        side: const BorderSide(color: AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -325,6 +326,17 @@ class AppTheme {
       ),
     );
   }
+
+
+}
+extension AppThemeColors on ThemeData {
+  ///CARD ALERTAS
+  Color get linkColor => brightness == Brightness.dark
+      ? Colors.white
+      : const Color(0xFF036BAF);
+  Color get chipsColors => brightness == Brightness.dark
+      ? const Color(0xFF101010)
+      : const Color(0xFF101010);
 }
 
 /*

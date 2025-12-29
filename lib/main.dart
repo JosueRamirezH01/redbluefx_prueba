@@ -24,8 +24,9 @@ void main() async {
   // Inicializar configuración
   AppConfig.initialize(
     env: Environment.prod,
-    baseUrl: 'http://192.168.101.6:3502',
+    baseUrl: 'https://redbluefx-develop.up.railway.app',
   );
+  //https://redbluefx-develop.up.railway.app
   //http://192.168.101.6:3502
   //https://redbluefx-production.up.railway.app
   //baseUrl: 'https://redbluefx-production.up.railway.app',

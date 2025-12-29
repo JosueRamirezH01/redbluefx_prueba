@@ -23,8 +23,8 @@ mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
-  String get role => throw _privateConstructorUsedError;
-  bool get isActive => throw _privateConstructorUsedError;
+  String? get role => throw _privateConstructorUsedError;
+  bool? get isActive => throw _privateConstructorUsedError;
   String? get profilePictureUrl => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
   String? get updatedAt => throw _privateConstructorUsedError;
@@ -48,8 +48,8 @@ abstract class $UserCopyWith<$Res> {
       {String id,
       String email,
       String fullName,
-      String role,
-      bool isActive,
+      String? role,
+      bool? isActive,
       String? profilePictureUrl,
       String? createdAt,
       String? updatedAt,
@@ -74,8 +74,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? id = null,
     Object? email = null,
     Object? fullName = null,
-    Object? role = null,
-    Object? isActive = null,
+    Object? role = freezed,
+    Object? isActive = freezed,
     Object? profilePictureUrl = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -94,14 +94,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
               as String,
-      role: null == role
+      role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String,
-      isActive: null == isActive
+              as String?,
+      isActive: freezed == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       profilePictureUrl: freezed == profilePictureUrl
           ? _value.profilePictureUrl
           : profilePictureUrl // ignore: cast_nullable_to_non_nullable
@@ -133,8 +133,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       {String id,
       String email,
       String fullName,
-      String role,
-      bool isActive,
+      String? role,
+      bool? isActive,
       String? profilePictureUrl,
       String? createdAt,
       String? updatedAt,
@@ -156,8 +156,8 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? id = null,
     Object? email = null,
     Object? fullName = null,
-    Object? role = null,
-    Object? isActive = null,
+    Object? role = freezed,
+    Object? isActive = freezed,
     Object? profilePictureUrl = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -176,14 +176,14 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
               as String,
-      role: null == role
+      role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String,
-      isActive: null == isActive
+              as String?,
+      isActive: freezed == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       profilePictureUrl: freezed == profilePictureUrl
           ? _value.profilePictureUrl
           : profilePictureUrl // ignore: cast_nullable_to_non_nullable
@@ -211,8 +211,8 @@ class _$UserImpl implements _User {
       {required this.id,
       required this.email,
       required this.fullName,
-      required this.role,
-      required this.isActive,
+      this.role,
+      this.isActive,
       this.profilePictureUrl,
       this.createdAt,
       this.updatedAt,
@@ -228,9 +228,9 @@ class _$UserImpl implements _User {
   @override
   final String fullName;
   @override
-  final String role;
+  final String? role;
   @override
-  final bool isActive;
+  final bool? isActive;
   @override
   final String? profilePictureUrl;
   @override
@@ -293,8 +293,8 @@ abstract class _User implements User {
       {required final String id,
       required final String email,
       required final String fullName,
-      required final String role,
-      required final bool isActive,
+      final String? role,
+      final bool? isActive,
       final String? profilePictureUrl,
       final String? createdAt,
       final String? updatedAt,
@@ -309,9 +309,9 @@ abstract class _User implements User {
   @override
   String get fullName;
   @override
-  String get role;
+  String? get role;
   @override
-  bool get isActive;
+  bool? get isActive;
   @override
   String? get profilePictureUrl;
   @override

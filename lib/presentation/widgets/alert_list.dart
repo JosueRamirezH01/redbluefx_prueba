@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
 import '../providers/alert_provider.dart';
 import 'alert_card.dart';
@@ -65,17 +66,25 @@ class _AlertListState extends ConsumerState<AlertList> {
                 'assets/images/lupa.svg',
                 width: 90,
                 height: 90,
-
+                fit: BoxFit.contain,
+                colorFilter: const ColorFilter.srgbToLinearGamma(),
               ),
               const SizedBox(height: 16),
               Text(
                 'No se encontraron señales',
-                style: AppTextStyles.titleLarge
+                style: GoogleFonts.montserrat(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
+                )
               ),
               const SizedBox(height: 12),
               Text(
                   'Intenta con otro término de búsqueda',
-                  style: AppTextStyles.bodyMedium
+                  style:GoogleFonts.montserrat(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  )
               ),
             ],
           ),

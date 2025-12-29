@@ -3,14 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../domain/entities/alert.dart';
 import '../../core/utils/date_utils.dart';
+import '../../domain/entities/notice.dart';
 
 class NoticeCard extends ConsumerWidget {
-  final Alert alert;
+  final Notice notice;
   final VoidCallback? onTap;
 
   const NoticeCard({
     super.key,
-    required this.alert,
+    required this.notice,
     this.onTap,
   });
 
@@ -87,7 +88,7 @@ class NoticeCard extends ConsumerWidget {
                 children: [
 
                   Text(
-                    _formatDate(alert.createdAt),
+                    _formatDate(notice.createdAt),
                     style: GoogleFonts.montserrat(
                       fontSize: 12,
                       color: Colors.grey.shade400,

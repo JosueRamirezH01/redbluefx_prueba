@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
+import 'package:redbluefx_mobile/presentation/providers/notice_provider.dart';
 import 'package:redbluefx_mobile/presentation/widgets/notice_card.dart';
 import '../providers/alert_provider.dart';
 
@@ -17,15 +18,15 @@ class _NoticeListState extends ConsumerState<NoticeList> {
 
   @override
   Widget build(BuildContext context) {
-    final alertsState = ref.watch(alertsProvider);
+    final noticeState = ref.watch(noticeProvider);
 
-    if (alertsState.isLoading && alertsState.alerts.isEmpty) {
+    if (noticeState.isLoading && noticeState.notices.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
 
-    if (alertsState.error != null && alertsState.alerts.isEmpty) {
+    if (noticeState.error != null && noticeState.notices.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +54,7 @@ class _NoticeListState extends ConsumerState<NoticeList> {
       );
     }
 
-    if (alertsState.alerts.isEmpty) {
+    if (noticeState.notices.isEmpty) {
       return FadeIn(
         duration: const Duration(milliseconds: 500),
         child: Center(
@@ -84,14 +85,14 @@ class _NoticeListState extends ConsumerState<NoticeList> {
 
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: alertsState.alerts.length,
+      itemCount: noticeState.notices.length,
       itemBuilder: (context, index) {
-        final alert = alertsState.alerts[index];
+        final notice = noticeState.notices[index];
         return SlideInDown(
           duration: Duration(milliseconds: 300 + (index * 100)),
           child: NoticeCard(
-            alert: alert,
-            onTap: () => context.push('/notice/${alert.id}'),
+            notice: notice,
+            onTap: () => context.push('/notice/${notice.id}'),
           ),
         );
       },

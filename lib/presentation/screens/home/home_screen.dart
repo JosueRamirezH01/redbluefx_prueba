@@ -79,9 +79,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
-    //final size = MediaQuery.of(context).size;
-    final width = MediaQuery.of(context).size.width;
-    final isSmall = width < 380;
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
