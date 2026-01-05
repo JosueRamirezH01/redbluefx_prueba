@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
+import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../providers/alert_provider.dart';
 import '../../../core/utils/logger.dart';
 import 'anuncio_destacado_card.dart';
@@ -18,15 +19,15 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
 
   @override
   Widget build(BuildContext context) {
-    final alertsState = ref.watch(alertsProvider);
+    final advertState = ref.watch(advertsProvider);
 
-    if (alertsState.isLoading && alertsState.alerts.isEmpty) {
+    if (advertState.isLoading && advertState.adverts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
 
-    if (alertsState.error != null && alertsState.alerts.isEmpty) {
+    if (advertState.error != null && advertState.adverts.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +55,7 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
       );
     }
 
-    if (alertsState.alerts.isEmpty) {
+    if (advertState.adverts.isEmpty) {
       return FadeIn(
         duration: const Duration(milliseconds: 500),
         child: Center(
@@ -69,7 +70,7 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
               ),
               const SizedBox(height: 16),
               Text(
-                  'No se encontraron señales',
+                  'No se encontraron anuncios',
                   style: AppTextStyles.titleLarge
               ),
               const SizedBox(height: 12),
@@ -87,15 +88,15 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
       padding: const EdgeInsets.all(8),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: alertsState.alerts.length,
+      itemCount: advertState.adverts.length,
       itemBuilder: (context, index) {
-        final alert = alertsState.alerts[index];
+        final advert = advertState.adverts[index];
         return FadeInUp(
           duration: Duration(milliseconds: 300 + (index * 100)),
           child: SlideInRight(
             duration: Duration(milliseconds: 300 + (index * 100)),
             child: Dismissible(
-              key: Key(alert.id),
+              key: Key(advert.id),
               direction: DismissDirection.endToStart,
               background: Container(
                 alignment: Alignment.centerRight,
@@ -132,8 +133,8 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
                 );
               },
               onDismissed: (direction) async {
-                try {
-                  await ref.read(alertsProvider.notifier).deleteAlert(alert.id);
+                /*try {
+                  await ref.read(advertsProvider.notifier).de(advert.id);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -152,11 +153,11 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
                       ),
                     );
                   }
-                }
+                }*/
               },
               child: AnuncioDestacadoCard(
-                alert: alert,
-                onTap: () => context.push('/anuncio/${alert.id}'),
+                advert: advert,
+                onTap: () => context.push('/anuncio/${advert.id}'),
                 //onEdit: () => context.push('/alerts/${alert.id}/edit'),
               ),
             ),

@@ -10,9 +10,15 @@ enum AlertStatus { active, archived }
 class Alert with _$Alert {
   const factory Alert({
     required String id,
-    required String title,
-    required String content,
+    String? title,
+    String? content,
+    required String pair,
+    required String entry,
+    required String stopLoss,
     required AlertType type,
+    String? analysis,
+    required List<String> takeProfits,
+    String? image,
     String? imageUrl,
     required DateTime createdAt,
     required String createdBy,

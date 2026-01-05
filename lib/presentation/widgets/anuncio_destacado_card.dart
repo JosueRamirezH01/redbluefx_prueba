@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/domain/entities/adverts.dart';
 import '../../domain/entities/alert.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class AnuncioDestacadoCard extends ConsumerWidget {
-  final Alert alert;
+  final Advert advert;
   final VoidCallback? onTap;
 
   const AnuncioDestacadoCard({
     super.key,
-    required this.alert,
+    required this.advert,
     this.onTap,
   });
 
@@ -68,7 +69,7 @@ class AnuncioDestacadoCard extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Análisis semanal del mercado',
+                          advert.title,
                           style: GoogleFonts.montserrat(
                             fontSize: 17,
                             color: Colors.white,
@@ -84,7 +85,7 @@ class AnuncioDestacadoCard extends ConsumerWidget {
                           maxLines: 2,
                         ),
                         Text(
-                          'Perspectivas y estrategías recomendadas',
+                          advert.content,
                           style: GoogleFonts.montserrat(
                             fontSize: 14,
                             color: Colors.white.withOpacity(0.95),
@@ -98,7 +99,7 @@ class AnuncioDestacadoCard extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          timeago.format(alert.createdAt, locale: 'es'),
+                          timeago.format(advert.createdAt, locale: 'es'),
                           style: GoogleFonts.montserrat(
                             fontSize: 12,
                             color: Colors.white.withOpacity(0.9),
@@ -129,12 +130,12 @@ class AnuncioDestacadoCard extends ConsumerWidget {
   }
 
   Widget _buildImage(double finalSize) {
-    if (alert.imageUrl == null || alert.imageUrl!.isEmpty) {
+    if (advert.image == null || advert.image!.isEmpty) {
       return _defaultImage(finalSize);
     }
 
     return Image.network(
-      alert.imageUrl!,
+      advert.image!,
       width: finalSize,
       height: finalSize,
       fit: BoxFit.cover,

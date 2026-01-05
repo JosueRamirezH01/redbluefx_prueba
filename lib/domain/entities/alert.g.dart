@@ -8,9 +8,17 @@ part of 'alert.dart';
 
 _$AlertImpl _$$AlertImplFromJson(Map<String, dynamic> json) => _$AlertImpl(
       id: json['id'] as String,
-      title: json['title'] as String,
-      content: json['content'] as String,
+      title: json['title'] as String?,
+      content: json['content'] as String?,
+      pair: json['pair'] as String,
+      entry: json['entry'] as String,
+      stopLoss: json['stopLoss'] as String,
       type: $enumDecode(_$AlertTypeEnumMap, json['type']),
+      analysis: json['analysis'] as String?,
+      takeProfits: (json['takeProfits'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      image: json['image'] as String?,
       imageUrl: json['imageUrl'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       createdBy: json['createdBy'] as String,
@@ -24,7 +32,13 @@ Map<String, dynamic> _$$AlertImplToJson(_$AlertImpl instance) =>
       'id': instance.id,
       'title': instance.title,
       'content': instance.content,
+      'pair': instance.pair,
+      'entry': instance.entry,
+      'stopLoss': instance.stopLoss,
       'type': _$AlertTypeEnumMap[instance.type]!,
+      'analysis': instance.analysis,
+      'takeProfits': instance.takeProfits,
+      'image': instance.image,
       'imageUrl': instance.imageUrl,
       'createdAt': instance.createdAt.toIso8601String(),
       'createdBy': instance.createdBy,

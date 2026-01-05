@@ -143,7 +143,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
         title: const Text('Archivar Alerta'),
-        content: Text('¿Estás seguro que deseas archivar "${alert.title}"?\n\nEsta acción se puede deshacer.'),
+        content: Text('¿Estás seguro que deseas archivar "${alert.pair}"?\n\nEsta acción se puede deshacer.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -513,7 +513,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
             ),
             const SizedBox(height: 12),
             Text(
-              alert.title,
+              alert.pair,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -521,7 +521,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              alert.content,
+              alert.content!,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey.shade600,

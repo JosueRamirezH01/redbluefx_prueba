@@ -6,14 +6,23 @@ import 'package:redbluefx_mobile/domain/entities/alert.dart';
 import 'alert_card.dart';
 
 class TradingAlertPreviewDialog extends ConsumerStatefulWidget {
-  const TradingAlertPreviewDialog({super.key});
+  final Alert alert;
+  final Future<void> Function() onConfirm;
+  const TradingAlertPreviewDialog({
+    super.key,
+    required this.alert,
+    required this.onConfirm,
+  });
 
   @override
-  ConsumerState<TradingAlertPreviewDialog> createState() => _TradingAlertPreviewDialogState();
+  ConsumerState<TradingAlertPreviewDialog> createState() =>
+      _TradingAlertPreviewDialogState();
 }
 class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewDialog> {
   int? expandedIndex;
   int? expandedDetailsIndex;
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -81,11 +90,10 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
   }
 
   Widget _buildAlertCard(BuildContext context, bool isSmallScreen) {
-    Alert alert = Alert(id: '1', title: 'EUR/USD', content: 'contnt', type: AlertType.buy, createdAt: DateTime.now(), createdBy: '01-03-2025', isPublic: true);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: AlertCard(
-        alert: alert,
+        alert: widget.alert,
         index: 1,
         expandedIndex: expandedIndex,
         expandedDetailsIndex: expandedDetailsIndex,
@@ -173,9 +181,9 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
               width: MediaQuery.of(context).size.width * 0.18,
               height: MediaQuery.of(context).size.height * 0.05,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.of(context).pop();
-                  // Acción para publicar
+                  await widget.onConfirm();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade600,

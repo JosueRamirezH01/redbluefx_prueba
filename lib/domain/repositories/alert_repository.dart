@@ -17,9 +17,14 @@ abstract class AlertRepository {
   });
 
   Future<Alert> createAlert({
-    required String title,
-    required String content,
+    required String pair,
+    required String entry,
+    required String stopLoss,
+    String? analysis,
+    String? image,
+    required List<String> takeProfits,
     required AlertType type,
+    String? imageUrl,
     required bool isPublic,
   });
 

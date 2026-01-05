@@ -3,6 +3,7 @@ class ApiRoutes {
   static const _alerts = '/api/alerts';
   static const _notices = '/api/news';
   static const _users = '/api/users';
+  static const _adverts = '/api/adverts';
   // Auth routes
   static const register = '$_auth/register';
   static const login = '$_auth/login';
@@ -29,5 +30,5 @@ class ApiRoutes {
   // Notice routes
 
   static const notices = _notices;
-
+  static const adverts = _adverts;
 } 

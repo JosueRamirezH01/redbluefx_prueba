@@ -15,7 +15,6 @@ import '../../presentation/screens/auth/verify_reset_code_screen.dart';
 import '../../presentation/screens/auth/reset_password_screen.dart';
 import '../../presentation/screens/auth/verify_email_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
-import '../../presentation/screens/splash_screen.dart';
 import '../../presentation/screens/noticia/notice_detail_screen.dart';
 import '../../presentation/screens/alert/create_alert_screen.dart';
 import '../../presentation/screens/profile/profile_screen.dart';

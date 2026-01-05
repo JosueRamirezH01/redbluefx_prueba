@@ -71,7 +71,7 @@ class AlertCardBackup extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                alert.title,
+                alert.title!,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class AlertCardBackup extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                alert.content,
+                alert.content!,
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey.shade600,

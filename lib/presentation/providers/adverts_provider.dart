@@ -1,38 +1,39 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/logger.dart';
+import '../../data/repositories/adverts_repository_impl.dart';
+import '../../domain/entities/adverts.dart';
 import '../../domain/entities/alert.dart';
-import '../../domain/repositories/alert_repository.dart';
-import '../../data/repositories/alert_repository_impl.dart';
-
-final alertRepositoryProvider = Provider<AlertRepository>((ref) {
-  return AlertRepositoryImpl();
+import '../../domain/repositories/adverts_repository.dart';
+final showNewsCarouselProvider = StateProvider<bool>((ref) {
+  return true; // visible por defecto
+});
+final advertRepositoryProvider = Provider<AdvertRepository>((ref) {
+  return AdvertsRepositoryImpl();
 });
 
-final alertsProvider = StateNotifierProvider<AlertNotifier, AlertState>((ref) {
-  return AlertNotifier(ref.watch(alertRepositoryProvider));
+final advertsProvider = StateNotifierProvider<AdvertNotifier, AdvertState>((ref) {
+  return AdvertNotifier(ref.watch(advertRepositoryProvider));
 });
 
-class AlertState {
-  final List<Alert> alerts;
+class AdvertState {
+  final List<Advert> adverts;
   final bool isLoading;
   final String? error;
   final bool hasMore;
   final int currentPage;
-  final AlertType? selectedType;
   final String? searchQuery;
 
-  const AlertState({
-    this.alerts = const [],
+  const AdvertState({
+    this.adverts = const [],
     this.isLoading = false,
     this.error,
     this.hasMore = true,
     this.currentPage = 1,
-    this.selectedType,
     this.searchQuery,
   });
 
-  AlertState copyWith({
-    List<Alert>? alerts,
+  AdvertState copyWith({
+    List<Advert>? adverts,
     bool? isLoading,
     String? error,
     bool? hasMore,
@@ -40,31 +41,30 @@ class AlertState {
     AlertType? selectedType,
     String? searchQuery,
   }) {
-    return AlertState(
-      alerts: alerts ?? this.alerts,
+    return AdvertState(
+      adverts: adverts ?? this.adverts,
       isLoading: isLoading ?? this.isLoading,
       error: error,
       hasMore: hasMore ?? this.hasMore,
       currentPage: currentPage ?? this.currentPage,
-      selectedType: selectedType ?? this.selectedType,
       searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 }
 
-class AlertNotifier extends StateNotifier<AlertState> {
-  final AlertRepository _repository;
+class AdvertNotifier extends StateNotifier<AdvertState> {
+  final AdvertRepository _repository;
   static const _pageSize = 20;
 
-  AlertNotifier(this._repository) : super(const AlertState()) {
-    loadAlerts();
+  AdvertNotifier(this._repository) : super(const AdvertState()) {
+    loadAdverts();
   }
 
-  Future<void> loadAlerts({bool refresh = false}) async {
+  Future<void> loadAdverts({bool refresh = false}) async {
     if (refresh) {
       state = state.copyWith(
         currentPage: 1,
-        alerts: [],
+        adverts: [],
         hasMore: true,
       );
     }
@@ -72,28 +72,23 @@ class AlertNotifier extends StateNotifier<AlertState> {
     if (!state.hasMore || state.isLoading) return;
 
     state = state.copyWith(isLoading: true, error: null);
-    AppLogger.debug('🔄 AlertNotifier loadAlerts - loading with type: ${state.selectedType}');
 
     try {
-      final alerts = await _repository.getAlerts(
+      final adverts = await _repository.getAdverts(
         page: state.currentPage,
         limit: _pageSize,
-        type: state.selectedType,
         search: state.searchQuery,
       );
-      AppLogger.debug('🔄 AlertNotifier loadAlerts - received ${alerts.length} alerts');
-      if (alerts.isNotEmpty) {
-        AppLogger.debug('🔄 AlertNotifier loadAlerts - first alert type: ${alerts.first.type}');
-      }
-      
+      AppLogger.debug('🔄 AdvertNotifier loadAlerts - received ${adverts.length} advert');
+
       state = state.copyWith(
-        alerts: [...state.alerts, ...alerts],
+        adverts: [...state.adverts, ...adverts],
         isLoading: false,
-        hasMore: alerts.length >= _pageSize,
+        hasMore: adverts.length >= _pageSize,
         currentPage: state.currentPage + 1,
       );
     } catch (e) {
-      AppLogger.error('🔄 AlertNotifier loadAlerts - error', error: e);
+      AppLogger.error('🔄 AdvertNotifier loadAdvert - error', error: e);
       state = state.copyWith(
         error: e.toString(),
         isLoading: false,
@@ -102,37 +97,55 @@ class AlertNotifier extends StateNotifier<AlertState> {
   }
 
   Future<void> refreshAlerts() async {
-    await loadAlerts(refresh: true);
+    await loadAdverts(refresh: true);
   }
 
   void clearFilters() {
-    state = const AlertState(
-      alerts: [],
+    state = const AdvertState(
+      adverts: [],
       isLoading: false,
       error: null,
       hasMore: true,
       currentPage: 1,
-      selectedType: null,
       searchQuery: null,
     );
   }
+  Future<Advert> createAdvert({required title, required String content,String? image, required bool isPublic}) async {
+    try {
+      final advert = await _repository.createAdverts(
+          title: title,
+          content: content,
+          isPublic: isPublic,
+          image: image
+      );
 
-  void filterByType(AlertType? type) {
+      state = state.copyWith(
+        adverts: [advert, ...state.adverts],
+      );
+
+      return advert;
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+      rethrow;
+    }
+  }
+
+ /* void filterByType(AlertType? type) {
     AppLogger.debug('🔄 AlertNotifier filterByType - before: ${state.selectedType}, after: $type');
     AppLogger.debug('🔄 AlertNotifier filterByType - type is null: ${type == null}');
-    
+
     if (type == state.selectedType) {
       AppLogger.debug('🔄 AlertNotifier filterByType - type unchanged, returning');
       return;
     }
-    
+
     state = state.copyWith(
       selectedType: type,
       currentPage: 1,
       alerts: [],
       hasMore: true,
     );
-    
+
     AppLogger.debug('🔄 AlertNotifier filterByType - state updated, new selectedType: ${state.selectedType}');
     AppLogger.debug('🔄 AlertNotifier filterByType - loading alerts with type: ${state.selectedType}');
     loadAlerts();
@@ -228,30 +241,6 @@ class AlertNotifier extends StateNotifier<AlertState> {
     } catch (e) {
       state = state.copyWith(error: e.toString());
     }
-  }
+  }*/
 
-  Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, required List<String> takeProfits, required AlertType type, String? imageUrl, required bool isPublic}) async {
-    try {
-      final alert = await _repository.createAlert(
-        pair:pair,
-        entry: entry,
-        stopLoss: stopLoss,
-        analysis: analysis,
-        image: image,
-        takeProfits: takeProfits,
-        imageUrl: imageUrl,
-        type: type,
-        isPublic: isPublic
-      );
-
-      state = state.copyWith(
-        alerts: [alert, ...state.alerts],
-      );
-
-      return alert;
-    } catch (e) {
-      state = state.copyWith(error: e.toString());
-      rethrow;
-    }
-  }
-} 
+}

@@ -39,7 +39,7 @@ class AlertCard extends ConsumerWidget {
     final auth = ref.watch(authStateProvider);
     final isAdmin = auth.currentUser?.role == 'admin';
     timeago.setLocaleMessages('es', timeago.EsMessages());
-
+    final screenWidth = MediaQuery.of(context).size.width;
     return Card(
       elevation: 1,
       margin: const EdgeInsets.only(bottom: 14),
@@ -62,7 +62,7 @@ class AlertCard extends ConsumerWidget {
               _buildPricesSection(context),
               const SizedBox(height: 8),
               // Gráfico y descripción (solo cuando presionas "Ver detalles")
-              _buildDetailsSection(),
+              _buildDetailsSection(screenWidth),
               const Divider(thickness: 0.5),
               _buildFooter(context, isAdmin, theme),
             ],
@@ -79,7 +79,7 @@ class AlertCard extends ConsumerWidget {
         Expanded(
           flex: 2,
           child: Text(
-            alert.title,
+            alert.pair,
             style: GoogleFonts.montserrat(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -94,9 +94,9 @@ class AlertCard extends ConsumerWidget {
   }
 
   Widget _buildPricesSection(BuildContext context) {
-    final mockTPs = <double>[1.0920, 1.0950, 1.0980, 1.1000, 1.0290];
+    final mockTPs = alert.takeProfits;
     bool isTPExpanded = expandedIndex == index;
-    double currentTP = mockTPs.first;
+    String currentTP = mockTPs.first;
 
     return StatefulBuilder(
       builder: (context, setState) {
@@ -114,9 +114,9 @@ class AlertCard extends ConsumerWidget {
                           fontWeight: FontWeight.w500
                         )),
                     const SizedBox(height: 2),
-                    const Text(
-                      '1.0820',
-                      style: TextStyle(
+                    Text(
+                      formatDecimals(alert.entry),
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF10B981),
@@ -130,7 +130,9 @@ class AlertCard extends ConsumerWidget {
                 // --- TP BUTTON ---
                 GestureDetector(
                   onTap: () {
-                    onExpandChange(isTPExpanded ? null : index);
+                    if(mockTPs.length > 1) {
+                      onExpandChange(isTPExpanded ? null : index);
+                    }
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +159,7 @@ class AlertCard extends ConsumerWidget {
                             Row(
                               children: [
                                 Text(
-                                  "${currentTP.toStringAsFixed(4)} ",
+                                  formatDecimals(currentTP),
                                   style: GoogleFonts.montserrat(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
@@ -179,6 +181,7 @@ class AlertCard extends ConsumerWidget {
                                         '${mockTPs.length}',
                                         style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF066BAF)),
                                       ),
+                                      if(mockTPs.length > 1)
                                       Icon(
                                         isTPExpanded
                                             ? Icons.keyboard_arrow_up
@@ -213,7 +216,7 @@ class AlertCard extends ConsumerWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '1.0780',
+                      formatDecimals(alert.stopLoss),
                       style: GoogleFonts.montserrat(
                         fontSize: 13,
                         fontWeight: FontWeight.bold   ,
@@ -258,7 +261,7 @@ class AlertCard extends ConsumerWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              mockTPs[i].toStringAsFixed(4),
+                              formatDecimals(mockTPs[i]),
                               style: GoogleFonts.montserrat(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
@@ -279,7 +282,7 @@ class AlertCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildDetailsSection() {
+  Widget _buildDetailsSection(double size) {
     bool isDetailsExpanded = expandedDetailsIndex == index;
 
     return AnimatedSize(
@@ -292,35 +295,49 @@ class AlertCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Gráfico desde assets
-              Container(
-                width: 120,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    'assets/images/chart_placeholder.png',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.green.shade50,
-                        child: Icon(
-                          Icons.show_chart,
-                          color: Colors.green.shade300,
-                          size: 40,
-                        ),
-                      );
-                    },
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final imageSize = size * 0.3;
+                    final finalSize = imageSize.clamp(100.0, 120.0);
+
+                    // Si no hay URL de imagen, mostramos placeholder
+                    if (alert.imageUrl == null || alert.imageUrl!.isEmpty) {
+                      return _placeholder(finalSize);
+                    }
+
+                    return Image.network(
+                      alert.imageUrl!,
+                      width: finalSize,
+                      height: finalSize,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return Container(
+                          width: finalSize,
+                          height: finalSize,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            value: progress.expectedTotalBytes != null
+                                ? progress.cumulativeBytesLoaded /
+                                progress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return _placeholder(finalSize, broken: true);
+                      },
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 12),
               // Texto descripción
               Expanded(
                 child: Text(
-                  "Lorem ipsum suspendisse lacus urna arcu ut pretium tellus etiam sollicitudin parturient pellentesque sed id cursus quisque.",
+                  alert.analysis ?? '',
                   style: GoogleFonts.montserrat(
                     fontSize: 13,
                   ),
@@ -431,6 +448,34 @@ class AlertCard extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Widget _placeholder(double size, {bool broken = false}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: const Color(0xFF066BAF).withOpacity(0.2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Icon(
+        broken ? Icons.broken_image : Icons.show_chart,
+        color: const Color(0xFF066BAF),
+        size: size * 0.4,
+      ),
+    );
+  }
+
+
+  String formatDecimals(String value) {
+    if (!value.contains('.')) return value;
+
+    final parts = value.split('.');
+    final decimals = parts[1];
+
+    if (decimals.length <= 4) return value;
+
+    return '${parts[0]}.${decimals.substring(0, 4)}';
   }
 }
 

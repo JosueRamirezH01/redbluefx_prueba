@@ -5,10 +5,14 @@ import 'dart:io';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../../core/utils/borderPainter.dart';
+import '../../../core/utils/logger.dart';
 import '../../../domain/entities/alert.dart';
+import '../../providers/alert_provider.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/previewAlert.dart';
 
@@ -22,61 +26,105 @@ class CreateAlertScreen extends ConsumerStatefulWidget {
 class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   final _formKeyAlerta = GlobalKey<FormState>();
   final _formKeyAnuncio = GlobalKey<FormState>();
-
   final _titleController = TextEditingController();
-  final List<TextEditingController> _tpControllers = [TextEditingController()];
-  final _entradaController = TextEditingController();
-  final _slController = TextEditingController();
   final _contentController = TextEditingController();
+  final _pairController = TextEditingController();
+  final List<TextEditingController> _tpControllers = [TextEditingController()];
+  final _entryController = TextEditingController();
+  final _slController = TextEditingController();
+  final _analysisController = TextEditingController();
   final PageController _pageController = PageController();
   AlertType? _selectedType;
   bool _isPublic = true;
-  final bool _isLoadingAlerta = false;
-  final bool _isLoadingAnuncio = false;
+  bool _isLoadingAlerta = false;
+  bool _isLoadingAnuncio = false;
   File? _selectedImage;
   bool _isPickingImage = false;
   int _selectedIndex = 0;
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
+    _pairController.dispose();
+    _entryController.dispose();
+    _slController.dispose();
+    _analysisController.dispose();
     for (var c in _tpControllers) {
       c.dispose();
     }
     super.dispose();
   }
 
-  Future<void> _submitForm() async {
-    showDialog(
-      context: context,
-      builder: (_) => const TradingAlertPreviewDialog(),
-    );
-   /* if (_selectedType == null) {
+  Future<void> _openPreviewAlerta() async {
+    if (_selectedType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Por favor selecciona un tipo: Comprar o Vender'),
           backgroundColor: Colors.redAccent,
         ),
       );
-      return; // detener
+      return;
     }
 
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKeyAlerta.currentState!.validate()) return;
 
-    setState(() => _isLoading = true);
+    final takeProfits = _tpControllers.map((c) => c.text.trim()).toList();
+
+    if (takeProfits.any((tp) => tp.isEmpty)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Todos los Take Profit deben estar completos'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+    final alertDraft = Alert(
+      id: '',
+      pair: _pairController.text.trim(),
+      entry: _entryController.text.trim(),
+      stopLoss: _slController.text.trim(),
+      takeProfits: _tpControllers.map((c) => c.text).toList(),
+      analysis: _analysisController.text,
+      type: _selectedType!,
+      isPublic: _isPublic,
+      createdAt: DateTime.now(),
+      createdBy: '',
+    );
+
+    showDialog(
+      context: context,
+      builder: (_) => TradingAlertPreviewDialog(alert: alertDraft, onConfirm: _submitFormAlerta),
+    );
+
+  }
+
+  Future<void> _submitFormAlerta() async {
+    setState(() => _isLoadingAlerta = true);
+
+    final List<String> takeProfits = _tpControllers.map((c) => c.text.trim()).toList();
 
     try {
       await ref.read(alertsProvider.notifier).createAlert(
-        title: _titleController.text,
-        content: _contentController.text,
+        pair: _pairController.text,
+        entry: _entryController.text,
+        stopLoss: _slController.text,
+        analysis: _analysisController.text,
+        takeProfits: takeProfits,
+        image: '',
+        imageUrl: null,
         type: _selectedType!,
         isPublic: _isPublic,
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Alerta creada correctamente')),
+        Fluttertoast.showToast(
+            msg: "Alerta creada correctamente",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
         );
         Navigator.of(context).pop();
       }
@@ -92,10 +140,53 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       }
     } finally {
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() => _isLoadingAlerta = false);
       }
-    }*/
+    }
   }
+  Future<void> _submitFormAnuncio() async {
+
+    if (!_formKeyAnuncio.currentState!.validate()) return;
+
+    setState(() => _isLoadingAnuncio = true);
+
+    try {
+      await ref.read(advertsProvider.notifier).createAdvert(
+        title: _titleController.text,
+        content: _contentController.text,
+        image: '',
+        isPublic: _isPublic,
+      );
+
+      if (mounted) {
+        Fluttertoast.showToast(
+            msg: "Anuncio creado correctamente",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Navigator.of(context).pop();
+      }
+    } catch (e, stack) {
+      AppLogger.error('Error al crear anuncio', error: e, stackTrace: stack);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al crear el anuncio. Por favor, intenta de nuevo.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoadingAnuncio = false);
+      }
+    }
+  }
+
   Future<void> _pickImage() async {
     showDialog(
       context: context,
@@ -321,7 +412,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     setState(() => _selectedIndex = value);
                   },
                   children: [
-                    _buildCrearAlertaForm(),
+                    _buildCreateAlertForm(),
                     _buildCrearAnuncioForm(),
                   ],
                 ),
@@ -374,7 +465,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
 
-  Widget _buildCrearAlertaForm() {
+  Widget _buildCreateAlertForm() {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Form(
@@ -432,7 +523,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
-                    controller: _titleController,
+                    controller: _pairController,
                     maxLength: 20,
                     decoration:  InputDecoration(
                       labelText: 'Par de Divisas',
@@ -454,7 +545,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
-                    controller: _entradaController,
+                    controller: _entryController,
+                    //keyboardType: TextInputType.number,
                     decoration:  InputDecoration(
                       labelText: 'Entrada ➡️',
                       floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
@@ -464,11 +556,12 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
+                      final priceRegex = RegExp(r'^\d+(\.\d+)?$');
                       if (value == null || value.isEmpty) {
                         return 'Por favor ingresa una entrada';
                       }
-                      if (value.length < 3) {
-                        return 'El título debe tener al menos 3 caracteres';
+                      if (!priceRegex.hasMatch(value.trim())) {
+                        return 'Formato inválido. Ej: 1.0820';
                       }
                       return null;
                     },
@@ -495,7 +588,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                                     border: const OutlineInputBorder(),
                                   ),
                                   validator: (value) {
+                                    final priceRegex = RegExp(r'^\d+(\.\d+)?$');
                                     if (value == null || value.isEmpty) return 'Ingresa un TP';
+                                    if (!priceRegex.hasMatch(value.trim())) {
+                                      return 'Formato inválido. Ej: 1.0820';
+                                    }
                                     return null;
                                   },
                                 ),
@@ -540,18 +637,19 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
+                      final priceRegex = RegExp(r'^\d+(\.\d+)?$');
                       if (value == null || value.isEmpty) {
                         return 'Por favor ingresa un SL';
                       }
-                      if (value.length < 3) {
-                        return 'El título debe tener al menos 3 caracteres';
+                      if (!priceRegex.hasMatch(value.trim())) {
+                        return 'Formato inválido. Ej: 1.0820';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
-                    controller: _contentController,
+                    controller: _analysisController,
                     decoration: const InputDecoration(
                       labelText: 'Análisis (Opcional)',
                       border: OutlineInputBorder(),
@@ -559,15 +657,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     ),
                     maxLength: 120,
                     maxLines: null,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa el detalle';
-                      }
-                      if (value.length < 10) {
-                        return 'El contenido debe tener al menos 10 caracteres';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   imagenSwitch(),
@@ -638,7 +727,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: _isLoadingAlerta ? null : _submitForm,
+                onPressed: _isLoadingAlerta ? null : _openPreviewAlerta,
                 child: _isLoadingAlerta
                     ? const SizedBox(
                   height: 20,
@@ -673,131 +762,150 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
   Widget _buildCrearAnuncioForm() {
-    return Form(
-      key: _formKeyAnuncio,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
-            ),
-            child: Column(
-              children: [
-                Text('Crear Anuncio',
-                  style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w700),
-                ),
-                const SizedBox(height: 12),
-
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Título',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
-                    border: const OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 12),
-
-                TextFormField(
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    labelText: 'Contenido',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
-                    border: const OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                imagenSwitch(),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '¿Destacar?',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-
-                          Text(
-                            '(Carrusel home)',
-                            style: GoogleFonts.poppins(fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Switch(
-                      value: _isPublic,
-                      onChanged: (value) {
-                        setState(() {
-                          _isPublic = value;
-                        });
-                      },
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Container(decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFFFF1B21),
-                Color(0xFFDD0E13),
-                Color(0xFFBB0004),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
-              BoxShadow(
-                  color: Color(0xFFED7053),
-                  blurRadius: 16,      // intensidad
-                  offset: Offset(2, 8) // altura
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Form(
+        key: _formKeyAnuncio,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
               ),
-            ],
-          ),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                elevation: 12,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {},
-              child:  _isLoadingAnuncio
-                  ? const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-                  :   Row(
-                mainAxisAlignment:  MainAxisAlignment.center,
+              child: Column(
                 children: [
                   Text('Crear Anuncio',
-                      style: GoogleFonts.montserrat(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)),
-                  const SizedBox(width: 10),
-                  const Icon(Icons.campaign,size: 25),
+                    style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 12),
 
+                  TextFormField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      labelText: 'Título',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa un contenido';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+
+                  TextFormField(
+                    controller: _contentController,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      labelText: 'Contenido',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingresa un contenido';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  imagenSwitch(),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '¿Destacar?',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+
+                            Text(
+                              '(Carrusel home)',
+                              style: GoogleFonts.poppins(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Switch(
+                        value: _isPublic,
+                        onChanged: (value) {
+                          setState(() {
+                            _isPublic = value;
+                          });
+                        },
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            Container(decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFFFF1B21),
+                  Color(0xFFDD0E13),
+                  Color(0xFFBB0004),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: const [
+                BoxShadow(
+                    color: Color(0xFFED7053),
+                    blurRadius: 16,      // intensidad
+                    offset: Offset(2, 8) // altura
+                ),
+              ],
+            ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  elevation: 12,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  _submitFormAnuncio();
+                },
+                child:  _isLoadingAnuncio
+                    ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+                    :   Row(
+                  mainAxisAlignment:  MainAxisAlignment.center,
+                  children: [
+                    Text('Crear Anuncio',
+                        style: GoogleFonts.montserrat(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.campaign,size: 25),
+
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

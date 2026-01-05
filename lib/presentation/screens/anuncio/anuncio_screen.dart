@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import 'package:redbluefx_mobile/presentation/widgets/anuncio_destacado_list.dart';
 import 'package:redbluefx_mobile/presentation/widgets/anuncio_reciente_list.dart';
 import '../../../core/utils/logger.dart';
@@ -28,9 +29,9 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
       duration: const Duration(milliseconds: 1500),
     )..forward();
 
-    /*WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadAlerts();
-    });*/
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadAdvert();
+    });
   }
 
   @override
@@ -40,11 +41,11 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
     super.dispose();
   }
 
-  Future<void> _loadAlerts() async {
-    /*try {
-      await ref.read(alertsProvider.notifier).loadAlerts();
+  Future<void> _loadAdvert() async {
+    try {
+      await ref.read(advertsProvider.notifier).loadAdverts();
     } catch (e, stack) {
-      AppLogger.error('Error cargando alertas: $e', error: e, stackTrace: stack);
+      AppLogger.error('Error cargando advert: $e', error: e, stackTrace: stack);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -53,7 +54,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
           ),
         );
       }
-    }*/
+    }
   }
 
 
@@ -112,7 +113,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
             ),
           ),
           child: RefreshIndicator(
-            onRefresh: _loadAlerts,
+            onRefresh: _loadAdvert,
             child:  SingleChildScrollView(
               physics:  const AlwaysScrollableScrollPhysics(),
               child: Column(

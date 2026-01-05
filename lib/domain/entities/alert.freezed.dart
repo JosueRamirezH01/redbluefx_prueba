@@ -21,17 +21,27 @@ Alert _$AlertFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Alert {
   String get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get content => throw _privateConstructorUsedError;
+  String get pair => throw _privateConstructorUsedError;
+  String get entry => throw _privateConstructorUsedError;
+  String get stopLoss => throw _privateConstructorUsedError;
   AlertType get type => throw _privateConstructorUsedError;
+  String? get analysis => throw _privateConstructorUsedError;
+  List<String> get takeProfits => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
   bool get isPublic => throw _privateConstructorUsedError;
   AlertStatus get status => throw _privateConstructorUsedError;
 
+  /// Serializes this Alert to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Alert
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AlertCopyWith<Alert> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -42,9 +52,15 @@ abstract class $AlertCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String title,
-      String content,
+      String? title,
+      String? content,
+      String pair,
+      String entry,
+      String stopLoss,
       AlertType type,
+      String? analysis,
+      List<String> takeProfits,
+      String? image,
       String? imageUrl,
       DateTime createdAt,
       String createdBy,
@@ -62,13 +78,21 @@ class _$AlertCopyWithImpl<$Res, $Val extends Alert>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Alert
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? content = null,
+    Object? title = freezed,
+    Object? content = freezed,
+    Object? pair = null,
+    Object? entry = null,
+    Object? stopLoss = null,
     Object? type = null,
+    Object? analysis = freezed,
+    Object? takeProfits = null,
+    Object? image = freezed,
     Object? imageUrl = freezed,
     Object? createdAt = null,
     Object? createdBy = null,
@@ -80,18 +104,42 @@ class _$AlertCopyWithImpl<$Res, $Val extends Alert>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
+              as String?,
+      content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pair: null == pair
+          ? _value.pair
+          : pair // ignore: cast_nullable_to_non_nullable
+              as String,
+      entry: null == entry
+          ? _value.entry
+          : entry // ignore: cast_nullable_to_non_nullable
+              as String,
+      stopLoss: null == stopLoss
+          ? _value.stopLoss
+          : stopLoss // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as AlertType,
+      analysis: freezed == analysis
+          ? _value.analysis
+          : analysis // ignore: cast_nullable_to_non_nullable
+              as String?,
+      takeProfits: null == takeProfits
+          ? _value.takeProfits
+          : takeProfits // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -125,9 +173,15 @@ abstract class _$$AlertImplCopyWith<$Res> implements $AlertCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String title,
-      String content,
+      String? title,
+      String? content,
+      String pair,
+      String entry,
+      String stopLoss,
       AlertType type,
+      String? analysis,
+      List<String> takeProfits,
+      String? image,
       String? imageUrl,
       DateTime createdAt,
       String createdBy,
@@ -143,13 +197,21 @@ class __$$AlertImplCopyWithImpl<$Res>
       _$AlertImpl _value, $Res Function(_$AlertImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Alert
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? content = null,
+    Object? title = freezed,
+    Object? content = freezed,
+    Object? pair = null,
+    Object? entry = null,
+    Object? stopLoss = null,
     Object? type = null,
+    Object? analysis = freezed,
+    Object? takeProfits = null,
+    Object? image = freezed,
     Object? imageUrl = freezed,
     Object? createdAt = null,
     Object? createdBy = null,
@@ -161,18 +223,42 @@ class __$$AlertImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
+              as String?,
+      content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pair: null == pair
+          ? _value.pair
+          : pair // ignore: cast_nullable_to_non_nullable
+              as String,
+      entry: null == entry
+          ? _value.entry
+          : entry // ignore: cast_nullable_to_non_nullable
+              as String,
+      stopLoss: null == stopLoss
+          ? _value.stopLoss
+          : stopLoss // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as AlertType,
+      analysis: freezed == analysis
+          ? _value.analysis
+          : analysis // ignore: cast_nullable_to_non_nullable
+              as String?,
+      takeProfits: null == takeProfits
+          ? _value._takeProfits
+          : takeProfits // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -202,14 +288,21 @@ class __$$AlertImplCopyWithImpl<$Res>
 class _$AlertImpl implements _Alert {
   const _$AlertImpl(
       {required this.id,
-      required this.title,
-      required this.content,
+      this.title,
+      this.content,
+      required this.pair,
+      required this.entry,
+      required this.stopLoss,
       required this.type,
+      this.analysis,
+      required final List<String> takeProfits,
+      this.image,
       this.imageUrl,
       required this.createdAt,
       required this.createdBy,
       required this.isPublic,
-      this.status = AlertStatus.active});
+      this.status = AlertStatus.active})
+      : _takeProfits = takeProfits;
 
   factory _$AlertImpl.fromJson(Map<String, dynamic> json) =>
       _$$AlertImplFromJson(json);
@@ -217,11 +310,29 @@ class _$AlertImpl implements _Alert {
   @override
   final String id;
   @override
-  final String title;
+  final String? title;
   @override
-  final String content;
+  final String? content;
+  @override
+  final String pair;
+  @override
+  final String entry;
+  @override
+  final String stopLoss;
   @override
   final AlertType type;
+  @override
+  final String? analysis;
+  final List<String> _takeProfits;
+  @override
+  List<String> get takeProfits {
+    if (_takeProfits is EqualUnmodifiableListView) return _takeProfits;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_takeProfits);
+  }
+
+  @override
+  final String? image;
   @override
   final String? imageUrl;
   @override
@@ -236,7 +347,7 @@ class _$AlertImpl implements _Alert {
 
   @override
   String toString() {
-    return 'Alert(id: $id, title: $title, content: $content, type: $type, imageUrl: $imageUrl, createdAt: $createdAt, createdBy: $createdBy, isPublic: $isPublic, status: $status)';
+    return 'Alert(id: $id, title: $title, content: $content, pair: $pair, entry: $entry, stopLoss: $stopLoss, type: $type, analysis: $analysis, takeProfits: $takeProfits, image: $image, imageUrl: $imageUrl, createdAt: $createdAt, createdBy: $createdBy, isPublic: $isPublic, status: $status)';
   }
 
   @override
@@ -247,7 +358,16 @@ class _$AlertImpl implements _Alert {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.pair, pair) || other.pair == pair) &&
+            (identical(other.entry, entry) || other.entry == entry) &&
+            (identical(other.stopLoss, stopLoss) ||
+                other.stopLoss == stopLoss) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.analysis, analysis) ||
+                other.analysis == analysis) &&
+            const DeepCollectionEquality()
+                .equals(other._takeProfits, _takeProfits) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.createdAt, createdAt) ||
@@ -259,12 +379,29 @@ class _$AlertImpl implements _Alert {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, content, type,
-      imageUrl, createdAt, createdBy, isPublic, status);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      content,
+      pair,
+      entry,
+      stopLoss,
+      type,
+      analysis,
+      const DeepCollectionEquality().hash(_takeProfits),
+      image,
+      imageUrl,
+      createdAt,
+      createdBy,
+      isPublic,
+      status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Alert
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AlertImplCopyWith<_$AlertImpl> get copyWith =>
@@ -281,9 +418,15 @@ class _$AlertImpl implements _Alert {
 abstract class _Alert implements Alert {
   const factory _Alert(
       {required final String id,
-      required final String title,
-      required final String content,
+      final String? title,
+      final String? content,
+      required final String pair,
+      required final String entry,
+      required final String stopLoss,
       required final AlertType type,
+      final String? analysis,
+      required final List<String> takeProfits,
+      final String? image,
       final String? imageUrl,
       required final DateTime createdAt,
       required final String createdBy,
@@ -295,11 +438,23 @@ abstract class _Alert implements Alert {
   @override
   String get id;
   @override
-  String get title;
+  String? get title;
   @override
-  String get content;
+  String? get content;
+  @override
+  String get pair;
+  @override
+  String get entry;
+  @override
+  String get stopLoss;
   @override
   AlertType get type;
+  @override
+  String? get analysis;
+  @override
+  List<String> get takeProfits;
+  @override
+  String? get image;
   @override
   String? get imageUrl;
   @override
@@ -310,8 +465,11 @@ abstract class _Alert implements Alert {
   bool get isPublic;
   @override
   AlertStatus get status;
+
+  /// Create a copy of Alert
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AlertImplCopyWith<_$AlertImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

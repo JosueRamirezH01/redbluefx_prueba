@@ -27,13 +27,14 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     super.dispose();
   }
 
-  Future<void> _submitForm() async {
+  /*Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
     try {
       await ref.read(alertsProvider.notifier).createAlert(
+        pair: _,
         title: _titleController.text,
         content: _contentController.text,
         type: _selectedType,
@@ -61,7 +62,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
         setState(() => _isLoading = false);
       }
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +162,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: _isLoading ? null : _submitForm,
+              onPressed: _isLoading ? null : (){},
               child: _isLoading
                   ? const SizedBox(
                       height: 20,
