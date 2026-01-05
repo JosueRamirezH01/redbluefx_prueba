@@ -8,4 +8,10 @@ abstract class NoticeRepository {
      NoticeCategory? category,
      String? search,
    });
+
+   Future<List<Notice>> filterNotice({
+     int page = 1,
+     int limit = 50,
+     NoticeCategory? category,
+   });
  }

@@ -39,31 +39,35 @@ class NoticeCard extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-
                         final imageSize = screenWidth * 0.25;
-
-                        // Limitar para que no se vea ni muy grande ni muy pequeño
                         final finalSize = imageSize.clamp(100.0, 120.0);
 
-                        return Image.asset(
-                          'assets/images/notice.png',
+                        // Si no hay URL de imagen, mostramos placeholder
+                        if (notice.image == null || notice.image!.isEmpty) {
+                          return _placeholder(finalSize);
+                        }
+
+                        return Image.network(
+                          notice.image!,
                           width: finalSize,
                           height: finalSize,
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) {
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) return child;
                             return Container(
                               width: finalSize,
                               height: finalSize,
-                              decoration: BoxDecoration(
-                                color: Colors.green.shade50,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(
-                                Icons.show_chart,
-                                color: Colors.green.shade300,
-                                size: finalSize * 0.4,
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator(
+                                value: progress.expectedTotalBytes != null
+                                    ? progress.cumulativeBytesLoaded /
+                                    progress.expectedTotalBytes!
+                                    : null,
                               ),
                             );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return _placeholder(finalSize, broken: true);
                           },
                         );
                       },
@@ -73,7 +77,7 @@ class NoticeCard extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                        'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
+                        notice.title,
                         style: GoogleFonts.montserrat(
                           fontSize: 15.5,
                           fontWeight: FontWeight.w500,
@@ -86,7 +90,6 @@ class NoticeCard extends ConsumerWidget {
               const Divider(),
               Row(
                 children: [
-
                   Text(
                     _formatDate(notice.createdAt),
                     style: GoogleFonts.montserrat(
@@ -137,6 +140,21 @@ class NoticeCard extends ConsumerWidget {
             color: Colors.grey,
           ),
         ],
+      ),
+    );
+  }
+  Widget _placeholder(double size, {bool broken = false}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: const Color(0xFF066BAF).withOpacity(0.2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Icon(
+        broken ? Icons.broken_image : Icons.show_chart,
+        color: const Color(0xFF066BAF),
+        size: size * 0.4,
       ),
     );
   }

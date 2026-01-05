@@ -38,7 +38,7 @@ class _NoticeListState extends ConsumerState<NoticeList> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Error al cargar las alertas',
+              'Error al cargar las noticias',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.red.shade700,
@@ -46,7 +46,7 @@ class _NoticeListState extends ConsumerState<NoticeList> {
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => ref.read(alertsProvider.notifier).loadAlerts(refresh: true),
+              onPressed: () => ref.read(noticeProvider.notifier).loadNotices(refresh: true),
               child: const Text('Reintentar'),
             ),
           ],
@@ -69,12 +69,12 @@ class _NoticeListState extends ConsumerState<NoticeList> {
               ),
               const SizedBox(height: 16),
               Text(
-                  'No se encontraron señales',
+                  'No se encontraron noticias',
                   style: AppTextStyles.titleLarge
               ),
               const SizedBox(height: 12),
               Text(
-                  'Intenta con otro término de búsqueda',
+                  'Intenta con otra categoria',
                   style: AppTextStyles.bodyMedium
               ),
             ],

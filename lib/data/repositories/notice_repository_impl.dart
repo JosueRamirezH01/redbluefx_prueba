@@ -51,6 +51,44 @@ class NoticeRepositoryImpl implements NoticeRepository {
       throw _handleError(e);
     }
   }
+
+  @override
+  Future<List<Notice>> filterNotice({int page = 1, int limit = 50, NoticeCategory? category}) async {
+    try{
+      if (category == null) {
+        throw Exception('Debe especificarse una categoría para filtrar');
+      }
+
+      // Construimos la URL usando tu ruta de API
+      final url = ApiRoutes.filterCategoryNotice(category.name);
+
+      AppLogger.debug('🔄 NoticeRepositoryImpl filterNotice - URL: $url');
+
+      // Hacemos la petición GET
+      final response = await _dio.get(url!, queryParameters: {
+        'page': page.toString(),
+        'limit': limit.toString(),
+      });
+
+      if (response.data == null) {
+        throw Exception('No se recibieron datos del servidor');
+      }
+
+      final List<dynamic> data = response.data['news'] as List<dynamic>;
+      final notices = data.map((json) => Notice.fromJson(json)).toList();
+
+      AppLogger.debug('🔄 NoticeRepositoryImpl filterNotice - received ${notices.length} notice(s) for category: ${category.name}');
+
+      return notices;
+    }catch (e, stack) {
+      AppLogger.error(
+        'Error en getNotices',
+        error: e,
+        stackTrace: stack,
+      );
+      throw _handleError(e);
+    }
+  }
   Exception _handleError(dynamic error) {
     AppLogger.error('Error en NoticeRepositoryImpl', error: error);
 

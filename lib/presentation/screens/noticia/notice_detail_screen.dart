@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/presentation/providers/notice_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
 import '../../providers/alert_provider.dart';
@@ -10,17 +11,17 @@ import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 class NoticeDetailScreen extends ConsumerWidget {
-  final String alertId;
+  final String noticeId;
 
   const NoticeDetailScreen({
     super.key,
-    required this.alertId,
+    required this.noticeId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final alertState = ref.watch(alertsProvider);
-    final alert = alertState.alerts.firstWhere((a) => a.id == alertId);
+    final noticeState = ref.watch(noticeProvider);
+    final notice = noticeState.notices.firstWhere((a) => a.id == noticeId);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -54,25 +55,41 @@ class NoticeDetailScreen extends ConsumerWidget {
               /// ---- IMAGEN PRINCIPAL ----
               ClipRRect(
                 borderRadius: BorderRadius.circular(0),
-                child: Image.asset(
-                  'assets/images/cabecera.png',
+                child: notice.image != null && notice.image!.isNotEmpty
+                    ? Image.network(
+                  notice.image!,
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.28,
-                  fit: BoxFit.fill,
-                  errorBuilder: (context, error, stackTrace) {
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.28,
-                      color: Colors.green.shade50,
-                      child: Icon(
-                        Icons.image_not_supported,
-                        size: 50,
-                        color: Colors.green.shade300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        gradient: LinearGradient(
+                          colors: [Colors.blue.shade100, Colors.blue.shade50],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFF005EA3),
+                        ),
                       ),
                     );
                   },
-                ),
+                  errorBuilder: (context, error, stackTrace) {
+                    return _placeholder(
+                      MediaQuery.of(context).size.height * 0.28,
+                      broken: true,
+                    );
+                  },
+                )
+                    : _placeholder(MediaQuery.of(context).size.height * 0.28),
               ),
-          
+
               /// ---- CONTENIDO ----
               Padding(
                 padding: const EdgeInsets.all(20),
@@ -92,7 +109,7 @@ class NoticeDetailScreen extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
-                            "Por: Sergio Ávila",
+                            notice.author,
                             style: GoogleFonts.inter(
                               color: const Color(0xFF005EA3),
                               fontSize: 12,
@@ -106,7 +123,7 @@ class NoticeDetailScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'EURUSD: el euro cede terreno tras la tregua comercial entre EE. UU. y China',
+                      notice.title,
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -125,7 +142,7 @@ class NoticeDetailScreen extends ConsumerWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          _formatDate(alert.createdAt),
+                          _formatDate(notice.createdAt),
                           style: GoogleFonts.inter(
                             fontSize: 13,
                             color: Colors.grey.shade600,
@@ -151,10 +168,7 @@ class NoticeDetailScreen extends ConsumerWidget {
           
                     // Contenido de la noticia
                     Text(
-                      _formatTextWithLineBreaks(  'Lorem ipsum dolor sit amet consectetur. Bibendum ut massa congue a in. Rhoncus risus vel risus ac amet fermentum. Amet consequat non lorem mattis integer nunc cursus ut lobortis.'
-                        'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
-                        'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. '
-                        'Mauris id commodo porttitor rutrum. Sodales dui amet integer odio donec arcu id felis. Mauris molestie nibh risus et metus vestibulum semper dapibus. Posuere elit sem convallis ullamcorper nisl. Faucibus risus nunc quam vel risus volutpat consectetur. ',),
+                      _formatTextWithLineBreaks(notice.content),
                       style: GoogleFonts.inter(
                         fontSize: 13,
                       ),
@@ -242,6 +256,21 @@ class NoticeDetailScreen extends ConsumerWidget {
     );
   }
 
+  Widget _placeholder(double size, {bool broken = false}) {
+    return Container(
+      width: double.infinity,
+      height: size,
+      decoration: BoxDecoration(
+        color: const Color(0xFF066BAF).withOpacity(0.2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Icon(
+        broken ? Icons.broken_image : Icons.show_chart,
+        color: const Color(0xFF066BAF),
+        size: size * 0.4,
+      ),
+    );
+  }
 
   String _formatDate(DateTime date) {
     return AppDateUtils.formatToPeruTime(date);

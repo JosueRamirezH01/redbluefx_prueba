@@ -32,7 +32,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
     )..forward();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadNotice();
+      ref.read(noticeProvider.notifier).resetToAll();
     });
   }
   static final List<Map<String, NoticeCategory>> _filterMap = [
@@ -72,14 +72,19 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
 
   void _onFilterByType(NoticeCategory? category) {
-    AppLogger.debug('🔄 HomeScreen _onFilterByType - before: $_selectedType, after: $category');
     setState(() {
-      _selectedType = category;
+      _selectedType = category ?? NoticeCategory.all;
     });
-    AppLogger.debug('🔄 HomeScreen _onFilterByType - after setState: $_selectedType');
-    AppLogger.debug('🔄 HomeScreen _onFilterByType - sending to provider: $category');
-    ref.read(noticeProvider.notifier).filterByType(category);
+
+    if (category == NoticeCategory.all || category == null) {
+      // Si es "Todas", carga todas las noticias
+      ref.read(noticeProvider.notifier).loadNotices(refresh: true);
+    } else {
+      // Si es otra categoría, filtra
+      ref.read(noticeProvider.notifier).filterByType(category);
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -187,15 +192,14 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
             backgroundColor = AppColors.forexColor;
             borderColor = AppColors.forexColor;
           }
-
           return GestureDetector(
             onTap: () {
-              setState(() {
-                _selectedType = category;
-              });
               AppLogger.info('Filtro seleccionado: $label');
-              _onFilterByType(_selectedType);
+
+              final NoticeCategory? filter = category == NoticeCategory.all ? null : category;
+              _onFilterByType(filter);
             },
+
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

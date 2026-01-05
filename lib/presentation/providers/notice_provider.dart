@@ -104,27 +104,87 @@ class NoticeNotifier extends StateNotifier<NoticeState> {
     await loadNotices(refresh: true);
   }
 
-  void filterByType(NoticeCategory? category) {
-    AppLogger.debug('🔄 AlertNotifier filterByType - before: ${state.selectedType}, after: $category');
-    AppLogger.debug('🔄 AlertNotifier filterByType - type is null: ${category == null}');
+  Future<void> _loadFilteredNotices({bool refresh = false}) async {
+    if (refresh) {
+      state = state.copyWith(
+        currentPage: 1,
+        notices: [],
+        hasMore: true,
+        error: null,
+        isLoading: false,
+      );
+    }
 
-    if (category == state.selectedType) {
-      AppLogger.debug('🔄 AlertNotifier filterByType - type unchanged, returning');
+    // Chequeo de protección
+    if (!state.hasMore) {
+      AppLogger.debug('No hay más noticias que cargar para ${state.selectedType}');
       return;
     }
+
+    if (state.isLoading) {
+      AppLogger.debug('Ya se está cargando noticias para ${state.selectedType}');
+      return;
+    }
+
+    state = state.copyWith(isLoading: true, error: null);
+    AppLogger.debug('Cargando noticias para ${state.selectedType}');
+
+    try {
+      final List<Notice> notices = state.selectedType != null
+          ? await _repository.filterNotice(
+        page: state.currentPage,
+        limit: _pageSize,
+        category: state.selectedType,
+      )
+          : await _repository.getNotice(
+        page: state.currentPage,
+        limit: _pageSize,
+      );
+
+      state = state.copyWith(
+        notices: [...state.notices, ...notices],
+        isLoading: false,
+        hasMore: notices.length >= _pageSize,
+        currentPage: state.currentPage + 1,
+      );
+
+      AppLogger.debug(
+        'Noticias cargadas: ${notices.length} para ${state.selectedType ?? "all"}',
+      );
+    } catch (e, stack) {
+      AppLogger.error('Error cargando noticias', error: e, stackTrace: stack);
+      state = state.copyWith(isLoading: false, error: e.toString());
+    }
+  }
+
+
+  void filterByType(NoticeCategory? category) {
+    AppLogger.info('🔄 NoticeNotifier filterByType - changing category to $category');
 
     state = state.copyWith(
       selectedType: category,
       currentPage: 1,
       notices: [],
       hasMore: true,
+      error: null,
+      isLoading: false, // muy importante resetearlo
     );
 
-    AppLogger.debug('🔄 AlertNotifier filterByType - state updated, new selectedType: ${state.selectedType}');
-    AppLogger.debug('🔄 AlertNotifier filterByType - loading alerts with type: ${state.selectedType}');
-    loadNotices();
+    _loadFilteredNotices(refresh: true); // fuerza a recargar
   }
 
+
+  Future<void> resetToAll() async {
+    state = state.copyWith(
+      selectedType: null,  // null = todas las categorías
+      currentPage: 1,
+      notices: [],
+      hasMore: true,
+      error: null,
+    );
+
+    await loadNotices(refresh: true);
+  }
 /*
 
 

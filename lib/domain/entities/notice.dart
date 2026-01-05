@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:redbluefx_mobile/domain/entities/user.dart';
 part 'notice.freezed.dart';
 part 'notice.g.dart';
-enum NoticeCategory{ forex, tech, crypto, mercados, materias, all }
+enum NoticeCategory{ tech,forex,crypto, mercados, materias, all }
 @freezed
 class Notice with _$Notice {
   const factory Notice({

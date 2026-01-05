@@ -242,7 +242,7 @@ class AppTheme {
         ),
       ),
       /// CardThemeData ---> CardTheme ---> se cambio a CardTheme por que no se  reconoce el CardThemeData
-      cardTheme:  CardTheme(
+      cardTheme:  CardThemeData(
         color: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -282,7 +282,7 @@ class AppTheme {
           ),
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: const Color(0xFF123D61),
         elevation: 2,
         shape: RoundedRectangleBorder(

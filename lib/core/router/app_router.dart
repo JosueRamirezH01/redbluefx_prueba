@@ -128,7 +128,7 @@ final router = GoRouter(
       path: '/notice/:id',
       name: 'noticeDetail',
       builder: (context, state) => NoticeDetailScreen(
-        alertId: state.pathParameters['id']!,
+        noticeId: state.pathParameters['id']!,
       ),
     ),
     GoRoute(

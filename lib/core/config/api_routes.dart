@@ -18,6 +18,7 @@ class ApiRoutes {
   static String unarchiveAlert(String id) => '${alert(id)}/unarchive';
   static String shareAlert(String id) => '${alert(id)}/share';
 
+  static String? filterCategoryNotice(String category) => '$_notices/category/$category';
   // User routes
   static const users = _users;
   static String user(String id) => '$_users/$id';
