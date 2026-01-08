@@ -36,12 +36,8 @@ mixin _$Alert {
   bool get isPublic => throw _privateConstructorUsedError;
   AlertStatus get status => throw _privateConstructorUsedError;
 
-  /// Serializes this Alert to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Alert
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AlertCopyWith<Alert> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -78,8 +74,6 @@ class _$AlertCopyWithImpl<$Res, $Val extends Alert>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Alert
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -197,8 +191,6 @@ class __$$AlertImplCopyWithImpl<$Res>
       _$AlertImpl _value, $Res Function(_$AlertImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Alert
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -379,7 +371,7 @@ class _$AlertImpl implements _Alert {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -399,9 +391,7 @@ class _$AlertImpl implements _Alert {
       isPublic,
       status);
 
-  /// Create a copy of Alert
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AlertImplCopyWith<_$AlertImpl> get copyWith =>
@@ -465,11 +455,8 @@ abstract class _Alert implements Alert {
   bool get isPublic;
   @override
   AlertStatus get status;
-
-  /// Create a copy of Alert
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AlertImplCopyWith<_$AlertImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

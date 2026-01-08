@@ -199,6 +199,30 @@ class AppTheme {
           return Colors.grey; // Inactivo
         }),
       ),
+      iconTheme: const IconThemeData(
+          color: Colors.black
+      ),
+      expansionTileTheme: ExpansionTileThemeData(
+        backgroundColor: const Color(0xFFEEEEEE),
+        collapsedBackgroundColor: Colors.transparent,
+
+        iconColor: Colors.white,
+        collapsedIconColor: Colors.white54,
+
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        collapsedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+
+        childrenPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 10,
+        ),
+      ),
+
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.lightModeBlue,
@@ -253,16 +277,17 @@ class AppTheme {
   }
 
 
-  /// 🌙 Tema oscuro profesional
+  /// Tema oscuro
   static ThemeData get darkTheme {
     return ThemeData.dark(useMaterial3: true).copyWith(
+
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         secondary: AppColors.secondary,
         surface: Color(0xFF0F172A),
         error: AppColors.error,
       ),
-      scaffoldBackgroundColor: const Color(0xFF242121),
+      scaffoldBackgroundColor: const Color(0xFF0D1425),
       appBarTheme: AppBarTheme(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -283,7 +308,7 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        color: const Color(0xFF123D61),
+        color: const Color(0xFF092949),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -297,17 +322,79 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFF0D1D35),
+
+        // 🔹 borde por defecto
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.secondary),
+          borderSide: const BorderSide(
+            color: AppColors.secondary,
+            width: 1.2,
+          ),
         ),
-        labelStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
+
+        // 🔹 cuando NO está enfocado
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Colors.grey, // gris dark
+            width: 1,
+          ),
+        ),
+
+        // 🔹 cuando está enfocado
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: AppColors.primary, // rojo
+            width: 1.5,
+          ),
+        ),
+
+        // 🔹 error
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Colors.redAccent,
+            width: 1.2,
+          ),
+        ),
+
+        // 🔹 error + focus
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1.5,
+          ),
+        ),
+
+        labelStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white70),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white54),
       ),
-      textTheme: GoogleFonts.montserratTextTheme().apply(
-        bodyColor: Colors.white,
-        displayColor: Colors.white,
+
+      expansionTileTheme: ExpansionTileThemeData(
+        backgroundColor: const Color(0xFF0D1D35),
+        collapsedBackgroundColor: Colors.transparent,
+
+        iconColor: Colors.white,
+        collapsedIconColor: Colors.white54,
+
+        textColor: Colors.white,
+        collapsedTextColor: Colors.white,
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        collapsedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+
+        childrenPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 10,
+        ),
       ),
+
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,

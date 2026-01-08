@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
 import '../../providers/alert_provider.dart';
@@ -10,17 +11,17 @@ import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 class AnuncioDetailScreen extends ConsumerWidget {
-  final String alertId;
+  final String advertId;
 
   const AnuncioDetailScreen({
     super.key,
-    required this.alertId,
+    required this.advertId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final alertState = ref.watch(alertsProvider);
-    final alert = alertState.alerts.firstWhere((a) => a.id == alertId);
+    final advertState = ref.watch(advertsProvider);
+    final advert = advertState.adverts.firstWhere((a) => a.id == advertId);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,11 +56,11 @@ class AnuncioDetailScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(12),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        if (alert.imageUrl == null || alert.imageUrl!.isEmpty) {
+                        if (advert.imageUrl == null || advert.imageUrl!.isEmpty) {
                           return _defaultImage(70);
                         }
                         return Image.network(
-                          alert.imageUrl!,
+                          advert.imageUrl!,
                           width: 85,
                           height: 70,
                           fit: BoxFit.fill,
@@ -99,7 +100,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
                 children: [
                   const SizedBox(height: 10),
                   Text(
-                    'Descubre las últimas novedades de RedBlue FX ',
+                    advert.title,
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -112,26 +113,9 @@ class AnuncioDetailScreen extends ConsumerWidget {
 
                   // Contenido de la noticia
                   Text(
-                    '''
-Estamos emocionados de anunciar el lanzamiento de nuestra última actualización que incluye mejoras significativas en la plataforma de trading.
-¿Qué incluye esta actualización?
-
-• Sistema de alertas mejorado con notificaciones en tiempo real
-• Nueva interfaz de análisis técnico con indicadores avanzados
-• Integración con más plataformas de trading
-• Optimización del rendimiento y velocidad de ejecución
-• Panel de estadísticas personalizable
-
-Esta actualización está diseñada para brindarte las mejores herramientas y ayudarte a tomar decisiones más informadas en tus operaciones.
-
-¿Cómo empezar?
-
-Todas las funcionalidades ya están disponibles en tu cuenta. Explora el menú de configuración para personalizar tu experiencia y aprovechar al máximo estas nuevas características.
-'''
-                        .trim(),
+                    advert.content,
                     style: GoogleFonts.inter(fontSize: 14),
                   ),
-
                 ],
               ),
             ),

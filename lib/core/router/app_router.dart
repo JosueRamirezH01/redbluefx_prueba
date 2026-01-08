@@ -161,7 +161,7 @@ final router = GoRouter(
       path: '/anuncio/:id',
       name: 'anuncioDetail',
       builder: (context, state) => AnuncioDetailScreen(
-        alertId: state.pathParameters['id']!,
+        advertId: state.pathParameters['id']!,
       ),
     ),
   ],
