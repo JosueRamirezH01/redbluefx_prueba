@@ -89,6 +89,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
   @override
   Widget build(BuildContext context) {
     //final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
 
@@ -117,7 +118,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration:isDark ? null : BoxDecoration(
           gradient: RadialGradient(
             center: Alignment.bottomLeft,
             radius: 0.6,

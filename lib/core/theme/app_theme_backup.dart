@@ -213,7 +213,7 @@ class AppTheme {
         ),
       ),
       /// CardThemeData ---> CardTheme ---> se cambio a CardTheme por que no se  reconoce el CardThemeData
-      cardTheme:  CardThemeData(
+      cardTheme:  CardTheme(
         color: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(

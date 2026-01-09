@@ -15,6 +15,7 @@ abstract class AuthRepository {
   Future<void> resendEmailVerification(String email);
   Future<void> deleteAccount();
   Future<void> updateDeviceToken(String deviceToken);
+  Future<void> resetPasswordInter(String currentPassword, String newPassword);
 
   // Nuevos métodos para la foto de perfil
   Future<String> uploadProfilePicture(String imagePath);

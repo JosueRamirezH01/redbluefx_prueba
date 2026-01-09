@@ -265,8 +265,17 @@ class AppTheme {
           color: AppColors.textSecondary.withOpacity(0.5),
         ),
       ),
+      dataTableTheme: DataTableThemeData(
+        headingRowColor: WidgetStateProperty.all(
+          const Color(0xFFFEF4F4),
+        ),
+        headingTextStyle: AppTextStyles.titleSmall,
+        dataRowColor: WidgetStateProperty.all(Colors.white),
+        dataTextStyle: AppTextStyles.bodyMedium,
+        dividerThickness: 1,
+      ),
       /// CardThemeData ---> CardTheme ---> se cambio a CardTheme por que no se  reconoce el CardThemeData
-      cardTheme:  CardThemeData(
+      cardTheme:  CardTheme(
         color: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -307,7 +316,23 @@ class AppTheme {
           ),
         ),
       ),
-      cardTheme: CardThemeData(
+      dataTableTheme: DataTableThemeData(
+        headingRowColor: WidgetStateProperty.all(
+          const Color(0xFF0F4479), // header dark
+        ),
+        headingTextStyle: AppTextStyles.titleSmall.copyWith(
+          color: Colors.white,
+        ),
+        dataRowColor: WidgetStateProperty.all(
+          const Color(0xFF0F2D4A),
+        ),
+        dataTextStyle: AppTextStyles.bodyMedium.copyWith(
+          color: Colors.white70,
+        ),
+        dividerThickness: 0.8,
+      ),
+
+      cardTheme: CardTheme(
         color: const Color(0xFF092949),
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -322,8 +347,6 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFF0D1D35),
-
-        // 🔹 borde por defecto
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -331,8 +354,6 @@ class AppTheme {
             width: 1.2,
           ),
         ),
-
-        // 🔹 cuando NO está enfocado
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -340,8 +361,6 @@ class AppTheme {
             width: 1,
           ),
         ),
-
-        // 🔹 cuando está enfocado
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -349,8 +368,6 @@ class AppTheme {
             width: 1.5,
           ),
         ),
-
-        // 🔹 error
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -358,8 +375,6 @@ class AppTheme {
             width: 1.2,
           ),
         ),
-
-        // 🔹 error + focus
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -371,30 +386,24 @@ class AppTheme {
         labelStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white70),
         hintStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white54),
       ),
-
       expansionTileTheme: ExpansionTileThemeData(
         backgroundColor: const Color(0xFF0D1D35),
         collapsedBackgroundColor: Colors.transparent,
-
         iconColor: Colors.white,
         collapsedIconColor: Colors.white54,
-
         textColor: Colors.white,
         collapsedTextColor: Colors.white,
-
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
         collapsedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-
         childrenPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 10,
         ),
       ),
-
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,

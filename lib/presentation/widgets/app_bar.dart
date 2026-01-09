@@ -253,7 +253,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search, color: Colors.white),
-              hintText: 'Filtrar alertas...',
+              hintText: 'Filtrar señales...',
               hintStyle: TextStyle(color: Colors.white),
               border: InputBorder.none,
               fillColor: Color(0xFF0D1D35),
@@ -418,7 +418,7 @@ class _SearchHistoryOverlay extends ConsumerWidget {
             onTap: () {},
             child: Container(
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF1A2A3A) : Colors.white,
+                color: isDark ? const Color(0xFF0F4479) : Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(

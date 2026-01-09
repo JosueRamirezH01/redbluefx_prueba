@@ -194,7 +194,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                       color: AppColors.primary,
                                     ),
                                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.lock_outline,
                                       color: AppColors.primary,
                                     ),
@@ -255,7 +255,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                       color: AppColors.primary,
                                     ),
                                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.lock_outline,
                                       color: AppColors.primary,
                                     ),
@@ -354,4 +354,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       ),
     );
   }
+
+
+
 } 

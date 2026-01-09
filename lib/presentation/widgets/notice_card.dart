@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/core/theme/app_theme.dart';
 import '../../domain/entities/alert.dart';
 import '../../core/utils/date_utils.dart';
 import '../../domain/entities/notice.dart';
@@ -18,6 +19,7 @@ class NoticeCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -76,13 +78,20 @@ class NoticeCard extends ConsumerWidget {
 
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text(
-                        notice.title,
-                        style: GoogleFonts.montserrat(
-                          fontSize: 15.5,
-                          fontWeight: FontWeight.w500,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTypeChip(),
+                        const SizedBox(height: 6),
+                        Text(
+                            notice.title,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 15.5,
+                              fontWeight: FontWeight.w500,
 
-                        )
+                            )
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -98,13 +107,10 @@ class NoticeCard extends ConsumerWidget {
                     ),
                   ),
                   const Spacer(),
-                  Text(
-                    "Ver detalles →",
-                    style: GoogleFonts.montserrat(
-                      fontSize: 12,
-                      color: const Color(0xFF036BAF),
-                      fontWeight: FontWeight.w500,
-                    ),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: theme.linkColor,
+                    size: 16,
                   ),
                 ],
               ),
@@ -118,27 +124,22 @@ class NoticeCard extends ConsumerWidget {
 
   Widget _buildTypeChip() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.grey.shade200,
+        color: Colors.transparent,
         border: Border.all(color: const Color(0xFF004E87)),
       ),
-      child: const Row(
+      child:  Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Noticias',
-            style: TextStyle(
+            notice.category.name,
+            style: const TextStyle(
               fontSize: 12,
             ),
           ),
-          SizedBox(width: 4),
-          Icon(
-            Icons.arrow_upward,
-            size: 16,
-            color: Colors.grey,
-          ),
+
         ],
       ),
     );

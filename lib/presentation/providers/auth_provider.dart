@@ -227,7 +227,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
     }
   }
-
+  Future<void> resetPasswordInter(String currentPassword,String newPassword) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await _repository.resetPasswordInter(currentPassword, newPassword);
+      state = state.copyWith(isLoading: false, error: null);
+    } catch (e) {
+      state = state.copyWith(
+        error: e.toString(),
+        isLoading: false,
+      );
+    }
+  }
   Future<void> verifyEmail(String email, String token) async {
     state = state.copyWith(isLoading: true, error: null);
     try {

@@ -18,7 +18,7 @@ class _FeedbackDialog extends StatefulWidget {
 
 class _FeedbackDialogState extends State<_FeedbackDialog> {
   int selectedIndex = 4;
-  bool allowContact = false;
+  bool allowContact = true;
   final TextEditingController controller = TextEditingController();
 
   final List<Map<String, String>> ratings = [
@@ -32,8 +32,9 @@ class _FeedbackDialogState extends State<_FeedbackDialog> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return AlertDialog(
+      backgroundColor: isDark ? const Color(0xFF0F4479) : null,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
       contentPadding: const EdgeInsets.all(12),
@@ -79,7 +80,7 @@ class _FeedbackDialogState extends State<_FeedbackDialog> {
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? Colors.blue.shade50
+                              ? (isDark ? const Color(0xFF236399) : const Color(0xFF61C6FF))
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -91,8 +92,7 @@ class _FeedbackDialogState extends State<_FeedbackDialog> {
                             ),
                             Text(
                                 ratings[index]['label']!,
-                                style: GoogleFonts.montserrat(fontSize: 12,color:
-                                isSelected ? Colors.blue : Colors.grey, fontWeight: FontWeight.w400)
+                                style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w400)
 
                             ),
                           ],
@@ -171,16 +171,16 @@ class _FeedbackDialogState extends State<_FeedbackDialog> {
                       flex: 1,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor: isDark ? const Color(0xFF0F4479) : Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
-                            side: const BorderSide(color: Color(0xFF414651))
+                            side: BorderSide(color: isDark ?  const Color(0xFF6984A0) :  const Color(0xFF414651))
                           ),
                         ),
                         child: Text(
                             "Cancelar",
-                            style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF414651))
+                            style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.black87)
                         ),
                         onPressed: () {},
                       ),
@@ -200,12 +200,19 @@ class _FeedbackDialogState extends State<_FeedbackDialog> {
                             end: Alignment.centerRight,
                           ),
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: const [
-                            BoxShadow(
+                          boxShadow:  [
+                            if(!isDark)
+                           const BoxShadow(
                                 color: Color(0xFFED7053),
                                 blurRadius: 16,      // intensidad
                                 offset: Offset(2, 8) // altura
                             ),
+                            if(isDark)
+                              const BoxShadow(
+                                  color: Color(0xFF673559),
+                                  blurRadius: 16,      // intensidad
+                                  offset: Offset(2, 8) // altura
+                              ),
                           ],
                         ),
                         child: ElevatedButton(

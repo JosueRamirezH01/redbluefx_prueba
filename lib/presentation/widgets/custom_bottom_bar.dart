@@ -17,10 +17,9 @@ class CustomBottomBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final curvaColor = Theme.of(context).brightness == Brightness.dark
-        ? AppColors.basicBack
-        : AppColors.basic;
+    final curvaColor = Theme.of(context).brightness == Brightness.dark ? AppColors.basicBack : AppColors.basic;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+
     return SizedBox(
       height: 65 + bottomPadding,
       child: Stack(
@@ -56,7 +55,8 @@ class CustomBottomBar extends ConsumerWidget {
 
   Widget _item(IconData icon, String label, bool isSelected, VoidCallback onTap, BuildContext context,) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
-    final color = isSelected ? const Color(0xFF066BAF) : Colors.white70;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isSelected ? (isDark ? Colors.white : const Color(0xFF066BAF)) : Colors.white70;
 
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding * 0.5),

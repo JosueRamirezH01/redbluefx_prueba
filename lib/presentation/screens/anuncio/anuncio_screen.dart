@@ -71,8 +71,8 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    //final isSearching = ref.watch(isSearchingProvider);
    // final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -100,7 +100,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
         child: Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: isDark ? null : BoxDecoration(
             gradient: RadialGradient(
               center: Alignment.bottomLeft,
               radius: 0.8,

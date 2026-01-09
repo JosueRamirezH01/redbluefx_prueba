@@ -603,4 +603,33 @@ class AuthRepositoryImpl implements AuthRepository {
       'Content-Type': 'multipart/form-data',
     };
   }
+
+  @override
+  Future<void> resetPasswordInter(
+      String currentPassword,
+      String newPassword,
+      ) async {
+    try {
+      final token = await getToken();
+      if (token == null) {
+        throw Exception('Usuario no autenticado');
+      }
+
+      await _dio.post(
+        '/api/auth/change-password',
+        data: {
+          'currentPassword': currentPassword,
+          'newPassword': newPassword,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+    } catch (e) {
+      throw _handleError(e);
+    }
+  }
+
 } 

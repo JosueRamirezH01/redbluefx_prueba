@@ -10,7 +10,7 @@ class ApiRoutes {
   static const logout = '$_auth/logout';
   static const deviceToken = '$_auth/device-token';
   static const me = '$_auth/me';
-
+  static const changePassword = '$_alerts/change-password';
   // Alert routes
   static const alerts = _alerts;
   static String alert(String id) => '$_alerts/$id';

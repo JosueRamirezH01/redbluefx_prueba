@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:redbluefx_mobile/domain/entities/auth_state.dart';
 import 'package:redbluefx_mobile/presentation/widgets/feedbackDialog.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../../core/utils/logger.dart';
@@ -20,7 +22,17 @@ class ProfileScreen extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool _isExpanded = false;
+  Key _expansionKey = UniqueKey();
+  final _passwordController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+  final _newRepeatPasswordController = TextEditingController();
+  bool _isPasswordVisible = true;
+  bool _isNewPasswordVisible = true;
+  bool _isRepeatPasswordVisible = true;
 
+
+
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -29,7 +41,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       _checkForErrors();
     });
   }
-
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _newPasswordController.dispose();
+    _newRepeatPasswordController.dispose();
+    super.dispose();
+  }
   void _checkForErrors() {
     final authState = ref.read(authStateProvider);
     final profileState = ref.read(profileProvider);
@@ -94,6 +112,68 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _resetPasswordInter() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      try {
+        // Llamar al método y esperar la respuesta
+        await ref.read(authStateProvider.notifier).resetPasswordInter(
+          _passwordController.text,
+          _newPasswordController.text
+        );
+
+        // Obtener el estado actualizado después de la operación
+        final authState = ref.read(authStateProvider);
+
+        if (mounted) {
+          // Verificar si hay error
+          if (authState.error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${authState.error}'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          } else {
+            // Solo mostrar éxito si no hay error
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                backgroundColor: Colors.white,
+                content: Row(
+                  children: [
+                    Container(padding: const EdgeInsets.all(6),decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), color: const Color(0xFFC4F4D0)),child: const Icon(Icons.check_box, color: Colors.green)),
+                    const SizedBox(width: 12),
+                    Text('Contraseña Actualizada', style: GoogleFonts.inter(color: Colors.black87, fontSize: 16),),
+                  ],
+                ),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+            _passwordController.clear();
+            _newPasswordController.clear();
+            _newRepeatPasswordController.clear();
+            setState(() {
+              _isExpanded = false;
+              _expansionKey = UniqueKey();
+            });
+          }
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error: ${e.toString()}'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -302,10 +382,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     _buildSection(context, title: 'Cuenta', children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 9.0),
-                        child: _resetPassword(),
+                        child: _resetPassword(isDarkMode, authState),
                       ),
 
-                      //if (user?.role == 'admin')
+                      if (user?.role == 'admin')
                       _buildMenuItem(
                         icon: Icons.person_outline,
                         title: 'Gestión de usuarios',
@@ -501,23 +581,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                           duration: const Duration(seconds: 10),
                                         ),
                                       );*/
-                                          /* ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          behavior: SnackBarBehavior.floating,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(14),
-                                          ),
-                                          backgroundColor: Colors.white,
-                                          content: Row(
-                                            children: [
-                                              Container(padding: const EdgeInsets.all(6),decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), color: const Color(0xFFC4F4D0)),child: const Icon(Icons.check_box, color: Colors.green)),
-                                              const SizedBox(width: 12),
-                                              Text('Contraseña Actualizada', style: GoogleFonts.inter(color: Colors.black87, fontSize: 16),),
-                                            ],
-                                          ),
-                                          duration: const Duration(seconds: 2),
-                                        ),
-                                      );*/ /// MENSAJE DE CONTRASEÑA ACTUALIZADA
+                                          /* */ /// MENSAJE DE CONTRASEÑA ACTUALIZADA
 
                                           try {
                                             await ref.read(authStateProvider.notifier).logout();
@@ -765,17 +829,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     );
   }
 
-  Widget _resetPassword() {
+  Widget _resetPassword(bool isDark, AuthState authState) {
     return Container(
       margin: _isExpanded ? const EdgeInsets.symmetric(horizontal: 12, vertical: 6) : EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: _isExpanded
-            ? Theme.of(context).colorScheme.surface
-            : Colors.transparent,
+        color: _isExpanded ? Theme.of(context).colorScheme.surface : Colors.transparent,
         borderRadius: BorderRadius.circular(16),
-        border: _isExpanded
-            ? Border.all(
-          color: Theme.of(context).dividerColor,
+        border: _isExpanded ? Border.all(color: Theme.of(context).dividerColor,
         )
             : null,// SOLO cuando está expandido
       ),
@@ -786,6 +846,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           highlightColor: Colors.transparent,
         ),
         child: ExpansionTile(
+          key: _expansionKey,
           childrenPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           iconColor: const Color(0xFF999999),
           collapsedIconColor: const Color(0xFF999999),
@@ -810,58 +871,92 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
 
           children: [
-            _passwordField("Contraseña actual"),
-            const SizedBox(height: 12),
-
-            _passwordField("Nueva Contraseña"),
-            const SizedBox(height: 12),
-
-            _passwordField("Repetir Contraseña"),
-            const SizedBox(height: 18),
-
-            SizedBox(
-              width: double.infinity,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFFF1B21), // rojo
-                      Color(0xFFDD0E13), // naranja
-                      Color(0xFFBB0004), // amarillo
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  _passwordField(
+                    "Contraseña actual",
+                    _passwordController,
+                    _requiredValidator,
+                    _isPasswordVisible,
+                        () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
                   ),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Color(0xFFED7053),
-                        blurRadius: 20,      // intensidad
-                        offset: Offset(2, 8) // altura
+                  const SizedBox(height: 12),
+
+                  _passwordField(
+                    "Nueva Contraseña",
+                    _newPasswordController,
+                    _newPasswordValidator,
+                    _isNewPasswordVisible,
+                      (){
+                      setState(() {
+                        _isNewPasswordVisible = !_isNewPasswordVisible;
+                      });
+                      }
+                  ),
+                  const SizedBox(height: 12),
+
+                  _passwordField(
+                    "Repetir Contraseña",
+                    _newRepeatPasswordController,
+                    _repeatPasswordValidator,
+                    _isRepeatPasswordVisible,
+                      (){
+                      setState(() {
+                        _isRepeatPasswordVisible = !_isRepeatPasswordVisible;
+                      });
+                      }
+                  ),
+                  const SizedBox(height: 18),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFF1B21),
+                            Color(0xFFDD0E13),
+                            Color(0xFFBB0004),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: authState.isLoading ? null : _resetPasswordInter,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child: authState.isLoading
+                            ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                            : const Text(
+                          "Actualizar contraseña",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
                   ),
-                  icon: const Icon(Icons.lock_reset, color: Colors.white),
-                  label: Text(
-                      "Actualizar contraseña",
-                      style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600)
-                  ),
-                  onPressed: () {},
-                ),
+                ],
               ),
             ),
-
-
-            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -869,7 +964,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   }
 
-  Widget _passwordField(String label) {
+  Widget _passwordField(String label, TextEditingController controller, String? Function(String?)? validator, bool obscureText,  VoidCallback onToggle) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -881,8 +976,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ),
         const SizedBox(height: 6),
-        TextField(
-          obscureText: true,
+        TextFormField(
+          controller: controller,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          obscureText: obscureText,
           decoration: InputDecoration(
             hintText: "**********",
             contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -891,12 +988,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: Colors.grey.shade300),
             ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                obscureText
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                color: AppColors.primary,
+              ),
+              onPressed: onToggle,
+            ),
           ),
+         validator: validator,
         ),
       ],
     );
   }
 
+  String? _requiredValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Este campo es obligatorio';
+    }
+    return null;
+  }
+
+  String? _newPasswordValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Ingresa una nueva contraseña';
+    }
+    if (value.length < 8) {
+      return 'Debe tener al menos 8 caracteres';
+    }
+    return null;
+  }
+
+  String? _repeatPasswordValidator(String? value) {
+    if (value != _newPasswordController.text) {
+      return 'Las contraseñas no coinciden';
+    }
+    return null;
+  }
 }
 
 

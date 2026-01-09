@@ -32,6 +32,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        centerTitle: true,
         toolbarHeight: 80,
         leadingWidth: 70,
         leading: IconButton(
@@ -82,7 +83,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
                   const SizedBox(width: 8,),
 
                   Text(
-                    'Nueva funcionalidad',
+                    advert.title ,
                     style: GoogleFonts.montserrat(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,

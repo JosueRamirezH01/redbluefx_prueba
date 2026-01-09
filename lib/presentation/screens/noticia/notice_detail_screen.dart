@@ -33,6 +33,7 @@ class NoticeDetailScreen extends ConsumerWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        centerTitle: true,
         toolbarHeight: 75,
         leadingWidth: 70,
         leading: IconButton(

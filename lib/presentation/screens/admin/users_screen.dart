@@ -179,128 +179,135 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(usersProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Gestión de Usuarios', style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, fontSize: 17)),
-            if (userState.searchQuery != null)
-              Text(
-                '${userState.users.length} resultado${userState.users.length != 1 ? 's' : ''} encontrado${userState.users.length != 1 ? 's' : ''}',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
-              ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Gestión de Usuarios', style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, fontSize: 17)),
+              /*if (userState.searchQuery != null)
+                Text(
+                  '${userState.users.length} resultado${userState.users.length != 1 ? 's' : ''} encontrado${userState.users.length != 1 ? 's' : ''}',
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                ),*/
+            ],
+          ),
+          toolbarHeight: 75,
+          leadingWidth: 70,
+          leading: IconButton(
+            style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              context.pop();
+            },
+          ),
+          elevation: 6,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: _loadUsers,
+              tooltip: 'Actualizar lista',
+            ),
           ],
         ),
-        toolbarHeight: 75,
-        leadingWidth: 70,
-        leading: IconButton(
-          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            context.pop();
-          },
-        ),
-        elevation: 6,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadUsers,
-            tooltip: 'Actualizar lista',
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          Positioned(
-            top: -80,
-            right: 0,
-            child: Image.asset(
-              'assets/images/colores.png',
-              width: 260,
-              height: 380,
-              fit: BoxFit.contain,
+        body: Stack(
+          children: [
+            if(!isDark)
+            Positioned(
+              top: -80,
+              right: 0,
+              child: Image.asset(
+                'assets/images/colores.png',
+                width: 260,
+                height: 380,
+                fit: BoxFit.contain,
 
+              ),
             ),
-          ),
-
-          Positioned(
-            bottom: -50,
-            left: 0,
-            child: Image.asset(
-              'assets/images/colores_2.png',
-              width: 201,
-              height: 280,
-              fit: BoxFit.contain,
+            if(!isDark)
+            Positioned(
+              bottom: -50,
+              left: 0,
+              child: Image.asset(
+                'assets/images/colores_2.png',
+                width: 201,
+                height: 280,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
-          OrientationBuilder(
-            builder: (context, orientation) {
-              final isLandscape = orientation == Orientation.landscape;
+            OrientationBuilder(
+              builder: (context, orientation) {
+                final isLandscape = orientation == Orientation.landscape;
 
-              return Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(18)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: _onSearchChanged,
-                        decoration: InputDecoration(
-                          hintText: 'Buscar por nombre o email...',
-                          prefixIcon: const Icon(Icons.search),
-                          suffixIcon: _hasSearchText
-                              ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: _clearSearch,
-                          )
-                              : null,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                return Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: isDark ? const Color(0xFF243D5A) :Colors.white,
+                        borderRadius: const BorderRadius.all(Radius.circular(18)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: _onSearchChanged,
+                          decoration: InputDecoration(
+                            hintText: 'Buscar por nombre o email...',
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: _hasSearchText
+                                ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: _clearSearch,
+                            )
+                                : null,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
 
-                  if (isLandscape)
-                    Expanded(child: _buildBody(userState,isLandscape))
-                  else
-                    _buildBody(userState,isLandscape),
-                ],
-              );
+                    if (isLandscape)
+                      Expanded(child: _buildBody(userState,isLandscape))
+                    else
+                      _buildBody(userState,isLandscape),
+                  ],
+                );
+              },
+            ),
+
+          ]
+        ),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: CustomBottomBar(
+            onNoticias: () {
+              AppLogger.info("Noticias tapped");
+              context.pushNamed('notice_list');
             },
+            onAnuncios: () {
+              AppLogger.info("Anuncios tapped");
+              context.pushNamed('anuncio_list');
+            }, selectedTab: null,
           ),
-
-        ]
-      ),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: CustomBottomBar(
-          onNoticias: () {
-            AppLogger.info("Noticias tapped");
-            context.pushNamed('notice_list');
-          },
-          onAnuncios: () {
-            AppLogger.info("Anuncios tapped");
-            context.pushNamed('anuncio_list');
-          }, selectedTab: null,
         ),
-      ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom,
+        floatingActionButton: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom,
+          ),
+          child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+          context.goNamed('home'); },),
         ),
-        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); },),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
   Widget _buildBody(UserState state, bool isLandscape){
@@ -381,10 +388,6 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       dataRowMinHeight: 72,
       dataRowMaxHeight: 88,
       headingRowHeight: 48,
-      headingRowColor: WidgetStateProperty.all(
-        const Color(0xFFFEF4F4),
-      ),
-      decoration: const BoxDecoration(color: Colors.white),
       sortColumnIndex: _sortColumnIndex,
       sortAscending: _sortAscending,
       columns: [
@@ -443,7 +446,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                       user.createdAt != null
                           ? 'Creado: ${AppDateUtils.formatIsoStringToPeruTime(user.createdAt!)}'
                           : 'Creado: N/A',
-                      style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF4B5563)),
+                      style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),

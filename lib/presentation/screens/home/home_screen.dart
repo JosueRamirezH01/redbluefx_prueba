@@ -79,6 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
@@ -87,7 +88,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         child: Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: isDark ? null: BoxDecoration(
             gradient: RadialGradient(
               center: Alignment.bottomLeft,
               radius: 0.6,

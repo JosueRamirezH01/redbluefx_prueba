@@ -84,7 +84,7 @@ class _NoticeListState extends ConsumerState<NoticeList> {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       itemCount: noticeState.notices.length,
       itemBuilder: (context, index) {
         final notice = noticeState.notices[index];

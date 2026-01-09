@@ -97,7 +97,6 @@ class AlertCard extends ConsumerWidget {
     final mockTPs = alert.takeProfits;
     bool isTPExpanded = expandedIndex == index;
     String currentTP = mockTPs.first;
-
     return StatefulBuilder(
       builder: (context, setState) {
         return Column(
@@ -140,9 +139,16 @@ class AlertCard extends ConsumerWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
-                          color: isTPExpanded ? null : const Color(0xFFEDF9FF),
+                          color: isTPExpanded
+                              ? null
+                              : (mockTPs.length == 1
+                              ? null
+                              : const Color(0xFFEDF9FF)),
+
                           borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: const Color(0xFF005EA3)),
+                          border: (!isTPExpanded && mockTPs.length > 1)
+                              ? Border.all(color: const Color(0xFF005EA3))
+                              : null,
                           gradient:isTPExpanded ? const LinearGradient(colors: [Color(0xFF025591),Color(0xFF066BAF)]): null,
                         ),
                         child: Column(
@@ -152,8 +158,12 @@ class AlertCard extends ConsumerWidget {
                               "TP",
                               style: GoogleFonts.montserrat(
                                 fontSize: 11,
-                                color: isTPExpanded ? Colors.white : null,
-                                fontWeight: FontWeight.w500
+                                fontWeight: FontWeight.w500,
+                                color: isTPExpanded
+                                    ? Colors.white
+                                    : (mockTPs.length == 1
+                                    ? null
+                                    : Colors.black87),
                               ),
                             ),
                             Row(
@@ -163,10 +173,15 @@ class AlertCard extends ConsumerWidget {
                                   style: GoogleFonts.montserrat(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
-                                    color: isTPExpanded ? Colors.white : null,
+                                    color: isTPExpanded
+                                        ?  Colors.white
+                                        : (mockTPs.length == 1
+                                        ? null
+                                        : Colors.black87),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
+                                if(mockTPs.length > 1)
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 4),
                                   padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -181,7 +196,6 @@ class AlertCard extends ConsumerWidget {
                                         '${mockTPs.length}',
                                         style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF066BAF)),
                                       ),
-                                      if(mockTPs.length > 1)
                                       Icon(
                                         isTPExpanded
                                             ? Icons.keyboard_arrow_up
@@ -258,6 +272,7 @@ class AlertCard extends ConsumerWidget {
                                 color: Colors.grey.shade600,
                                 fontWeight: FontWeight.w500,
                               ),
+
                             ),
                             const SizedBox(height: 4),
                             Text(
