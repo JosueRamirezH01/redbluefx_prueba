@@ -8,11 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
 import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../../core/utils/borderPainter.dart';
 import '../../../core/utils/logger.dart';
 import '../../../domain/entities/alert.dart';
 import '../../providers/alert_provider.dart';
+import '../../providers/profile_provider.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/previewAlert.dart';
 
@@ -93,29 +95,37 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
 
     showDialog(
       context: context,
-      builder: (_) => TradingAlertPreviewDialog(alert: alertDraft, onConfirm: _submitFormAlerta),
+      builder: (_) => TradingAlertPreviewDialog(alert: alertDraft, onConfirm: _submitFormAlert, image: _selectedImage,),
     );
 
   }
 
-  Future<void> _submitFormAlerta() async {
+  Future<void> _submitFormAlert() async {
     setState(() => _isLoadingAlerta = true);
 
     final List<String> takeProfits = _tpControllers.map((c) => c.text.trim()).toList();
+    uploadimage? uploadedImage;
 
     try {
-      await ref.read(alertsProvider.notifier).createAlert(
+
+      if (_selectedImage != null) {
+        uploadedImage = await ref.read(profileProvider.notifier).pickAndUploadImageGlobal(_selectedImage!.path);
+        if (uploadedImage == null) {
+          AppLogger.debug('❌ Error al subir la imagen');
+        }
+      }
+
+       await ref.read(alertsProvider.notifier).createAlert(
         pair: _pairController.text,
         entry: _entryController.text,
         stopLoss: _slController.text,
         analysis: _analysisController.text,
         takeProfits: takeProfits,
-        image: '',
-        imageUrl: null,
+        image: uploadedImage?.name ?? '',
+        imageUrl: uploadedImage?.url,
         type: _selectedType!,
         isPublic: _isPublic,
       );
-
       if (mounted) {
         Fluttertoast.showToast(
             msg: "Alerta creada correctamente",
@@ -147,14 +157,22 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   Future<void> _submitFormAnuncio() async {
 
     if (!_formKeyAnuncio.currentState!.validate()) return;
-
+    uploadimage? uploadedImage;
     setState(() => _isLoadingAnuncio = true);
 
     try {
+
+
+      if (_selectedImage != null) {
+        uploadedImage = await ref.read(profileProvider.notifier).pickAndUploadImageGlobal(_selectedImage!.path);
+        if (uploadedImage == null) {
+          AppLogger.debug('❌ Error al subir la imagen');
+        }
+      }
       await ref.read(advertsProvider.notifier).createAdvert(
         title: _titleController.text,
         content: _contentController.text,
-        image: '',
+        image: uploadedImage?.url,
         isPublic: _isPublic,
       );
 
@@ -262,6 +280,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: const SharedAppBar(title: 'RedBlue FX', icons: false),
       body: SafeArea(
@@ -305,7 +325,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           size: 20,
                           color: _selectedIndex == 0
                               ? Colors.white
-                              : Colors.red.shade300,
+                              : Colors.red,
                         ),
                       ],
                     ),
@@ -347,19 +367,21 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(40),
-                  boxShadow: const [
-                    BoxShadow(
+                  boxShadow:  [
+                    if(!isDark)...[
+                    const BoxShadow(
                       color: Colors.white,
                       offset: Offset(-3, -3),
                       blurRadius: 6,
                       spreadRadius: -1,
                     ),
-                    BoxShadow(
+                    const BoxShadow(
                       color: Color(0x33000000),
                       offset: Offset(3, 3),
                       blurRadius: 6,
                       spreadRadius: -1,
                     ),
+              ]
                   ],
                 ),
                 thumbDecoration: BoxDecoration(
@@ -368,22 +390,22 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: _selectedIndex == 0
-                        ? [const Color(0xFFEC0006), const Color(0xFFFFCDD2),] // rojo intenso → claro
-                        : [const Color(0xFF066BAF), const Color(0xFF90CAF9)], // azul intenso → claro
+                        ? [const Color(0xFFB9060A), const Color(0xFFE5060C), const Color(0xFFE77779),] // rojo intenso → claro
+                        : [const Color(0xFF055994), const Color(0xFF0866A7), const Color(0xFF4D8DB9)], // azul intenso → claro
                   ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-3, -3),
-                      blurRadius: 6,
-                      spreadRadius: -1,
-                    ),
-                    BoxShadow(
-                      color: Color(0x33000000),
-                      offset: Offset(3, 3),
-                      blurRadius: 6,
-                      spreadRadius: -1,
-                    ),
+                  boxShadow:  const [
+                      BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-3, -3),
+                        blurRadius: 12,
+                        spreadRadius: -1,
+                      ),
+                      BoxShadow(
+                        color: Color(0x33000000),
+                        offset: Offset(3, 3),
+                        blurRadius: 6,
+                        spreadRadius: -1,
+                      ),
                   ],
                 ),
                 duration: const Duration(milliseconds: 200),
@@ -412,8 +434,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     setState(() => _selectedIndex = value);
                   },
                   children: [
-                    _buildCreateAlertForm(),
-                    _buildCrearAnuncioForm(),
+                    _buildCreateAlertForm(isDark),
+                    _buildCrearAnuncioForm(isDark),
                   ],
                 ),
               ),
@@ -437,14 +459,12 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             label,
             style: GoogleFonts.montserrat(
               fontSize: 14,
-              color: isSelected ? colors.onSurface : colors.onSurface,
             ),
           ),
           const SizedBox(width: 4),
           Icon(
             icon,
             size: 14,
-            color: isSelected ? colors.onSurface : colors.onSurface,
           ),
         ],
       ),
@@ -465,7 +485,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
 
-  Widget _buildCreateAlertForm() {
+  Widget _buildCreateAlertForm(bool isDark) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Form(
@@ -476,25 +496,22 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? const Color(0xFF0D1D35):Colors.white,
                 borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Crear Señal',
-                        style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  Center(
+                    child: Text('Crear Señal',
+                      style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   InputDecorator(
                     decoration: InputDecoration(
                       labelText: 'Tipo',
-                      labelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
+                      labelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -507,8 +524,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           label: 'Compra',
                           icon: Icons.arrow_upward,
                           value: AlertType.buy,
-                          color: const Color(0xFF10B981),
-                          colorRelleno: const Color(0xFFDCFCE7),
+                          color:  const Color(0xFF10B981),
+                          colorRelleno: isDark ? const Color(0xFFDCFCE7).withOpacity(0.9) : const Color(0xFFDCFCE7),
                         ),
                         const SizedBox(width: 20),
                         _buildSelectableChip(
@@ -516,20 +533,20 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           icon: Icons.arrow_downward,
                           value: AlertType.sell,
                           color: const Color(0xFFDD2E44),
-                          colorRelleno: const Color(0xFFFFE1E0),
+                          colorRelleno:isDark ? const Color(0xFFFFE1E0).withOpacity(0.9) : const Color(0xFFFFE1E0),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   TextFormField(
                     controller: _pairController,
                     maxLength: 20,
                     decoration:  InputDecoration(
                       labelText: 'Par de Divisas',
-                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
+                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
+                      labelStyle: GoogleFonts.poppins(fontSize: 14),
                       hintText: 'ej: GBP/JPY',
                       border: const OutlineInputBorder(),
                     ),
@@ -543,15 +560,15 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   TextFormField(
                     controller: _entryController,
                     //keyboardType: TextInputType.number,
                     decoration:  InputDecoration(
                       labelText: 'Entrada ➡️',
-                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
+                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF555555)),
+                      labelStyle: GoogleFonts.poppins(fontSize: 14),
                       hintText:'1.0820',
                       border: const OutlineInputBorder(),
                     ),
@@ -566,10 +583,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
-                    child: Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 15, color: const Color(0xFF515151), fontWeight: FontWeight.w500)),
+                    child: Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500)),
                   ),
                   const SizedBox(height: 4),
                   Column(
@@ -610,7 +627,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             ],
                           ),
                         ),
-                      Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF606060), fontWeight: FontWeight.w400),),
+                      Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w400),),
                       // Botón para agregar otro TP
                       if (_tpControllers.length < 5)
                         Align(
@@ -627,12 +644,12 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   TextFormField(
                     controller: _slController,
                     decoration: InputDecoration(
                       labelText: 'SL ⛔',
-                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, color: const Color(0xFF515151), fontWeight: FontWeight.w500),
+                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       border: const OutlineInputBorder(),
                     ),
@@ -659,7 +676,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     maxLines: null,
                   ),
                   const SizedBox(height: 10),
-                  imagenSwitch(),
+                  imagenSwitch(isDark),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -709,12 +726,18 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Color(0xFFED7053),
-                      blurRadius: 16,
-                      offset: Offset(2, 8)
+                boxShadow: [
+                  if(!isDark)
+                    const BoxShadow(
+                        color: Color(0xFFFF1B21),
+                        blurRadius: 20,      // intensidad
+                        offset: Offset(2, 8) // altura
+                    ),
 
+                  const BoxShadow(
+                      color: Color(0xFF771723),
+                      blurRadius: 20,      // intensidad
+                      offset: Offset(2, 8) // altura
                   ),
                 ],
               ),
@@ -761,7 +784,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       ),
     );
   }
-  Widget _buildCrearAnuncioForm() {
+  Widget _buildCrearAnuncioForm(bool isDark) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Form(
@@ -772,7 +795,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? const Color(0xFF0D1D35):Colors.white,
                 borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
               ),
               child: Column(
@@ -787,7 +810,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     decoration: InputDecoration(
                       labelText: 'Título',
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
+                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
@@ -805,7 +828,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     decoration: InputDecoration(
                       labelText: 'Contenido',
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color:const Color(0xFF515151), fontSize: 15),
+                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
@@ -816,7 +839,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     },
                   ),
                   const SizedBox(height: 12),
-                  imagenSwitch(),
+                  imagenSwitch(isDark),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -825,7 +848,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '¿Destacar?',
+                              '¿Es una Anuncio público?',
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500
@@ -834,7 +857,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             const SizedBox(height: 6),
 
                             Text(
-                              '(Carrusel home)',
+                              'Las alertas públicas son visibles para todos los usuarios',
                               style: GoogleFonts.poppins(fontSize: 12),
                             ),
                           ],
@@ -866,10 +889,17 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0xFFED7053),
-                    blurRadius: 16,      // intensidad
+              boxShadow: [
+                if(!isDark)
+                const BoxShadow(
+                    color: Color(0xFFFF1B21),
+                    blurRadius: 25,      // intensidad
+                    offset: Offset(2, 8) // altura
+                ),
+
+                const BoxShadow(
+                    color: Color(0xFF771723),
+                    blurRadius: 20,      // intensidad
                     offset: Offset(2, 8) // altura
                 ),
               ],
@@ -910,7 +940,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
 
-  Widget imagenSwitch(){
+  Widget imagenSwitch(bool isDark){
     return Column(
       children: [
         Row(
@@ -923,7 +953,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF7F7F7),
+                      color: isDark ? const Color(0xFF003457) : const Color(0xFFF7F7F7),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
@@ -974,7 +1004,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                                 'PNG, JPG hasta 1MB',
                                 style: GoogleFonts.poppins(
                                   fontSize: 11,
-                                  color: const Color(0xFF555555),
                                 ),
                               )
                             ],

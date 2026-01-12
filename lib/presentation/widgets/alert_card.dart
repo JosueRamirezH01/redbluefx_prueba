@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +14,7 @@ class AlertCard extends ConsumerWidget {
   final VoidCallback? onTap;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
+  final File? imagePreview;
   final int index;
   final bool? borde;
   final int? expandedIndex;
@@ -24,6 +27,7 @@ class AlertCard extends ConsumerWidget {
     required this.alert,
     required this.index,
     this.borde = false,
+    this.imagePreview,
     required this.expandedIndex,
     required this.onExpandChange,
     required this.expandedDetailsIndex,
@@ -316,7 +320,14 @@ class AlertCard extends ConsumerWidget {
                   builder: (context, constraints) {
                     final imageSize = size * 0.3;
                     final finalSize = imageSize.clamp(100.0, 120.0);
-
+                    if (imagePreview != null) {
+                      return Image.file(
+                        imagePreview!,
+                        width: finalSize,
+                        height: finalSize,
+                        fit: BoxFit.cover,
+                      );
+                    }
                     // Si no hay URL de imagen, mostramos placeholder
                     if (alert.imageUrl == null || alert.imageUrl!.isEmpty) {
                       return _placeholder(finalSize);

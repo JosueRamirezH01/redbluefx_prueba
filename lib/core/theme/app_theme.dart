@@ -404,6 +404,10 @@ class AppTheme {
           vertical: 10,
         ),
       ),
+      switchTheme: const SwitchThemeData(
+        thumbColor: WidgetStatePropertyAll(Color(0xFF005EA3)),
+        trackColor: WidgetStatePropertyAll(Colors.white),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,

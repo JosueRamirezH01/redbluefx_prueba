@@ -1,3 +1,5 @@
+import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
+
 import '../entities/user.dart';
 
 abstract class AuthRepository {
@@ -19,7 +21,7 @@ abstract class AuthRepository {
 
   // Nuevos métodos para la foto de perfil
   Future<String> uploadProfilePicture(String imagePath);
-  Future<void> updateProfilePicture(String imageUrl);
+  Future<uploadimage?> uploadProfilePictureGlobal(String imageUrl);
   
   // Método para verificar token localmente sin validación del servidor
   Future<bool> hasTokenLocally();

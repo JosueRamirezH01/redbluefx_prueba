@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,11 +9,13 @@ import 'alert_card.dart';
 
 class TradingAlertPreviewDialog extends ConsumerStatefulWidget {
   final Alert alert;
+  final File? image;
   final Future<void> Function() onConfirm;
   const TradingAlertPreviewDialog({
     super.key,
     required this.alert,
     required this.onConfirm,
+    this.image
   });
 
   @override
@@ -95,6 +99,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
       child: AlertCard(
         alert: widget.alert,
         index: 1,
+        imagePreview: widget.image,
         expandedIndex: expandedIndex,
         expandedDetailsIndex: expandedDetailsIndex,
         borde: true,

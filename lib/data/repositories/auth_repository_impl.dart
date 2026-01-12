@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
 
 import '../../core/config/api_routes.dart';
 import '../../core/config/app_config.dart';
@@ -571,6 +572,76 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<uploadimage> uploadProfilePictureGlobal(String imagePath) async {
+    AppLogger.debug('🔄 Iniciando subida de imagen global');
+
+    try {
+      final file = File(imagePath);
+      final bytes = await file.readAsBytes();
+      final fileName = imagePath.split('/').last;
+      final fileSize = bytes.length;
+
+      // 1️⃣ Solicitar URL presignada
+      final presignedResponse = await _dio.post(
+        '/api/uploadthing',
+        queryParameters: {
+          'slug': 'imageUpload',
+          'actionType': 'upload',
+        },
+        data: {
+          'files': [
+            {
+              'name': fileName,
+              'size': fileSize,
+              'type': _getMimeType(fileName),
+            }
+          ],
+        },
+      );
+
+      if (presignedResponse.statusCode != 200) {
+        throw Exception('Error al obtener URL presignada');
+      }
+
+      final uploadData = presignedResponse.data[0];
+
+      final String presignedUrl = uploadData['url'];
+      final String key = uploadData['key'];
+      final String name = uploadData['name'];
+
+      final String fileUrl = 'https://utfs.io/f/$key';
+
+      // 2️⃣ Subir archivo
+      final uploadFormData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          imagePath,
+          filename: name,
+        ),
+      });
+
+      await _dio.put(
+        presignedUrl,
+        data: uploadFormData,
+        options: Options(
+          headers: {'Content-Type': 'multipart/form-data'},
+        ),
+      );
+
+      AppLogger.debug('✅ Imagen subida correctamente');
+
+      // 3️⃣ Retornar URL + nombre
+      return uploadimage(
+        url: fileUrl,
+        name: name, key: key,
+      );
+    } catch (e) {
+      AppLogger.error('❌ Error al subir imagen', error: e);
+      rethrow;
+    }
+  }
+
+
   String _getMimeType(String fileName) {
     final extension = fileName.split('.').last.toLowerCase();
     switch (extension) {
@@ -588,13 +659,7 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  @override
-  Future<void> updateProfilePicture(String imageUrl) async {
-    AppLogger.debug('📸 Logging: Profile picture URL received from UploadThing - no server update needed');
-    // El backend ya actualiza automáticamente la profilePictureUrl cuando se sube a UploadThing
-    // Este método ya no es necesario pero lo mantenemos por compatibilidad
-    AppLogger.debug('📸 Logging: Profile picture update handled automatically by backend UserService');
-  }
+
 
   Future<Map<String, String>> _getAuthHeaders() async {
     final token = await getToken();
@@ -631,5 +696,6 @@ class AuthRepositoryImpl implements AuthRepository {
       throw _handleError(e);
     }
   }
+
 
 } 
