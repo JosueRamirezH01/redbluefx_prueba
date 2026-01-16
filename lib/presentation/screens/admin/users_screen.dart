@@ -72,13 +72,13 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
     ref.read(usersProvider.notifier).sortUsers(getField, _sortAscending);
   }
 
-  Future<void> _toggleUserStatus(User user) async {
+  Future<void> _toggleUserStatusHabilitado(User user) async {
     try {
       AppLogger.debug('🔄 Logging: Toggling user status for ${user.fullName} (${user.id}) from ${user.isActive} to ${!user.isActive!}');
-      await ref.read(usersProvider.notifier).updateUserStatus(user.id, !user.isActive!);
+      await ref.read(usersProvider.notifier).updateUserStatus(user.id, true);
       if (mounted) {
         Fluttertoast.showToast(
-            msg: '${user.fullName} ${user.isActive! ? 'deshabilitado' : 'habilitado'} correctamente',
+            msg: '${user.fullName}  habilitado correctamente',
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -98,12 +98,51 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMessage),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 3),
+            action: SnackBarAction(
+              label: 'Reintentar',
+              textColor: Colors.white,
+              onPressed: () => _toggleUserStatusHabilitado(user),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _toggleUserStatusDeshabilitado(User user) async {
+    try {
+      AppLogger.debug('🔄 Logging: Toggling user status for ${user.fullName} (${user.id}) from ${user.isActive} to ${!user.isActive!}');
+      await ref.read(usersProvider.notifier).updateUserStatus(user.id, false);
+      if (mounted) {
+        Fluttertoast.showToast(
+          msg: '${user.fullName} deshabilitado correctamente',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (e) {
+      AppLogger.error('Error updating user status', error: e);
+      if (mounted) {
+        String errorMessage = 'Error al actualizar el estado del usuario';
+
+        // Extraer mensaje más específico del error si está disponible
+        if (e.toString().contains('Exception:')) {
+          errorMessage = e.toString().replaceFirst('Exception: ', '');
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
             action: SnackBarAction(
               label: 'Reintentar',
               textColor: Colors.white,
-              onPressed: () => _toggleUserStatus(user),
+              onPressed: () => _toggleUserStatusDeshabilitado(user),
             ),
           ),
         );
@@ -245,41 +284,43 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               builder: (context, orientation) {
                 final isLandscape = orientation == Orientation.landscape;
 
-                return Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: isDark ? const Color(0xFF243D5A) :Colors.white,
-                        borderRadius: const BorderRadius.all(Radius.circular(18)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: TextField(
-                          controller: _searchController,
-                          onChanged: _onSearchChanged,
-                          decoration: InputDecoration(
-                            hintText: 'Buscar por nombre o email...',
-                            prefixIcon: const Icon(Icons.search),
-                            suffixIcon: _hasSearchText
-                                ? IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: _clearSearch,
-                            )
-                                : null,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: isDark ? const Color(0xFF243D5A) :Colors.white,
+                          borderRadius: const BorderRadius.all(Radius.circular(18)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: _onSearchChanged,
+                            decoration: InputDecoration(
+                              hintText: 'Buscar por nombre o email...',
+                              prefixIcon: const Icon(Icons.search),
+                              suffixIcon: _hasSearchText
+                                  ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: _clearSearch,
+                              )
+                                  : null,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
 
-                    if (isLandscape)
-                      Expanded(child: _buildBody(userState,isLandscape))
-                    else
-                      _buildBody(userState,isLandscape),
-                  ],
+                      if (isLandscape)
+                        Expanded(child: _buildBody(userState,isLandscape))
+                      else
+                        _buildBody(userState,isLandscape),
+                    ],
+                  ),
                 );
               },
             ),
@@ -472,8 +513,8 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFDCFCE7)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF16A34A),onPressed: (){}, icon: const Icon(Icons.check)),
-                  IconButton(style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE3E3E3)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF000000),onPressed: (){}, icon: const Icon(Icons.close))
+                  IconButton(tooltip: 'Habilitar' ,style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFDCFCE7)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF16A34A),onPressed: (){_toggleUserStatusHabilitado(user);}, icon: const Icon(Icons.check)),
+                  IconButton(tooltip: 'Deshabilitar' ,style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE3E3E3)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF000000),onPressed: (){_toggleUserStatusDeshabilitado(user);}, icon: const Icon(Icons.close))
 
                   /*IconButton(
                     icon: Icon(

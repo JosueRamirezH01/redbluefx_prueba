@@ -4,29 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme.dart';
+import 'package:redbluefx_mobile/domain/entities/adverts.dart';
 import 'package:redbluefx_mobile/domain/entities/alert.dart';
+import 'package:redbluefx_mobile/presentation/widgets/anuncio_reciente_card.dart';
 
 import 'alert_card.dart';
 
-class TradingAlertPreviewDialog extends ConsumerStatefulWidget {
-  final Alert alert;
+class AdvertPreviewDialog extends ConsumerStatefulWidget {
+  final Advert advert;
   final File? image;
   final Future<void> Function() onConfirm;
-  const TradingAlertPreviewDialog({
+  const AdvertPreviewDialog({
     super.key,
-    required this.alert,
+    required this.advert,
     required this.onConfirm,
     this.image
   });
 
   @override
-  ConsumerState<TradingAlertPreviewDialog> createState() =>
-      _TradingAlertPreviewDialogState();
+  ConsumerState<AdvertPreviewDialog> createState() =>
+      _AdvertPreviewDialogState();
 }
-class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewDialog> {
-  int? expandedIndex;
-  int? expandedDetailsIndex;
-
+class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +70,13 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Preview de alerta',
-                  style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.w500)
+                    'Preview de alerta',
+                    style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.w500)
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Esto verán los usuarios',
-                  style: GoogleFonts.montserrat(fontSize: 16)
+                    'Esto verán los usuarios',
+                    style: GoogleFonts.montserrat(fontSize: 16)
                 ),
               ],
             ),
@@ -97,31 +96,10 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
   Widget _buildAlertCard(BuildContext context, bool isSmallScreen) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: AlertCard(
-        alert: widget.alert,
-        index: 1,
+      child: AdvertRecentCard(
+        advert: widget.advert,
         imagePreview: widget.image,
-        expandedIndex: expandedIndex,
-        expandedDetailsIndex: expandedDetailsIndex,
-        borde: true,
-        onExpandDetailsChange: (value) {
-          setState(() {
-            // Si se está abriendo un nuevo card diferente, cierra el TP del anterior
-            if (value != null && value != expandedDetailsIndex && expandedIndex != null && expandedIndex != value) {
-              expandedIndex = null;
-            }
-            expandedDetailsIndex = value;
-          });
-        },
-        onExpandChange: (value) {
-          setState(() {
-            if (value != null && value != expandedIndex && expandedDetailsIndex != null && expandedDetailsIndex != value) {
-              expandedDetailsIndex = null;
-            }
-            expandedIndex = value;
-          });
-        },
-        //onTap: () => context.push('/alerts/${alert.id}'),
+         //onTap: () => context.push('/alerts/${alert.id}'),
         //onEdit: () => context.push('/alerts/${alert.id}/edit'),
         /*onDelete: () async {
           try {

@@ -80,12 +80,13 @@ class AnuncioDetailScreen extends ConsumerWidget {
                       },
                     ),
                   ),
-                  const SizedBox(width: 8,),
-
+                  const SizedBox(width: 30),
                   Text(
                     advert.title ,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.montserrat(
                       fontSize: 17,
+
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -100,18 +101,6 @@ class AnuncioDetailScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-                  Text(
-                    advert.title,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-
-
-
-                  const SizedBox(height: 12),
-
                   // Contenido de la noticia
                   Text(
                     advert.content,

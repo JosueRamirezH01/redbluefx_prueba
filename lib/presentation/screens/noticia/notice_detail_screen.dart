@@ -48,7 +48,7 @@ class NoticeDetailScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top * 2.55,
+            top: MediaQuery.of(context).padding.top * 2.8,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

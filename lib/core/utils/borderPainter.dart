@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:redbluefx_mobile/core/theme/app_theme.dart';
 
 class DashedBorderPainter extends CustomPainter {
+  final Color borderColor;
+  DashedBorderPainter({required this.borderColor});
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey.shade400
+      ..color = borderColor
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 

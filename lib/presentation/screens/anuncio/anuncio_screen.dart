@@ -130,7 +130,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
                   const AnuncioDestacadoList(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
-                    child: Text('Recientes',style: GoogleFonts.montserrat(
+                    child: Text('Más anuncios',style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w500,
                         fontSize: 18
                     ),),

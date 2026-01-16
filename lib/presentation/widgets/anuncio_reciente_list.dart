@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
+import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../providers/alert_provider.dart';
 import '../../../core/utils/logger.dart';
 import 'anuncio_reciente_card.dart';
@@ -18,15 +19,15 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
 
   @override
   Widget build(BuildContext context) {
-    final alertsState = ref.watch(alertsProvider);
+    final advertsState = ref.watch(advertsProvider);
 
-    if (alertsState.isLoading && alertsState.alerts.isEmpty) {
+    if (advertsState.isLoading && advertsState.adverts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
 
-    if (alertsState.error != null && alertsState.alerts.isEmpty) {
+    if (advertsState.error != null && advertsState.adverts.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +55,7 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
       );
     }
 
-    if (alertsState.alerts.isEmpty) {
+    if (advertsState.adverts.isEmpty) {
       return FadeIn(
         duration: const Duration(milliseconds: 500),
         child: Center(
@@ -87,15 +88,15 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(12),
-      itemCount: alertsState.alerts.length,
+      itemCount: advertsState.adverts.length,
       itemBuilder: (context, index) {
-        final alert = alertsState.alerts[index];
+        final advert = advertsState.adverts[index];
         return FadeInUp(
           duration: Duration(milliseconds: 300 + (index * 100)),
           child: SlideInRight(
             duration: Duration(milliseconds: 300 + (index * 100)),
             child: Dismissible(
-              key: Key(alert.id),
+              key: Key(advert.id),
               direction: DismissDirection.endToStart,
               background: Container(
                 alignment: Alignment.centerRight,
@@ -133,7 +134,7 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
               },
               onDismissed: (direction) async {
                 try {
-                  await ref.read(alertsProvider.notifier).deleteAlert(alert.id);
+                  await ref.read(alertsProvider.notifier).deleteAlert(advert.id);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -154,9 +155,9 @@ class _AnuncioRecienteListState extends ConsumerState<AnuncioRecienteList> {
                   }
                 }
               },
-              child: AnuncioRecienteCard(
-                alert: alert,
-                onTap: () => context.push('/anuncio/${alert.id}'),
+              child: AdvertRecentCard(
+                advert: advert,
+                onTap: () => context.push('/anuncio/${advert.id}'),
                 //onEdit: () => context.push('/alerts/${alert.id}/edit'),
               ),
             ),

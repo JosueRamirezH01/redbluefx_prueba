@@ -40,87 +40,85 @@ class AnuncioDestacadoCard extends ConsumerWidget {
           ),
 
           // Contenido encima
-          InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(20),
-            child: Padding(
-              padding: EdgeInsets.all(screenWidth * 0.02),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(width: 6),
+          SizedBox(
+            height: screenWidth * 0.28,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: EdgeInsets.all(screenWidth * 0.02),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(width: 6),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          final imageSize = screenWidth * 0.25;
-                          final finalSize = imageSize.clamp(70.0, 76.0);
-                          return _buildImage(finalSize);
-                        },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            final imageSize = screenWidth * 0.25;
+                            final finalSize = imageSize.clamp(70.0, 76.0);
+                            return _buildImage(finalSize);
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          advert.title,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 17,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.3),
-                                blurRadius: 4,
-                                offset: const Offset(0, 1),
-                              ),
-                            ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            advert.title,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 17,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            maxLines: 2,
                           ),
-                          maxLines: 2,
-                        ),
-                        Text(
-                          advert.content,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 14,
-                            color: Colors.white.withOpacity(0.95),
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.3),
-                                blurRadius: 4,
-                                offset: const Offset(0, 1),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Text(
+                                advert.content,
+                                style: GoogleFonts.montserrat(fontSize: 14),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                        Text(
-                          timeago.format(advert.createdAt, locale: 'es'),
-                          style: GoogleFonts.montserrat(
-                            fontSize: 12,
-                            color: Colors.white.withOpacity(0.9),
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.8),
-                                blurRadius: 4,
-                                offset: const Offset(0, 1),
-                              ),
-                            ],
+                          Text(
+                            timeago.format(advert.createdAt, locale: 'es'),
+                            style: GoogleFonts.montserrat(
+                              fontSize: 12,
+                              color: Colors.white.withOpacity(0.9),
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.8),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 13,
-                    color: Color(0xFF5EBCFF),
-                  )
-                ],
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 13,
+                      color: Color(0xFF5EBCFF),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

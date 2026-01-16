@@ -357,7 +357,7 @@ class AppTheme {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
-            color: Colors.grey, // gris dark
+            color: Color(0xFF2E4A66), // gris dark
             width: 1,
           ),
         ),
@@ -429,14 +429,30 @@ class AppTheme {
 
 
 }
+
 extension AppThemeColors on ThemeData {
   ///CARD ALERTAS
   Color get linkColor => brightness == Brightness.dark
       ? Colors.white
       : const Color(0xFF036BAF);
+  Color get borderColor => brightness == Brightness.dark
+      ? const Color(0xFF2E4A66)
+      : Colors.grey.shade400;
   Color get chipsColors => brightness == Brightness.dark
       ? const Color(0xFF101010)
       : const Color(0xFF101010);
+  Color get previewColors => brightness == Brightness.dark
+      ? const Color(0xFF0D3B6A)
+      : Colors.white;
+  Color get borderPreviewColors => brightness == Brightness.dark
+      ? const Color(0xFF2E4A66)
+      : Colors.white;
+  Color get borderCardPreviewColors => brightness == Brightness.dark
+      ? const Color(0xFF2E4A66)
+      : const Color(0xFFE63330);
+  Color get textCardPreviewColors => brightness == Brightness.dark
+      ? Colors.white
+      :const Color(0xFF101010);
 }
 
 /*

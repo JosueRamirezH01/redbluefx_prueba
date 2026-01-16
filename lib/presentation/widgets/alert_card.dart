@@ -47,7 +47,8 @@ class AlertCard extends ConsumerWidget {
     return Card(
       elevation: 1,
       margin: const EdgeInsets.only(bottom: 14),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16) , side: BorderSide(color: borde == true ? Color(0xFFFF0006) : Colors.transparent)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16) , side: BorderSide(color: Theme.of(context).borderCardPreviewColors)
+      ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,

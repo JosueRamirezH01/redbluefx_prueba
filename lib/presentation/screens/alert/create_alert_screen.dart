@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:redbluefx_mobile/core/theme/app_theme.dart';
+import 'package:redbluefx_mobile/domain/entities/adverts.dart';
 import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
 import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../../core/utils/borderPainter.dart';
@@ -16,6 +18,7 @@ import '../../../domain/entities/alert.dart';
 import '../../providers/alert_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_bar.dart';
+import '../../widgets/previewAdvert.dart';
 import '../../widgets/previewAlert.dart';
 
 class CreateAlertScreen extends ConsumerStatefulWidget {
@@ -50,13 +53,15 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     _entryController.dispose();
     _slController.dispose();
     _analysisController.dispose();
+    _titleController.dispose();
+    _contentController.dispose();
     for (var c in _tpControllers) {
       c.dispose();
     }
     super.dispose();
   }
 
-  Future<void> _openPreviewAlerta() async {
+  Future<void> _openPreviewAlert() async {
     if (_selectedType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -96,6 +101,25 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     showDialog(
       context: context,
       builder: (_) => TradingAlertPreviewDialog(alert: alertDraft, onConfirm: _submitFormAlert, image: _selectedImage,),
+    );
+
+  }
+  Future<void> _openPreviewAdverts() async {
+
+    if (!_formKeyAnuncio.currentState!.validate()) return;
+
+    final advertDraft = Advert(
+      id: '',
+      isPublic: _isPublic,
+      createdAt: DateTime.now(),
+      createdBy: '',
+      content: _contentController.text,
+      title: _titleController.text,
+    );
+
+    showDialog(
+      context: context,
+      builder: (_) => AdvertPreviewDialog(advert: advertDraft, onConfirm: _submitFormAnuncio, image: _selectedImage,),
     );
 
   }
@@ -156,7 +180,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   }
   Future<void> _submitFormAnuncio() async {
 
-    if (!_formKeyAnuncio.currentState!.validate()) return;
     uploadimage? uploadedImage;
     setState(() => _isLoadingAnuncio = true);
 
@@ -419,6 +442,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   setState(() {
                     _selectedImage = null;
                   });
+                  if (value == 0) {
+                    _clearAdvertForm();
+                  } else {
+                    _clearAlertForm();
+                  }
                   _pageController.animateToPage(
                     value,
                     duration: const Duration(milliseconds: 250),
@@ -435,7 +463,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   },
                   children: [
                     _buildCreateAlertForm(isDark),
-                    _buildCrearAnuncioForm(isDark),
+                    _buildCreateAdvertForm(isDark),
                   ],
                 ),
               ),
@@ -750,7 +778,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: _isLoadingAlerta ? null : _openPreviewAlerta,
+                onPressed: _isLoadingAlerta ? null : _openPreviewAlert,
                 child: _isLoadingAlerta
                     ? const SizedBox(
                   height: 20,
@@ -784,7 +812,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       ),
     );
   }
-  Widget _buildCrearAnuncioForm(bool isDark) {
+  Widget _buildCreateAdvertForm(bool isDark) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Form(
@@ -914,7 +942,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   ),
                 ),
                 onPressed: () {
-                  _submitFormAnuncio();
+                  _openPreviewAdverts();
                 },
                 child:  _isLoadingAnuncio
                     ? const SizedBox(
@@ -949,7 +977,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               child: GestureDetector(
                 onTap: _pickImage,
                 child: CustomPaint(
-                  painter: DashedBorderPainter(),
+                  painter: DashedBorderPainter(borderColor: Theme.of(context).borderColor,),
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
@@ -1020,6 +1048,27 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
 
+  void _clearAlertForm() {
+    _pairController.clear();
+    _entryController.clear();
+    _slController.clear();
+    _analysisController.clear();
+
+    for (final c in _tpControllers) {
+      c.clear();
+    }
+
+    _tpControllers
+      ..clear()
+      ..add(TextEditingController());
+
+    _selectedType = null;
+  }
+
+  void _clearAdvertForm() {
+    _titleController.clear();
+    _contentController.clear();
+  }
 
 
 /* Widget _buildSelectableChip({
