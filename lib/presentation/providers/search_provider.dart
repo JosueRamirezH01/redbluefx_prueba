@@ -15,6 +15,7 @@ class SearchHistoryNotifier extends StateNotifier<List<String>> {
     _loadHistory();
   }
 
+
   Future<void> _loadHistory() async {
     final prefs = await SharedPreferences.getInstance();
     state = prefs.getStringList(_key) ?? [];

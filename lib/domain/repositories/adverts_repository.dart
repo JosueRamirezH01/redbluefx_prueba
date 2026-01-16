@@ -8,6 +8,7 @@ abstract class AdvertRepository {
     required bool isPublic,
   });
 
+
   Future<List<Advert>> getAdverts({
     int page = 1,
     int limit = 20,
