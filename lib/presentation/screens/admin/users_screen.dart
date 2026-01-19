@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/user.dart';
 import '../../providers/user_provider.dart';
 import '../../../core/utils/logger.dart';
@@ -12,7 +11,7 @@ import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 class UsersScreen extends ConsumerStatefulWidget {
-  const UsersScreen({Key? key}) : super(key: key);
+  const UsersScreen({super.key});
 
   @override
   ConsumerState<UsersScreen> createState() => _UsersScreenState();

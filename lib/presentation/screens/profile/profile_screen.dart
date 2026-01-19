@@ -412,7 +412,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             CupertinoSwitch(
                               value: Theme.of(context).brightness == Brightness.dark,
                               trackColor: Colors.transparent,
-                              activeColor: const Color(0xFF34C759),
+                              activeColor: const Color(0xFF005EA3),
                               onChanged: (value) async {
                                 await Future.delayed(const Duration(milliseconds: 150));
                                 ref.read(themeProvider.notifier).toggleTheme();
