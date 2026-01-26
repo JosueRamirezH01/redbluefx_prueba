@@ -41,6 +41,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   final PageController _pageController = PageController();
   AlertType? _selectedType;
   bool _isPublic = true;
+  bool _isFeatured = false;
   bool _isLoadingAlerta = false;
   bool _isLoadingAnuncio = false;
   File? _selectedImage;
@@ -110,7 +111,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
 
     final advertDraft = Advert(
       id: '',
-      isPublic: _isPublic,
+      isFeatured: _isFeatured,
       createdAt: DateTime.now(),
       createdBy: '',
       content: _contentController.text,
@@ -196,7 +197,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
         title: _titleController.text,
         content: _contentController.text,
         image: uploadedImage?.url,
-        isPublic: _isPublic,
+        isFeatured: _isFeatured,
       );
 
       if (mounted) {
@@ -893,10 +894,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       ),
 
                       Switch(
-                        value: _isPublic,
+                        value: _isFeatured,
                         onChanged: (value) {
                           setState(() {
-                            _isPublic = value;
+                            _isFeatured = value;
                           });
                         },
                       ),

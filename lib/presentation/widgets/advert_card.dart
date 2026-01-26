@@ -1,18 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/domain/entities/adverts.dart';
-import '../../domain/entities/alert.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class AnuncioDestacadoCard extends ConsumerWidget {
+class AdvertsCard extends ConsumerWidget {
   final Advert advert;
   final VoidCallback? onTap;
-
-  const AnuncioDestacadoCard({
+  final File? imagePreview;
+  final bool? toolTips;
+  const AdvertsCard({
     super.key,
     required this.advert,
+    this.toolTips = false,
     this.onTap,
+    this.imagePreview,
+
   });
 
   @override
@@ -21,7 +26,7 @@ class AnuncioDestacadoCard extends ConsumerWidget {
 
     return Card(
       elevation: 2,
-      color: Colors.transparent,
+      color: advert.isFeatured ?  Colors.transparent : Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -29,6 +34,7 @@ class AnuncioDestacadoCard extends ConsumerWidget {
       child: Stack(
         children: [
           // Imagen de fondo estática
+          if(advert.isFeatured)
           Positioned.fill(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
@@ -75,7 +81,7 @@ class AnuncioDestacadoCard extends ConsumerWidget {
                             advert.title,
                             style: GoogleFonts.montserrat(
                               fontSize: 17,
-                              color: Colors.white,
+                              color: advert.isFeatured ? Colors.white : Colors.black87,
                               fontWeight: FontWeight.w600,
                               shadows: [
                                 Shadow(
@@ -88,26 +94,49 @@ class AnuncioDestacadoCard extends ConsumerWidget {
                             maxLines: 2,
                           ),
                           Expanded(
-                            child: SingleChildScrollView(
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: toolTips == true
+                                  ? () => _showContentDialog(context)
+                                  : null,
+                              onLongPress: toolTips == true
+                                  ? () => _showContentDialog(context)
+                                  : null,
                               child: Text(
                                 advert.content,
-                                style: GoogleFonts.montserrat(fontSize: 14),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  color: advert.isFeatured ? Colors.white : Colors.black87,
+                                ),
                               ),
                             ),
                           ),
-                          Text(
-                            timeago.format(advert.createdAt, locale: 'es'),
-                            style: GoogleFonts.montserrat(
-                              fontSize: 12,
-                              color: Colors.white.withOpacity(0.9),
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.8),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 1),
+
+
+                          Row(
+                            children: [
+                              Text(
+                                timeago.format(advert.createdAt, locale: 'es'),
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 12,
+                                  color: advert.isFeatured ? Colors.white : Colors.black87,
+
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.8),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              const Spacer(),
+                              if(advert.isFeatured)
+                                const Icon(Icons.star, color: Colors.yellow)
+
+                            ],
                           ),
                         ],
                       ),
@@ -126,6 +155,30 @@ class AnuncioDestacadoCard extends ConsumerWidget {
       ),
     );
   }
+  void _showContentDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(
+          advert.title,
+          style: GoogleFonts.montserrat(fontWeight: FontWeight.w600),
+        ),
+        content: SingleChildScrollView(
+          child: Text(
+            advert.content,
+            style: GoogleFonts.montserrat(fontSize: 14),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget _buildImage(double finalSize) {
     if (advert.image == null || advert.image!.isEmpty) {

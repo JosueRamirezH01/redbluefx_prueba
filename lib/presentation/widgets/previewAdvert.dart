@@ -5,10 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme.dart';
 import 'package:redbluefx_mobile/domain/entities/adverts.dart';
-import 'package:redbluefx_mobile/domain/entities/alert.dart';
-import 'package:redbluefx_mobile/presentation/widgets/anuncio_reciente_card.dart';
 
-import 'alert_card.dart';
+import 'advert_card.dart';
+
 
 class AdvertPreviewDialog extends ConsumerStatefulWidget {
   final Advert advert;
@@ -70,7 +69,7 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                    'Preview de alerta',
+                    'Preview de anuncio',
                     style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.w500)
                 ),
                 const SizedBox(height: 4),
@@ -96,9 +95,10 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
   Widget _buildAlertCard(BuildContext context, bool isSmallScreen) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: AdvertRecentCard(
+      child: AdvertsCard(
         advert: widget.advert,
         imagePreview: widget.image,
+         toolTips: true,
          //onTap: () => context.push('/alerts/${alert.id}'),
         //onEdit: () => context.push('/alerts/${alert.id}/edit'),
         /*onDelete: () async {

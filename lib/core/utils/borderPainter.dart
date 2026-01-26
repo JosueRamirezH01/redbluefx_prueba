@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:redbluefx_mobile/core/theme/app_theme.dart';
 
 class DashedBorderPainter extends CustomPainter {
   final Color borderColor;

@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
 import 'package:redbluefx_mobile/presentation/providers/notice_provider.dart';
 import 'package:redbluefx_mobile/presentation/widgets/notice_card.dart';
-import '../providers/alert_provider.dart';
 
 class NoticeList extends ConsumerStatefulWidget {
   const NoticeList({super.key});

@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:redbluefx_mobile/core/services/loginStorage.dart';
-import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import '../../../core/services/authLogin.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/theme/app_theme.dart';

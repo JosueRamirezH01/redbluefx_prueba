@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme.dart';
-import '../../domain/entities/alert.dart';
 import '../../core/utils/date_utils.dart';
 import '../../domain/entities/notice.dart';
 

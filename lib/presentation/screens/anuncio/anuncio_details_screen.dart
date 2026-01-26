@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
-import '../../providers/alert_provider.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';

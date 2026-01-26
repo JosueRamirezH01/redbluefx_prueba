@@ -15,6 +15,10 @@ final advertsProvider = StateNotifierProvider<AdvertNotifier, AdvertState>((ref)
   return AdvertNotifier(ref.watch(advertRepositoryProvider));
 });
 
+final advertsProviderPublic = StateNotifierProvider<AdvertNotifierPublic, AdvertState>((ref) {
+  return AdvertNotifierPublic(ref.watch(advertRepositoryProvider));
+});
+
 class AdvertState {
   final List<Advert> adverts;
   final bool isLoading;
@@ -57,7 +61,7 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
   static const _pageSize = 20;
 
   AdvertNotifier(this._repository) : super(const AdvertState()) {
-    loadAdverts();
+    loadAdvertsFeature();
   }
 
   Future<void> loadAdverts({bool refresh = false}) async {
@@ -78,6 +82,7 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
         page: state.currentPage,
         limit: _pageSize,
         search: state.searchQuery,
+
       );
       AppLogger.debug('🔄 AdvertNotifier loadAlerts - received ${adverts.length} advert');
 
@@ -96,8 +101,46 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
     }
   }
 
-  Future<void> refreshAlerts() async {
-    await loadAdverts(refresh: true);
+  Future<void> loadAdvertsFeature({bool refresh = false}) async {
+    if (refresh) {
+      state = state.copyWith(
+        currentPage: 1,
+        adverts: [],
+        hasMore: true,
+      );
+    }
+
+    if (!state.hasMore || state.isLoading) return;
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final adverts = await _repository.getAdvertsFeature(
+        page: state.currentPage,
+        limit: _pageSize,
+        search: state.searchQuery,
+
+      );
+      AppLogger.debug('🔄 AdvertNotifier loadAlerts - received ${adverts.length} advert');
+
+      state = state.copyWith(
+        adverts: [...state.adverts, ...adverts],
+        isLoading: false,
+        hasMore: adverts.length >= _pageSize,
+        currentPage: state.currentPage + 1,
+      );
+    } catch (e) {
+      AppLogger.error('🔄 AdvertNotifier loadAdvert - error', error: e);
+      state = state.copyWith(
+        error: e.toString(),
+        isLoading: false,
+      );
+    }
+  }
+
+
+  Future<void> refreshAdverts() async {
+    await loadAdvertsFeature(refresh: true);
   }
 
   void clearFilters() {
@@ -110,12 +153,12 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
       searchQuery: null,
     );
   }
-  Future<Advert> createAdvert({required title, required String content,String? image, required bool isPublic}) async {
+  Future<Advert> createAdvert({required title, required String content,String? image, required bool isFeatured}) async {
     try {
       final advert = await _repository.createAdverts(
           title: title,
           content: content,
-          isPublic: isPublic,
+          isFeatured: isFeatured,
           image: image
       );
 
@@ -231,16 +274,76 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
       rethrow;
     }
   }
-
-  Future<void> deleteAlert(String id) async {
+*/
+  Future<void> deleteAdvert(String id) async {
     try {
-      await _repository.deleteAlert(id);
+      await _repository.deleteAdverts(id);
       state = state.copyWith(
-        alerts: state.alerts.where((alert) => alert.id != id).toList(),
+        adverts: state.adverts.where((advert) => advert.id != id).toList(),
       );
     } catch (e) {
       state = state.copyWith(error: e.toString());
     }
-  }*/
+  }
 
+}
+
+class AdvertNotifierPublic extends StateNotifier<AdvertState> {
+  final AdvertRepository _repository;
+  static const _pageSize = 20;
+
+  AdvertNotifierPublic(this._repository) : super(const AdvertState()) {
+    loadAdvertsPublic();
+  }
+
+  Future<void> loadAdvertsPublic({bool refresh = false}) async {
+    if (refresh) {
+      state = state.copyWith(
+        currentPage: 1,
+        adverts: [],
+        hasMore: true,
+      );
+    }
+
+    if (!state.hasMore || state.isLoading) return;
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final adverts = await _repository.getAdvertsPublic(
+        page: state.currentPage,
+        limit: _pageSize,
+        search: state.searchQuery,
+      );
+
+      AppLogger.debug('📰 Public adverts: ${adverts.length}');
+
+      state = state.copyWith(
+        adverts: [...state.adverts, ...adverts],
+        isLoading: false,
+        hasMore: adverts.length >= _pageSize,
+        currentPage: state.currentPage + 1,
+      );
+    } catch (e) {
+      AppLogger.error('❌ Error loading public adverts', error: e);
+      state = state.copyWith(
+        error: e.toString(),
+        isLoading: false,
+      );
+    }
+  }
+
+  Future<void> refresh() async {
+    await loadAdvertsPublic(refresh: true);
+  }
+  Future<void> deleteAdvertPublic(String id) async {
+    try {
+      await _repository.deleteAdverts(id);
+      state = state.copyWith(
+        adverts: state.adverts.where((advert) => advert.id != id).toList(),
+      );
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    }
+  }
 }

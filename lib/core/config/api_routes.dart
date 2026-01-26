@@ -28,7 +28,10 @@ class ApiRoutes {
   static String deleteUser(String id) => '$_auth/users/$id';
 
   // Notice routes
-
   static const notices = _notices;
   static const adverts = _adverts;
+  static const advertsFeature = '$_adverts/featured';
+  static const advertsPublic = '$_adverts/public';
+  static String advert(String id) => '$_adverts/$id';
+
 } 

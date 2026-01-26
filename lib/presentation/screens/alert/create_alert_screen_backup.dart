@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/alert.dart';
-import '../../providers/alert_provider.dart';
 import '../../widgets/app_bar.dart';
-import '../../../core/utils/logger.dart';
 
 class CreateAlertScreen extends ConsumerStatefulWidget {
   const CreateAlertScreen({super.key});

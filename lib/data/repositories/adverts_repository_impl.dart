@@ -12,12 +12,12 @@ class AdvertsRepositoryImpl implements AdvertRepository {
   final Dio _dio;
 
   @override
-  Future<Advert> createAdverts({required String title, required String content, String? image, required bool isPublic}) async {
+  Future<Advert> createAdverts({required String title, required String content, String? image, required bool isFeatured}) async {
     try {
       final Map<String, dynamic> data = {
         'title': title,
         'content': content,
-        'isPublic': isPublic,
+        'isFeatured': isFeatured,
       };
       if (image != null && image.trim().isNotEmpty) {
         data['image'] = image;
@@ -102,6 +102,93 @@ class AdvertsRepositoryImpl implements AdvertRepository {
       throw _handleError(e);
     }
   }
+
+  @override
+  Future<List<Advert>> getAdvertsFeature({int page = 1, int limit = 20, String? search}) async {
+    try {
+
+      final queryParams = {
+        'page': page.toString(),
+        'limit': limit.toString(),
+        if (search != null && search.isNotEmpty) 'search': search,
+      };
+
+      AppLogger.debug(
+          '🔄 AdvertRepositoryImpl getAlerts - queryParams: $queryParams');
+
+      final response = await _dio.get(ApiRoutes.advertsFeature, queryParameters: queryParams);
+
+      if (response.data == null) {
+        throw Exception('No se recibieron datos del servidor');
+      }
+
+      final List<dynamic> data = response.data['adverts'] as List<dynamic>;
+      var adverts = data.map((json) => Advert.fromJson(json)).toList();
+      AppLogger.debug(
+          '🔄 AdvertRepositoryImpl getAdverts - received ${data.length} advert');
+      if (data.isNotEmpty) {
+        AppLogger.debug(
+            '🔄 AdvertRepositoryImpl getAdverts - first alert type: ${data[0]['type']}');
+      }
+      return adverts;
+    } catch (e, stack) {
+      AppLogger.error(
+        'Error en getAdvert',
+        error: e,
+        stackTrace: stack,
+      );
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<List<Advert>> getAdvertsPublic({int page = 1, int limit = 20, String? search}) async {
+    try {
+
+      final queryParams = {
+        'page': page.toString(),
+        'limit': limit.toString(),
+        if (search != null && search.isNotEmpty) 'search': search,
+      };
+
+      AppLogger.debug(
+          '🔄 AdvertRepositoryImpl getAlerts - queryParams: $queryParams');
+
+      final response = await _dio.get(ApiRoutes.advertsPublic, queryParameters: queryParams);
+
+      if (response.data == null) {
+        throw Exception('No se recibieron datos del servidor');
+      }
+
+      final List<dynamic> data = response.data['adverts'] as List<dynamic>;
+      var adverts = data.map((json) => Advert.fromJson(json)).toList();
+      AppLogger.debug(
+          '🔄 AdvertRepositoryImpl getAdverts - received ${data.length} advert');
+      if (data.isNotEmpty) {
+        AppLogger.debug(
+            '🔄 AdvertRepositoryImpl getAdverts - first alert type: ${data[0]['type']}');
+      }
+      return adverts;
+    } catch (e, stack) {
+      AppLogger.error(
+        'Error en getAdvert',
+        error: e,
+        stackTrace: stack,
+      );
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<void> deleteAdverts(String id) async{
+    try {
+      await _dio.delete(ApiRoutes.advert(id));
+    } catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+
 
 
 }
