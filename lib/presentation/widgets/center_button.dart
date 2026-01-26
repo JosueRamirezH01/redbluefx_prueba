@@ -12,12 +12,13 @@ class CenterFloatingButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
+    final height = MediaQuery.of(context).size.height;
     return Transform.translate(
-      offset: const Offset(0, 16),
+      offset: Offset(0, height * 0.035),
       child: Container(
         height: 60,
         width: 60,
+
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: const RadialGradient(

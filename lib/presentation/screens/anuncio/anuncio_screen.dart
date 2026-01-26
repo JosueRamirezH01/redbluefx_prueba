@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
-import 'package:redbluefx_mobile/presentation/widgets/anuncio_destacado_list.dart';
-import 'package:redbluefx_mobile/presentation/widgets/anuncio_reciente_list.dart';
+import 'package:redbluefx_mobile/presentation/widgets/advert_feature_list.dart';
+import 'package:redbluefx_mobile/presentation/widgets/advert_recent_list.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../widgets/center_button.dart';
@@ -30,7 +30,8 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
     )..forward();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadAdvert();
+      _loadAdvertFeature();
+      _loadAdvertPublic();
     });
   }
 
@@ -41,15 +42,30 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
     super.dispose();
   }
 
-  Future<void> _loadAdvert() async {
+  Future<void> _loadAdvertFeature() async {
     try {
-      await ref.read(advertsProvider.notifier).loadAdverts();
+      await ref.read(advertsProvider.notifier).loadAdvertsFeature();
     } catch (e, stack) {
-      AppLogger.error('Error cargando advert: $e', error: e, stackTrace: stack);
+      AppLogger.error('Error cargando advert Feature: $e', error: e, stackTrace: stack);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Error al cargar las alertas. Por favor, intenta de nuevo.'),
+            content: Text('Error al cargar las anuncios feature. Por favor, intenta de nuevo.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+  Future<void> _loadAdvertPublic() async {
+    try {
+      await ref.read(advertsProviderPublic.notifier).loadAdvertsPublic();
+    } catch (e, stack) {
+      AppLogger.error('Error cargando advert Public: $e', error: e, stackTrace: stack);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al cargar las advert public. Por favor, intenta de nuevo.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -57,7 +73,10 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
     }
   }
 
-
+  Future<void> _refreshAll() async {
+    ref.read(advertsProvider.notifier).refreshAdverts();
+    ref.read(advertsProviderPublic.notifier).refresh();
+  }
 
  /* void _onFilterByType(AlertType? type) {
     AppLogger.debug('🔄 HomeScreen _onFilterByType - before: $_selectedType, after: $type');
@@ -113,7 +132,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
             ),
           ),
           child: RefreshIndicator(
-            onRefresh: _loadAdvert,
+            onRefresh: _refreshAll,
             child:  SingleChildScrollView(
               physics:  const AlwaysScrollableScrollPhysics(),
               child: Column(
@@ -127,7 +146,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
                         fontSize: 18
                     ),),
                   ),
-                  const AnuncioDestacadoList(),
+                  const AdvertFeatureList(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0) ,
                     child: Text('Más anuncios',style: GoogleFonts.montserrat(
@@ -135,7 +154,7 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
                         fontSize: 18
                     ),),
                   ),
-                  const AnuncioRecienteList(),
+                  const AdvertRecentList(),
                   const SizedBox(height: 80), // espacio para FAB
                 ],
               ),

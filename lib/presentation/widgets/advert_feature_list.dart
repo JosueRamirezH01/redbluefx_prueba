@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
 import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
-import '../providers/alert_provider.dart';
-import '../../../core/utils/logger.dart';
-import 'anuncio_destacado_card.dart';
+import '../../core/utils/logger.dart';
+import 'advert_card.dart';
 
-class AnuncioDestacadoList extends ConsumerStatefulWidget {
-  const AnuncioDestacadoList({super.key});
+class AdvertFeatureList extends ConsumerStatefulWidget {
+  const AdvertFeatureList({super.key});
 
   @override
-  ConsumerState<AnuncioDestacadoList> createState() => _AnuncioDestacadoListState();
+  ConsumerState<AdvertFeatureList> createState() => _AdvertFeatureListState();
 }
-class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
+class _AdvertFeatureListState extends ConsumerState<AdvertFeatureList> {
 
 
   @override
@@ -48,7 +48,7 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => ref.read(alertsProvider.notifier).loadAlerts(refresh: true),
+              onPressed: () => ref.read(advertsProvider.notifier).loadAdvertsFeature(refresh: true),
               child: const Text('Reintentar'),
             ),
           ],
@@ -115,8 +115,8 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
                 return await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Eliminar alerta'),
-                    content: const Text('¿Estás seguro de que deseas eliminar esta alerta?'),
+                    title: const Text('Eliminar anuncio'),
+                    content: const Text('¿Estás seguro de que deseas eliminar esta anuncio?'),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
@@ -134,29 +134,29 @@ class _AnuncioDestacadoListState extends ConsumerState<AnuncioDestacadoList> {
                 );
               },
               onDismissed: (direction) async {
-                /*try {
-                  await ref.read(advertsProvider.notifier).de(advert.id);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Alerta eliminada correctamente'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  }
+                try {
+                  await ref.read(advertsProvider.notifier).deleteAdvert(advert.id);
+                  Fluttertoast.showToast(
+                    msg: "Anuncio eliminado correctamente",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 14,
+                  );
                 } catch (e, stack) {
-                  AppLogger.error('Error al eliminar alerta: $e', error: e, stackTrace: stack);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error al eliminar la alerta'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
-                }*/
+                  AppLogger.error('Error al eliminar anuncio: $e', error: e, stackTrace: stack);
+                  Fluttertoast.showToast(
+                    msg: "Error al eliminar el anuncio",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 14,
+                  );
+                }
               },
-              child: AnuncioDestacadoCard(
+              child: AdvertsCard(
                 advert: advert,
                 onTap: () => context.push('/anuncio/${advert.id}'),
                 //onEdit: () => context.push('/alerts/${alert.id}/edit'),

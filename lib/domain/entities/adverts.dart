@@ -11,7 +11,7 @@ class Advert with _$Advert {
     required String content,
     String? image,
     String? imageUrl,
-    required bool isPublic,
+    required bool isFeatured,
     required DateTime createdAt,
     required String createdBy,
   }) = _Advert;
