@@ -61,7 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
         AppLogger.info('✅ Login exitoso');
         NotificationService.showSuccessToast('¡Bienvenido!');
         if(_rememberMe){
-          print('--------- ${_rememberMe}');
+          print('--------- $_rememberMe');
           await LoginStorage.saveCredentials(email: _emailController.text, password: _passwordController.text);
         }else{
           await LoginStorage.clearCredentials();

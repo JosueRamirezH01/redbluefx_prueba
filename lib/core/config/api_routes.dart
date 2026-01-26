@@ -34,4 +34,8 @@ class ApiRoutes {
   static const advertsPublic = '$_adverts/public';
   static String advert(String id) => '$_adverts/$id';
 
+  // feedback routes
+  static const _feedbackCreate = 'https://feedbacksys-production.up.railway.app/feedbacks/';
+  static const feedbackCreate = _feedbackCreate;
+
 } 

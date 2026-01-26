@@ -169,7 +169,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
           ],
         ],
         if (!isSearching) ...[
-          if (isAdmin && (widget.icons ?? true)) ...[
+          if (/*isAdmin && */(widget.icons ?? true)) ...[
             const SizedBox(width: 6),
             Container(
               width: 40,

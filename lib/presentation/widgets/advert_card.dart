@@ -16,7 +16,7 @@ class AdvertsCard extends ConsumerWidget {
     required this.advert,
     this.toolTips = false,
     this.onTap,
-    this.imagePreview,
+    this.imagePreview
 
   });
 

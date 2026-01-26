@@ -30,8 +30,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool _isNewPasswordVisible = true;
   bool _isRepeatPasswordVisible = true;
 
-
-
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -544,43 +542,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                           padding: const EdgeInsets.symmetric(vertical: 12),
                                         ),
                                         onPressed: () async {
-                                          /* ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          behavior: SnackBarBehavior.floating,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(20),
-                                          ),
-                                          backgroundColor: Colors.white,
-                                          content: Stack(
-                                            children: [
-                                              Center(
-                                                child: Column(
-                                                  children: [
-                                                    Container(padding: const EdgeInsets.all(10),decoration: const BoxDecoration( shape: BoxShape.circle, color: Color(0xFFECFDF3)),child: Container(padding: const EdgeInsets.all(6),decoration: const BoxDecoration( shape: BoxShape.circle, color: Color(0xFFD1FADF)),child: const Icon(Icons.check_circle_outline, color: Colors.green))),
-                                                    const SizedBox(width: 12),
-                                                    Text('Recibimos tu Feedback', style: GoogleFonts.inter(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.w600),),
-                                                    Text('Gracias por tu opinion', style: GoogleFonts.inter(color: Colors.grey[600], fontSize: 16),),
-                                                  ],
-                                                ),
-                                              ),
-                                              Positioned(
-                                                top: -8,
-                                                right: -8,
-                                                child: IconButton(
-                                                  icon: const Icon(Icons.close),
-                                                  color: const Color(0xFF9CA3AF),
-                                                  iconSize: 20,
-                                                  splashRadius: 18,
-                                                  onPressed: () {
-                                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                                  },
-                                                ),
-                                              ),
-                                            ]
-                                          ),
-                                          duration: const Duration(seconds: 10),
-                                        ),
-                                      );*/
+
                                           /* */ /// MENSAJE DE CONTRASEÑA ACTUALIZADA
 
                                           try {

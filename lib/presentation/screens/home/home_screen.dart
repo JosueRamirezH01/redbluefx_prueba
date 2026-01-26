@@ -233,7 +233,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       child: Column(
         children: [
           const SizedBox(height: 10),
-          _buildNewsCarousel(false, context, ref),
+         // _buildNewsCarousel(false, context, ref),
           const SizedBox(height: 10),
           if (isSearching)
             FadeInDown(
@@ -257,7 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         child: Column(
           children: [
             const SizedBox(height: 10),
-            _buildNewsCarousel(false, context, ref),
+            //_buildNewsCarousel(false, context, ref),
             if (isSearching)
               FadeInDown(
                 duration: const Duration(milliseconds: 300),

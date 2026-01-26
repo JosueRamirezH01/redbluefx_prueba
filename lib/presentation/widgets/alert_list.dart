@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/utils/logger.dart';
+import '../../domain/entities/alert.dart';
 import '../providers/alert_provider.dart';
+import '../providers/auth_provider.dart';
 import 'alert_card.dart';
 
 class AlertList extends ConsumerStatefulWidget {
@@ -21,7 +23,8 @@ class _AlertListState extends ConsumerState<AlertList> {
   @override
   Widget build(BuildContext context) {
     final alertsState = ref.watch(alertsProvider);
-
+    final authState = ref.watch(authStateProvider);
+    final isAdmin = authState.currentUser?.role == 'admin';
     if (alertsState.isLoading && alertsState.alerts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -100,7 +103,7 @@ class _AlertListState extends ConsumerState<AlertList> {
         final alert = alertsState.alerts[index];
         return SlideInDown(
           duration: Duration(milliseconds: 300 + (index * 100)),
-          child: Dismissible(
+          child: isAdmin ? Dismissible(
             key: Key(alert.id),
             direction: DismissDirection.endToStart,
             background: Container(
@@ -160,57 +163,35 @@ class _AlertListState extends ConsumerState<AlertList> {
                   );
                 }
             },
-            child: AlertCard(
-              alert: alert,
-              index: index,
-              expandedIndex: expandedIndex,
-              expandedDetailsIndex: expandedDetailsIndex,
-              onExpandDetailsChange: (value) {
-                setState(() {
-                  // Si se está abriendo un nuevo card diferente, cierra el TP del anterior
-                  if (value != null && value != expandedDetailsIndex && expandedIndex != null && expandedIndex != value) {
-                    expandedIndex = null;
-                  }
-                  expandedDetailsIndex = value;
-                });
-              },
-              onExpandChange: (value) {
-                setState(() {
-                  if (value != null && value != expandedIndex && expandedDetailsIndex != null && expandedDetailsIndex != value) {
-                    expandedDetailsIndex = null;
-                  }
-                  expandedIndex = value;
-                });
-              },
-              //onTap: () => context.push('/alerts/${alert.id}'),
-              //onEdit: () => context.push('/alerts/${alert.id}/edit'),
-              /*onDelete: () async {
-                try {
-                  await ref.read(alertsProvider.notifier).deleteAlert(alert.id);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Alerta eliminada correctamente'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  }
-                } catch (e, stack) {
-                  AppLogger.error('Error al eliminar alerta: $e', error: e, stackTrace: stack);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error al eliminar la alerta'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
-                }
-              },*/
-            ),
-          ),
+            child: _buildAlertCard(alert, index),
+          ) :  _buildAlertCard(alert, index),
         );
       },
     );
   }
+  Widget _buildAlertCard(Alert alert, int index) {
+    return AlertCard(
+      alert: alert,
+      index: index,
+      expandedIndex: expandedIndex,
+      expandedDetailsIndex: expandedDetailsIndex,
+      onExpandDetailsChange: (value) {
+        setState(() {
+          if (value != null && value != expandedDetailsIndex && expandedIndex != null && expandedIndex != value) {
+            expandedIndex = null;
+          }
+          expandedDetailsIndex = value;
+        });
+      },
+      onExpandChange: (value) {
+        setState(() {
+          if (value != null && value != expandedIndex && expandedDetailsIndex != null && expandedDetailsIndex != value) {
+            expandedDetailsIndex = null;
+          }
+          expandedIndex = value;
+        });
+      },
+    );
+  }
+
 } 

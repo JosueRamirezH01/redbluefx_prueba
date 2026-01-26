@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
 import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../core/utils/logger.dart';
+import '../../domain/entities/adverts.dart';
+import '../providers/auth_provider.dart';
 import 'advert_card.dart';
 
 class AdvertFeatureList extends ConsumerStatefulWidget {
@@ -21,7 +23,8 @@ class _AdvertFeatureListState extends ConsumerState<AdvertFeatureList> {
   @override
   Widget build(BuildContext context) {
     final advertState = ref.watch(advertsProvider);
-
+    final authState = ref.watch(authStateProvider);
+    final isAdmin = authState.currentUser?.role == 'admin';
     if (advertState.isLoading && advertState.adverts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -96,7 +99,7 @@ class _AdvertFeatureListState extends ConsumerState<AdvertFeatureList> {
           duration: Duration(milliseconds: 300 + (index * 100)),
           child: SlideInRight(
             duration: Duration(milliseconds: 300 + (index * 100)),
-            child: Dismissible(
+            child: isAdmin ? Dismissible(
               key: Key(advert.id),
               direction: DismissDirection.endToStart,
               background: Container(
@@ -156,15 +159,18 @@ class _AdvertFeatureListState extends ConsumerState<AdvertFeatureList> {
                   );
                 }
               },
-              child: AdvertsCard(
-                advert: advert,
-                onTap: () => context.push('/anuncio/${advert.id}'),
-                //onEdit: () => context.push('/alerts/${alert.id}/edit'),
-              ),
-            ),
+              child: _buildFeatureCard(advert)
+            ) : _buildFeatureCard(advert),
           ),
         );
       },
     );
   }
+  Widget _buildFeatureCard(Advert advert) {
+    return AdvertsCard(
+      advert: advert,
+      onTap: () => context.push('/anuncio/${advert.id}'),
+    );
+  }
+
 }

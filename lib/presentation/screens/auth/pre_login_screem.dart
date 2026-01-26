@@ -51,8 +51,6 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
 
         if (!rememberMe) {
           await LoginStorage.saveCredentials(email: email, password: password);
-        } else {
-          await LoginStorage.clearCredentials();
         }
 
         context.go('/home');

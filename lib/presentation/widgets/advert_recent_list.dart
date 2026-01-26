@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme_backup.dart';
 import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../core/utils/logger.dart';
+import '../../domain/entities/adverts.dart';
+import '../providers/auth_provider.dart';
 import 'advert_card.dart';
 
 class AdvertRecentList extends ConsumerStatefulWidget {
@@ -20,7 +22,8 @@ class _AdvertRecentListState extends ConsumerState<AdvertRecentList> {
   @override
   Widget build(BuildContext context) {
     final advertsState = ref.watch(advertsProviderPublic);
-
+    final authState = ref.watch(authStateProvider);
+    final isAdmin = authState.currentUser?.role == 'admin';
     if (advertsState.isLoading && advertsState.adverts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -95,7 +98,7 @@ class _AdvertRecentListState extends ConsumerState<AdvertRecentList> {
           duration: Duration(milliseconds: 300 + (index * 100)),
           child: SlideInRight(
             duration: Duration(milliseconds: 300 + (index * 100)),
-            child: Dismissible(
+            child:isAdmin ? Dismissible(
               key: Key(advert.id),
               direction: DismissDirection.endToStart,
               background: Container(
@@ -155,15 +158,18 @@ class _AdvertRecentListState extends ConsumerState<AdvertRecentList> {
                   );
                 }
               },
-              child: AdvertsCard(
-                advert: advert,
-                onTap: () => context.push('/anuncio/${advert.id}'),
-                //onEdit: () => context.push('/alerts/${alert.id}/edit'),
-              ),
-            ),
+              child: _buildRecentCard(advert),
+            ): _buildRecentCard(advert),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildRecentCard(Advert advert) {
+    return AdvertsCard(
+      advert: advert,
+      onTap: () => context.push('/anuncio/${advert.id}'),
     );
   }
 }
