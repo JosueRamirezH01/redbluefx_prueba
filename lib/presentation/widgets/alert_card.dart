@@ -47,7 +47,7 @@ class AlertCard extends ConsumerWidget {
     return Card(
       elevation: 1,
       margin: const EdgeInsets.only(bottom: 14),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16) , side: BorderSide(color: Theme.of(context).borderCardPreviewColors)
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14) , side: BorderSide(color: Theme.of(context).borderCardPreviewColors)
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -64,11 +64,12 @@ class AlertCard extends ConsumerWidget {
                   fontSize: 11,
                 ),
               ),
+              const SizedBox(height: 10),
               _buildPricesSection(context),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               // Gráfico y descripción (solo cuando presionas "Ver detalles")
               _buildDetailsSection(screenWidth),
-              const Divider(thickness: 0.5),
+              const Divider(thickness: 0.5, color: Color(0xFFF3F4F6),),
               _buildFooter(context, isAdmin, theme),
             ],
           ),
@@ -142,7 +143,7 @@ class AlertCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
                           color: isTPExpanded
                               ? null
@@ -150,7 +151,7 @@ class AlertCard extends ConsumerWidget {
                               ? null
                               : const Color(0xFFEDF9FF)),
 
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(4),
                           border: (!isTPExpanded && mockTPs.length > 1)
                               ? Border.all(color: const Color(0xFF005EA3))
                               : null,
@@ -185,7 +186,7 @@ class AlertCard extends ConsumerWidget {
                                         : Colors.black87),
                                   ),
                                 ),
-                                const SizedBox(width: 12),
+                                const SizedBox(width: 20),
                                 if(mockTPs.length > 1)
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 4),
@@ -254,9 +255,10 @@ class AlertCard extends ConsumerWidget {
                 margin: const EdgeInsets.only(top: 12),
                 padding: const EdgeInsets.only(right: 10, left: 10, top: 5, bottom: 5),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(7),
+                  border: Border.all(color: const Color(0xFF005EA3), width: 0.5),
                   color: Colors.blue.shade50,
+
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -420,6 +422,7 @@ class AlertCard extends ConsumerWidget {
           AppDateUtils.formatToPeruTime(alert.createdAt),
           style: GoogleFonts.montserrat(
             fontSize: 12,
+            color:const Color(0xFF686868)
           ),
         ),
         const Spacer(),
@@ -428,17 +431,16 @@ class AlertCard extends ConsumerWidget {
           onTap: () {
             onExpandDetailsChange(isDetailsExpanded ? null : index);
           },
-          child: Text(
-            isDetailsExpanded ? "Cerrar x" : "Ver detalles →",
+          child: Icon(isDetailsExpanded ? Icons.close : Icons.arrow_forward , color: theme.linkColor ),) /*Text(
+            isDetailsExpanded ? "Cerrar x" : " →",
             style: GoogleFonts.montserrat(
-              fontSize: 12,
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               color: theme.linkColor,
               decoration: TextDecoration.underline,
               decorationColor: theme.linkColor,
             ),
-          ),
-        ),
+          ),*/
         /*if (isAdmin) ...[
           const SizedBox(width: 8),
           IconButton(

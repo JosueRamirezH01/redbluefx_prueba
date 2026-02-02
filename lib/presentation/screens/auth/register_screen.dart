@@ -287,7 +287,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                           child: Container(
                             decoration: BoxDecoration(
                               color: const Color(0xFFFFFFFF).withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(24),
+                              borderRadius: BorderRadius.circular(16),
                               border: Border.all(
                                 color: Colors.white24,
                               ),
@@ -298,7 +298,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                 ),
                               ],
                             ),
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(20),
                             child: Form(
                               key: _formKey,
                               child: Column(
@@ -368,6 +368,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           Icons.person_outline,
                                           color: AppColors.primary,
                                         ),
+                                        errorStyle: const TextStyle(color: Color(0xFF696969)),
                                         border: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(16),
                                           borderSide: BorderSide.none,
@@ -383,10 +384,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Por favor ingresa tu nombre completo';
+                                          return 'Por favor ingresa tu nombre completo *';
                                         }
                                         if (value.trim().split(' ').length < 2) {
-                                          return 'Por favor ingresa tu nombre y apellido';
+                                          return 'Por favor ingresa tu nombre y apellido *';
                                         }
                                         return null;
                                       },
@@ -424,6 +425,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           color: Colors.grey[600],
                                           fontSize: 16
                                         ),
+                                        errorStyle: const TextStyle(color: Color(0xFF696969)),
                                         contentPadding: const EdgeInsets.symmetric(
                                           vertical: 14,
                                           horizontal: 12,
@@ -450,10 +452,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Por favor ingresa tu email';
+                                          return 'Por favor ingresa tu email *';
                                         }
                                         if (!value.contains('@')) {
-                                          return 'Por favor ingresa un email válido';
+                                          return 'Por favor ingresa un email válido *';
                                         }
                                         return null;
                                       },
@@ -491,6 +493,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           color: Colors.grey[600],
                                           fontSize: 16
                                         ),
+                                        errorStyle: const TextStyle(color: Color(0xFF696969)),
                                         contentPadding: const EdgeInsets.symmetric(
                                           vertical: 14,
                                           horizontal: 12,
@@ -530,16 +533,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Por favor ingresa tu contraseña';
+                                          return 'Por favor ingresa tu contraseña *';
                                         }
                                         if (value.length < 6) {
-                                          return 'La contraseña debe tener al menos 6 caracteres';
+                                          return 'La contraseña debe tener al menos 6 caracteres *';
                                         }
                                         if (!value.contains(RegExp(r'[A-Z]'))) {
-                                          return 'La contraseña debe contener al menos\n una mayúscula';
+                                          return 'La contraseña debe contener al menos\n una mayúscula *';
                                         }
                                         if (!value.contains(RegExp(r'[0-9]'))) {
-                                          return 'La contraseña debe contener al menos un número';
+                                          return 'La contraseña debe contener al menos un número *';
                                         }
                                         return null;
                                       },
@@ -549,7 +552,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                   const SizedBox(height: 8),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: Text('Mínimo 6 caracteres', style: GoogleFonts.montserrat(fontSize: 12, color: Color(0xFFDADADA))),
+                                    child: Text('Mínimo 6 caracteres', style: GoogleFonts.montserrat(fontSize: 12, color: const Color(0xFFDADADA))),
                                   ),
                                   // Campo de confirmar contraseña - CON FOCUS NODE
                                   const SizedBox(height: 8),
@@ -609,6 +612,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           borderRadius: BorderRadius.circular(16),
                                           borderSide: BorderSide.none,
                                         ),
+                                        errorStyle: const TextStyle(color: Color(0xFF696969)),
                                         filled: true,
                                         fillColor: Colors.white,
                                       ),
@@ -620,10 +624,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       },
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Por favor confirma tu contraseña';
+                                          return 'Por favor confirma tu contraseña *';
                                         }
                                         if (value != _passwordController.text) {
-                                          return 'Las contraseñas no coinciden';
+                                          return 'Las contraseñas no coinciden *';
                                         }
                                         return null;
                                       },
@@ -632,21 +636,37 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                   const SizedBox(height: 8),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: Text('Al registrarme, entiendo los Términos y condiciones y la Política de privacidad', style: GoogleFonts.montserrat(fontSize: 12, color: Color(0xFFDADADA))),
+                                    child: Text('Al registrarme, entiendo los Términos y condiciones y la Política de privacidad', style: GoogleFonts.montserrat(fontSize: 14, color: Color(0xFFDADADA))),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 14),
 
                                   // Botón "Crear Cuenta"
-                                  SizedBox(
+                                  Container(
                                     width: double.infinity,
                                     height: 42,
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(colors: [
+                                        Color(0xFFFF1B21),
+                                        Color(0xFFDD0E13),
+                                        Color(0xFFBB0004),
+                                      ]),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Color(0xFFFF1B21),
+                                            blurRadius: 20,      // intensidad
+                                            offset: Offset(0, 7) // altura
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(7),
+
+                                    ),
                                     child: ElevatedButton(
                                       onPressed: authState.isLoading ? null : _register,
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFFE63946),
-                                        foregroundColor: Colors.white,
+                                        backgroundColor: Colors.transparent,
+                                        shadowColor: Colors.transparent,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(7),
                                         ),
                                         elevation: 6,
                                       ),
@@ -668,6 +688,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(height: 8),
 
                                   // Link "¿Ya tienes cuenta? Inicia sesión"
                                   Padding(
@@ -679,6 +700,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                           '¿Ya tienes cuenta?',
                                           style: GoogleFonts.inter(
                                             fontSize: 14,
+                                            color: const Color(0xFFCDCDCD),
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),

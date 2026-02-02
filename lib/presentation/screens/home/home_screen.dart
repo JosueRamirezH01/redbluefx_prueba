@@ -180,8 +180,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor = isSelected
         ? color
-        : (isDark ?  const Color(0xFF0D1D35) : Colors.white);
-
+        : (isDark ?  const Color(0xFF0D1D35) : const Color(0xFFEFEFEF));
     final textColor = isSelected
         ? (label == "Todas" ? Colors.white : Colors.black87)
         : (isDark ? Colors.white70 : Colors.black87);
@@ -293,7 +292,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             color: const Color(0xFF066BAF),
             colorRelleno: const Color(0xFF066BAF),
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 20),
           _buildFilterChip(
               label: 'Compra',
               isSelected: _selectedType == AlertType.buy,
@@ -304,7 +303,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               colorRelleno: const Color(0xFFDCFCE7),
               icon: Icons.arrow_upward
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 20),
           _buildFilterChip(
               label: 'Venta',
               isSelected: _selectedType == AlertType.sell,

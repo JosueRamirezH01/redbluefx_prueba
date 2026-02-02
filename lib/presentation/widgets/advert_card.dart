@@ -28,7 +28,7 @@ class AdvertsCard extends ConsumerWidget {
       elevation: 2,
       color: advert.isFeatured ?  Colors.transparent : Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(14),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(

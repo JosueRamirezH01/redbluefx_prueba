@@ -86,9 +86,9 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
                       Color(0xFF005EA3),
                       Color(0xFF004170),
                       Color(0xFF003256),
-                      Color(0xFF002B49),
-                      Color(0xFF002743),
-                      Color(0xFF00223B),
+                      Color(0xFF00406F),
+                      Color(0xFF00406F),
+                      Color(0xFF023050),
                       Color(0xFF0D1C35),
                     ],)
               ),
@@ -144,7 +144,7 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
             child: GestureDetector(
               onTap: _login,
               child: Material(
-                shape: const CircleBorder(),
+                shape: const CircleBorder(side: BorderSide(color: Colors.white, width: 2)),
                 color: Colors.transparent,
                 elevation: 6,
                 child: Ink(
@@ -154,7 +154,7 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFFD8E9F2),
+                        Color(0xFFB6D0E0),
                         Color(0xFF8EC3E2),
                         Color(0xFF7BB5D4),
                       ],

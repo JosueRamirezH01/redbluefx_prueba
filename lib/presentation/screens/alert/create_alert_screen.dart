@@ -6,6 +6,7 @@ import 'package:custom_sliding_segmented_control/custom_sliding_segmented_contro
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redbluefx_mobile/core/theme/app_theme.dart';
@@ -18,6 +19,8 @@ import '../../../domain/entities/alert.dart';
 import '../../providers/alert_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_bar.dart';
+import '../../widgets/center_button.dart';
+import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/previewAdvert.dart';
 import '../../widgets/previewAlert.dart';
 
@@ -308,6 +311,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
 
     return Scaffold(
       appBar: const SharedAppBar(title: 'RedBlue FX', icons: false),
+      extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           height: double.infinity,
@@ -373,7 +378,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           size: 20,
                           color: _selectedIndex == 1
                               ? Colors.white
-                              : Colors.blue.shade300,
+                              : const Color(0xFF076BB0),
                         ),
                       ],
                     ),
@@ -472,6 +477,24 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: CustomBottomBar(
+          onNoticias: () {
+            AppLogger.info("Noticias tapped");
+            context.pushNamed('notice_list');
+          },
+          onAnuncios: () => AppLogger.info("Anuncios tapped"),
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
+        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
+        context.goNamed('home'); },),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -576,6 +599,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelStyle: GoogleFonts.poppins(fontSize: 14),
+                      hintStyle: GoogleFonts.poppins(fontSize: 14,color: const Color(0xFF818181)),
                       hintText: 'ej: GBP/JPY',
                       border: const OutlineInputBorder(),
                     ),
@@ -598,6 +622,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelStyle: GoogleFonts.poppins(fontSize: 14),
+                      hintStyle: GoogleFonts.poppins(fontSize: 14,color: const Color(0xFF818181)),
                       hintText:'1.0820',
                       border: const OutlineInputBorder(),
                     ),
@@ -615,7 +640,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
-                    child: Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500)),
+                    child: Text('Take Profit 🎯',  style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400, )),
                   ),
                   const SizedBox(height: 4),
                   Column(
@@ -629,8 +654,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                                 child: TextFormField(
                                   controller: _tpControllers[i],
                                   decoration: InputDecoration(
-                                    labelText: 'TP ${i + 1}',
-
+                                    labelText: 'TP ${i + 1} :1.08423 ',
+                                    labelStyle: GoogleFonts.poppins(fontSize: 14,color: const Color(0xFF818181)),
                                     border: const OutlineInputBorder(),
                                   ),
                                   validator: (value) {
@@ -656,8 +681,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             ],
                           ),
                         ),
-                      Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w400),),
-                      // Botón para agregar otro TP
                       if (_tpControllers.length < 5)
                         Align(
                           alignment: Alignment.topRight,
@@ -671,6 +694,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             label: Text("Agregar TP", style: GoogleFonts.poppins(fontSize: 15, color: const Color(0xFF005EA3), fontWeight: FontWeight.w600),),
                           ),
                         ),
+                      Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w400),),
+                      // Botón para agregar otro TP
+
                     ],
                   ),
                   const SizedBox(height: 12),

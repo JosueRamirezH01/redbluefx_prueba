@@ -88,11 +88,10 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
     final authState = ref.watch(authStateProvider);
     final isSearching = ref.watch(isSearchingProvider);
     final isRegister = authState.currentUser?.role == 'admin' || authState.currentUser?.role == 'publisher';
-
+    final size = MediaQuery.of(context).size;
     return AppBar(
       key: _appBarKey,
       toolbarHeight: 90,
-      titleSpacing: 0,
       automaticallyImplyLeading: false,
       title: isSearching
           ? _buildSearchBar(context, ref)
@@ -102,13 +101,13 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
             onTap: () {
               context.go('/home');
             },
-            child: const SizedBox(
+            child:  SizedBox(
               width: 80,
-              height: 80,
-              child: CircleAvatar(
+              height: size.height * 0.125,
+              child: const CircleAvatar(
                 radius: 45,
                 backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage('assets/images/Container.png'),
+                backgroundImage: AssetImage('assets/images/Container.png',),
               ),
             ),
           ),
@@ -117,6 +116,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                const SizedBox(height: 8),
                 Text(
                   'Bienvenido',
                   style: GoogleFonts.montserrat(
@@ -149,7 +149,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: const Color(0xFF19283F),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: Colors.white.withOpacity(0.3),
@@ -175,7 +175,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: const Color(0xFF19283F),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: Colors.white.withOpacity(0.3),

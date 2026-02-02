@@ -212,7 +212,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                             child: Container(
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFFFFFF).withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(24),
+                                borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
                                   color: Colors.white24,
                                 ),
@@ -223,7 +223,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                   ),
                                 ],
                               ),
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 24  ),
                               child: Form(
                                 key: _formKey,
                                 child: Column(
@@ -283,6 +283,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                             Icons.email_outlined,
                                             color: AppColors.primary,
                                           ),
+                                          errorStyle: const TextStyle(color: Color(0xFF696969)),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(16),
                                             borderSide: BorderSide.none,
@@ -295,10 +296,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                         enableSuggestions: false,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Por favor ingresa tu email';
+                                            return 'Por favor ingresa tu email *';
                                           }
                                           if (!value.contains('@')) {
-                                            return 'Por favor ingresa un email válido';
+                                            return 'Por favor ingresa un email válido *';
                                           }
                                           return null;
                                         },
@@ -331,6 +332,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                           labelStyle: GoogleFonts.inter(
                                             color: Colors.grey[600],
                                           ),
+                                          errorStyle: const TextStyle(color: Color(0xFF696969)),
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
                                           prefixIcon: const Icon(
                                             Icons.lock_outline,
@@ -359,7 +361,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                         obscureText: !_isPasswordVisible,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Por favor ingresa tu contraseña';
+                                            return 'Por favor ingresa tu contraseña *';
                                           }
                                           if (value.length < 6) {
                                             return 'La contraseña debe tener al menos 6 caracteres';
@@ -433,18 +435,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                     const SizedBox(height: 24),
 
                                     // Botón Entrar
-                                    SizedBox(
+                                    Container(
                                       width: double.infinity,
                                       height: 56,
+                                      decoration: const BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                                color: Color(0xFFFF1B21),
+                                                blurRadius: 20,      // intensidad
+                                                offset: Offset(0, 7) // altura
+                                            ),
+
+                                        ],
+                                      ),
                                       child: ElevatedButton(
                                         onPressed: authState.isLoading ? null : _login,
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: const Color(0xFFBB0004),
                                           foregroundColor: Colors.white,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(16),
+                                            borderRadius: BorderRadius.circular(7),
                                           ),
                                           elevation: 5,
+
                                         ),
                                         child: authState.isLoading
                                             ? const CircularProgressIndicator(
@@ -464,7 +477,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
 
                                     // ¿No tienes cuenta?
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      padding: const EdgeInsets.symmetric(horizontal: 12),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
