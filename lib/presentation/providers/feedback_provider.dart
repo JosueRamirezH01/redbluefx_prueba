@@ -1,3 +1,4 @@
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/repositories/feedback_repository_impl.dart';
 import '../../domain/entities/alert.dart';
@@ -54,14 +55,14 @@ class FeedbackNotifier extends StateNotifier<FeedbackState> {
    // loadAlerts();
   }
 
-  Future<Feedback> createFeedback({required String qualification, required String content, required String email, required bool getFeedback}) async {
+  Future<Feedback> createFeedback({required String calification, required String content, required String email, required bool getFeedback, required String platform}) async {
     try {
       final feedback = await _repository.createFeedback(
         content: content,
         email: email,
         getFeedback: getFeedback,
-        platform: "RedBlue FX",
-        qualification: qualification
+        platform: platform,
+        calification: calification
       );
 
       state = state.copyWith(

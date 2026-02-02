@@ -334,28 +334,39 @@ class AlertCard extends ConsumerWidget {
                       return _placeholder(finalSize);
                     }
 
-                    return Image.network(
-                      alert.imageUrl!,
-                      width: finalSize,
-                      height: finalSize,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, progress) {
-                        if (progress == null) return child;
-                        return Container(
-                          width: finalSize,
-                          height: finalSize,
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(
-                            value: progress.expectedTotalBytes != null
-                                ? progress.cumulativeBytesLoaded /
-                                progress.expectedTotalBytes!
-                                : null,
-                          ),
+                    return GestureDetector(
+                      onTap: () {
+                        _showImagePreview(
+                          context,
+                          Image.network(alert.imageUrl!, fit: BoxFit.contain),
                         );
                       },
-                      errorBuilder: (context, error, stackTrace) {
-                        return _placeholder(finalSize, broken: true);
-                      },
+                      child: Hero(
+                        tag: 'alert-image-$index',
+                        child: Image.network(
+                          alert.imageUrl!,
+                          width: finalSize,
+                          height: finalSize,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) return child;
+                            return Container(
+                              width: finalSize,
+                              height: finalSize,
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator(
+                                value: progress.expectedTotalBytes != null
+                                    ? progress.cumulativeBytesLoaded /
+                                    progress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return _placeholder(finalSize, broken: true);
+                          },
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -379,6 +390,28 @@ class AlertCard extends ConsumerWidget {
     );
   }
 
+  void _showImagePreview(BuildContext context, Widget imageWidget) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
+      builder: (_) {
+        return GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Center(
+            child: Hero(
+              tag: 'alert-image-$index',
+              child: InteractiveViewer(
+                minScale: 0.8,
+                maxScale: 4,
+                child: imageWidget,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildFooter(BuildContext context, bool isAdmin, ThemeData theme) {
     bool isDetailsExpanded = expandedDetailsIndex == index;
     return Row(
@@ -390,6 +423,7 @@ class AlertCard extends ConsumerWidget {
           ),
         ),
         const Spacer(),
+        if ((alert.imageUrl != null && alert.imageUrl!.isNotEmpty) || (alert.content != null && alert.content!.isNotEmpty))
         GestureDetector(
           onTap: () {
             onExpandDetailsChange(isDetailsExpanded ? null : index);

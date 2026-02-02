@@ -3,68 +3,43 @@
 import 'package:dio/dio.dart';
 import 'package:redbluefx_mobile/domain/entities/feedback.dart';
 
-import '../../core/config/api_routes.dart';
-import '../../core/services/dio_service.dart';
+import '../../core/services/dio_service_feedback.dart';
 import '../../core/utils/logger.dart';
 import '../../domain/repositories/feedback_repository.dart';
 
 class FeedbackRepositoryImpl implements FeedbackRepository {
 
-  FeedbackRepositoryImpl({Dio? dio}) : _dio = dio ?? DioService.instance.dio;
-  final Dio _dio;
+  final Dio _dio = FeedbackDioService.instance;
 
   @override
-  Future<Feedback> createFeedback({required String content,required String qualification, required String platform, required String email, required bool getFeedback}) async {
-    print('LLEGADA $content');
-    print('LLEGADA $qualification');
-    print('LLEGADA $platform');
-    print('LLEGADA $email');
-    print('LLEGADA $getFeedback');
+  Future<Feedback> createFeedback({
+    required String content,
+    required String calification,
+    required String platform,
+    required String email,
+    required bool getFeedback,
+  }) async {
 
     try {
-      final Map<String, dynamic> data = {
-        'content': content,
-        'calification': qualification,
+      final data = {
+        'content': content.trim(),
+        'calification': calification.toLowerCase(), // 🔥 FIX CLAVE
         'get_feedback': getFeedback,
-        'platform': platform,
-        'email': email
+        'platform': platform.toLowerCase(),         // 🔥 PREVENCIÓN
+        'email': email.trim().toLowerCase(),
       };
+      AppLogger.info('📤 FEEDBACK ENVIADO → $data');
+      final response = await _dio.post('/feedbacks/', data: data,);
 
-      final response = await _dio.post(
-        Uri.parse(ApiRoutes.feedbackCreate).toString(),
-        data: data,
-        options: Options(
-          contentType: Headers.jsonContentType,
-        ),
+      return Feedback.fromJson(response.data);
+    } catch (e, stack) {
+      AppLogger.error(
+        '❌ Error al crear feedback',
+        error: e,
+        stackTrace: stack,
       );
-
-      if (response.data == null) {
-        throw Exception('No se recibieron datos del servidor');
-      }
-
-      final feedbackData = response.data;
-      return Feedback.fromJson(feedbackData);
-    } catch (e) {
-      throw _handleError(e);
+      rethrow;
     }
-  }
-  Exception _handleError(dynamic error) {
-    AppLogger.error('Error en feedBackRepositoryImpl', error: error);
-
-    if (error is DioException) {
-      final response = error.response;
-      if (response != null && response.data != null) {
-        final message = response.data['message'] as String?;
-        return Exception(message ?? 'Error al obtener las alertas');
-      }
-      return Exception('Error de conexión: ${error.message}');
-    }
-
-    if (error is Exception) {
-      return error;
-    }
-
-    return Exception('Error inesperado: $error');
   }
 
 }

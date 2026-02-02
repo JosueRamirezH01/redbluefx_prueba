@@ -41,8 +41,8 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final authState = ref.watch(authStateProvider);
     final user = authState.currentUser;
-    final feedbackState = ref.watch(feedbackProvider);
-    final isLoading = feedbackState.isLoading;
+    //final feedbackState = ref.watch(feedbackProvider);
+    final isLoading = false; //feedbackState.isLoading;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -238,12 +238,14 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                               ),
                             ),
                             onPressed: isLoading ? null : () async {
-                              try {
+                             /* try {
                                 await ref.read(feedbackProvider.notifier).createFeedback(
-                                    qualification: ratings[selectedIndex]['label']!,
-                                    content: controller.text,
-                                    email: user!.email,
-                                    getFeedback: allowContact);
+                                  content: controller.text.trim(),
+                                  calification: ratings[selectedIndex]['label']!,
+                                  platform: 'mobile_app',
+                                  email: user!.email.toLowerCase().trim(),
+                                  getFeedback: allowContact,
+                                );
                                 if (mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -304,7 +306,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                                     ),
                                   );
                                 }
-                              }
+                              }*/
                             },
                             child:isLoading
                                 ? const SizedBox(
