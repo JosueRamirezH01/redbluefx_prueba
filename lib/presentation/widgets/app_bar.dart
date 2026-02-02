@@ -87,7 +87,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
     final isSearching = ref.watch(isSearchingProvider);
-    final isAdmin = authState.currentUser?.role == 'admin';
+    final isRegister = authState.currentUser?.role == 'admin' || authState.currentUser?.role == 'publisher';
 
     return AppBar(
       key: _appBarKey,
@@ -169,7 +169,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
           ],
         ],
         if (!isSearching) ...[
-          if (/*isAdmin && */(widget.icons ?? true)) ...[
+          if (isRegister && (widget.icons ?? true)) ...[
             const SizedBox(width: 6),
             Container(
               width: 40,

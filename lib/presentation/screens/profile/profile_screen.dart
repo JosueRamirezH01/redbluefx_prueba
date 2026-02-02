@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:redbluefx_mobile/domain/entities/auth_state.dart';
 import 'package:redbluefx_mobile/presentation/widgets/feedbackDialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
@@ -174,6 +175,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
   }
 
+  Future<void> openWhatsApp({required String phone, String message = ''}) async {
+    final encodedMessage = Uri.encodeComponent(message);
+
+    final uri = Uri.parse(
+      'https://wa.me/$phone?text=$encodedMessage',
+    );
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'No se pudo abrir WhatsApp';
+    }
+  }
+  Future<void> openTerm() async {
+    final uri = Uri.parse(
+      'https://sfa4aemecf.ufs.sh/f/BcYoET8mgpGHXWsTqHRAgMJzIfK427SUG1T0O5oPHric9pym',
+    );
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
@@ -434,15 +452,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _buildMenuItem(
                         icon: Icons.help_outline,
                         title: 'Ayuda y soporte',
-                        onTap: () {
-                          // TODO: Implementar ayuda
+                        onTap: () async{
+                         await openWhatsApp(
+                            phone: '51934943116',
+                            message: 'Hola 👋 necesito más información',
+                          );
                         },
                       ),
                       _buildMenuItem(
                         icon: Icons.description_outlined,
                         title: 'Términos y privacidad',
-                        onTap: () {
-                          // TODO: Implementar términos
+                        onTap: () async{
+                          await openTerm();
                         },
                       ),
                     ],

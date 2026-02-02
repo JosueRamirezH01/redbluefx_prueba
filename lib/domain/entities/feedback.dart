@@ -11,7 +11,9 @@ class Feedback with _$Feedback {
     required String platform,
     required String calification,
     required String email,
-    required bool getFeedback,
+    @JsonKey(name: 'get_feedback')
+    @Default(false)
+    bool getFeedback,
   }) = _Feedback;
 
   factory Feedback.fromJson(Map<String, dynamic> json) =>
