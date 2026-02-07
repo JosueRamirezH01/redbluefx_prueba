@@ -8,7 +8,7 @@ import '../../../core/utils/logger.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
-
+import 'package:collection/collection.dart';
 class AnuncioDetailScreen extends ConsumerWidget {
   final String advertId;
 
@@ -20,8 +20,16 @@ class AnuncioDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final advertState = ref.watch(advertsProvider);
-    final advert = advertState.adverts.firstWhere((a) => a.id == advertId);
+    final publicState = ref.watch(advertsProviderPublic);
 
+    var advert = advertState.adverts.firstWhereOrNull((a) => a.id == advertId);
+    advert ??= publicState.adverts.firstWhereOrNull((a) => a.id == advertId);
+
+    if (advert == null) {
+      return const Scaffold(
+        body: Center(child: Text("Cargando anuncio o no encontrado...")),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -56,11 +64,11 @@ class AnuncioDetailScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(12),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        if (advert.imageUrl == null || advert.imageUrl!.isEmpty) {
+                        if (advert?.imageUrl == null || advert!.imageUrl!.isEmpty) {
                           return _defaultImage(70);
                         }
                         return Image.network(
-                          advert.imageUrl!,
+                          advert!.imageUrl!,
                           width: 85,
                           height: 70,
                           fit: BoxFit.fill,

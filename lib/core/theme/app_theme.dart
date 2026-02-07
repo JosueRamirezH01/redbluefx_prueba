@@ -119,7 +119,7 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
-        primary: AppColors.primary,
+        primary: const Color(0xFF454545),
         secondary: AppColors.secondary,
         background: AppColors.background,
         surface: Colors.white,
@@ -189,14 +189,14 @@ class AppTheme {
           if (states.contains(WidgetState.selected)) {
             return Colors.white; // Activo
           }
-          return Colors.black12; // Inactivo
+          return Colors.grey; // Inactivo
         }),
         trackColor: WidgetStateProperty.resolveWith<Color>((states) {
           // Color de la barra
           if (states.contains(WidgetState.selected)) {
             return Colors.green; // Activo
           }
-          return Colors.grey; // Inactivo
+          return const Color(0xFFD9D9D9); // Inactivo
         }),
       ),
       iconTheme: const IconThemeData(
@@ -242,13 +242,19 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: AppColors.secondary),
         ),
+        floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
+          return AppTextStyles.bodyMedium.copyWith(
+            color: AppColors.textSecondary, // 🩶 gris
+            fontWeight: FontWeight.w500,
+          );
+        }),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: AppColors.borderTetxForm),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+          borderSide: const BorderSide(color: Color(0xFF454545), width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -261,6 +267,7 @@ class AppTheme {
         labelStyle: AppTextStyles.bodyMedium.copyWith(
           color: AppColors.textSecondary,
         ),
+        
         hintStyle: AppTextStyles.bodyMedium.copyWith(
           color: AppColors.textSecondary.withOpacity(0.5),
         ),
@@ -449,7 +456,7 @@ extension AppThemeColors on ThemeData {
       : Colors.white;
   Color get borderCardPreviewColors => brightness == Brightness.dark
       ? const Color(0xFF2E4A66)
-      : Colors.transparent;
+      : const Color(0xFFFF0006);
   Color get textCardPreviewColors => brightness == Brightness.dark
       ? Colors.white
       :const Color(0xFF101010);

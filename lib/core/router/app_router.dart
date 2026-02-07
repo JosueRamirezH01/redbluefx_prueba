@@ -5,6 +5,7 @@ import 'package:redbluefx_mobile/core/services/loginStorage.dart';
 import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_details_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/anuncio/anuncio_screen.dart';
 import 'package:redbluefx_mobile/presentation/screens/auth/pre_login_screem.dart';
+import 'package:redbluefx_mobile/presentation/screens/calculator/calculator.dart';
 import 'package:redbluefx_mobile/presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/admin/users_screen.dart';
 import '../../presentation/screens/admin/admin_alerts_screen.dart';
@@ -122,6 +123,11 @@ final router = GoRouter(
       path: '/alerts/create',
       name: 'createAlert',
       builder: (context, state) => const CreateAlertScreen(),
+    ),
+    GoRoute(
+      path: '/calculator/calculator',
+      name: 'calculator',
+      builder: (context, state) => const CalculatorScreen(),
     ),
     GoRoute(
       path: '/notice/:id',

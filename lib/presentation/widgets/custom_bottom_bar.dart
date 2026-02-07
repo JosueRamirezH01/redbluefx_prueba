@@ -91,8 +91,8 @@ class _BottomBarPainter extends CustomPainter {
       ..color = color
       ..style = PaintingStyle.fill;
 
-    const double radius = 20; // <-- Radio de esquinas superiores
-    const double curveHeight = -48; // <-- Ajusta la altura de la curva
+    const double radius = 16; // <-- Radio de esquinas superiores
+    const double curveHeight = -40; // <-- Ajusta la altura de la curva
 
     Path path = Path();
 

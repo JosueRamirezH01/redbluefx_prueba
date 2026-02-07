@@ -91,8 +91,9 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
     final size = MediaQuery.of(context).size;
     return AppBar(
       key: _appBarKey,
-      toolbarHeight: 90,
+      toolbarHeight: size.height * 0.9,
       automaticallyImplyLeading: false,
+      titleSpacing: 10,
       title: isSearching
           ? _buildSearchBar(context, ref)
           : Row(
@@ -103,7 +104,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
             },
             child:  SizedBox(
               width: 80,
-              height: size.height * 0.125,
+              height: size.height * 0.1,
               child: const CircleAvatar(
                 radius: 45,
                 backgroundColor: Colors.transparent,
@@ -231,7 +232,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
         ),
         const SizedBox(width: 10),
         Container(
-          height: 40,
+          height: 50,
           width: MediaQuery.of(context).size.width * 0.75,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),

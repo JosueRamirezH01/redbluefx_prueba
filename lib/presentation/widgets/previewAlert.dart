@@ -48,13 +48,26 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
           color: Theme.of(context).previewColors,
           borderRadius: BorderRadius.circular(24),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Stack(
           children: [
-            _buildHeader(context),
-            _buildAlertCard(context, isSmallScreen),
-            _buildActionButtons(context, isSmallScreen),
-          ],
+            Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildHeader(context),
+              _buildAlertCard(context, isSmallScreen),
+              _buildActionButtons(context, isSmallScreen),
+            ],
+          ),
+            Positioned(
+              top: 8,
+              right: 12,
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.close),
+                color: Theme.of(context).textCardPreviewColors,
+              ),
+            ),
+        ]
         ),
       ),
     );
@@ -72,7 +85,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
               children: [
                 Text(
                   'Preview de alerta',
-                  style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.w500)
+                  style: GoogleFonts.montserrat(fontSize: 26, fontWeight: FontWeight.w600)
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -81,13 +94,6 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
                 ),
               ],
             ),
-          ),
-          IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close),
-            color: Theme.of(context).textCardPreviewColors,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
           ),
         ],
       ),
@@ -167,7 +173,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
                   padding: const EdgeInsets.symmetric(vertical: 7),
                   side: BorderSide(color: Colors.grey.shade300, width: 2),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Text(
@@ -195,7 +201,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
                   backgroundColor: Colors.red.shade600,
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   elevation: 0,
                 ),

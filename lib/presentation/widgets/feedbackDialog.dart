@@ -42,16 +42,16 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
     final authState = ref.watch(authStateProvider);
     final user = authState.currentUser;
     //final feedbackState = ref.watch(feedbackProvider);
-    final isLoading = false; //feedbackState.isLoading;
+    const isLoading = false; //feedbackState.isLoading;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF0F4479) : null,
+        backgroundColor: isDark ? const Color(0xFF0F4479) : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-        contentPadding: const EdgeInsets.all(12),
+        contentPadding: const EdgeInsets.all(20),
         content: SizedBox(
           width: width > 400 ? 360 : width,
           child: SingleChildScrollView(
@@ -67,7 +67,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                     Expanded(
                       child: Text(
                         'Ayúdanos a mejorar',
-                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600)
+                        style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w600)
                       ),
                     ),
                     InkWell(
@@ -94,7 +94,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                           padding: const EdgeInsets.symmetric(vertical: 6),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? (isDark ? const Color(0xFF236399) : const Color(0xFF61C6FF))
+                                ? (isDark ? const Color(0xFFd9f2ff) : const Color(0xFFd9f2ff))
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -187,7 +187,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                             backgroundColor: isDark ? const Color(0xFF0F4479) : Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(8),
                               side: BorderSide(color: isDark ?  const Color(0xFF6984A0) :  const Color(0xFF414651))
                             ),
                           ),
@@ -214,7 +214,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(8),
                             boxShadow:  [
                               if(!isDark)
                              const BoxShadow(color: Color(0xFFED7053), blurRadius: 16,      // intensidad
@@ -234,7 +234,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                               shadowColor: Colors.transparent,
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                             ),
                             onPressed: isLoading ? null : () async {

@@ -28,7 +28,7 @@ class AdvertsCard extends ConsumerWidget {
       elevation: 2,
       color: advert.isFeatured ?  Colors.transparent : Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(8),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
@@ -37,7 +37,7 @@ class AdvertsCard extends ConsumerWidget {
           if(advert.isFeatured)
           Positioned.fill(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(8),
               child: Image.asset(
                 'assets/images/fondoCard.png',
                 fit: BoxFit.cover,
@@ -61,7 +61,7 @@ class AdvertsCard extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
                             final imageSize = screenWidth * 0.25;
@@ -123,13 +123,6 @@ class AdvertsCard extends ConsumerWidget {
                                   fontSize: 12,
                                   color: advert.isFeatured ? Colors.white : Colors.black87,
 
-                                  shadows: [
-                                    Shadow(
-                                      color: Colors.black.withOpacity(0.8),
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 1),
-                                    ),
-                                  ],
                                 ),
                               ),
                               const Spacer(),
@@ -144,7 +137,7 @@ class AdvertsCard extends ConsumerWidget {
                     const Icon(
                       Icons.arrow_forward_ios,
                       size: 13,
-                      color: Color(0xFF5EBCFF),
+                      color: Color(0xFF066BAF),
                     )
                   ],
                 ),

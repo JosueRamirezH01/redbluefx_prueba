@@ -543,15 +543,16 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       child: Form(
         key: _formKeyAlerta,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
               decoration: BoxDecoration(
                 color: isDark ? const Color(0xFF0D1D35):Colors.white,
-                borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
+                borderRadius: BorderRadius.circular(10), // opcional: esquinas redondeadas
               ),
               child: Column(
+
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
@@ -719,7 +720,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   TextFormField(
                     controller: _analysisController,
                     decoration: const InputDecoration(
@@ -780,7 +781,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(7),
                 boxShadow: [
                   if(!isDark)
                     const BoxShadow(
@@ -790,9 +791,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     ),
 
                   const BoxShadow(
-                      color: Color(0xFF771723),
-                      blurRadius: 20,      // intensidad
-                      offset: Offset(2, 8) // altura
+                      color: Color(0xFFF7999c),
+                      blurRadius: 18,      // intensidad
+                      offset: Offset(0, 8) // altura
                   ),
                 ],
               ),
@@ -802,7 +803,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   shadowColor: Colors.transparent,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(7),
                   ),
                 ),
                 onPressed: _isLoadingAlerta ? null : _openPreviewAlert,
@@ -848,10 +849,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
               decoration: BoxDecoration(
                 color: isDark ? const Color(0xFF0D1D35):Colors.white,
-                borderRadius: BorderRadius.circular(12), // opcional: esquinas redondeadas
+                borderRadius: BorderRadius.circular(10), // opcional: esquinas redondeadas
               ),
               child: Column(
                 children: [
@@ -865,7 +866,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     decoration: InputDecoration(
                       labelText: 'Título',
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),
+                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 19),
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
@@ -883,7 +884,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     decoration: InputDecoration(
                       labelText: 'Contenido',
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),
+                      floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 19),
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
@@ -925,6 +926,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           setState(() {
                             _isFeatured = value;
                           });
+
                         },
                       ),
                     ],
@@ -943,7 +945,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(7),
               boxShadow: [
                 if(!isDark)
                 const BoxShadow(
@@ -951,10 +953,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     blurRadius: 25,      // intensidad
                     offset: Offset(2, 8) // altura
                 ),
-
                 const BoxShadow(
-                    color: Color(0xFF771723),
-                    blurRadius: 20,      // intensidad
+                    color: Color(0xFFF7999c),
+                    blurRadius: 18,      // intensidad
                     offset: Offset(2, 8) // altura
                 ),
               ],
@@ -963,9 +964,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  elevation: 12,
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(7),
                   ),
                 ),
                 onPressed: () {
@@ -1016,8 +1017,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 50,
-                            height: 50,
+                            width: 40,
+                            height: 40,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(color: const Color(0xFFFF0006)),
@@ -1035,7 +1036,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                               ),
                             )
                                 : (_selectedImage == null
-                                ? const Icon(Icons.photo_outlined, color: Color(0xFFFF0006) , size: 30)
+                                ? const Icon(Icons.photo_outlined, color: Color(0xFFFF0006) , size: 20)
                                 : ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.file(

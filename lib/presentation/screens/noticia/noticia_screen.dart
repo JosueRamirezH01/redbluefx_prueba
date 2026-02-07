@@ -94,7 +94,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        toolbarHeight: 75,
+        toolbarHeight: 60,
         automaticallyImplyLeading: false,
          title: Text('Noticias del mercado', style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w500),),
         elevation: 8,
@@ -109,7 +109,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: Padding(
-           padding: const EdgeInsets.only(bottom: 8),
+           padding: const EdgeInsets.only(bottom: 10),
             child: _buildFilterNoticias(),
           ),
         ),
@@ -122,9 +122,9 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
             center: Alignment.bottomLeft,
             radius: 0.6,
             colors: [
-              const Color(0xFF066BAF).withOpacity(0.3),
-              const Color(0xFFE6332F).withOpacity(0.3),
-              const Color(0xFFFF0006).withOpacity(0.01),
+              const Color(0xFF066BAF).withValues(alpha: 0.3),
+              const Color(0xFFE6332F).withValues(alpha: 0.3),
+              const Color(0xFFFF0006).withValues(alpha: 0.01),
             ],
           ),
         ),
@@ -165,7 +165,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
   Widget _buildFilterNoticias() {
     return SizedBox(
-      height: 45,
+      height: 42,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -211,8 +211,8 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
               child: Text(
                 label,
                 style: GoogleFonts.montserrat(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
+                  fontSize: label == 'Forex Factory' ?  17 : 14 ,
+                  fontWeight: label == 'Forex Factory' ?  FontWeight.w600 : FontWeight.w500,
                   color: textColor,
                 ),
               ),

@@ -286,8 +286,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
+                      const SizedBox(height: 10),
                       Container(
-                        margin: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         decoration: BoxDecoration(
                           color: isDark ? const Color(0xFF243D5A) :Colors.white,
                           borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -313,11 +314,16 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                           ),
                         ),
                       ),
-
                       if (isLandscape)
-                        Expanded(child: _buildBody(userState,isLandscape))
+                        Expanded(child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: _buildBody(userState,isLandscape),
+                        ))
                       else
-                        _buildBody(userState,isLandscape),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: _buildBody(userState,isLandscape),
+                        ),
                     ],
                   ),
                 );
@@ -425,6 +431,11 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
   }
   Widget _dataTable(UserState state){
     return DataTable(
+      border: const TableBorder(
+        horizontalInside: BorderSide(
+          color: Color(0xFFF3F4F6),
+        ),
+      ),
       dataRowMinHeight: 72,
       dataRowMaxHeight: 88,
       headingRowHeight: 48,

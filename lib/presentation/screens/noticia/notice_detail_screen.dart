@@ -21,7 +21,8 @@ class NoticeDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final noticeState = ref.watch(noticeProvider);
     final notice = noticeState.notices.firstWhere((a) => a.id == noticeId);
-
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    const double appBarHeight = 75.0;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -33,7 +34,7 @@ class NoticeDetailScreen extends ConsumerWidget {
           ),
         ),
         centerTitle: true,
-        toolbarHeight: 75,
+        toolbarHeight: appBarHeight,
         leadingWidth: 70,
         leading: IconButton(
           style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFF19283F)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)), side: BorderSide(color: Color(0xFF29374C))))),
@@ -46,8 +47,10 @@ class NoticeDetailScreen extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
+
+
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top * 2.8,
+            top: statusBarHeight + appBarHeight,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +100,16 @@ class NoticeDetailScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Header: Autor y Tipo
+
+                    Text(
+                      notice.title,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
                     Row(
                       children: [
                         Container(
@@ -117,19 +130,10 @@ class NoticeDetailScreen extends ConsumerWidget {
                             ),
                           ),
                         ),
-                       /* const Spacer(),
+                        /* const Spacer(),
                         _buildTypeChip(),*/
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      notice.title,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-          
                     const SizedBox(height: 12),
           
                     // Fecha
@@ -171,6 +175,7 @@ class NoticeDetailScreen extends ConsumerWidget {
                       _formatTextWithLineBreaks(notice.content),
                       style: GoogleFonts.inter(
                         fontSize: 13,
+                        color: const Color(0xFF545967)
                       ),
                     ),
                   ],

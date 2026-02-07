@@ -95,14 +95,13 @@ class NoticeCard extends ConsumerWidget {
                   ),
                 ],
               ),
-              const Divider(),
+              const Divider(color: Color(0xFFF3F4F6),),
               Row(
                 children: [
                   Text(
                     _formatDate(notice.createdAt),
                     style: GoogleFonts.montserrat(
                       fontSize: 12,
-                      color: Colors.grey.shade400,
                     ),
                   ),
                   const Spacer(),
@@ -122,12 +121,15 @@ class NoticeCard extends ConsumerWidget {
   }
 
   Widget _buildTypeChip() {
+    final bool isForex = notice.category.name.toLowerCase() == 'forex';
+
+    final Color borderColor = isForex ? const Color(0xFF066BAF) : const Color(0xFF000000).withValues(alpha: 0.25);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.transparent,
-        border: Border.all(color: const Color(0xFF004E87)),
+        border: Border.all(color: borderColor),
       ),
       child:  Row(
         mainAxisSize: MainAxisSize.min,

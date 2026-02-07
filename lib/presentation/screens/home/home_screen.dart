@@ -85,29 +85,49 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       resizeToAvoidBottomInset: false,
       appBar: const SharedAppBar(title: 'RedBlue FX'),
       body: SafeArea(
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: isDark ? null: BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment.bottomLeft,
-              radius: 0.6,
-              colors: [
-                const Color(0xFF066BAF).withOpacity(0.3),
-                const Color(0xFFE6332F).withOpacity(0.3),
-                const Color(0xFFFF0006).withOpacity(0.01),
-              ],
+        child: Stack(
+          children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: isDark ? null: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.bottomLeft,
+                  radius: 0.6,
+                  colors: [
+                    const Color(0xFF066BAF).withOpacity(0.3),
+                    const Color(0xFFE6332F).withOpacity(0.3),
+                    const Color(0xFFFF0006).withOpacity(0.01),
+                  ],
+                ),
+              ),
+              child: OrientationBuilder(
+                builder: (context, orientation) {
+                  final isLandscape = orientation == Orientation.landscape;
+                  return isLandscape
+                      ? _buildLandscape(context,isSearching)
+                      : _buildPortrait(context, isSearching);
+                  },
+              ),
             ),
-          ),
-          child: OrientationBuilder(
-            builder: (context, orientation) {
-              final isLandscape = orientation == Orientation.landscape;
-              return isLandscape
-                  ? _buildLandscape(context,isSearching)
-                  : _buildPortrait(context, isSearching);
-            },
-          ),
-
+            Positioned(
+              bottom: MediaQuery.of(context).padding.bottom + 20,
+              right: MediaQuery.of(context).size.width * 0.04,
+              child: FloatingActionButton(
+                mini: false,
+                elevation: 10,
+                backgroundColor: Colors.white60,
+                onPressed: () {
+                  AppLogger.info("Calculator tapped");
+                  context.pushNamed('calculator');
+                },
+                child: const Icon(
+                  Icons.calculate_outlined,
+                  size: 40,
+                ),
+              ),
+            ),
+          ]
         ),
       ),
       bottomNavigationBar: SafeArea(

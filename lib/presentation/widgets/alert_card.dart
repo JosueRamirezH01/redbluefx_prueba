@@ -47,7 +47,12 @@ class AlertCard extends ConsumerWidget {
     return Card(
       elevation: 1,
       margin: const EdgeInsets.only(bottom: 14),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14) , side: BorderSide(color: Theme.of(context).borderCardPreviewColors)
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14) , side: borde == true
+          ? BorderSide(
+        color: Theme.of(context).borderCardPreviewColors,
+        width: 1.2,
+      )
+          : BorderSide.none,
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -256,8 +261,8 @@ class AlertCard extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 10, left: 10, top: 5, bottom: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
-                  border: Border.all(color: const Color(0xFF005EA3), width: 0.5),
-                  color: Colors.blue.shade50,
+                  border: Border.all(color: const Color(0xFF1080D0), width: 1),
+                  color: const Color(0xFFDFF4FF),
 
                 ),
                 child: Row(
