@@ -74,7 +74,7 @@ class AlertCard extends ConsumerWidget {
               const SizedBox(height: 10),
               // Gráfico y descripción (solo cuando presionas "Ver detalles")
               _buildDetailsSection(screenWidth),
-              const Divider(thickness: 0.5, color: Color(0xFFF3F4F6),),
+              Divider(thickness: 0.5, color: Theme.of(context).dividerCardAlert),
               _buildFooter(context, isAdmin, theme),
             ],
           ),
@@ -154,8 +154,7 @@ class AlertCard extends ConsumerWidget {
                               ? null
                               : (mockTPs.length == 1
                               ? null
-                              : const Color(0xFFEDF9FF)),
-
+                              : Theme.of(context).cardTpColors),
                           borderRadius: BorderRadius.circular(4),
                           border: (!isTPExpanded && mockTPs.length > 1)
                               ? Border.all(color: const Color(0xFF005EA3))
@@ -174,7 +173,7 @@ class AlertCard extends ConsumerWidget {
                                     ? Colors.white
                                     : (mockTPs.length == 1
                                     ? null
-                                    : Colors.black87),
+                                    : Theme.of(context).textCardPreviewColors),
                               ),
                             ),
                             Row(
@@ -188,7 +187,7 @@ class AlertCard extends ConsumerWidget {
                                         ?  Colors.white
                                         : (mockTPs.length == 1
                                         ? null
-                                        : Colors.black87),
+                                        : Theme.of(context).textCardPreviewColors),
                                   ),
                                 ),
                                 const SizedBox(width: 20),
@@ -197,7 +196,7 @@ class AlertCard extends ConsumerWidget {
                                   margin: const EdgeInsets.only(bottom: 4),
                                   padding: const EdgeInsets.symmetric(horizontal: 2),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFFEBF8FF),
+                                    color: Theme.of(context).cardTpChildrenColors,
                                     borderRadius: BorderRadius.circular(2),
                                   ),
                                   child: Row(
@@ -205,14 +204,14 @@ class AlertCard extends ConsumerWidget {
                                     children: [
                                       Text(
                                         '${mockTPs.length}',
-                                        style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF066BAF)),
+                                        style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: Theme.of(context).cardTpTextChildrenColors),
                                       ),
                                       Icon(
                                         isTPExpanded
                                             ? Icons.keyboard_arrow_up
                                             : Icons.keyboard_arrow_down,
                                         size: 20,
-                                        color: const Color(0xFF066BAF),
+                                        color: Theme.of(context).cardTpTextChildrenColors,
                                       ),
                                     ],
                                   ),

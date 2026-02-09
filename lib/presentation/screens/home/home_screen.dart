@@ -95,9 +95,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                   center: Alignment.bottomLeft,
                   radius: 0.6,
                   colors: [
-                    const Color(0xFF066BAF).withOpacity(0.3),
-                    const Color(0xFFE6332F).withOpacity(0.3),
-                    const Color(0xFFFF0006).withOpacity(0.01),
+                    const Color(0xFF066BAF).withValues(alpha: 0.3),
+                    const Color(0xFFE6332F).withValues(alpha: 0.3),
+                    const Color(0xFFFF0006).withValues(alpha: 0.01),
                   ],
                 ),
               ),
@@ -113,18 +113,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             Positioned(
               bottom: MediaQuery.of(context).padding.bottom + 20,
               right: MediaQuery.of(context).size.width * 0.04,
-              child: FloatingActionButton(
-                mini: false,
-                elevation: 10,
-                backgroundColor: Colors.white60,
+              child: CenterFloatingButton(
                 onPressed: () {
-                  AppLogger.info("Calculator tapped");
-                  context.pushNamed('calculator');
-                },
-                child: const Icon(
-                  Icons.calculate_outlined,
-                  size: 40,
-                ),
+                  AppLogger.info("Home");
+                  context.goNamed('home');
+                }, icon: Icons.calculate_outlined, border: false,
               ),
             ),
           ]
@@ -134,6 +127,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         top: false,
         child: CustomBottomBar(
           onNoticias:() {
+            AppLogger.info("Calculator tapped");
+            context.goNamed('calculator');
             AppLogger.info("Noticias tapped");
             context.pushNamed('notice_list');
           },
@@ -148,10 +143,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           bottom: MediaQuery.of(context).padding.bottom,
         ),
         child: CenterFloatingButton(
+          icon: Icons.trending_up,
           onPressed: () {
             AppLogger.info("Home");
             context.goNamed('home');
-          },
+          }, border: true,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -200,7 +196,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor = isSelected
         ? color
-        : (isDark ?  const Color(0xFF0D1D35) : const Color(0xFFEFEFEF));
+        : (isDark ?  const Color(0xFF0D1425) : const Color(0xFFEFEFEF));
     final textColor = isSelected
         ? (label == "Todas" ? Colors.white : Colors.black87)
         : (isDark ? Colors.white70 : Colors.black87);
@@ -238,7 +234,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: isSelected ? color : color.withOpacity(0.3),
+            color: isSelected ? color : color.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -319,7 +315,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               onSelected: (selected) {
                 if (selected) _onFilterByType(AlertType.buy);
               },
-              color: const Color(0xFF10B981),
+              color: Theme.of(context).chipBorder,
               colorRelleno: const Color(0xFFDCFCE7),
               icon: Icons.arrow_upward
           ),

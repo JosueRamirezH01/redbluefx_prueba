@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/presentation/providers/feedback_provider.dart';
 
-import '../../core/utils/logger.dart';
 import '../providers/auth_provider.dart';
 
 void showFeedbackDialog(BuildContext context) {

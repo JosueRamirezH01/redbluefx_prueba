@@ -256,9 +256,13 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               prefixIcon: Icon(Icons.search, color: Colors.white),
               hintText: 'Filtrar señales...',
               hintStyle: TextStyle(color: Colors.white),
-              border: InputBorder.none,
               fillColor: Color(0xFF0D1D35),
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFF005EA3),
+                ),
+              ),
             ),
             onTap: () {
               if (_overlayEntry == null) {

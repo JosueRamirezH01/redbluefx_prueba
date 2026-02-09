@@ -68,7 +68,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
                           return _defaultImage(70);
                         }
                         return Image.network(
-                          advert!.imageUrl!,
+                          advert.imageUrl!,
                           width: 85,
                           height: 70,
                           fit: BoxFit.fill,
@@ -134,7 +134,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
           bottom: MediaQuery.of(context).padding.bottom,
         ),
         child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); },),
+        context.goNamed('home'); },icon: Icons.trending_up, border: true,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

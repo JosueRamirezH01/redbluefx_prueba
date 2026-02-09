@@ -460,4 +460,22 @@ extension AppThemeColors on ThemeData {
   Color get textCardPreviewColors => brightness == Brightness.dark
       ? Colors.white
       :const Color(0xFF101010);
+  Color get cardTpColors => brightness == Brightness.dark
+      ? const Color(0xFF0F355B)
+      : const Color(0xFFEDF9FF);
+  Color get cardTpChildrenColors => brightness == Brightness.dark
+      ? const Color(0xFF1B4F83)
+      : const Color(0xFFEDF9FF);
+  Color get cardTpTextChildrenColors => brightness == Brightness.dark
+      ?  Colors.white
+      : const Color(0xFF066BAF);
+  Color get chipBorder => brightness == Brightness.dark
+      ?  const Color(0xFF3DD5B8)
+      : const Color(0xFF10B981);
+  Color get dividerCardAlert => brightness == Brightness.dark
+      ?  const Color(0xFF2E4A66).withValues(alpha: 0.5)
+      : const Color(0xFFF3F4F6);
+  Color get borderFilterHome => brightness == Brightness.dark
+      ?  const Color(0xFF005EA3)
+      : const Color(0xFF005EA3);
 }

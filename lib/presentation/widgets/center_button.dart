@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CenterFloatingButton extends ConsumerWidget {
   final VoidCallback onPressed;
-
+  final IconData icon;
+  final bool border;
   const CenterFloatingButton({
     super.key,
     required this.onPressed,
+    required this.icon,
+    required this.border,
   });
 
   @override
@@ -32,14 +35,14 @@ class CenterFloatingButton extends ConsumerWidget {
               ],
             ),
             border: isDark
-                ? Border.all(
+                ? border == true ? Border.all(
               color: Colors.white,
               width: 1.5,
-            )
+            ): null
                 : null,
           ),
           child: IconButton(
-            icon: const Icon(Icons.trending_up, color: Colors.white, size: 25),
+            icon:  Icon(icon, color: Colors.white, size: 25),
             onPressed: onPressed,
           ),
         ),

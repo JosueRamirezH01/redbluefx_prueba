@@ -178,7 +178,8 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
           bottom: MediaQuery.of(context).padding.bottom,
         ),
         child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); },),
+        context.goNamed('home'); },icon: Icons.trending_up, border: true,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
