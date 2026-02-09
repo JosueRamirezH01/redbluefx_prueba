@@ -172,6 +172,7 @@ class _AdvertRecentListState extends ConsumerState<AdvertRecentList> {
   Widget _buildRecentCard(Advert advert) {
     return AdvertsCard(
       advert: advert,
+      border: false,
       onTap: () => context.push('/anuncio/${advert.id}'),
     );
   }

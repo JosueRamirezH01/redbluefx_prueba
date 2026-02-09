@@ -111,12 +111,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               ),
             ),
             Positioned(
-              bottom: MediaQuery.of(context).padding.bottom + 20,
+              bottom: MediaQuery.of(context).padding.bottom + 30,
               right: MediaQuery.of(context).size.width * 0.04,
               child: CenterFloatingButton(
                 onPressed: () {
-                  AppLogger.info("Home");
-                  context.goNamed('home');
+                  AppLogger.info("Calculator tapped");
+                  context.goNamed('calculator');
                 }, icon: Icons.calculate_outlined, border: false,
               ),
             ),
@@ -127,8 +127,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         top: false,
         child: CustomBottomBar(
           onNoticias:() {
-            AppLogger.info("Calculator tapped");
-            context.goNamed('calculator');
+
             AppLogger.info("Noticias tapped");
             context.pushNamed('notice_list');
           },
@@ -162,7 +161,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       width: MediaQuery.of(context).size.width * 0.9,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF7FC), // Fondo suave azul
+        color: Theme.of(context).answerFilterHome,
         borderRadius: BorderRadius.circular(10),
       ),
         child: Row(
@@ -283,8 +282,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               _buildFilters(),
 
             const SizedBox(height: 12),
-
-            /// 👇 Altura controlada para la lista
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.65,
               child: const AlertList(),

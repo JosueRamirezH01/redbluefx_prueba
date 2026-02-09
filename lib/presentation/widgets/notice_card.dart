@@ -25,6 +25,10 @@ class NoticeCard extends ConsumerWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
+        side: BorderSide(
+          color: Theme.of(context).colorBorderCardNotice,
+          width: 1.2,
+        )
       ),
       child: InkWell(
         onTap: onTap,
@@ -95,7 +99,7 @@ class NoticeCard extends ConsumerWidget {
                   ),
                 ],
               ),
-              const Divider(color: Color(0xFFF3F4F6),),
+              Divider(color: Theme.of(context).colorDividerCardNotice),
               Row(
                 children: [
                   Text(

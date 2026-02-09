@@ -67,15 +67,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
 
   Future<void> _openPreviewAlert() async {
     if (_selectedType == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor selecciona un tipo: Comprar o Vender'),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
+      Fluttertoast.showToast(msg: 'Por favor selecciona un tipo: Comprar o Vender', backgroundColor: Colors.redAccent, gravity: ToastGravity.BOTTOM, toastLength: Toast.LENGTH_LONG);
       return;
     }
-
     if (!_formKeyAlerta.currentState!.validate()) return;
 
     final takeProfits = _tpControllers.map((c) => c.text.trim()).toList();
@@ -299,7 +293,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       }
 
       // Si pasa validaciones → guardar imagen
-      setState(() => _selectedImage = file);
+      setState(() =>  _selectedImage = file);
     }
 
     setState(() => _isPickingImage = false);
@@ -322,15 +316,15 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               center: Alignment.bottomLeft,
               radius: 0.8,
               colors: [
-                const Color(0xFF0D1D35).withOpacity(0.3),
-                const Color(0xFF0D1D35).withOpacity(0.3),
-                const Color(0xFFFF0006).withOpacity(0.01),
+                const Color(0xFF0D1D35).withValues(alpha: 0.3),
+                const Color(0xFF0D1D35).withValues(alpha: 0.3),
+                const Color(0xFFFF0006).withValues(alpha: 0.01),
               ],
             ),
           ),
           child: Column(
             children: [
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               CustomSlidingSegmentedControl<int>(
                 initialValue: _selectedIndex,
                 innerPadding: const EdgeInsets.all(6),
@@ -461,6 +455,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 },
               ),
               // === CONTENIDO CAMBIANTE ===
+              const SizedBox(height: 20),
               Expanded(
                 child: PageView(
                   controller: _pageController,
@@ -498,35 +493,25 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     );
   }
 
-  Widget _buildSelectableChip({required String label, required IconData icon, required AlertType value, required Color color, required Color colorRelleno,}) {
+  Widget _buildSelectableChip({required String label, required IconData icon, required AlertType value, required Color color, required Color colorRelleno, required Color textColor}) {
     final bool isSelected = _selectedType == value;
-    final colors = Theme.of(context).colorScheme;
-
     return ChoiceChip(
       showCheckmark: false,
       label: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            label,
-            style: GoogleFonts.montserrat(
-              fontSize: 14,
-            ),
-          ),
+          Text(label, style: GoogleFonts.montserrat(fontSize: 14, color: isSelected ?  textColor : null)),
           const SizedBox(width: 4),
-          Icon(
-            icon,
-            size: 14,
-          ),
+          Icon(icon, size: 14, color: color),
         ],
       ),
       selected: isSelected,
       selectedColor: colorRelleno,
-      backgroundColor: colors.surface,
+      backgroundColor: Theme.of(context).createChip,
       shape: StadiumBorder(
         side: BorderSide(
-          color: isSelected ? color : color,
-          width: 1.2,
+          color: color,
+          width: 1,
         ),
       ),
       onSelected: (_) {
@@ -543,7 +528,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       child: Form(
         key: _formKeyAlerta,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
@@ -577,8 +562,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           label: 'Compra',
                           icon: Icons.arrow_upward,
                           value: AlertType.buy,
-                          color:  const Color(0xFF10B981),
-                          colorRelleno: isDark ? const Color(0xFFDCFCE7).withOpacity(0.9) : const Color(0xFFDCFCE7),
+                          color:  isDark ? const Color(0xFF3DD5B8) : const Color(0xFF10B981),
+                          textColor: isDark ? Theme.of(context).textChip : Colors.black87,
+                          colorRelleno: isDark ? const Color(0xFFDCFCE7).withValues(alpha: 0.9) : const Color(0xFFDCFCE7),
                         ),
                         const SizedBox(width: 20),
                         _buildSelectableChip(
@@ -586,7 +572,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           icon: Icons.arrow_downward,
                           value: AlertType.sell,
                           color: const Color(0xFFDD2E44),
-                          colorRelleno:isDark ? const Color(0xFFFFE1E0).withOpacity(0.9) : const Color(0xFFFFE1E0),
+                          textColor: isDark ? Theme.of(context).textChip : Colors.black87,
+                          colorRelleno:isDark ? const Color(0xFFFFE1E0).withValues(alpha: 0.9) : const Color(0xFFFFE1E0),
                         ),
                       ],
                     ),
@@ -691,8 +678,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                                 _tpControllers.add(TextEditingController());
                               });
                             },
-                            icon: const Icon(Icons.add, color: Color(0xFF005EA3), size: 20),
-                            label: Text("Agregar TP", style: GoogleFonts.poppins(fontSize: 15, color: const Color(0xFF005EA3), fontWeight: FontWeight.w600),),
+                            icon: Icon(Icons.add, color: isDark ? const Color(0xFF0881D9) : const Color(0xFF005EA3), size: 20),
+                            label: Text("Agregar TP", style: GoogleFonts.poppins(fontSize: 15, color: isDark ? const Color(0xFF0881D9) : const Color(0xFF005EA3), fontWeight: FontWeight.w600),),
                           ),
                         ),
                       Text('Puedes agregar varios niveles de TP (máximo 5)', style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w400),),
@@ -791,8 +778,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     ),
 
                   const BoxShadow(
-                      color: Color(0xFFF7999c),
-                      blurRadius: 18,      // intensidad
+                      color: Color(0xFF721723),
+                      blurRadius: 20,      // intensidad
                       offset: Offset(0, 8) // altura
                   ),
                 ],
@@ -846,7 +833,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       child: Form(
         key: _formKeyAnuncio,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
@@ -904,7 +891,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '¿Es una Anuncio público?',
+                              '¿Destacar?',
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500
@@ -912,10 +899,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             ),
                             const SizedBox(height: 6),
 
-                            Text(
+                           /* Text(
                               'Las alertas públicas son visibles para todos los usuarios',
                               style: GoogleFonts.poppins(fontSize: 12),
-                            ),
+                            ),*/
                           ],
                         ),
                       ),
@@ -935,7 +922,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            Container(decoration: BoxDecoration(
+            Container(
+              decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [
                   Color(0xFFFF1B21),
@@ -954,8 +942,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                     offset: Offset(2, 8) // altura
                 ),
                 const BoxShadow(
-                    color: Color(0xFFF7999c),
-                    blurRadius: 18,      // intensidad
+                    color: Color(0xFF721723),
+                    blurRadius: 20,      // intensidad
                     offset: Offset(2, 8) // altura
                 ),
               ],
@@ -1009,7 +997,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF003457) : const Color(0xFFF7F7F7),
+                      color: isDark ? const Color(0xFF0F2D4A) : const Color(0xFFF7F7F7),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(

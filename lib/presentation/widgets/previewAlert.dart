@@ -32,6 +32,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isSmallScreen = size.width < 600;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -46,7 +47,8 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
         ),
         decoration: BoxDecoration(
           color: Theme.of(context).previewColors,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: Theme.of(context).borderDialogPreview)
         ),
         child: Stack(
           children: [
@@ -55,12 +57,13 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
             children: [
               _buildHeader(context),
               _buildAlertCard(context, isSmallScreen),
-              _buildActionButtons(context, isSmallScreen),
+              _buildActionButtons(context, isSmallScreen, isDark),
+              const SizedBox(height: 12)
+
             ],
           ),
             Positioned(
-              top: 8,
-              right: 12,
+              right: 1,
               child: IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.close),
@@ -84,8 +87,8 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Preview de alerta',
-                  style: GoogleFonts.montserrat(fontSize: 26, fontWeight: FontWeight.w600)
+                  'Preview de Señal de trading',
+                  style: GoogleFonts.montserrat(fontSize: 19.5, fontWeight: FontWeight.w600)
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -155,9 +158,9 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
       ),
     );
   }
-  Widget _buildActionButtons(BuildContext context, bool isSmallScreen) {
+  Widget _buildActionButtons(BuildContext context, bool isSmallScreen, bool isDark) {
     return Padding(
-      padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
+      padding: EdgeInsets.symmetric(horizontal:isSmallScreen ? 30 : 40),
       child: Row(
         children: [
           Expanded(
@@ -189,29 +192,53 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: SizedBox(
+            child: Container(
               width: MediaQuery.of(context).size.width * 0.18,
               height: MediaQuery.of(context).size.height * 0.05,
+              decoration: BoxDecoration(gradient: const LinearGradient(colors: [
+                Color(0xFFFF1B21),
+                Color(0xFFDD0E13),
+                Color(0xFFBB0004)
+              ]),
+                boxShadow: [
+                  if(!isDark)
+                    const BoxShadow(
+                        color: Color(0xFFFF1B21),
+                        blurRadius: 10,      // intensidad
+                        offset: Offset(0, 6) // altura
+                    ),
+                  const BoxShadow(
+                      color: Color(0xFF721723),
+                      blurRadius: 10,      // intensidad
+                      offset: Offset(0, 6) // altura
+                  ),
+                ],borderRadius: BorderRadius.circular(8),),
               child: ElevatedButton(
                 onPressed: () async {
                   Navigator.of(context).pop();
                   await widget.onConfirm();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade600,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                  backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'Sí, Publicar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
+                child:  const  Row(
+                  children: [
+                    Text(
+                      'Sí, Publicar',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Spacer(),
+                    Icon(Icons.trending_up, size: 22,)
+                  ],
                 ),
               ),
             ),

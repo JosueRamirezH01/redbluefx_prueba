@@ -6,15 +6,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/domain/entities/adverts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../core/theme/app_theme.dart';
+
 class AdvertsCard extends ConsumerWidget {
   final Advert advert;
   final VoidCallback? onTap;
   final File? imagePreview;
   final bool? toolTips;
+  final bool? border;
   const AdvertsCard({
     super.key,
     required this.advert,
     this.toolTips = false,
+    this.border = false,
     this.onTap,
     this.imagePreview
 
@@ -26,25 +30,27 @@ class AdvertsCard extends ConsumerWidget {
 
     return Card(
       elevation: 2,
-      color: advert.isFeatured ?  Colors.transparent : Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+      color: advert.isFeatured ?  Colors.transparent : Theme.of(context).colorCardPreview2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(border! ? 20 : 8) , side:
+      BorderSide(
+        color: Theme.of(context).borderCardPreviewColors,
+        width: 1.2,
+      ),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
           // Imagen de fondo estática
           if(advert.isFeatured)
-          Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                'assets/images/fondoCard.png',
-                fit: BoxFit.cover,
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/images/fondoCard.png',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-
           // Contenido encima
           SizedBox(
             height: screenWidth * 0.28,
@@ -57,7 +63,6 @@ class AdvertsCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(width: 6),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: ClipRRect(
@@ -66,7 +71,7 @@ class AdvertsCard extends ConsumerWidget {
                           builder: (context, constraints) {
                             final imageSize = screenWidth * 0.25;
                             final finalSize = imageSize.clamp(70.0, 76.0);
-                            return _buildImage(finalSize);
+                            return _buildImage(context, finalSize);
                           },
                         ),
                       ),
@@ -81,8 +86,8 @@ class AdvertsCard extends ConsumerWidget {
                             advert.title,
                             style: GoogleFonts.montserrat(
                               fontSize: 17,
-                              color: advert.isFeatured ? Colors.white : Colors.black87,
                               fontWeight: FontWeight.w600,
+                              color: advert.isFeatured ? Colors.white : Theme.of(context).colorLetterCardPreview,
                               shadows: [
                                 Shadow(
                                   color: Colors.black.withOpacity(0.3),
@@ -108,27 +113,24 @@ class AdvertsCard extends ConsumerWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.montserrat(
                                   fontSize: 14,
-                                  color: advert.isFeatured ? Colors.white : Colors.black87,
+                                  fontWeight: FontWeight.w500,
+                                  color: advert.isFeatured ? Colors.white : Theme.of(context).colorLetterCardPreview,
                                 ),
                               ),
                             ),
                           ),
-
-
                           Row(
                             children: [
                               Text(
                                 timeago.format(advert.createdAt, locale: 'es'),
                                 style: GoogleFonts.montserrat(
                                   fontSize: 12,
-                                  color: advert.isFeatured ? Colors.white : Colors.black87,
-
+                                  color: advert.isFeatured ? Colors.white : Theme.of(context).colorLetterCardPreview,
                                 ),
                               ),
                               const Spacer(),
                               if(advert.isFeatured)
                                 const Icon(Icons.star, color: Colors.yellow)
-
                             ],
                           ),
                         ],
@@ -173,18 +175,17 @@ class AdvertsCard extends ConsumerWidget {
   }
 
 
-  Widget _buildImage(double finalSize) {
+  Widget _buildImage(BuildContext context,double finalSize) {
     if (advert.image == null || advert.image!.isEmpty) {
-      return _defaultImage(finalSize);
+      return _defaultImage(context,finalSize);
     }
-
     return Image.network(
       advert.image!,
       width: finalSize,
       height: finalSize,
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace) {
-        return _defaultImage(finalSize);
+        return _defaultImage(context,finalSize);
       },
       loadingBuilder: (context, child, loadingProgress) {
         if (loadingProgress == null) return child;
@@ -197,12 +198,12 @@ class AdvertsCard extends ConsumerWidget {
     );
   }
 
-  Widget _defaultImage(double size) {
+  Widget _defaultImage(BuildContext context, double size) {
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: const Color(0xFFE6F2FB),
+        color: Theme.of(context).colorCardPreview,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(

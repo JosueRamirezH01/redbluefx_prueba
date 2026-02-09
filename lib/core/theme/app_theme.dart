@@ -269,7 +269,7 @@ class AppTheme {
         ),
         
         hintStyle: AppTextStyles.bodyMedium.copyWith(
-          color: AppColors.textSecondary.withOpacity(0.5),
+          color: AppColors.textSecondary.withValues(alpha: 0.5),
         ),
       ),
       dataTableTheme: DataTableThemeData(
@@ -298,7 +298,7 @@ class AppTheme {
     return ThemeData.dark(useMaterial3: true).copyWith(
 
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.primary,
+        primary: Colors.white,
         secondary: AppColors.secondary,
         surface: Color(0xFF0F172A),
         error: AppColors.error,
@@ -347,7 +347,7 @@ class AppTheme {
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.secondary.withOpacity(0.25),
+        backgroundColor: AppColors.secondary.withValues(alpha: 0.25),
         labelStyle: AppTextStyles.bodySmall.copyWith(color: Colors.white),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
@@ -371,7 +371,7 @@ class AppTheme {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
-            color: AppColors.primary, // rojo
+            color: Color(0xFF005EA3), // rojo
             width: 1.5,
           ),
         ),
@@ -389,7 +389,6 @@ class AppTheme {
             width: 1.5,
           ),
         ),
-
         labelStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white70),
         hintStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white54),
       ),
@@ -451,11 +450,14 @@ extension AppThemeColors on ThemeData {
   Color get previewColors => brightness == Brightness.dark
       ? const Color(0xFF0D3B6A)
       : Colors.white;
+  Color get borderDialogPreview => brightness == Brightness.dark
+      ? const Color(0xFF005EA3)
+      : const Color(0xFFC3C3C3);
   Color get borderPreviewColors => brightness == Brightness.dark
       ? const Color(0xFF2E4A66)
       : Colors.white;
   Color get borderCardPreviewColors => brightness == Brightness.dark
-      ? const Color(0xFF2E4A66)
+      ? const Color(0xFF066BAF)
       : const Color(0xFFFF0006);
   Color get textCardPreviewColors => brightness == Brightness.dark
       ? Colors.white
@@ -478,4 +480,43 @@ extension AppThemeColors on ThemeData {
   Color get borderFilterHome => brightness == Brightness.dark
       ?  const Color(0xFF005EA3)
       : const Color(0xFF005EA3);
+  Color get answerFilterHome => brightness == Brightness.dark
+      ?  const Color(0xFF132A4E)
+      : const Color(0xFFEFF7FC);
+  Color get createChip => brightness == Brightness.dark
+      ?  const Color(0xFF0D1D35)
+      : Colors.white;
+  Color get textChip => brightness == Brightness.dark
+      ?  Colors.black
+      : Colors.white;
+  Color get colorCardPreview => brightness == Brightness.dark
+      ?  const Color(0xFF066BAF).withValues(alpha: 0.35)
+      : const Color(0xFFE6F2FB);
+  Color get colorCardPreview2 => brightness == Brightness.dark
+      ?  const Color(0xFF092949)
+      : Colors.white;
+  Color get colorLetterCardPreview => brightness == Brightness.dark
+      ?  const Color(0xFFC9C9C9).withValues(alpha: 0.9)
+      : Colors.black87 ;
+  Color get colorLetterCardAlert => brightness == Brightness.dark
+      ?  const Color(0xFFF8F8F8)
+      : const Color(0xFF686868) ;
+  Color get colorDividerCardNotice => brightness == Brightness.dark
+      ?  const Color(0xFFE5E7EB).withValues(alpha: 0.25)
+      : const Color(0xFFF3F4F6);
+  Color get colorBorderCardNotice => brightness == Brightness.dark
+      ?  const Color(0xFFE5E7EB).withValues(alpha: 0.25)
+      : Colors.transparent;
+  Color get colorIconProfile => brightness == Brightness.dark
+      ?  const Color(0xFFDFDFDF).withValues(alpha: 0.75)
+      : const Color(0xFF000000).withValues(alpha: 0.75);
+  Color get colorChangeProfile => brightness == Brightness.dark
+      ?  const Color(0xFFDFDFDF).withValues(alpha: 0.6)
+      : const Color(0xFF000000).withValues(alpha: 0.6);
+  Color get colorChangeTxtFormProfile => brightness == Brightness.dark
+      ?  const Color(0xFF092949)
+      : const Color(0xFFFFFFFF);
+  Color get selectFeedback => brightness == Brightness.dark
+      ?  const Color(0xFF092949)
+      : const Color(0xFFFFFFFF);
 }

@@ -172,6 +172,7 @@ class _AdvertFeatureListState extends ConsumerState<AdvertFeatureList> {
   Widget _buildFeatureCard(Advert advert) {
     return AdvertsCard(
       advert: advert,
+      border: true,
       onTap: () => context.push('/anuncio/${advert.id}'),
     );
   }

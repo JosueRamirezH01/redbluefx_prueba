@@ -393,13 +393,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               Text(
                                   user?.fullName ?? 'Usuario',
                                   style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600 )
-                        
                               ),
                               // Email
                               Text(
                                   user?.email ?? '',
-                                  style:GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.normal, color: const Color(0xFF8f8f8f) )
-                        
+                                  style:GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.normal, color: isDarkMode ?  const Color(0xFFFFFFFF).withValues(alpha: 0.4): const Color(0xFF000000).withValues(alpha: 0.4) )
                               ),
                               const SizedBox(height: 16),
                               _buildSection(context, title: 'Cuenta', children: [
@@ -407,17 +405,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   padding: const EdgeInsets.only(left: 9.0, top: 10),
                                   child: _resetPassword(isDarkMode, authState),
                                 ),
-                        
                                 if (user?.role == 'admin')
                                   _buildMenuItem(
                                     icon: Icons.person_outline,
-                                    color: const Color(0xFF000000).withValues(alpha: 0.75),
+                                    color: Theme.of(context).colorIconProfile,
                                     title: 'Gestión de usuarios',
                                     onTap: () {
                                       context.pushNamed('adminUsers');
                                     },
                                   ),
-                                _buildMenuItem(icon: isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined,color: const Color(0xFF000000).withValues(alpha: 0.75) ,title: 'Modo ${isDarkMode ? "oscuro" : "claro"}',trailing: SizedBox(
+                                _buildMenuItem(icon: isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined,color: Theme.of(context).colorIconProfile,title: 'Modo ${isDarkMode ? "oscuro" : "claro"}',trailing: SizedBox(
                                   width: 51,
                                   height: 31,
                                   child: Stack(
@@ -452,7 +449,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               _buildSection(context, title: 'Soporte', children: [
                                 _buildMenuItem(
                                   icon: Icons.star_outline,
-                                  color: const Color(0xFF000000).withValues(alpha: 0.75),
+                                  color:Theme.of(context).colorIconProfile,
                                   title: 'Feedback',
                                   onTap: () {
                                     showFeedbackDialog(context);
@@ -460,7 +457,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 ),
                                 _buildMenuItem(
                                   icon: Icons.help_outline,
-                                  color: const Color(0xFF000000).withValues(alpha: 0.75),
+                                  color: Theme.of(context).colorIconProfile,
                                   title: 'Ayuda y soporte',
                                   onTap: () async{
                                     await openWhatsApp(
@@ -471,7 +468,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 ),
                                 _buildMenuItem(
                                   icon: Icons.description_outlined,
-                                  color: const Color(0xFF000000).withValues(alpha: 0.75),
+                                  color: Theme.of(context).colorIconProfile,
                                   title: 'Términos y privacidad',
                                   onTap: () async{
                                     await openTerm();
@@ -480,11 +477,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               ],
                               ),
                               const SizedBox(height: 12),
-                        
                               _buildSection(context, children: [
                                 _buildMenuItem(
                                   icon: Icons.logout,
-                                  color: const Color(0xFF000000).withValues(alpha: 0.75),
+                                  color: Theme.of(context).colorIconProfile,
                                   title: 'Cerrar sesión',
                                   onTap: () async {
                                     showDialog(
@@ -636,11 +632,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         backgroundColor: const Color(0xFFFFFFFF),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(16),
-                                          side: const BorderSide(
-                                            color: Color(0xFF535862),
-                                            width: 2,
+                                          side: BorderSide(
+                                            color: Theme.of(context).colorDividerCardNotice,
                                           ),
                                         ),
+
                                         title: Column(
                                           children: [
                                             Row(
@@ -820,7 +816,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             Expanded(
               child: Text(
                 title,
-                style: GoogleFonts.montserrat(fontSize: 15,  fontWeight: FontWeight.w400,
+                style: GoogleFonts.montserrat(fontSize: 15,  fontWeight: FontWeight.w400,color: Theme.of(context).colorIconProfile
                 ),
               ),
             ),
@@ -844,9 +840,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       decoration: BoxDecoration(
         color: _isExpanded ? Theme.of(context).colorScheme.surface : Colors.transparent,
         borderRadius: BorderRadius.circular(16),
-        border: _isExpanded ? Border.all(color: Theme.of(context).dividerColor, width: 0.5
-        )
-            : null,// SOLO cuando está expandido
       ),
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -857,8 +850,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         child: ExpansionTile(
           key: _expansionKey,
           childrenPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          iconColor: const Color(0xFF000000),
-          collapsedIconColor: const Color(0xFF000000),
+          iconColor: Theme.of(context).colorIconProfile,
+          collapsedIconColor: Theme.of(context).colorIconProfile,
           onExpansionChanged: (expanded) {
             setState(() => _isExpanded = expanded);
           },
@@ -871,14 +864,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 "Cambiar Contraseña",
                 style: GoogleFonts.montserrat(
                   fontSize: 15,
+                  color: Theme.of(context).colorIconProfile,
                   fontWeight: _isExpanded ? FontWeight.w600 : FontWeight.w400,
                 ),
               ),
             ],
           ),
           leading: null,
-
-
           children: [
             Form(
               key: _formKey,
@@ -934,14 +926,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             Color(0xFFBB0004),
                           ],
                         ),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color(0xFFF7999c),
-                              blurRadius: 18,      // intensidad
-                              offset: Offset(2, 8) // altura
+                        boxShadow: [
+                          if(!isDark)
+                            const BoxShadow(
+                                color: Color(0xFFFF1B21),
+                                blurRadius: 10,      // intensidad
+                                offset: Offset(0, 6) // altura
+                            ),
+
+                          const BoxShadow(
+                              color: Color(0xFF721723),
+                              blurRadius: 16,      // intensidad
+                              offset: Offset(0, 6) // altura
                           ),
                         ],
-                        borderRadius: BorderRadius.circular(7),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: ElevatedButton(
                         onPressed: authState.isLoading ? null : _resetPasswordInter,
@@ -970,6 +969,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -989,7 +989,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           style: GoogleFonts.montserrat(
             fontSize: 15,
             fontWeight: FontWeight.w500,
-            color: const Color(0xFF000000).withValues(alpha: 0.6)
+            color: Theme.of(context).colorChangeProfile
           ),
         ),
         const SizedBox(height: 6),
@@ -1001,6 +1001,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             hintText: "**********",
             contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
             filled: true,
+            fillColor: Theme.of(context).colorChangeTxtFormProfile,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: Colors.grey.shade300),

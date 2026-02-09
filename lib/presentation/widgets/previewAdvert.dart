@@ -30,6 +30,7 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isSmallScreen = size.width < 600;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -37,23 +38,36 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
         horizontal: isSmallScreen ? 16 : 32,
         //vertical: 24,
       ),
-      child: Container(
-        constraints: BoxConstraints(
-          maxWidth: 480,
-          maxHeight: size.height * 0.9,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).previewColors,
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildHeader(context),
-            _buildAlertCard(context, isSmallScreen),
-            _buildActionButtons(context, isSmallScreen),
-          ],
-        ),
+      child: Stack(
+        children: [
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: 480,
+              maxHeight: size.height * 0.9,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).previewColors,
+              borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Theme.of(context).borderDialogPreview)
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildHeader(context),
+                _buildAlertCard(context, isSmallScreen),
+                _buildActionButtons(context, isSmallScreen, isDark),
+              ],
+            ),
+          ),
+          Positioned(
+            right: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.close),
+              color: Theme.of(context).textCardPreviewColors,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -69,8 +83,8 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                    'Preview de anuncio',
-                    style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.w500)
+                    'Preview de anuncio de trading',
+                    style: GoogleFonts.montserrat(fontSize: 19.5, fontWeight: FontWeight.w500)
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -79,13 +93,6 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
                 ),
               ],
             ),
-          ),
-          IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close),
-            color: Theme.of(context).textCardPreviewColors,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
           ),
         ],
       ),
@@ -127,9 +134,9 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
       ),
     );
   }
-  Widget _buildActionButtons(BuildContext context, bool isSmallScreen) {
+  Widget _buildActionButtons(BuildContext context, bool isSmallScreen, bool isDark) {
     return Padding(
-      padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
+      padding: EdgeInsets.symmetric(horizontal:isSmallScreen ? 30 : 40, vertical: isSmallScreen ? 12 : 18 ),
       child: Row(
         children: [
           Expanded(
@@ -145,7 +152,7 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
                   padding: const EdgeInsets.symmetric(vertical: 7),
                   side: BorderSide(color: Colors.grey.shade300, width: 2),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Text(
@@ -161,29 +168,55 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: SizedBox(
+            child: Container(
               width: MediaQuery.of(context).size.width * 0.18,
               height: MediaQuery.of(context).size.height * 0.05,
+              decoration: BoxDecoration(gradient: const LinearGradient(colors: [
+                Color(0xFFFF1B21),
+                Color(0xFFDD0E13),
+                Color(0xFFBB0004)
+              ]),
+                boxShadow: [
+                  if(!isDark)
+                    const BoxShadow(
+                        color: Color(0xFFFF1B21),
+                        blurRadius: 10,      // intensidad
+                        offset: Offset(0, 6) // altura
+                    ),
+                  const BoxShadow(
+                      color: Color(0xFF721723),
+                      blurRadius: 10,      // intensidad
+                      offset: Offset(0, 6) // altura
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: ElevatedButton(
                 onPressed: () async {
                   Navigator.of(context).pop();
                   await widget.onConfirm();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade600,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                  backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'Sí, Publicar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
+                child:  const  Row(
+                  children: [
+                    Text(
+                      'Sí, Publicar',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Spacer(),
+                    Icon(Icons.trending_up, size: 22,)
+                  ],
                 ),
               ),
             ),

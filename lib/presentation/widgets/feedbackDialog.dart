@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/utils/logger.dart';
 import '../providers/auth_provider.dart';
+import '../providers/feedback_provider.dart';
 
 void showFeedbackDialog(BuildContext context) {
   showDialog(
@@ -91,7 +95,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                           padding: const EdgeInsets.symmetric(vertical: 6),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? (isDark ? const Color(0xFFd9f2ff) : const Color(0xFFd9f2ff))
+                                ? (isDark ? const Color(0xFF61C6FF).withValues(alpha: 0.24) : const Color(0xFFd9f2ff))
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -121,6 +125,8 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                   maxLines: 4,
                   decoration: InputDecoration(
                     hintText: '¿Qué podemos mejorar?',
+                    filled: true,
+                    fillColor: isDark ? const Color(0xFF1A2E45) : Colors.white,
                     hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w400, fontSize: 14),
                     contentPadding: const EdgeInsets.all(12),
                     border: OutlineInputBorder(
@@ -235,7 +241,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                               ),
                             ),
                             onPressed: isLoading ? null : () async {
-                             /* try {
+                              try {
                                 await ref.read(feedbackProvider.notifier).createFeedback(
                                   content: controller.text.trim(),
                                   calification: ratings[selectedIndex]['label']!,
@@ -303,7 +309,7 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                                     ),
                                   );
                                 }
-                              }*/
+                              }
                             },
                             child:isLoading
                                 ? const SizedBox(

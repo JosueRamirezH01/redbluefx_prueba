@@ -426,7 +426,7 @@ class AlertCard extends ConsumerWidget {
           AppDateUtils.formatToPeruTime(alert.createdAt),
           style: GoogleFonts.montserrat(
             fontSize: 12,
-            color:const Color(0xFF686868)
+            color: Theme.of(context).colorLetterCardAlert
           ),
         ),
         const Spacer(),

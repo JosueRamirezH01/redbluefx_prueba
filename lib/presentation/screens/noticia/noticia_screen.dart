@@ -96,7 +96,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
       appBar: AppBar(
         toolbarHeight: 60,
         automaticallyImplyLeading: false,
-         title: Text('Noticias del mercado', style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w500),),
+        title: Text('Noticias del mercado', style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w500),),
         elevation: 8,
         leadingWidth: 70,
         leading: IconButton(
@@ -202,7 +202,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: backgroundColor,
                 borderRadius: BorderRadius.circular(20),
