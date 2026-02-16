@@ -254,7 +254,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFF454545), width: 2),
+          borderSide: const BorderSide(color: Color(0xFF005EA3), width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -477,7 +477,8 @@ extension AppThemeColors on ThemeData {
   Color get dividerCardAlert => brightness == Brightness.dark
       ?  const Color(0xFF2E4A66).withValues(alpha: 0.5)
       : const Color(0xFFF3F4F6);
-  Color get borderFilterHome => brightness == Brightness.dark
+  Color get borderFilterHome
+  => brightness == Brightness.dark
       ?  const Color(0xFF005EA3)
       : const Color(0xFF005EA3);
   Color get answerFilterHome => brightness == Brightness.dark
@@ -501,6 +502,12 @@ extension AppThemeColors on ThemeData {
   Color get colorLetterCardAlert => brightness == Brightness.dark
       ?  const Color(0xFFF8F8F8)
       : const Color(0xFF686868) ;
+  Color get colorTpCardAlert => brightness == Brightness.dark
+      ?  const Color(0xFF0F355B)
+      : const Color(0xFFDFF4FF);
+  Color get colorBorderTpCardAlert => brightness == Brightness.dark
+      ?  const Color(0xFF066BAF)
+      : const Color(0xFF1080D0);
   Color get colorDividerCardNotice => brightness == Brightness.dark
       ?  const Color(0xFFE5E7EB).withValues(alpha: 0.25)
       : const Color(0xFFF3F4F6);
@@ -518,5 +525,8 @@ extension AppThemeColors on ThemeData {
       : const Color(0xFFFFFFFF);
   Color get selectFeedback => brightness == Brightness.dark
       ?  const Color(0xFF092949)
+      : const Color(0xFFFFFFFF);
+  Color get meesDialogProfile => brightness == Brightness.dark
+      ?  const Color(0xFF0D1D35)
       : const Color(0xFFFFFFFF);
 }

@@ -159,7 +159,7 @@ class AlertCard extends ConsumerWidget {
                           border: (!isTPExpanded && mockTPs.length > 1)
                               ? Border.all(color: const Color(0xFF005EA3))
                               : null,
-                          gradient:isTPExpanded ? const LinearGradient(colors: [Color(0xFF025591),Color(0xFF066BAF)]): null,
+                          gradient: isTPExpanded ? const LinearGradient(colors: [Color(0xFF025591),Color(0xFF066BAF)]): null,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,8 +260,8 @@ class AlertCard extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 10, left: 10, top: 5, bottom: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
-                  border: Border.all(color: const Color(0xFF1080D0), width: 1),
-                  color: const Color(0xFFDFF4FF),
+                  border: Border.all(color: Theme.of(context).colorBorderTpCardAlert, width: 1),
+                  color: Theme.of(context).colorTpCardAlert,
 
                 ),
                 child: Row(
@@ -280,7 +280,6 @@ class AlertCard extends ConsumerWidget {
                               "TP${i + 1}",
                               style: GoogleFonts.montserrat(
                                 fontSize: 12,
-                                color: Colors.grey.shade600,
                                 fontWeight: FontWeight.w500,
                               ),
 
@@ -291,7 +290,6 @@ class AlertCard extends ConsumerWidget {
                               style: GoogleFonts.montserrat(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
-                                color: const Color(0xFF454545),
                               ),
                             ),
                           ],

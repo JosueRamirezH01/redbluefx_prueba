@@ -327,7 +327,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               const SizedBox(height: 15),
               CustomSlidingSegmentedControl<int>(
                 initialValue: _selectedIndex,
-                innerPadding: const EdgeInsets.all(6),
+                innerPadding: const EdgeInsets.all(10),
                 children: {
                   0: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -337,7 +337,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         Text(
                           'Señal',
                           style: GoogleFonts.montserrat(
-                            color: _selectedIndex == 0 ? Colors.white : Colors.black87,
+                            color: isDark ? Colors.white : _selectedIndex == 1 ? Colors.black87 : Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -361,7 +361,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         Text(
                           'Anuncio',
                           style: GoogleFonts.montserrat(
-                            color: _selectedIndex == 1 ? Colors.white : Colors.black87,
+                            color: isDark ? Colors.white : _selectedIndex == 1 ? Colors.white : Colors.black87,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -379,7 +379,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   ),
                 },
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  color: isDark ? const Color(0xFF1E2433) : null,
+                  gradient: isDark ? const LinearGradient(
+                    colors: [Color(0xFF1E2433), Color(0xFF1E2433)],
+                  ) : const LinearGradient(
                     colors: [
                       Color(0xFFCECECE),
                       Color(0xFFEFEFEF),
@@ -404,7 +407,12 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       blurRadius: 6,
                       spreadRadius: -1,
                     ),
-              ]
+                  ],
+                    const BoxShadow(
+                      color: Colors.white,
+                      blurRadius: 12,
+                      spreadRadius: -6,
+                    ),
                   ],
                 ),
                 thumbDecoration: BoxDecoration(
@@ -416,19 +424,26 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         ? [const Color(0xFFB9060A), const Color(0xFFE5060C), const Color(0xFFE77779),] // rojo intenso → claro
                         : [const Color(0xFF055994), const Color(0xFF0866A7), const Color(0xFF4D8DB9)], // azul intenso → claro
                   ),
-                  boxShadow:  const [
-                      BoxShadow(
+                  boxShadow:   [
+                    if(!isDark)...[
+                      const BoxShadow(
                         color: Colors.white,
                         offset: Offset(-3, -3),
                         blurRadius: 12,
                         spreadRadius: -1,
                       ),
-                      BoxShadow(
+                      const  BoxShadow(
                         color: Color(0x33000000),
                         offset: Offset(3, 3),
                         blurRadius: 6,
                         spreadRadius: -1,
                       ),
+                  ],
+                    const BoxShadow(
+                      color: Colors.white,
+                      blurRadius: 3,
+                      spreadRadius: -1,
+                    ),
                   ],
                 ),
                 duration: const Duration(milliseconds: 200),

@@ -486,7 +486,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        backgroundColor: const Color(0xFFFFFFFF),
+                                        backgroundColor: Theme.of(context).meesDialogProfile,
                                         insetPadding: EdgeInsets.symmetric(
                                           horizontal: MediaQuery.of(context).size.width * 0.05,
                                         ),
@@ -629,7 +629,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         insetPadding: EdgeInsets.symmetric(
                                           horizontal: MediaQuery.of(context).size.width * 0.05,
                                         ),
-                                        backgroundColor: const Color(0xFFFFFFFF),
+                                        backgroundColor: Theme.of(context).meesDialogProfile,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(16),
                                           side: BorderSide(

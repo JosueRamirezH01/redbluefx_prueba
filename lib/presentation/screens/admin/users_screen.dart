@@ -22,7 +22,6 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
   bool _hasSearchText = false;
   int _sortColumnIndex = 0;
   bool _sortAscending = true;
-  
   @override
   void initState() {
     super.initState();
@@ -88,12 +87,12 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       AppLogger.error('Error updating user status', error: e);
       if (mounted) {
         String errorMessage = 'Error al actualizar el estado del usuario';
-        
+
         // Extraer mensaje más específico del error si está disponible
         if (e.toString().contains('Exception:')) {
           errorMessage = e.toString().replaceFirst('Exception: ', '');
         }
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMessage),
@@ -191,12 +190,12 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         AppLogger.error('Error deleting user', error: e);
         if (mounted) {
           String errorMessage = 'Error al eliminar el usuario';
-          
+
           // Extraer mensaje más específico del error si está disponible
           if (e.toString().contains('Exception:')) {
             errorMessage = e.toString().replaceFirst('Exception: ', '');
           }
-          
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(errorMessage),
@@ -299,6 +298,8 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                             controller: _searchController,
                             onChanged: _onSearchChanged,
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: isDark ? const Color(0xFF092949) : Colors.white,
                               hintText: 'Buscar por nombre o email...',
                               prefixIcon: const Icon(Icons.search),
                               suffixIcon: _hasSearchText
@@ -317,12 +318,12 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                       if (isLandscape)
                         Expanded(child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: _buildBody(userState,isLandscape),
+                          child: _buildBody(userState,isLandscape, isDark),
                         ))
                       else
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: _buildBody(userState,isLandscape),
+                          child: _buildBody(userState,isLandscape, isDark),
                         ),
                     ],
                   ),
@@ -356,7 +357,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       ),
     );
   }
-  Widget _buildBody(UserState state, bool isLandscape){
+  Widget _buildBody(UserState state, bool isLandscape, bool isDark){
 
   if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -390,7 +391,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              state.searchQuery != null 
+              state.searchQuery != null
                   ? 'No se encontraron usuarios con "${state.searchQuery}"'
                   : 'No hay usuarios registrados',
               style: const TextStyle(fontSize: 16, color: Colors.grey),
@@ -408,14 +409,14 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         ),
       );
     }
-  if (isLandscape) {
+    if (isLandscape) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: _dataTable(state)
+            child: _dataTable(state, isDark)
         ),
       ),
     );
@@ -425,15 +426,15 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: ClipRRect( borderRadius: BorderRadius.circular(16),child: _dataTable(state)),
+        child: ClipRRect( borderRadius: BorderRadius.circular(16),child: _dataTable(state, isDark)),
       ),
     );
   }
-  Widget _dataTable(UserState state){
+  Widget _dataTable(UserState state, bool isDark){
     return DataTable(
-      border: const TableBorder(
+      border: TableBorder(
         horizontalInside: BorderSide(
-          color: Color(0xFFF3F4F6),
+          color: isDark ? const Color(0xFF2E4A66) : const Color(0xFFF3F4F6),
         ),
       ),
       dataRowMinHeight: 72,
@@ -463,6 +464,26 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         ),
       ],
       rows: state.users.map((user) {
+        Color bgColor;
+        Color textColor;
+        String label;
+
+        switch (user.isActive) {
+          case true:
+            bgColor = const Color(0xFFDCFCE7);
+            textColor = const Color(0xFF15803D);
+            label = 'Activo';
+            break;
+          case false:
+            bgColor = const Color(0xFFFECACA);
+            textColor = const Color(0xFFFF0006);
+            label = 'Inactivo';
+            break;
+          default:
+            bgColor = const Color(0xFFFEF9C3);
+            textColor = const Color(0xFFA16207);
+            label = 'Pendiente';
+        }
         return DataRow(
           cells: [
             DataCell(
@@ -477,7 +498,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                         user.fullName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600)
+                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: isDark ? Colors.white : null)
                     ),
 
                     const SizedBox(height: 4),
@@ -487,7 +508,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                       user.email,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w400,  decoration: TextDecoration.underline,),
+                      style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w400,  decoration: TextDecoration.underline,color: isDark ? Colors.white : null),
                     ),
 
                     const SizedBox(height: 6),
@@ -497,7 +518,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                       user.createdAt != null
                           ? 'Creado: ${AppDateUtils.formatIsoStringToPeruTime(user.createdAt!)}'
                           : 'Creado: N/A',
-                      style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w400),
+                      style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w400, color: isDark ? Colors.white : null),
                     ),
                   ],
                 ),
@@ -508,13 +529,13 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: user.isActive! ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
+                  color: bgColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  user.isActive! ? 'Activo' : 'Inactivo',
+                  label,
                   style: TextStyle(
-                    color: user.isActive! ? Colors.green : Colors.red,
+                    color: textColor,
                   ),
                 ),
               ),
@@ -525,7 +546,6 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                 children: [
                   IconButton(tooltip: 'Habilitar' ,style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFDCFCE7)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF16A34A),onPressed: (){_toggleUserStatusHabilitado(user);}, icon: const Icon(Icons.check)),
                   IconButton(tooltip: 'Deshabilitar' ,style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xFFE3E3E3)), shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))))),color: const Color(0xFF000000),onPressed: (){_toggleUserStatusDeshabilitado(user);}, icon: const Icon(Icons.close))
-
                   /*IconButton(
                     icon: Icon(
                       user.isActive ? Icons.block : Icons.check_circle,
@@ -550,4 +570,4 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       }).toList(),
     );
   }
-} 
+}

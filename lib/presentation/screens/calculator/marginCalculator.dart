@@ -10,7 +10,7 @@ class MarginProgressBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final status = ref.watch(marginStatusProvider(percent));
-
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final gradient = status.gradientColors.map((c) => Color(c)).toList();
     final percentText = '${(status.percent * 100).toStringAsFixed(1)}%';
     return Column(
@@ -22,12 +22,12 @@ class MarginProgressBar extends ConsumerWidget {
           children: [
             const Text(
               'Margen usado',
-              style: TextStyle(color: Colors.black87),
+              style: TextStyle(fontSize: 15),
             ),
             Text(
               status.label,
               style: TextStyle(
-                color: gradient.first,
+                color: isDark? Colors.white :gradient.first,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -72,8 +72,8 @@ class MarginProgressBar extends ConsumerWidget {
             Expanded(
               child: Text(
                 percentText,
-                style: const TextStyle(
-                  color: Colors.black87,
+                style: TextStyle(
+                  color: isDark? Colors.white : Colors.black87,
                   fontSize: 13,
                 ),
               ),
