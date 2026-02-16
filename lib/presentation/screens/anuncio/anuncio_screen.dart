@@ -170,18 +170,9 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
             AppLogger.info("Noticias tapped");
             context.pushNamed('notice_list');
           },
-          onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
+          onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios, onCenterTap: () { context.goNamed('home'); },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom,
-        ),
-        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); },icon: Icons.trending_up, border: true,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

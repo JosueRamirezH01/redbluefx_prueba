@@ -46,7 +46,7 @@ class MarginProgressBar extends ConsumerWidget {
                   children: [
                     Container(
                       height: 14,
-                      color: Colors.blueGrey.shade800,
+                      color: Colors.blueGrey.shade200,
                     ),
                     TweenAnimationBuilder<double>(
                       tween: Tween(begin: 0, end: status.percent),

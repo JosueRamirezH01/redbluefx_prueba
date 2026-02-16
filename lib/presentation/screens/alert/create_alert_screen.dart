@@ -494,17 +494,9 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             AppLogger.info("Noticias tapped");
             context.pushNamed('notice_list');
           },
-          onAnuncios: () => AppLogger.info("Anuncios tapped"),
+          onAnuncios: () => AppLogger.info("Anuncios tapped"), onCenterTap: () {  context.goNamed('home');},
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom,
-        ),
-        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); }, icon: Icons.trending_up, border: true,),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

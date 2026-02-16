@@ -80,6 +80,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    const double kBottomBarHeight = 65;
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
@@ -111,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               ),
             ),
             Positioned(
-              bottom: MediaQuery.of(context).padding.bottom + 30,
+              bottom: MediaQuery.of(context).padding.bottom + kBottomBarHeight,
               right: MediaQuery.of(context).size.width * 0.04,
               child: CenterFloatingButton(
                 onPressed: () {
@@ -135,21 +136,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             AppLogger.info("Anuncios tapped");
             context.pushNamed('anuncio_list');
           },  selectedTab: BottomTab.home,
+          onCenterTap: () => context.goNamed('home'),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom,
-        ),
-        child: CenterFloatingButton(
-          icon: Icons.trending_up,
-          onPressed: () {
-            AppLogger.info("Home");
-            context.goNamed('home');
-          }, border: true,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
     );
   }
   Widget _buildSearchResultCounter() {

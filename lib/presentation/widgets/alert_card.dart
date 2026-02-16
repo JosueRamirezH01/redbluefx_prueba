@@ -318,7 +318,7 @@ class AlertCard extends ConsumerWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Gráfico desde assets
+              if(alert.imageUrl != null && alert.imageUrl!.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: LayoutBuilder(
@@ -428,7 +428,7 @@ class AlertCard extends ConsumerWidget {
           ),
         ),
         const Spacer(),
-        if ((alert.imageUrl != null && alert.imageUrl!.isNotEmpty) || (alert.content != null && alert.content!.isNotEmpty))
+        if ((alert.imageUrl != null && alert.imageUrl!.isNotEmpty) || (alert.analysis != null && alert.analysis!.isNotEmpty))
         GestureDetector(
           onTap: () {
             onExpandDetailsChange(isDetailsExpanded ? null : index);

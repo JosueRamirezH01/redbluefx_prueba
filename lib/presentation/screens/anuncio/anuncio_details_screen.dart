@@ -60,41 +60,45 @@ class AnuncioDetailScreen extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        if (advert?.imageUrl == null || advert!.imageUrl!.isEmpty) {
-                          return _defaultImage(70);
-                        }
-                        return Image.network(
-                          advert.imageUrl!,
-                          width: 85,
-                          height: 70,
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) {
+                  Expanded(
+                    flex: 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          if (advert?.image == null || advert!.image!.isEmpty) {
                             return _defaultImage(70);
-                          },
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const SizedBox(
-                              width: 65,
-                              height: 60,
-                              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                            );
-                          },
-                        );
-                      },
+                          }
+                          return Image.network(
+                            advert.image!,
+                            width: 85,
+                            height: 70,
+                            fit: BoxFit.fill,
+                            errorBuilder: (context, error, stackTrace) {
+                              return _defaultImage(70);
+                            },
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const SizedBox(
+                                width: 65,
+                                height: 60,
+                                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(width: 30),
-                  Text(
-                    advert.title ,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 17,
-
-                      fontWeight: FontWeight.w700,
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      advert.title ,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ],
@@ -126,17 +130,9 @@ class AnuncioDetailScreen extends ConsumerWidget {
             AppLogger.info("Noticias tapped");
             context.pushNamed('notice_list');
           },
-          onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios,
+          onAnuncios: () => AppLogger.info("Anuncios tapped"), selectedTab: BottomTab.anuncios, onCenterTap: () { context.goNamed('home'); },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom,
-        ),
-        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); },icon: Icons.trending_up, border: true,),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

@@ -3,7 +3,7 @@ import 'margin_status.dart';
 class GetMarginStatusUseCase {
   MarginStatus execute(double percent) {
     // 🟢 SEGURO (ej: 2.17%)
-    if (percent <= 2.17) {
+    if (percent <= 5) {
       return MarginStatus(
         label: 'Seguro',
         percent: percent / 100, // 🔥 importante para la barra
@@ -15,7 +15,7 @@ class GetMarginStatusUseCase {
     }
 
     // 🟡 MODERADO (hasta 7.4%)
-    else if (percent <= 7.4) {
+    else if (percent <= 15) {
       return MarginStatus(
         label: 'Moderado',
         percent: percent / 100,
@@ -27,7 +27,7 @@ class GetMarginStatusUseCase {
     }
 
     // 🟠 ALTO RIESGO (hasta 30%)
-    else if (percent <= 30) {
+    else if (percent <= 35) {
       return MarginStatus(
         label: 'Alto riesgo',
         percent: percent / 100,

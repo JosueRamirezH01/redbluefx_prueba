@@ -1,8 +1,8 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/core/theme/app_theme.dart';
 
 import '../../core/utils/logger.dart';
 import '../providers/auth_provider.dart';
@@ -42,8 +42,8 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final authState = ref.watch(authStateProvider);
     final user = authState.currentUser;
-    //final feedbackState = ref.watch(feedbackProvider);
-    const isLoading = false; //feedbackState.isLoading;
+    final feedbackState = ref.watch(feedbackProvider);
+    final isLoading = feedbackState.isLoading;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -219,16 +219,9 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                             ),
                             borderRadius: BorderRadius.circular(8),
                             boxShadow:  [
-                              if(!isDark)
-                             const BoxShadow(color: Color(0xFFED7053), blurRadius: 16,      // intensidad
-                                  offset: Offset(2, 8) // altura
+                              BoxShadow(color: Theme.of(context).colorBtnProfileFeed, blurRadius: 16,      // intensidad
+                                  offset: const Offset(2, 8) // altura
                               ),
-                              if(isDark)
-                                const BoxShadow(
-                                    color: Color(0xFF673559),
-                                    blurRadius: 16,      // intensidad
-                                    offset: Offset(2, 8) // altura
-                                ),
                             ],
                           ),
                           child: ElevatedButton(
@@ -249,56 +242,92 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                                   email: user!.email.toLowerCase().trim(),
                                   getFeedback: allowContact,
                                 );
-                                if (mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      behavior: SnackBarBehavior.floating,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      backgroundColor: Colors.white,
-                                      content: Stack(
-                                          children: [
-                                            Center(
-                                              child: Column(
+                                if (!mounted) return;
+                                Navigator.of(context).pop();
+                                await Future.delayed(const Duration(milliseconds: 200));
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false, // evita cerrar tocando afuera (opcional)
+                                  barrierColor: Colors.black.withValues(alpha: 0.6), // fondo oscuro
+                                  builder: (context) {
+                                    return Center(
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width * 0.85,
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(24),
+                                          ),
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Container(
-                                                      padding: const EdgeInsets.all(10),
-                                                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFECFDF3)),
-                                                      child: Container(padding: const EdgeInsets.all(6),
-                                                          decoration: const BoxDecoration(shape: BoxShape.circle,
-                                                              color: Color(0xFFD1FADF)),
-                                                          child: const Icon(Icons.check_circle_outline, color: Colors.green))),
-                                                  const SizedBox(width: 12),
-                                                  Text('Recibimos tu Feedback',
-                                                    style: GoogleFonts.inter(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.w600),),
-                                                  Text('Gracias por tu opinion',
-                                                    style: GoogleFonts.inter(color: Colors.grey[600], fontSize: 16),),
+                                                    padding: const EdgeInsets.all(10),
+                                                    decoration: const BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Color(0xFFECFDF3),
+                                                    ),
+                                                    child: Container(
+                                                      padding: const EdgeInsets.all(6),
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: Color(0xFFD1FADF),
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.check_circle_outline,
+                                                        color: Colors.green,
+                                                        size: 32,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 16),
+                                                  Text(
+                                                    'Recibimos tu Feedback',
+                                                    style: GoogleFonts.inter(
+                                                      color: Colors.black87,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  const SizedBox(height: 6),
+                                                  Text(
+                                                    'Gracias por tu opinión',
+                                                    style: GoogleFonts.inter(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 14,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ],
                                               ),
-                                            ),
-                                            Positioned(
-                                              top: -8,
-                                              right: -8,
-                                              child: IconButton(
-                                                icon: const Icon(Icons.close),
-                                                color: const Color(0xFF9CA3AF),
-                                                iconSize: 20,
-                                                splashRadius: 18,
-                                                onPressed: () {
-                                                  ScaffoldMessenger
-                                                      .of(context)
-                                                      .hideCurrentSnackBar();
-                                                },
+
+                                              Positioned(
+                                                top: -6,
+                                                right: -6,
+                                                child: IconButton(
+                                                  icon: const Icon(Icons.close),
+                                                  color: const Color(0xFF9CA3AF),
+                                                  iconSize: 20,
+                                                  splashRadius: 18,
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          ]
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                      duration: const Duration(seconds: 10),
-                                    ),
-                                  );
-                                }
-                                Navigator.of(context).pop();
+                                    );
+                                  },
+                                );
                               }catch (e, stack) {
                                 AppLogger.error('Error al crear feedback', error: e, stackTrace: stack);
                                 if (mounted) {

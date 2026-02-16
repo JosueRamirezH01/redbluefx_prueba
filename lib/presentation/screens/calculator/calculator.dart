@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/core/utils/mirrorEffect.dart';
 import '../../../core/utils/logger.dart';
 import '../../providers/margin_provider.dart';
 import '../../widgets/app_bar.dart';
@@ -255,20 +256,9 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             AppLogger.info("Noticias tapped");
             context.pushNamed('notice_list');
           },
-          onAnuncios: () => AppLogger.info("Anuncios tapped"),
+          onAnuncios: () => AppLogger.info("Anuncios tapped"), onCenterTap: () { context.goNamed('home'); },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom,),
-        child: CenterFloatingButton(onPressed: () {
-          AppLogger.info("Home");
-          context.goNamed('home');
-        },
-          icon: Icons.trending_up, border: true,
-
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -323,12 +313,12 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             hintStyle: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: const Color(0xFF595959),
+                              color: const Color(0xFF595959).withValues(alpha: 0.7),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(
-                                color: Colors.blue.withOpacity(0.25),
+                                color: Colors.blue.withValues(alpha: 0.25),
                                 width: 1,
                               ),
                             ),
@@ -373,9 +363,9 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                 filled: true,
                                 fillColor: _riskFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
                                 hintText: '1%',
-                                hintStyle: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500, color: const   Color(0xFF595959)),
+                                hintStyle: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500, color: const   Color(0xFF595959).withValues(alpha: 0.7)),
                                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(
-                              color: Colors.blue.withOpacity(0.25),
+                              color: Colors.blue.withValues(alpha: 0.25),
                               width: 1,
                             ),
                           ),
@@ -408,7 +398,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  const SizedBox(height: 3),
                                   Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -435,12 +425,12 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                         hintStyle: GoogleFonts.montserrat(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: const Color(0xFF595959),
+                                          color: const Color(0xFF595959).withValues(alpha: 0.7),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                            color: Colors.blue.withOpacity(0.25),
+                                            color: Colors.blue.withValues(alpha: 0.25),
                                             width: 1,
                                           ),
                                         ),
@@ -475,7 +465,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  const SizedBox(height: 3),
                                   Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -501,12 +491,12 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                         hintStyle: GoogleFonts.montserrat(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: const Color(0xFF595959),
+                                          color: const Color(0xFF595959).withValues(alpha: 0.7),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                            color: Colors.blue.withOpacity(0.25),
+                                            color: Colors.blue.withValues(alpha: 0.25),
                                             width: 1,
                                           ),
                                         ),
@@ -562,7 +552,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(child: Text('Tamaño de Posición', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),)),
-                                Expanded(child: Text('\$${calc.positionSize.toStringAsFixed(2)}', style: GoogleFonts.montserrat(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white),))
+                                Expanded(child: Text('\$${calc.positionSize.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white))),
+                                const SizedBox(height: 5),
                               ],
                             ),
                           ),
@@ -575,12 +566,12 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(10),
-                                height: 70,
+                                height: 80,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Unidades/Lotes',style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16)),
+                                    Text('Und./Lotes',style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16)),
                                     Text(calc.units.toStringAsFixed(2),)
                                   ],
                                 ),
@@ -590,13 +581,13 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(8),
-                                height: 70,
+                                height: 80,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Riesgo', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16),),
-                                    Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(2)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205))))
+                                    Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205))))
                                   ],
                                 ),
                               ),
@@ -623,8 +614,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   style: ButtonStyle(backgroundColor: isDark ? const  WidgetStatePropertyAll(Color(0xFF0F172A)) : const  WidgetStatePropertyAll(Colors.white),
                     side: WidgetStatePropertyAll(
                       BorderSide(
-                        color: isDark ? const Color(0xFF005EA3) : const Color(0xFF066BAF), // azul
-                        width: 1.5,
+                        color: isDark ? const Color(0xFF066BAF) : const Color(0xFF005EA3)  , // azul
                       ),
                     ),
                     shape: WidgetStatePropertyAll(
@@ -643,7 +633,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -662,6 +652,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             Container(
               decoration: BoxDecoration(
                 color: isDark ? const Color(0xFF0D1D35) : Colors.white,
+                border: Border.all(color: const Color(0xFF005EA3).withValues(alpha: 0.4) , width: 1.5),
                 borderRadius: BorderRadius.circular(25), // opcional: esquinas redondeadas
               ),
               child: Column(
@@ -711,12 +702,12 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                         hintStyle: GoogleFonts.montserrat(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: const Color(0xFF595959),
+                                          color: const Color(0xFF595959).withValues(alpha: 0.7),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                            color: Colors.blue.withOpacity(0.25),
+                                            color: Colors.blue.withValues(alpha: 0.25),
                                             width: 1,
                                           ),
                                         ),
@@ -749,7 +740,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  const SizedBox(height: 10),
                                   TextFormField(
                                     controller: _stopController,
                                     keyboardType: TextInputType.number,
@@ -764,12 +755,12 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                       hintStyle: GoogleFonts.montserrat(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: const Color(0xFF595959),
+                                        color: const Color(0xFF595959).withValues(alpha: 0.7),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: BorderSide(
-                                          color: Colors.blue.withOpacity(0.25),
+                                          color: Colors.blue.withValues(alpha: 0.25),
                                           width: 1,
                                         ),
                                       ),
@@ -817,11 +808,11 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                   filled: true,
                                   fillColor: _takeFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
                                   hintText: '\$1.095',
-                                  hintStyle: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500, color: const   Color(0xFF595959)),
+                                  hintStyle: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500, color: const   Color(0xFF595959).withValues(alpha: 0.7)),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
-                                    color: Colors.blue.withOpacity(0.25),
+                                    color: Colors.blue.withValues(alpha: 0.25),
                                     width: 1,
                                   ),
                                 ),
@@ -851,60 +842,63 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                     ),
                     child: Column(
                       children: [
-                        Container(
-                          height: 90,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Color(0xFF3DD5B8),
-                                Color(0xFF6EDFCA),
-                                Color(0xFF86E5D3),
-                                Color(0xFF9EEADB),
-                                Color(0xFFB6EFE4),
-                                Color(0xFFCFF5ED),
-                                // 🔁 espejo
-                                Color(0xFFB6EFE4),
-                                Color(0xFF9EEADB),
-                                Color(0xFF86E5D3),
-                                Color(0xFF6EDFCA),
-                                Color(0xFF3DD5B8),
-                              ],
-                              stops: [
-                                0.12,
-                                0.21,
-                                0.26,
-                                0.31,
-                                0.38,
-                                0.50, // centro
-                                0.62,
-                                0.69,
-                                0.74,
-                                0.79,
-                                0.88,
-                              ],
+                        MirrorEffect(
+                          repeat:true,
+                          child: Container(
+                            height: 90,
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFF3DD5B8),
+                                /*  Color(0xFF6EDFCA),
+                                  Color(0xFF86E5D3),
+                                  Color(0xFF9EEADB),
+                                  Color(0xFFB6EFE4),
+                                  Color(0xFFCFF5ED),
+                                  // 🔁 espejo
+                                  Color(0xFFE5FFFA),
+                                  Color(0xFFDAFBF5),
+                                  Color(0xFFCFF7F0),
+                                  Color(0xFFB6F3E8),
+                                  Color(0xFF9EF0E0),*/
+                                ],
+                                stops: [
+                                  0.12,
+                                /*  0.21,
+                                  0.26,
+                                  0.31,
+                                  0.38,
+                                  0.43, // centro
+                                  0.50,
+                                  0.53,
+                                  0.57,
+                                  0.67,
+                                  1.00,*/
+                                ],
+                              ),
                             ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(child: Text('Ratio R:R', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),)),
-                                Expanded(child: Text(
-                                  calc.rrRatio > 0
-                                      ? '1:${calc.rrRatio.toStringAsFixed(2)}'
-                                      : '--',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black87,
-                                  ),
-                                ),)
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(child: Text('Ratio R:R', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),)),
+                                  Expanded(child: Text(
+                                    calc.rrRatio > 0
+                                        ? '1:${calc.rrRatio.toStringAsFixed(0)}'
+                                        : '--',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black87,
+                                    ),
+                                  ),)
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -930,7 +924,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                     Expanded(
                                       child: Text(
                                         calc.profitUsd > 0
-                                            ? '+\$${calc.profitUsd.toStringAsFixed(2)}'
+                                            ? '+\$${calc.profitUsd.toStringAsFixed(0)}'
                                             : '--',
                                         style: GoogleFonts.montserrat(
                                           fontSize: 20,
@@ -939,7 +933,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                         ),
                                       ),
                                     ),
-                                    Expanded(child: Container(padding: const EdgeInsets.all(2) ,decoration: const BoxDecoration(color: Color(0xFFB3FFE6), borderRadius: BorderRadius.all(Radius.circular(10))),child: Center(child: Text('+${calc.profitPercent.toStringAsFixed(2)}% Sobre Capital', style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black87),)))),
+                                    Expanded(child: Container(padding: const EdgeInsets.all(2) ,decoration: const BoxDecoration(color: Color(0xFFB3FFE6), borderRadius: BorderRadius.all(Radius.circular(10))),child: Center(child: Text('+${calc.profitPercent.toStringAsFixed(0)}% Sobre Capital', style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black87),)))),
 
                                   ],
                                 )
@@ -953,7 +947,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(10),
-                                height: 70,
+                                height: 80,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -968,13 +962,13 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(8),
-                                height: 70,
+                                height: 80,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Riesgo', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16),),
-                                    Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(2)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205))))
+                                    Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205))))
                                   ],
                                 ),
                               ),
@@ -1002,8 +996,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   style: ButtonStyle(backgroundColor: isDark ? const  WidgetStatePropertyAll(Color(0xFF0F172A)) : const  WidgetStatePropertyAll(Colors.white),
                     side: WidgetStatePropertyAll(
                       BorderSide(
-                        color: isDark ? const Color(0xFF005EA3) : const Color(0xFF066BAF), // azul
-                        width: 1.5,
+                        color: isDark ? const Color(0xFF066BAF) : const Color(0xFF005EA3),// azul
                       ),
                     ),
                     shape: WidgetStatePropertyAll(
@@ -1022,7 +1015,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
           ],
         ),
       ),

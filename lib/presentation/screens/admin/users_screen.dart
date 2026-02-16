@@ -343,17 +343,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
             onAnuncios: () {
               AppLogger.info("Anuncios tapped");
               context.pushNamed('anuncio_list');
-            }, selectedTab: null,
+            }, selectedTab: null, onCenterTap: () { context.goNamed('home'); },
           ),
         ),
-        floatingActionButton: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom,
-          ),
-          child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-          context.goNamed('home'); },icon: Icons.trending_up, border: true,),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

@@ -195,17 +195,9 @@ class NoticeDetailScreen extends ConsumerWidget {
           onAnuncios: () {
             AppLogger.info("Anuncios tapped");
             context.pushNamed('anuncio_list');
-          }, selectedTab: BottomTab.noticias,
+          }, selectedTab: BottomTab.noticias, onCenterTap: () { context.goNamed('home');},
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom,
-        ),
-        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); },icon: Icons.trending_up, border: true,),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
   String _formatTextWithLineBreaks(String text) {

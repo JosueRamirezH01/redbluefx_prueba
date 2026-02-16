@@ -458,7 +458,7 @@ extension AppThemeColors on ThemeData {
       : Colors.white;
   Color get borderCardPreviewColors => brightness == Brightness.dark
       ? const Color(0xFF066BAF)
-      : const Color(0xFFFF0006);
+      : Colors.transparent;
   Color get textCardPreviewColors => brightness == Brightness.dark
       ? Colors.white
       :const Color(0xFF101010);
@@ -529,4 +529,10 @@ extension AppThemeColors on ThemeData {
   Color get meesDialogProfile => brightness == Brightness.dark
       ?  const Color(0xFF0D1D35)
       : const Color(0xFFFFFFFF);
+  Color get colorBtnProfile => brightness == Brightness.dark
+      ?  const Color(0xFF721723)
+      : const Color(0xFFF59194);
+  Color get colorBtnProfileFeed => brightness == Brightness.dark
+      ?  const Color(0xFF673559)
+      : const Color(0xFFED7053);
 }

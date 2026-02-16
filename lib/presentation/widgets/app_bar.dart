@@ -134,7 +134,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 12
                   ),
                 ),
@@ -153,7 +153,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                 color: const Color(0xFF19283F),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.3),
+                  color: Colors.white.withValues(alpha: 0.3),
                 ),
               ),
               child: IconButton(
@@ -179,7 +179,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                 color: const Color(0xFF19283F),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.3),
+                  color: Colors.white.withValues(alpha: 0.3),
                 ),
               ),
               child: IconButton(
@@ -206,10 +206,10 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
             ),
           ),
           child: IconButton(
@@ -237,11 +237,11 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: const Color(0xFF005EA3).withOpacity(0.4),
+              color: const Color(0xFF005EA3).withValues(alpha: 0.4),
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF005EA3).withOpacity(0.4),
+                color: const Color(0xFF005EA3).withValues(alpha: 0.4),
                 blurRadius: 20,
                 spreadRadius: 6,
                 offset: const Offset(0, 4),
@@ -303,14 +303,14 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -346,7 +346,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
                   end: Alignment.bottomRight,
                   colors: [
                     Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColor.withOpacity(0.7),
+                    Theme.of(context).primaryColor.withValues(alpha: 0.7),
                   ],
                 ),
               ),
@@ -427,7 +427,7 @@ class _SearchHistoryOverlay extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withValues(alpha: 0.15),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -474,7 +474,7 @@ class _SearchHistoryOverlay extends ConsumerWidget {
                         border: Border(
                           top: BorderSide(
                             color: isDark
-                                ? Colors.white.withOpacity(0.1)
+                                ? Colors.white.withValues(alpha: 0.1)
                                 : Colors.grey.shade200,
                             width: 1,
                           ),

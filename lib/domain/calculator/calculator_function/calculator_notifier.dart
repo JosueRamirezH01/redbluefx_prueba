@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'calculator_state.dart';
-import 'dart:math';
 
 class CalculatorNotifier extends StateNotifier<CalculatorState> {
   CalculatorNotifier() : super(const CalculatorState());
@@ -49,7 +48,7 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
 
     // 🚨 Stop demasiado cercano
     bool showTightStopWarning = false;
-    const double minStopDistancePercent = 0.3;
+    //const double minStopDistancePercent = 0.3;
 
     // ✅ PASO 1: Riesgo en dólares (SOLO capital + riesgo %)
     if (capital > 0 && riskPercent > 0) {
@@ -132,13 +131,7 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
     _updateRiskReward(risk, reward, rrRatio, profitUsd, profitPercent);
   }
 
-  void _updateRiskReward(
-      double risk,
-      double reward,
-      double rrRatio,
-      double profitUsd,
-      double profitPercent,
-      ) {
+  void _updateRiskReward(double risk, double reward, double rrRatio, double profitUsd, double profitPercent) {
     state = state.copyWith(
       risk: risk,
       reward: reward,

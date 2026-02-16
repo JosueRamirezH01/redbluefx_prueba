@@ -617,7 +617,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         
                                   },
                                 ),
-                                const Divider(color: Color(0xFFcccccc),thickness: 1, endIndent: 20, indent: 20),
+                                Divider(color: const Color(0xFFcccccc).withValues(alpha: 0.2),thickness: 0.5, endIndent: 20, indent: 20),
                                 _buildMenuItem(
                                   icon: Icons.delete_outline,
                                   title: 'Eliminar cuenta',
@@ -636,7 +636,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                             color: Theme.of(context).colorDividerCardNotice,
                                           ),
                                         ),
-
                                         title: Column(
                                           children: [
                                             Row(
@@ -927,18 +926,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ],
                         ),
                         boxShadow: [
-                          if(!isDark)
-                            const BoxShadow(
-                                color: Color(0xFFFF1B21),
-                                blurRadius: 10,      // intensidad
-                                offset: Offset(0, 6) // altura
+                            BoxShadow(
+                                color: Theme.of(context).colorBtnProfile,
+                                blurRadius: 16,      // intensidad
+                                offset: const Offset(0, 6) // altura
                             ),
-
-                          const BoxShadow(
-                              color: Color(0xFF721723),
-                              blurRadius: 16,      // intensidad
-                              offset: Offset(0, 6) // altura
-                          ),
                         ],
                         borderRadius: BorderRadius.circular(8),
                       ),

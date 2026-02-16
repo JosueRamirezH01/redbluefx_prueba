@@ -149,17 +149,9 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
           onAnuncios: () {
             AppLogger.info("Anuncios tapped");
             context.pushNamed('anuncio_list');
-          }, selectedTab: BottomTab.noticias,
+          }, selectedTab: BottomTab.noticias, onCenterTap: () { context.goNamed('home'); },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom,
-        ),
-        child: CenterFloatingButton(onPressed: () { AppLogger.info("Home");
-        context.goNamed('home'); },icon: Icons.trending_up, border: true,),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -185,11 +177,11 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
           Color textColor = Colors.white70;
 
           if (isSelected) {
-            backgroundColor = isForex ? AppColors.selectedColor : AppColors.selectedColor;
+            backgroundColor = isForex ? AppColors.forexColor : AppColors.selectedColor;
             borderColor = backgroundColor;
             textColor = Colors.white;
           } else if (isForexHighlighted) {
-            backgroundColor = AppColors.forexColor;
+            backgroundColor = Colors.transparent;///AppColors.forexColor;
             borderColor = AppColors.forexColor;
           }
           return GestureDetector(

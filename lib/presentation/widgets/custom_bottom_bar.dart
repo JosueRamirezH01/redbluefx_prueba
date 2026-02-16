@@ -3,15 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_theme.dart';
+import 'center_button.dart';
 
 class CustomBottomBar extends ConsumerWidget {
   final VoidCallback onNoticias;
   final VoidCallback onAnuncios;
   final BottomTab? selectedTab;
+  final VoidCallback onCenterTap;
+
   const CustomBottomBar({
     super.key,
     required this.onNoticias,
     required this.onAnuncios,
+    required this.onCenterTap,
     this.selectedTab,
   });
 
@@ -23,6 +27,8 @@ class CustomBottomBar extends ConsumerWidget {
     return SizedBox(
       height: 65 + bottomPadding,
       child: Stack(
+        alignment: Alignment.topCenter,
+        clipBehavior: Clip.none,
         children: [
           CustomPaint(
             size: Size(MediaQuery.of(context).size.width, 65 + bottomPadding),
@@ -38,7 +44,7 @@ class CustomBottomBar extends ConsumerWidget {
                 onNoticias,
                 context,
               ),
-              const SizedBox(width: 80),
+              const SizedBox(width: 80,),
               _item(
                 Icons.campaign_outlined,
                 "Anuncios",
@@ -47,6 +53,14 @@ class CustomBottomBar extends ConsumerWidget {
                 context,
               ),
             ],
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * -0.047,
+            child: CenterFloatingButton(
+              icon: Icons.trending_up,
+              border: true,
+              onPressed: onCenterTap,
+            ),
           ),
         ],
       ),
@@ -92,7 +106,7 @@ class _BottomBarPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     const double radius = 10; // <-- Radio de esquinas superiores
-    const double curveHeight = -40; // <-- Ajusta la altura de la curva
+    const double curveHeight = -35; // <-- Ajusta la altura de la curva
 
     Path path = Path();
 
