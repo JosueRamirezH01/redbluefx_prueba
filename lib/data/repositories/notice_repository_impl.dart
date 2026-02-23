@@ -34,7 +34,7 @@ class NoticeRepositoryImpl implements NoticeRepository {
       if (search != null && search.isNotEmpty) {
         notices = notices.where((notices) =>
         notices.title.toLowerCase().contains(search.toLowerCase()) ||
-            notices.content.toLowerCase().contains(search.toLowerCase())
+            notices.content!.toLowerCase().contains(search.toLowerCase())
         ).toList();
       }
       AppLogger.debug('🔄 NoticeRepositoryImpl getNotice - received ${data.length} notice');

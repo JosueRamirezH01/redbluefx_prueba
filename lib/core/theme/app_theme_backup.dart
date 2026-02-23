@@ -71,6 +71,13 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
+  static TextStyle get titleLargeDark => GoogleFonts.montserrat(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.5,
+    color: Colors.white,
+  );
+
   static TextStyle get titleMedium => GoogleFonts.montserrat(
     fontSize: 16,
     fontWeight: FontWeight.w700,
@@ -96,6 +103,11 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.normal,
     color: AppColors.textPrimary,
+  );
+  static TextStyle get bodyMediumDark => GoogleFonts.montserrat(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: Colors.white,
   );
 
   static TextStyle get bodySmall => GoogleFonts.montserrat(

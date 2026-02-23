@@ -23,15 +23,15 @@ class CustomBottomBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final curvaColor = Theme.of(context).brightness == Brightness.dark ? AppColors.basicBack : AppColors.basic;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
-
+    final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: 65 + bottomPadding,
+      height: size.height * 0.07+ bottomPadding,
       child: Stack(
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
         children: [
           CustomPaint(
-            size: Size(MediaQuery.of(context).size.width, 65 + bottomPadding),
+            size: Size(MediaQuery.of(context).size.width, size.height * 0.07 + bottomPadding),
             painter: _BottomBarPainter(curvaColor),
           ),
           Row(
@@ -44,7 +44,7 @@ class CustomBottomBar extends ConsumerWidget {
                 onNoticias,
                 context,
               ),
-              const SizedBox(width: 80,),
+              SizedBox(width: size.width * 0.08,),
               _item(
                 Icons.campaign_outlined,
                 "Anuncios",

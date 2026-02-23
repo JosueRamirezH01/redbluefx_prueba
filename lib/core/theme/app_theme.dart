@@ -143,7 +143,7 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(28),
+            bottom: Radius.circular(24),
           ),
         ),
         backgroundColor: const Color(0xFF0D1D35),
@@ -307,7 +307,7 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(32),
+            bottom: Radius.circular(24),
           ),
         ),
         backgroundColor: const Color(0xFF0D1D35),
@@ -535,4 +535,7 @@ extension AppThemeColors on ThemeData {
   Color get colorBtnProfileFeed => brightness == Brightness.dark
       ?  const Color(0xFF673559)
       : const Color(0xFFED7053);
+  Color get colorBarraMarginCalculator => brightness == Brightness.dark
+      ?  const Color(0xFF294462)
+      : const Color(0xFFFFFFFF);
 }

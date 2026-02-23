@@ -11,8 +11,8 @@ class Notice with _$Notice {
     required String title,
     required NoticeCategory category,
     required DateTime publishedAt,
-    required String content,
-    required String newsUrl,
+    String? content,
+    String? newsUrl,
     String? image,
     @Default('es') String language,
 

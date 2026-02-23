@@ -27,7 +27,6 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
   Future<void> _login() async {
     if (_isLoading) return;
     setState(() => _isLoading = true);
-
     try {
       final data = await LoginStorage.getCredentials();
 
@@ -38,11 +37,7 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
 
         AppLogger.info('🔑 Formulario válido, intentando autenticación...');
 
-        await ref.read(authStateProvider.notifier).login(
-          email,
-          password,
-          rememberMe: rememberMe,
-        );
+        await ref.read(authStateProvider.notifier).login(email, password, rememberMe: rememberMe,);
 
         if (!mounted) return;
 
@@ -52,7 +47,6 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
         if (!rememberMe) {
           await LoginStorage.saveCredentials(email: email, password: password);
         }
-
         context.go('/home');
       } else {
         if (!mounted) return;
@@ -97,9 +91,9 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
             Align(alignment: Alignment.topLeft, child: cabecera2(size)),
             Positioned(bottom: -size.height * 0.05 , child: imageInferior()),
             Align(alignment: Alignment.topCenter, child: cabecera1(size)),
-            Align(alignment: Alignment.topCenter, child: logo(),),
+            Align(alignment: Alignment.topCenter, child: logo()),
             iconTrading(size),
-            Positioned(top: size.height * 0.57, left: 0, right: 0, child: contenido(),),
+            Positioned(top: size.height * 0.57, left: 0, right: 0, child: contenido()),
           ],
         ),
       ),

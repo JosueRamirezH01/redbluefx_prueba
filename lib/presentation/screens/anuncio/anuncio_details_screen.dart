@@ -6,7 +6,6 @@ import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/utils/date_utils.dart';
-import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import 'package:collection/collection.dart';
 class AnuncioDetailScreen extends ConsumerWidget {
@@ -21,7 +20,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final advertState = ref.watch(advertsProvider);
     final publicState = ref.watch(advertsProviderPublic);
-
+    final screenWidth = MediaQuery.of(context).size.width;
     var advert = advertState.adverts.firstWhereOrNull((a) => a.id == advertId);
     advert ??= publicState.adverts.firstWhereOrNull((a) => a.id == advertId);
 
@@ -66,25 +65,44 @@ class AnuncioDetailScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(12),
                       child: LayoutBuilder(
                         builder: (context, constraints) {
+                          final imageSize = screenWidth * 0.3;
+                          final finalSize = imageSize.clamp(100.0, 120.0);
                           if (advert?.image == null || advert!.image!.isEmpty) {
                             return _defaultImage(70);
                           }
-                          return Image.network(
-                            advert.image!,
-                            width: 85,
-                            height: 70,
-                            fit: BoxFit.fill,
-                            errorBuilder: (context, error, stackTrace) {
-                              return _defaultImage(70);
-                            },
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return const SizedBox(
-                                width: 65,
-                                height: 60,
-                                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                          return GestureDetector(
+                            onTap: () {
+                              _showImagePreview(
+                                context,
+                                Image.network(advert!.image!, fit: BoxFit.contain),
                               );
                             },
+                            child: Hero(
+                              tag: 'alert-image-$advertId',
+                              child: Image.network(
+                                advert.image!,
+                                width: finalSize,
+                                height: finalSize,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) return child;
+                                  return Container(
+                                    width: finalSize,
+                                    height: finalSize,
+                                    alignment: Alignment.center,
+                                    child: CircularProgressIndicator(
+                                      value: progress.expectedTotalBytes != null
+                                          ? progress.cumulativeBytesLoaded /
+                                          progress.expectedTotalBytes!
+                                          : null,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  return _defaultImage(70);
+                                },
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -135,7 +153,27 @@ class AnuncioDetailScreen extends ConsumerWidget {
       ),
     );
   }
-
+  void _showImagePreview(BuildContext context, Widget imageWidget) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
+      builder: (_) {
+        return GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Center(
+            child: Hero(
+              tag: 'alert-image',
+              child: InteractiveViewer(
+                minScale: 0.8,
+                maxScale: 4,
+                child: imageWidget,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   Widget _defaultImage(double size) {
     return Container(

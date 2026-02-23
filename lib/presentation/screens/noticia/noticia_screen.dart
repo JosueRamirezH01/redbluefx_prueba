@@ -157,7 +157,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
   Widget _buildFilterNoticias() {
     return SizedBox(
-      height: 42,
+      height:  MediaQuery.of(context).size.height * 0.045,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -180,6 +180,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
             backgroundColor = isForex ? AppColors.forexColor : AppColors.selectedColor;
             borderColor = backgroundColor;
             textColor = Colors.white;
+
           } else if (isForexHighlighted) {
             backgroundColor = Colors.transparent;///AppColors.forexColor;
             borderColor = AppColors.forexColor;
@@ -203,8 +204,8 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
               child: Text(
                 label,
                 style: GoogleFonts.montserrat(
-                  fontSize: label == 'Forex Factory' ?  17 : 14 ,
-                  fontWeight: label == 'Forex Factory' ?  FontWeight.w600 : FontWeight.w500,
+                  fontSize: 14 ,
+                  fontWeight: isSelected ?  FontWeight.w600 : FontWeight.w500,
                   color: textColor,
                 ),
               ),

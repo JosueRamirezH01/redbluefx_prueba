@@ -39,13 +39,13 @@ class AdvertsRepositoryImpl implements AdvertRepository {
     }
   }
   Exception _handleError(dynamic error) {
-    AppLogger.error('Error en AlertRepositoryImpl', error: error);
+    AppLogger.error('Error en AdvertRepositoryImpl', error: error);
 
     if (error is DioException) {
       final response = error.response;
       if (response != null && response.data != null) {
         final message = response.data['message'] as String?;
-        return Exception(message ?? 'Error al obtener las alertas');
+        return Exception(message ?? 'Error al obtener las advert');
       }
       return Exception('Error de conexión: ${error.message}');
     }
@@ -55,52 +55,6 @@ class AdvertsRepositoryImpl implements AdvertRepository {
     }
 
     return Exception('Error inesperado: $error');
-  }
-
-  @override
-  Future<List<Advert>> getAdverts({int page = 1, int limit = 20, String? search}) async {
-    try {
-
-      final queryParams = {
-        'page': page.toString(),
-        'limit': limit.toString(),
-        if (search != null && search.isNotEmpty) 'search': search,
-      };
-
-      AppLogger.debug(
-          '🔄 AdvertRepositoryImpl getAlerts - queryParams: $queryParams');
-
-      final response = await _dio.get(
-          ApiRoutes.adverts, queryParameters: queryParams);
-
-      if (response.data == null) {
-        throw Exception('No se recibieron datos del servidor');
-      }
-
-      final List<dynamic> data = response.data['adverts'] as List<dynamic>;
-      var adverts = data.map((json) => Advert.fromJson(json)).toList();
-     /* if (search != null && search.isNotEmpty) {
-        alerts = alerts.where((alert) =>
-            alert.pair.toLowerCase().contains(search.toLowerCase())
-          *//* || alert.content!.toLowerCase().contains(search.toLowerCase())*//*
-        ).toList();
-      }*/
-      AppLogger.debug(
-          '🔄 AdvertRepositoryImpl getAlerts - received ${data.length} advert');
-      if (data.isNotEmpty) {
-        AppLogger.debug(
-            '🔄 AdvertRepositoryImpl getAlerts - first alert type: ${data[0]['type']}');
-      }
-
-      return adverts;
-    } catch (e, stack) {
-      AppLogger.error(
-        'Error en getAdvert',
-        error: e,
-        stackTrace: stack,
-      );
-      throw _handleError(e);
-    }
   }
 
   @override
@@ -128,7 +82,7 @@ class AdvertsRepositoryImpl implements AdvertRepository {
           '🔄 AdvertRepositoryImpl getAdverts - received ${data.length} advert');
       if (data.isNotEmpty) {
         AppLogger.debug(
-            '🔄 AdvertRepositoryImpl getAdverts - first alert type: ${data[0]['type']}');
+            '🔄 AdvertRepositoryImpl getAdverts - first advert type: ${data[0]['type']}');
       }
       return adverts;
     } catch (e, stack) {
@@ -188,6 +142,28 @@ class AdvertsRepositoryImpl implements AdvertRepository {
     }
   }
 
+  @override
+  Future<Advert> updateAdvert(String id, {String? title, String? content, String? image, bool? isFeatured}) async {
+    try {
+      final response = await _dio.put(
+        ApiRoutes.advert(id),
+        data: {
+          if (title != null) 'title': title,
+          if (content != null) 'content': content,
+          if (image != null) 'image': image,
+          if (isFeatured != null) 'isFeatured': isFeatured,
+        },
+      );
+
+      if (response.data == null) {
+        throw Exception('No se recibieron datos del servidor');
+      }
+
+      return Advert.fromJson(response.data['advert']);
+    } catch (e) {
+      throw _handleError(e);
+    }
+  }
 
 
 

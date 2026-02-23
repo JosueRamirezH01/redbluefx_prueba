@@ -25,8 +25,14 @@ class SharedAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(90);
+  Size get preferredSize {
+    final double height = WidgetsBinding.instance.platformDispatcher.views.first.physicalSize.width /
+        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio >= 600
+        ? 100
+        : 90;
 
+    return Size.fromHeight(height);
+  }
   @override
   ConsumerState<SharedAppBar> createState() => _SharedAppBarState();
 }
@@ -89,9 +95,12 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
     final isSearching = ref.watch(isSearchingProvider);
     final isRegister = authState.currentUser?.role == 'admin' || authState.currentUser?.role == 'publisher';
     final size = MediaQuery.of(context).size;
+    final width = MediaQuery.of(context).size.width;
+    final isTablet = width >= 600;
+    final appBarHeight = isTablet ? 100.0 : 90.0;
     return AppBar(
       key: _appBarKey,
-      toolbarHeight: size.height * 0.9,
+      toolbarHeight: appBarHeight,
       automaticallyImplyLeading: false,
       titleSpacing: 10,
       title: isSearching
@@ -103,10 +112,9 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
               context.go('/home');
             },
             child:  SizedBox(
-              width: 80,
+              width: size.width * 0.2,
               height: size.height * 0.1,
               child: const CircleAvatar(
-                radius: 45,
                 backgroundColor: Colors.transparent,
                 backgroundImage: AssetImage('assets/images/Container.png',),
               ),

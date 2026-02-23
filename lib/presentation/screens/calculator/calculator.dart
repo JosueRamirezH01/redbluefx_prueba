@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
@@ -7,9 +8,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/core/utils/mirrorEffect.dart';
 import '../../../core/utils/logger.dart';
+import '../../../domain/calculator/calculator_function/calculator_state.dart';
 import '../../providers/margin_provider.dart';
 import '../../widgets/app_bar.dart';
-import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import 'marginCalculator.dart';
 
@@ -41,6 +42,10 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
   bool _entryFocused = false;
   bool _stopFocused = false;
   bool _takeFocused = false;
+
+  double _lastRr = 0;
+  bool _showMirror = false;
+  Timer? _mirrorTimer;
 
   @override
   void initState() {
@@ -79,7 +84,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
     _stopController.dispose();
     _capitalController.dispose();
     _riskController.dispose();
-
+    _mirrorTimer?.cancel();
     super.dispose();
   }
 
@@ -309,7 +314,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: _capitalFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
-                            hintText: '\$1.0850',
+                            hintText: 'ej:\$1.0850',
                             hintStyle: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -362,7 +367,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                               decoration:  InputDecoration(
                                 filled: true,
                                 fillColor: _riskFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
-                                hintText: '1%',
+                                hintText: 'ej:1%',
                                 hintStyle: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500, color: const   Color(0xFF595959).withValues(alpha: 0.7)),
                                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(
                               color: Colors.blue.withValues(alpha: 0.25),
@@ -421,7 +426,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: _entryFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
-                                        hintText: '\$1.0850',
+                                        hintText: 'ej:\$1.0850',
                                         hintStyle: GoogleFonts.montserrat(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
@@ -487,7 +492,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: _stopFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
-                                        hintText: '\$1.0800',
+                                        hintText: 'ej:\$1.0800',
                                         hintStyle: GoogleFonts.montserrat(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
@@ -537,7 +542,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                         Text('Resultados', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600)),
                         const SizedBox(height: 12),
                         Container(
-                          height: 90,
+                          height: MediaQuery.of(context).size.height * 0.11,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -566,7 +571,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(10),
-                                height: 80,
+                                height: MediaQuery.of(context).size.height * 0.09,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -581,7 +586,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(8),
-                                height: 80,
+                                height: MediaQuery.of(context).size.height * 0.09,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -603,7 +608,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             const SizedBox(height: 12),
             Center(
               child: SizedBox(
-                width: 140,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: ElevatedButton(onPressed: (){
                     _capitalController.clear();
                     _riskController.clear();
@@ -626,7 +631,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   child:  Row(
                     children: [
                       Text('Limpiar', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500, fontSize: 15, color: isDark ? Colors.white : const Color(0xFF0D1D35)),),
-                      const SizedBox(width: 8,),
+                      const Spacer(),
                       Icon(Icons.sync_outlined,color: isDark ? Colors.white : const Color(0xFF0D1D35),)
                     ],
                   ),
@@ -642,6 +647,29 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
 
   Widget _buildRiskForm(bool isDark) {
     final calc = ref.watch(calculatorProvider);
+
+    final currentRr = calc.rrRatio;
+
+    if (currentRr > 0 && currentRr != _lastRr) {
+      _lastRr = currentRr;
+
+      _mirrorTimer?.cancel();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          _showMirror = true;
+        });
+
+        _mirrorTimer = Timer(const Duration(seconds: 4), () {
+          if (mounted) {
+            setState(() {
+              _showMirror = false;
+            });
+          }
+        });
+      });
+    }
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Form(
@@ -698,7 +726,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: _entryFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
-                                        hintText: '\$1.0850',
+                                        hintText: 'ej:\$1.0850',
                                         hintStyle: GoogleFonts.montserrat(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
@@ -751,7 +779,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: _stopFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
-                                      hintText: '\$1.0800',
+                                      hintText: 'ej:\$1.0800',
                                       hintStyle: GoogleFonts.montserrat(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -807,7 +835,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                               decoration:  InputDecoration(
                                   filled: true,
                                   fillColor: _takeFocused ? (isDark ? const Color(0xFF0D1D35) : const Color(0xFFFFFFFF)) : (isDark ? const Color(0xFF1A2E45) : const Color(0xFFFFFFFF)),
-                                  hintText: '\$1.095',
+                                  hintText: 'ej:\$1.095',
                                   hintStyle: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500, color: const   Color(0xFF595959).withValues(alpha: 0.7)),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -842,69 +870,13 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                     ),
                     child: Column(
                       children: [
-                        MirrorEffect(
+                        _showMirror ? MirrorEffect(
                           repeat:true,
-                          child: Container(
-                            height: 90,
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color(0xFF3DD5B8),
-                                /*  Color(0xFF6EDFCA),
-                                  Color(0xFF86E5D3),
-                                  Color(0xFF9EEADB),
-                                  Color(0xFFB6EFE4),
-                                  Color(0xFFCFF5ED),
-                                  // 🔁 espejo
-                                  Color(0xFFE5FFFA),
-                                  Color(0xFFDAFBF5),
-                                  Color(0xFFCFF7F0),
-                                  Color(0xFFB6F3E8),
-                                  Color(0xFF9EF0E0),*/
-                                ],
-                                stops: [
-                                  0.12,
-                                /*  0.21,
-                                  0.26,
-                                  0.31,
-                                  0.38,
-                                  0.43, // centro
-                                  0.50,
-                                  0.53,
-                                  0.57,
-                                  0.67,
-                                  1.00,*/
-                                ],
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(child: Text('Ratio R:R', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),)),
-                                  Expanded(child: Text(
-                                    calc.rrRatio > 0
-                                        ? '1:${calc.rrRatio.toStringAsFixed(0)}'
-                                        : '--',
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
-                                    ),
-                                  ),)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                          child: _ratioCard(calc),
+                        ) :   _ratioCard(calc),
                         const SizedBox(height: 12),
                         Container(
-                          height: 90,
+                          height: MediaQuery.of(context).size.height * 0.11,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -947,7 +919,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(10),
-                                height: 80,
+                                height: MediaQuery.of(context).size.height * 0.09,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -962,7 +934,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(8),
-                                height: 80,
+                                height: MediaQuery.of(context).size.height * 0.09,
                                 decoration:  BoxDecoration(border: Border.all(color: const Color(0xFF2E4A66)), borderRadius: const BorderRadius.all(Radius.circular(12))),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -984,7 +956,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             const SizedBox(height: 12),
             Center(
               child: SizedBox(
-                width: 140,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: ElevatedButton(onPressed: (){
                   _capitalController.clear();
                   _riskController.clear();
@@ -1008,7 +980,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   child:  Row(
                     children: [
                       Text('Limpiar', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500, fontSize: 15, color: isDark ? Colors.white : const Color(0xFF0D1D35)),),
-                      const SizedBox(width: 8,),
+                      const Spacer(),
                       Icon(Icons.sync_outlined,color: isDark ? Colors.white : const Color(0xFF0D1D35),)
                     ],
                   ),
@@ -1022,6 +994,43 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
     );
   }
 
-
+  Widget _ratioCard(CalculatorState calc) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.11,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF3DD5B8),
+          ],
+          stops: [
+            0.12,
+          ],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: Text('Ratio R:R', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),)),
+            Expanded(child: Text(
+              calc.rrRatio > 0
+                  ? '1:${calc.rrRatio.toStringAsFixed(0)}'
+                  : '--',
+              style: GoogleFonts.montserrat(
+                fontSize: 26,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),)
+          ],
+        ),
+      ),
+    );
+  }
 
 }

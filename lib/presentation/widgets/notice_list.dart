@@ -18,6 +18,7 @@ class _NoticeListState extends ConsumerState<NoticeList> {
   @override
   Widget build(BuildContext context) {
     final noticeState = ref.watch(noticeProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     if (noticeState.isLoading && noticeState.notices.isEmpty) {
       return const Center(
@@ -69,12 +70,12 @@ class _NoticeListState extends ConsumerState<NoticeList> {
               const SizedBox(height: 16),
               Text(
                   'No se encontraron noticias',
-                  style: AppTextStyles.titleLarge
+                  style: isDark ?  AppTextStyles.titleLargeDark  : AppTextStyles.titleLarge
               ),
               const SizedBox(height: 12),
               Text(
                   'Intenta con otra categoria',
-                  style: AppTextStyles.bodyMedium
+                  style: isDark ? AppTextStyles.bodyMediumDark : AppTextStyles.bodyMedium
               ),
             ],
           ),
@@ -83,7 +84,7 @@ class _NoticeListState extends ConsumerState<NoticeList> {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.only(bottom: 12, right: 12, left: 12, top: 16),
       itemCount: noticeState.notices.length,
       itemBuilder: (context, index) {
         final notice = noticeState.notices[index];

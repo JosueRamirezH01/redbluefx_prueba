@@ -18,8 +18,7 @@ class MirrorEffect extends StatefulWidget {
   State<MirrorEffect> createState() => _MirrorEffectState();
 }
 
-class _MirrorEffectState extends State<MirrorEffect>
-    with SingleTickerProviderStateMixin {
+class _MirrorEffectState extends State<MirrorEffect> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
@@ -58,9 +57,9 @@ class _MirrorEffectState extends State<MirrorEffect>
                         end: Alignment(-0.5 + (_controller.value * 3), 1),
                         colors: [
                           Colors.white.withValues(alpha: 0.1),
-                          Colors.white.withValues(alpha: 0.1),
+                          Colors.white.withValues(alpha: 0.4),
                           Colors.white.withValues(alpha: 0.7),
-                          Colors.white.withValues(alpha: 0.1),
+                          Colors.white.withValues(alpha: 0.4),
                           Colors.white.withValues(alpha: 0.1),
                         ],
                         stops: const [0.25,0.35, 0.5, 0.65,0.85],

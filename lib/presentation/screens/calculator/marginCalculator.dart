@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:redbluefx_mobile/core/theme/app_theme.dart';
 import '../../providers/margin_provider.dart';
 
 class MarginProgressBar extends ConsumerWidget {
@@ -20,16 +22,13 @@ class MarginProgressBar extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Margen usado',
-              style: TextStyle(fontSize: 15),
+              style: GoogleFonts.montserrat(fontSize: 14),
             ),
             Text(
               status.label,
-              style: TextStyle(
-                color: isDark? Colors.white :gradient.first,
-                fontWeight: FontWeight.w600,
-              ),
+              style: GoogleFonts.montserrat(color: isDark? Colors.white :gradient.first,fontWeight: FontWeight.w600, )
             ),
           ],
         ),
@@ -46,7 +45,7 @@ class MarginProgressBar extends ConsumerWidget {
                   children: [
                     Container(
                       height: 14,
-                      color: Colors.blueGrey.shade200,
+                      color: Theme.of(context).colorBarraMarginCalculator,
                     ),
                     TweenAnimationBuilder<double>(
                       tween: Tween(begin: 0, end: status.percent),

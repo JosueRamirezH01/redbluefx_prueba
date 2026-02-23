@@ -7,6 +7,8 @@ import 'package:redbluefx_mobile/domain/entities/adverts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../core/theme/app_theme.dart';
+import '../providers/adverts_provider.dart';
+import '../providers/auth_provider.dart';
 
 class AdvertsCard extends ConsumerWidget {
   final Advert advert;
@@ -27,6 +29,8 @@ class AdvertsCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final authState = ref.watch(authStateProvider);
+    final isRegister = authState.currentUser?.role == 'admin';
 
     return Card(
       elevation: 2,
@@ -129,8 +133,25 @@ class AdvertsCard extends ConsumerWidget {
                                 ),
                               ),
                               const Spacer(),
-                              if(advert.isFeatured)
-                                const Icon(Icons.star, color: Colors.yellow)
+                              if (isRegister) ...[
+                                GestureDetector(
+                                  onTap: () {  
+                                    ref.read(advertsProvider.notifier).updateAdvert(advert.id, title: advert.title, content: advert.content, image: advert.image, isFeatured: !advert.isFeatured);
+                                    },
+                                  child: Icon(
+                                    advert.isFeatured ? Icons.star : Icons.star_border,
+                                    color: advert.isFeatured ? Colors.yellow : Colors.grey,
+                                    size: 22,
+                                  ),
+                                )
+                              ] else ...[
+                                if (advert.isFeatured)
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 20,
+                                  ),
+                              ]
                             ],
                           ),
                         ],

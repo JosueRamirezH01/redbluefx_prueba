@@ -11,10 +11,10 @@ final advertRepositoryProvider = Provider<AdvertRepository>((ref) {
   return AdvertsRepositoryImpl();
 });
 
-final advertsProvider = StateNotifierProvider<AdvertNotifier, AdvertState>((ref) {
-  return AdvertNotifier(ref.watch(advertRepositoryProvider));
+final advertsProvider =
+StateNotifierProvider<AdvertNotifier, AdvertState>((ref) {
+  return AdvertNotifier(ref, ref.watch(advertRepositoryProvider),);
 });
-
 final advertsProviderPublic = StateNotifierProvider<AdvertNotifierPublic, AdvertState>((ref) {
   return AdvertNotifierPublic(ref.watch(advertRepositoryProvider));
 });
@@ -58,47 +58,11 @@ class AdvertState {
 
 class AdvertNotifier extends StateNotifier<AdvertState> {
   final AdvertRepository _repository;
+  final Ref ref;
   static const _pageSize = 20;
 
-  AdvertNotifier(this._repository) : super(const AdvertState()) {
+  AdvertNotifier(this.ref,this._repository) : super(const AdvertState()) {
     loadAdvertsFeature();
-  }
-
-  Future<void> loadAdverts({bool refresh = false}) async {
-    if (refresh) {
-      state = state.copyWith(
-        currentPage: 1,
-        adverts: [],
-        hasMore: true,
-      );
-    }
-
-    if (!state.hasMore || state.isLoading) return;
-
-    state = state.copyWith(isLoading: true, error: null);
-
-    try {
-      final adverts = await _repository.getAdverts(
-        page: state.currentPage,
-        limit: _pageSize,
-        search: state.searchQuery,
-
-      );
-      AppLogger.debug('🔄 AdvertNotifier loadAlerts - received ${adverts.length} advert');
-
-      state = state.copyWith(
-        adverts: [...state.adverts, ...adverts],
-        isLoading: false,
-        hasMore: adverts.length >= _pageSize,
-        currentPage: state.currentPage + 1,
-      );
-    } catch (e) {
-      AppLogger.error('🔄 AdvertNotifier loadAdvert - error', error: e);
-      state = state.copyWith(
-        error: e.toString(),
-        isLoading: false,
-      );
-    }
   }
 
   Future<void> loadAdvertsFeature({bool refresh = false}) async {
@@ -241,25 +205,6 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
     }
   }
 
-  Future<void> updateAlert(String id, {String? title, String? content, AlertType? type, bool? isPublic}) async {
-    try {
-      final updatedAlert = await _repository.updateAlert(
-        id,
-        title: title,
-        content: content,
-        type: type,
-        isPublic: isPublic,
-      );
-
-      state = state.copyWith(
-        alerts: state.alerts.map((alert) {
-          return alert.id == id ? updatedAlert : alert;
-        }).toList(),
-      );
-    } catch (e) {
-      state = state.copyWith(error: e.toString());
-    }
-  }
 
   Future<void> updateAlertStatus(String id, AlertStatus status) async {
     try {
@@ -280,6 +225,28 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
       await _repository.deleteAdverts(id);
       state = state.copyWith(
         adverts: state.adverts.where((advert) => advert.id != id).toList(),
+      );
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    }
+  }
+
+  Future<void> updateAdvert(String id, {String? title, String? content, String? image, bool? isFeatured}) async {
+
+    try {
+      final updatedAdvert = await _repository.updateAdvert(
+        id,
+        title: title,
+        content: content,
+        image: image,
+        isFeatured: isFeatured,
+      );
+      await loadAdvertsFeature(refresh: true);
+      await ref.read(advertsProviderPublic.notifier).loadAdvertsPublic(refresh: true);
+      state = state.copyWith(
+        adverts: state.adverts.map((advert) {
+          return advert.id == id ? updatedAdvert : advert;
+        }).toList(),
       );
     } catch (e) {
       state = state.copyWith(error: e.toString());
@@ -346,4 +313,5 @@ class AdvertNotifierPublic extends StateNotifier<AdvertState> {
       state = state.copyWith(error: e.toString());
     }
   }
+  // adverts_provider.dart
 }

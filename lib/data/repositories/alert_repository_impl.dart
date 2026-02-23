@@ -154,8 +154,7 @@ class AlertRepositoryImpl implements AlertRepository {
 
 
   @override
-  Future<Alert> updateAlert(String id,
-      {String? title, String? content, AlertType? type, bool? isPublic,}) async {
+  Future<Alert> updateAlert(String id, {String? title, String? content, AlertType? type, bool? isPublic,}) async {
     try {
       final response = await _dio.put(
         ApiRoutes.alert(id),

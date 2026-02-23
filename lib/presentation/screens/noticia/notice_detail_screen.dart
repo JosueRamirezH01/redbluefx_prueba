@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx_mobile/presentation/providers/notice_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/utils/date_utils.dart';
-import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
+import 'package:flutter/gestures.dart';
 
 class NoticeDetailScreen extends ConsumerWidget {
   final String noticeId;
@@ -22,7 +23,7 @@ class NoticeDetailScreen extends ConsumerWidget {
     final noticeState = ref.watch(noticeProvider);
     final notice = noticeState.notices.firstWhere((a) => a.id == noticeId);
     final double statusBarHeight = MediaQuery.of(context).padding.top;
-    const double appBarHeight = 75.0;
+    const double appBarHeight = 60.0;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -50,7 +51,7 @@ class NoticeDetailScreen extends ConsumerWidget {
 
 
           padding: EdgeInsets.only(
-            top: statusBarHeight + appBarHeight,
+            top: statusBarHeight + appBarHeight - 25,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,37 +60,45 @@ class NoticeDetailScreen extends ConsumerWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(0),
                 child: notice.image != null && notice.image!.isNotEmpty
-                    ? Image.network(
-                  notice.image!,
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.28,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
+                    ? GestureDetector(
+                  onTap: () {
+                    _showImagePreview(context, notice.image!);
+                    },
+                  child: Hero(
+                    tag: 'alert-image-$noticeId',
+                    child: Image.network(
+                      notice.image!,
+                      width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.28,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        gradient: LinearGradient(
-                          colors: [Colors.blue.shade100, Colors.blue.shade50],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.high,
+                      cacheWidth: 3000,
+                      loadingBuilder: (context, child, loadingProgress) {if (loadingProgress == null) return child;return Container(
+                        height: MediaQuery.of(context).size.height * 0.28,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          gradient: LinearGradient(
+                            colors: [Colors.blue.shade100, Colors.blue.shade50],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFF005EA3),
+                            ),
+                          ),
+                        );
+                        },
+                      errorBuilder: (context, error, stackTrace) {
+                        return _placeholder(
+                          MediaQuery.of(context).size.height * 0.28,
+                          broken: true,
+                        );
+                        },
+                    ),
                       ),
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFF005EA3),
-                        ),
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return _placeholder(
-                      MediaQuery.of(context).size.height * 0.28,
-                      broken: true,
-                    );
-                  },
-                )
+                    )
                     : _placeholder(MediaQuery.of(context).size.height * 0.28),
               ),
 
@@ -118,7 +127,7 @@ class NoticeDetailScreen extends ConsumerWidget {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF005EA3).withOpacity(0.1),
+                            color: const Color(0xFF005EA3).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -172,12 +181,25 @@ class NoticeDetailScreen extends ConsumerWidget {
           
                     // Contenido de la noticia
                     Text(
-                      _formatTextWithLineBreaks(notice.content),
+                      _formatTextWithLineBreaks(notice.content ?? ''),
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF545967)
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    //buildNoticeLink(notice.newsUrl),
+                    TextButton.icon(
+                      onPressed: notice.newsUrl == null
+                          ? null
+                          : () async {
+                        final uri = Uri.parse(notice.newsUrl!);
+                        await launchUrl(uri, mode: LaunchMode.externalApplication);
+                      },
+                      icon: const Icon(Icons.language),
+                      label: const Text('Leer noticia completa'),
+                    ),
+                    const SizedBox(height: 12),
                   ],
                 ),
               ),
@@ -200,6 +222,37 @@ class NoticeDetailScreen extends ConsumerWidget {
       ),
     );
   }
+  void _showImagePreview(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.9),
+      builder: (_) {
+        return GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Hero(
+              tag: 'alert-image-$noticeId',
+              child: InteractiveViewer(
+                minScale: 1,
+                maxScale: 4,
+                boundaryMargin: const EdgeInsets.all(80),
+                child: SizedBox.expand(
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.high,
+                    cacheWidth: 3000,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   String _formatTextWithLineBreaks(String text) {
     final sentences = text.split('. ');
     final buffer = StringBuffer();
@@ -258,7 +311,7 @@ class NoticeDetailScreen extends ConsumerWidget {
       width: double.infinity,
       height: size,
       decoration: BoxDecoration(
-        color: const Color(0xFF066BAF).withOpacity(0.2),
+        color: const Color(0xFF066BAF).withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
@@ -271,5 +324,53 @@ class NoticeDetailScreen extends ConsumerWidget {
 
   String _formatDate(DateTime date) {
     return AppDateUtils.formatToPeruTime(date);
+  }
+
+  Widget buildNoticeLink(String? url) {
+    if (url == null || url.isEmpty) {
+      return Text(
+        'Sin enlace externo',
+        style: GoogleFonts.inter(
+          fontSize: 13,
+          color: const Color(0xFF8A8F99),
+          fontStyle: FontStyle.italic,
+        ),
+      );
+    }
+
+    return RichText(
+      text: TextSpan(
+        children: [
+          const WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: Icon(
+              Icons.open_in_new,
+              size: 20,
+              color: Color(0xFF2563EB),
+            ),
+          ),
+          const WidgetSpan(child: SizedBox(width: 6)),
+          TextSpan(
+            text: 'Fuente original',
+            style: GoogleFonts.inter(
+              fontSize: 15,
+              color: const Color(0xFF2563EB),
+              fontWeight: FontWeight.w500,
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () async {
+                final uri = Uri.parse(url);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(
+                    uri,
+                    mode: LaunchMode.externalApplication,
+                  );
+                }
+              },
+          ),
+        ],
+      ),
+    );
   }
 }

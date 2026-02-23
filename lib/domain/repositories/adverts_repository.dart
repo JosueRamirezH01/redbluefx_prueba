@@ -9,12 +9,6 @@ abstract class AdvertRepository {
   });
 
 
-  Future<List<Advert>> getAdverts({
-    int page = 1,
-    int limit = 20,
-    String? search,
-  });
-
   Future<List<Advert>> getAdvertsFeature({
     int page = 1,
     int limit = 20,
@@ -29,4 +23,11 @@ abstract class AdvertRepository {
 
   Future<void> deleteAdverts(String id);
 
+  Future<Advert> updateAdvert(
+        String id, {
+        String? title,
+        String? content,
+        String? image,
+        bool? isFeatured,
+      });
 }
