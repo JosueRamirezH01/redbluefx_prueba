@@ -7,7 +7,6 @@ import '../../../domain/entities/user.dart';
 import '../../providers/user_provider.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/utils/date_utils.dart';
-import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 class UsersScreen extends ConsumerStatefulWidget {

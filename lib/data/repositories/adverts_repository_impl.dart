@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:redbluefx_mobile/domain/entities/adverts.dart';
+import 'package:redbluefx/domain/entities/adverts.dart';
 
 import '../../core/config/api_routes.dart';
 import '../../core/services/dio_service.dart';

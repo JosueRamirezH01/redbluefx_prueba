@@ -37,7 +37,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   Future<void> _resetPassword() async {
     if (_formKey.currentState?.validate() ?? false) {
       try {
-        // Llamar al método y esperar la respuesta
         await ref.read(authStateProvider.notifier).resetPassword(
           widget.code,
           _passwordController.text,
@@ -95,8 +94,8 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary.withOpacity(0.8),
-              AppColors.secondary.withOpacity(0.9),
+              AppColors.primary.withValues(alpha: 0.8),
+              AppColors.secondary.withValues(alpha: 0.9),
             ],
           ),
         ),
@@ -156,7 +155,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             fontSize: 16,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                       ),
@@ -178,7 +177,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
+                                      color: Colors.black.withValues(alpha: 0.1),
                                       blurRadius: 10,
                                       offset: const Offset(0, 5),
                                     ),
@@ -239,7 +238,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
+                                      color: Colors.black.withValues(alpha: 0.1),
                                       blurRadius: 10,
                                       offset: const Offset(0, 5),
                                     ),
@@ -336,7 +335,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                           child: Text(
                             'Volver',
                             style: GoogleFonts.poppins(
-                              color: Colors.white.withOpacity(0.8),
+                              color: Colors.white.withValues(alpha: 0.8),
                               fontWeight: FontWeight.w500,
                             ),
                           ),

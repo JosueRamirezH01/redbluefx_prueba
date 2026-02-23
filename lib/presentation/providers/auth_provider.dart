@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:redbluefx_mobile/core/services/loginStorage.dart';
+import 'package:redbluefx/core/services/loginStorage.dart';
 import '../../domain/entities/auth_state.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';

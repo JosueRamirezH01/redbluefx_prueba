@@ -108,7 +108,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
+                color: Colors.green.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -278,8 +278,8 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary.withOpacity(0.8),
-              AppColors.secondary.withOpacity(0.9),
+              AppColors.primary.withValues(alpha: 0.8),
+              AppColors.secondary.withValues(alpha: 0.9),
             ],
           ),
         ),
@@ -336,7 +336,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
                     ),
@@ -351,10 +351,10 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                         margin: const EdgeInsets.symmetric(horizontal: 10),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             width: 1,
                           ),
                         ),
@@ -362,7 +362,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                           children: [
                             Icon(
                               Icons.info_outline,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                               size: 20,
                             ),
                             const SizedBox(width: 12),
@@ -371,7 +371,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                                 '¿No lo encuentras? Revisa tu carpeta de spam o correo no deseado',
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
-                                  color: Colors.white.withOpacity(0.9),
+                                  color: Colors.white.withValues(alpha: 0.9),
                                   height: 1.3,
                                 ),
                               ),
@@ -400,7 +400,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
+                                      color: Colors.black.withValues(alpha: 0.1),
                                       blurRadius: 10,
                                       offset: const Offset(0, 5),
                                     ),
@@ -504,7 +504,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                               ? '¿No recibiste el código? Reenviar ($_resendAttempts/$_maxResendAttempts)'
                               : 'Reenviar en ${_resendCountdown}s ($_resendAttempts/$_maxResendAttempts)',
                             style: GoogleFonts.poppins(
-                              color: _canResend ? Colors.white : Colors.white.withOpacity(0.5),
+                              color: _canResend ? Colors.white : Colors.white.withValues(alpha: 0.5),
                               fontWeight: FontWeight.w500,
                               decoration: _canResend ? TextDecoration.underline : null,
                             ),
@@ -518,10 +518,10 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.1),
+                            color: Colors.red.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: Colors.red.withOpacity(0.3),
+                              color: Colors.red.withValues(alpha: 0.3),
                             ),
                           ),
                           child: Text(
@@ -547,7 +547,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                         child: Text(
                           'Volver',
                           style: GoogleFonts.poppins(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                             fontWeight: FontWeight.w500,
                           ),
                         ),

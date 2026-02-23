@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:redbluefx_mobile/presentation/providers/theme_provider.dart';
+import 'package:redbluefx/presentation/providers/theme_provider.dart';
 import 'core/config/app_config.dart';
 import 'core/router/app_router.dart';
 import 'core/services/firebase_messaging_service.dart';
@@ -18,9 +18,7 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
   );
-
   // Inicializar configuración
   AppConfig.initialize(
     env: Environment.prod,

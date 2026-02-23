@@ -148,7 +148,7 @@ class _EditAlertScreenState extends ConsumerState<EditAlertScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<AlertType>(
-              value: _selectedType,
+              initialValue: _selectedType,
               decoration: const InputDecoration(
                 labelText: 'Tipo',
                 border: OutlineInputBorder(),

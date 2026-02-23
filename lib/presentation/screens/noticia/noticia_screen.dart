@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/presentation/providers/notice_provider.dart';
+import 'package:redbluefx/presentation/providers/notice_provider.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/notice.dart';
-import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/notice_list.dart';
 
@@ -195,7 +194,7 @@ class _NoticiaScreenState extends ConsumerState<NoticiaScreen> with SingleTicker
 
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
                 color: backgroundColor,
                 borderRadius: BorderRadius.circular(20),

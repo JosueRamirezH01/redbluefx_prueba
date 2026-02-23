@@ -1,10 +1,11 @@
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/core/theme/app_theme.dart';
-import 'package:redbluefx_mobile/domain/entities/adverts.dart';
+import 'package:redbluefx/core/theme/app_theme.dart';
+import 'package:redbluefx/domain/entities/adverts.dart';
 
 import 'advert_card.dart';
 
@@ -140,6 +141,7 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
       child: Row(
         children: [
           Expanded(
+            flex: 2,
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.18,
               height: MediaQuery.of(context).size.height * 0.05,
@@ -168,6 +170,7 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
           ),
           const SizedBox(width: 12),
           Expanded(
+            flex: 3,
             child: Container(
               width: MediaQuery.of(context).size.width * 0.18,
               height: MediaQuery.of(context).size.height * 0.05,
@@ -177,16 +180,10 @@ class _AdvertPreviewDialogState extends ConsumerState<AdvertPreviewDialog> {
                 Color(0xFFBB0004)
               ]),
                 boxShadow: [
-                  if(!isDark)
-                    const BoxShadow(
-                        color: Color(0xFFFF1B21),
-                        blurRadius: 10,      // intensidad
-                        offset: Offset(0, 6) // altura
-                    ),
-                  const BoxShadow(
-                      color: Color(0xFF721723),
-                      blurRadius: 10,      // intensidad
-                      offset: Offset(0, 6) // altura
+                  BoxShadow(
+                      color: Theme.of(context).colorBtnProfile,
+                      blurRadius: 16,      // intensidad
+                      offset: const Offset(0, 6) // altura
                   ),
                 ],
                 borderRadius: BorderRadius.circular(8),

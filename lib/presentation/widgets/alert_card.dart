@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/core/theme/app_theme.dart';
+import 'package:redbluefx/core/theme/app_theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../domain/entities/alert.dart';
 import '../providers/auth_provider.dart';
@@ -397,7 +397,7 @@ class AlertCard extends ConsumerWidget {
   void _showImagePreview(BuildContext context, Widget imageWidget) {
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (_) {
         return GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -520,7 +520,7 @@ class AlertCard extends ConsumerWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: const Color(0xFF066BAF).withOpacity(0.2),
+        color: const Color(0xFF066BAF).withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(

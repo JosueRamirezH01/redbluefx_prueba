@@ -1,7 +1,7 @@
 
 
 import 'package:dio/dio.dart';
-import 'package:redbluefx_mobile/domain/entities/feedback.dart';
+import 'package:redbluefx/domain/entities/feedback.dart';
 
 import '../../core/services/dio_service_feedback.dart';
 import '../../core/utils/logger.dart';

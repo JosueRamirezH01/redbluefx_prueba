@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/core/theme/app_theme.dart';
-import 'package:redbluefx_mobile/domain/entities/alert.dart';
+import 'package:redbluefx/core/theme/app_theme.dart';
+import 'package:redbluefx/domain/entities/alert.dart';
 
 import 'alert_card.dart';
 
@@ -164,6 +164,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
       child: Row(
         children: [
           Expanded(
+            flex: 2,
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.18,
               height: MediaQuery.of(context).size.height * 0.05,
@@ -184,7 +185,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
                   style: TextStyle(
                     color: Theme.of(context).textCardPreviewColors,
                     fontWeight: FontWeight.w600,
-                    fontSize: 16,
+                    fontSize: 15,
                   ),
                 ),
               ),
@@ -192,8 +193,9 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
           ),
           const SizedBox(width: 12),
           Expanded(
+            flex: 3,
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.18,
+              width: MediaQuery.of(context).size.width * 0.2,
               height: MediaQuery.of(context).size.height * 0.05,
               decoration: BoxDecoration(gradient: const LinearGradient(colors: [
                 Color(0xFFFF1B21),
@@ -201,16 +203,10 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
                 Color(0xFFBB0004)
               ]),
                 boxShadow: [
-                  if(!isDark)
-                    const BoxShadow(
-                        color: Color(0xFFFF1B21),
-                        blurRadius: 10,      // intensidad
-                        offset: Offset(0, 6) // altura
-                    ),
-                  const BoxShadow(
-                      color: Color(0xFF721723),
-                      blurRadius: 10,      // intensidad
-                      offset: Offset(0, 6) // altura
+                  BoxShadow(
+                      color: Theme.of(context).colorBtnProfile,
+                      blurRadius: 16,      // intensidad
+                      offset: const Offset(0, 6) // altura
                   ),
                 ],borderRadius: BorderRadius.circular(8),),
               child: ElevatedButton(
@@ -233,7 +229,7 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                        fontSize: 15,
                       ),
                     ),
                     Spacer(),

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
-import 'package:redbluefx_mobile/presentation/widgets/advert_feature_list.dart';
-import 'package:redbluefx_mobile/presentation/widgets/advert_recent_list.dart';
+import 'package:redbluefx/presentation/providers/adverts_provider.dart';
+import 'package:redbluefx/presentation/widgets/advert_feature_list.dart';
+import 'package:redbluefx/presentation/widgets/advert_recent_list.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 class AnuncioScreen extends ConsumerStatefulWidget {
@@ -125,9 +124,9 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
               radius: 0.8,
               colors: [
                 Colors.transparent,
-                const Color(0xFF0D1D35).withOpacity(0.3),
-                const Color(0xFF0D1D35).withOpacity(0.3),
-                const Color(0xFFFF0006).withOpacity(0.01),
+                const Color(0xFF0D1D35).withValues(alpha: 0.3),
+                const Color(0xFF0D1D35).withValues(alpha: 0.3),
+                const Color(0xFFFF0006).withValues(alpha: 0.01),
               ],
             ),
           ),

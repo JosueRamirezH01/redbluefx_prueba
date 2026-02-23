@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
-import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
+import 'package:redbluefx/domain/entities/uploadimage.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../core/utils/logger.dart';
 import '../../data/repositories/auth_repository_impl.dart'; // Importa la implementación concreta

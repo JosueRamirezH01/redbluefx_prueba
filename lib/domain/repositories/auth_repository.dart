@@ -1,4 +1,4 @@
-import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
+import 'package:redbluefx/domain/entities/uploadimage.dart';
 
 import '../entities/user.dart';
 

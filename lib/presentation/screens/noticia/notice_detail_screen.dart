@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/presentation/providers/notice_provider.dart';
+import 'package:redbluefx/presentation/providers/notice_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
@@ -184,7 +184,7 @@ class NoticeDetailScreen extends ConsumerWidget {
                       _formatTextWithLineBreaks(notice.content ?? ''),
                       style: GoogleFonts.inter(
                         fontSize: 13,
-                        color: const Color(0xFF545967)
+                        color: Theme.of(context).colorLetterNotice
                       ),
                     ),
                     const SizedBox(height: 12),

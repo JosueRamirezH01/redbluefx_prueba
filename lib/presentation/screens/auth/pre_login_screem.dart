@@ -55,6 +55,7 @@ class _PreLoginScreenState extends ConsumerState<PreLoginScreen> {
       }
     } catch (e) {
       NotificationService.showErrorToast('Error al iniciar sesión');
+      context.go('/login');
       AppLogger.error('❌ Error en login', error: e);
     } finally {
       if (mounted) setState(() => _isLoading = false);

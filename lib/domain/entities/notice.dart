@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:redbluefx_mobile/domain/entities/user.dart';
+import 'package:redbluefx/domain/entities/user.dart';
 part 'notice.freezed.dart';
 part 'notice.g.dart';
 enum NoticeCategory{ tech,forex,crypto, mercados, materias, all }

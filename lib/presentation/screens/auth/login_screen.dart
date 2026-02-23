@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:redbluefx_mobile/core/services/loginStorage.dart';
+import 'package:redbluefx/core/services/loginStorage.dart';
 import '../../../core/services/authLogin.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/theme/app_theme.dart';
@@ -61,7 +61,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
         AppLogger.info('✅ Login exitoso');
         NotificationService.showSuccessToast('¡Bienvenido!');
         if(_rememberMe){
-          print('--------- $_rememberMe');
           await LoginStorage.saveCredentials(email: _emailController.text, password: _passwordController.text);
         }else{
           await LoginStorage.clearCredentials();
@@ -156,7 +155,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                 center: Alignment.bottomLeft,
                 radius: 1.0,
                 colors: [
-                  const Color(0xFFF1948A).withOpacity(0.4),
+                  const Color(0xFFF1948A).withValues(alpha: 0.4),
                   Colors.transparent,
                 ],
               ),
@@ -167,7 +166,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   center: Alignment.topRight,
                   radius: 1.0,
                   colors: [
-                    const Color(0xFFF1948A).withOpacity(0.4),
+                    const Color(0xFFF1948A).withValues(alpha: 0.4),
                     Colors.transparent,
                   ],
                 ),
@@ -211,7 +210,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                             delay: const Duration(milliseconds: 400),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: const Color(0xFFFFFFFF).withOpacity(0.2),
+                                color: const Color(0xFFFFFFFF).withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
                                   color: Colors.white24,
@@ -263,7 +262,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                         borderRadius: BorderRadius.circular(16),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color: Colors.black.withValues(alpha: 0.1),
                                             blurRadius: 10,
                                             offset: const Offset(0, 5),
                                           ),
@@ -315,7 +314,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                         borderRadius: BorderRadius.circular(16),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color: Colors.black.withValues(alpha: 0.1),
                                             blurRadius: 10,
                                             offset: const Offset(0, 5),
                                           ),
@@ -390,12 +389,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                                   });
                                                 },
                                                 side: BorderSide(
-                                                  color: Colors.white.withOpacity(0.5),
+                                                  color: Colors.white.withValues(alpha: 0.5),
                                                 ),
                                                 checkColor: Colors.white,
                                                 fillColor: WidgetStateProperty.resolveWith(
                                                       (states) {
-                                                    if (states.contains(MaterialState.selected)) {
+                                                    if (states.contains(WidgetState.selected)) {
                                                       return const Color(0xFF3498DB);
                                                     }
                                                     return Colors.transparent;
@@ -407,7 +406,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                             Text(
                                               'Recordar',
                                               style: GoogleFonts.montserrat(
-                                                color: Colors.white.withOpacity(0.9),
+                                                color: Colors.white.withValues(alpha: 0.9),
                                                 fontSize: 14,
                                               ),
                                             ),
@@ -423,7 +422,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                           child: Text(
                                             '¿Olvidaste tu contraseña?',
                                             style: GoogleFonts.montserrat(
-                                              color: Colors.white.withOpacity(0.9),
+                                              color: Colors.white.withValues(alpha: 0.9),
                                               fontSize: 14,
                                               decoration: TextDecoration.underline,
                                             ),
@@ -484,7 +483,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                           Text(
                                             '¿No tienes cuenta?',
                                             style: GoogleFonts.poppins(
-                                              color: Colors.white.withOpacity(0.7),
+                                              color: Colors.white.withValues(alpha: 0.7),
                                               fontSize: 14,
                                             ),
                                           ),

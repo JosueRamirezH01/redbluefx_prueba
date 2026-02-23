@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/core/theme/app_theme.dart';
+import 'package:redbluefx/core/theme/app_theme.dart';
 import '../../core/utils/date_utils.dart';
 import '../../domain/entities/notice.dart';
 
@@ -154,7 +154,7 @@ class NoticeCard extends ConsumerWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: const Color(0xFF066BAF).withOpacity(0.2),
+        color: const Color(0xFF066BAF).withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(

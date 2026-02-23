@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/domain/entities/adverts.dart';
+import 'package:redbluefx/domain/entities/adverts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../core/theme/app_theme.dart';
@@ -92,13 +92,7 @@ class AdvertsCard extends ConsumerWidget {
                               fontSize: 17,
                               fontWeight: FontWeight.w600,
                               color: advert.isFeatured ? Colors.white : Theme.of(context).colorLetterCardPreview,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
+
                             ),
                             maxLines: 2,
                           ),

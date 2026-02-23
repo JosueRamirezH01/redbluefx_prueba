@@ -9,7 +9,7 @@ import '../../../core/utils/date_utils.dart';
 import '../../../core/theme/app_theme.dart';
 
 class AdminAlertsScreen extends ConsumerStatefulWidget {
-  const AdminAlertsScreen({Key? key}) : super(key: key);
+  const AdminAlertsScreen({super.key});
 
   @override
   ConsumerState<AdminAlertsScreen> createState() => _AdminAlertsScreenState();
@@ -127,10 +127,10 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
       AppLogger.error('Error updating alert status', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Error al cambiar el estado de la alerta'),
             backgroundColor: Colors.red,
-            duration: const Duration(seconds: 3),
+            duration: Duration(seconds: 3),
           ),
         );
       }
@@ -171,10 +171,10 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
         AppLogger.error('Error archiving alert', error: e);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Error al archivar la alerta'),
               backgroundColor: Colors.red,
-              duration: const Duration(seconds: 3),
+              duration: Duration(seconds: 3),
             ),
           );
         }
@@ -360,7 +360,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? color : color.withOpacity(0.1),
+          color: isSelected ? color : color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: color,
@@ -387,7 +387,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: hasDateFilter ? AppColors.secondary : AppColors.secondary.withOpacity(0.1),
+          color: hasDateFilter ? AppColors.secondary : AppColors.secondary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: AppColors.secondary,
@@ -417,7 +417,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
               const SizedBox(width: 4),
               GestureDetector(
                 onTap: _clearDateFilter,
-                child: Icon(
+                child: const Icon(
                   Icons.close,
                   size: 16,
                   color: Colors.white,
@@ -604,7 +604,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -636,7 +636,7 @@ class _AdminAlertsScreenState extends ConsumerState<AdminAlertsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

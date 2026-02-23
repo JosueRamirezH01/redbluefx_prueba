@@ -224,7 +224,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                   center: Alignment.bottomLeft,
                   radius: 1.0,
                   colors: [
-                    const Color(0xFFE6332F).withOpacity(0.4),
+                    const Color(0xFFE6332F).withValues(alpha: 0.4),
                     Colors.transparent,
                   ],
                 ),
@@ -238,7 +238,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                   center: Alignment.topRight,
                   radius: 1.0,
                   colors: [
-                    const Color(0xFFE6332F).withOpacity(0.4),
+                    const Color(0xFFE6332F).withValues(alpha: 0.4),
                     Colors.transparent,
                   ],
                 ),
@@ -286,7 +286,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                           delay: const Duration(milliseconds: 400),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFFFFFF).withOpacity(0.2),
+                              color: const Color(0xFFFFFFFF).withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
                                 color: Colors.white24,
@@ -322,7 +322,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       'Completa tus datos para registrarte',
                                        style: GoogleFonts.montserrat(
                                         fontSize: 14,
-                                        color: Colors.white.withOpacity(0.8),
+                                        color: Colors.white.withValues(alpha: 0.8),
                                       ),
                                     ),
                                   ),
@@ -336,7 +336,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       borderRadius: BorderRadius.circular(16),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(alpha: 0.1),
                                           blurRadius: 10,
                                           offset: const Offset(0, 5),
                                         ),
@@ -403,7 +403,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       borderRadius: BorderRadius.circular(16),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(alpha: 0.1),
                                           blurRadius: 10,
                                           offset: const Offset(0, 5),
                                         ),
@@ -471,7 +471,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       borderRadius: BorderRadius.circular(16),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(alpha: 0.1),
                                           blurRadius: 10,
                                           offset: const Offset(0, 5),
                                         ),
@@ -562,7 +562,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                       borderRadius: BorderRadius.circular(16),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(alpha: 0.1),
                                           blurRadius: 10,
                                           offset: const Offset(0, 5),
                                         ),

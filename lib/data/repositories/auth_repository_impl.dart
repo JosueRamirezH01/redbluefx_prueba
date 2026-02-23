@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
+import 'package:redbluefx/domain/entities/uploadimage.dart';
 
 import '../../core/config/api_routes.dart';
 import '../../core/config/app_config.dart';

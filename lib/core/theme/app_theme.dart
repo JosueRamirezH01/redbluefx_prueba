@@ -538,4 +538,7 @@ extension AppThemeColors on ThemeData {
   Color get colorBarraMarginCalculator => brightness == Brightness.dark
       ?  const Color(0xFF294462)
       : const Color(0xFFFFFFFF);
+  Color? get colorLetterNotice => brightness == Brightness.dark
+      ? const Color(0xFFB8B9BA)
+      : null;
 }

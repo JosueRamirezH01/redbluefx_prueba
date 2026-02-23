@@ -1,8 +1,8 @@
 
 import 'package:dio/dio.dart';
-import 'package:redbluefx_mobile/core/config/api_routes.dart';
-import 'package:redbluefx_mobile/domain/entities/notice.dart';
-import 'package:redbluefx_mobile/domain/repositories/notice_repository.dart';
+import 'package:redbluefx/core/config/api_routes.dart';
+import 'package:redbluefx/domain/entities/notice.dart';
+import 'package:redbluefx/domain/repositories/notice_repository.dart';
 
 import '../../core/services/dio_service.dart';
 import '../../core/utils/logger.dart';

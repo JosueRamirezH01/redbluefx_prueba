@@ -9,17 +9,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:redbluefx_mobile/core/theme/app_theme.dart';
-import 'package:redbluefx_mobile/domain/entities/adverts.dart';
-import 'package:redbluefx_mobile/domain/entities/uploadimage.dart';
-import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
+import 'package:redbluefx/core/theme/app_theme.dart';
+import 'package:redbluefx/domain/entities/adverts.dart';
+import 'package:redbluefx/domain/entities/uploadimage.dart';
+import 'package:redbluefx/presentation/providers/adverts_provider.dart';
 import '../../../core/utils/borderPainter.dart';
 import '../../../core/utils/logger.dart';
 import '../../../domain/entities/alert.dart';
 import '../../providers/alert_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_bar.dart';
-import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/previewAdvert.dart';
 import '../../widgets/previewAlert.dart';
@@ -777,17 +776,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                 ),
                 borderRadius: BorderRadius.circular(7),
                 boxShadow: [
-                  if(!isDark)
-                    const BoxShadow(
-                        color: Color(0xFFFF1B21),
-                        blurRadius: 20,      // intensidad
-                        offset: Offset(2, 8) // altura
-                    ),
-
-                  const BoxShadow(
-                      color: Color(0xFF721723),
-                      blurRadius: 20,      // intensidad
-                      offset: Offset(0, 8) // altura
+                  BoxShadow(
+                      color: Theme.of(context).colorBtnProfile,
+                      blurRadius: 16,      // intensidad
+                      offset: const Offset(0, 6) // altura
                   ),
                 ],
               ),
@@ -942,16 +934,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
               ),
               borderRadius: BorderRadius.circular(7),
               boxShadow: [
-                if(!isDark)
-                const BoxShadow(
-                    color: Color(0xFFFF1B21),
-                    blurRadius: 25,      // intensidad
-                    offset: Offset(2, 8) // altura
-                ),
-                const BoxShadow(
-                    color: Color(0xFF721723),
-                    blurRadius: 20,      // intensidad
-                    offset: Offset(2, 8) // altura
+                BoxShadow(
+                    color: Theme.of(context).colorBtnProfile,
+                    blurRadius: 16,      // intensidad
+                    offset: const Offset(0, 6) // altura
                 ),
               ],
             ),

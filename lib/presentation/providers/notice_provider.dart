@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:redbluefx_mobile/domain/entities/notice.dart';
+import 'package:redbluefx/domain/entities/notice.dart';
 import '../../core/utils/logger.dart';
 import '../../data/repositories/notice_repository_impl.dart';
 import '../../domain/repositories/notice_repository.dart';

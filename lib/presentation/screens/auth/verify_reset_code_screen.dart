@@ -185,8 +185,8 @@ class _VerifyResetCodeScreenState extends ConsumerState<VerifyResetCodeScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary.withOpacity(0.8),
-              AppColors.secondary.withOpacity(0.9),
+              AppColors.primary.withValues(alpha: 0.8),
+              AppColors.secondary.withValues(alpha: 0.9),
             ],
           ),
         ),
@@ -248,7 +248,7 @@ class _VerifyResetCodeScreenState extends ConsumerState<VerifyResetCodeScreen> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             fontSize: 16,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                       ),
@@ -263,10 +263,10 @@ class _VerifyResetCodeScreenState extends ConsumerState<VerifyResetCodeScreen> {
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.1),
+                              color: Colors.white.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 width: 1,
                               ),
                             ),
@@ -274,7 +274,7 @@ class _VerifyResetCodeScreenState extends ConsumerState<VerifyResetCodeScreen> {
                               children: [
                                 Icon(
                                   Icons.info_outline,
-                                  color: Colors.white.withOpacity(0.9),
+                                  color: Colors.white.withValues(alpha: 0.9),
                                   size: 20,
                                 ),
                                 const SizedBox(width: 12),
@@ -283,7 +283,7 @@ class _VerifyResetCodeScreenState extends ConsumerState<VerifyResetCodeScreen> {
                                     '¿No lo encuentras? Revisa tu carpeta de spam o correo no deseado',
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
-                                      color: Colors.white.withOpacity(0.9),
+                                      color: Colors.white.withValues(alpha: 0.9),
                                       height: 1.3,
                                     ),
                                   ),
@@ -346,7 +346,7 @@ class _VerifyResetCodeScreenState extends ConsumerState<VerifyResetCodeScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(alpha: 0.1),
                                           blurRadius: 10,
                                           offset: const Offset(0, 5),
                                         ),
@@ -463,7 +463,7 @@ class _VerifyResetCodeScreenState extends ConsumerState<VerifyResetCodeScreen> {
                           child: Text(
                             'Volver',
                             style: GoogleFonts.poppins(
-                              color: Colors.white.withOpacity(0.8),
+                              color: Colors.white.withValues(alpha: 0.8),
                               fontWeight: FontWeight.w500,
                             ),
                           ),

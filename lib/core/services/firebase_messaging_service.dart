@@ -9,11 +9,11 @@ import '../utils/logger.dart';
 import 'navigation_service.dart';
 
 class FirebaseMessagingService {
-  
+  static const channelId = 'alerts';
   FirebaseMessagingService._internal();
   static final FirebaseMessagingService _instance = FirebaseMessagingService._internal();
   static FirebaseMessagingService get instance => _instance;
-  
+
   FirebaseMessaging? _messaging;
   String? _token;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -118,7 +118,7 @@ class FirebaseMessagingService {
   
   Future<void> _createAndroidNotificationChannel() async {
     const androidChannel = AndroidNotificationChannel(
-      'high_importance_channel',
+      channelId,
       'High Importance Notifications',
       description: 'This channel is used for important notifications.',
       importance: Importance.high,
@@ -154,7 +154,7 @@ class FirebaseMessagingService {
         notification.body,
         NotificationDetails(
           android: AndroidNotificationDetails(
-            'high_importance_channel',
+            channelId,
             'High Importance Notifications',
             channelDescription: 'This channel is used for important notifications.',
             icon: android?.smallIcon ?? '@mipmap/ic_launcher',
@@ -241,7 +241,7 @@ class FirebaseMessagingService {
       _token = await _messaging!.getToken();
 
       if (_token != null && _token!.isNotEmpty) {
-        AppLogger.debug('📱 FCM token: ${_token!.substring(0, min(_token!.length, 10))}...');
+        AppLogger.debug('📱 FCM token: ${_token!/*.substring(0, min(_token!.length, 10))*/}...');
         AppLogger.debug('📱 FCM token length: ${_token!.length}');
         AppLogger.debug('📱 Platform: ${defaultTargetPlatform.toString()}');
       } else {

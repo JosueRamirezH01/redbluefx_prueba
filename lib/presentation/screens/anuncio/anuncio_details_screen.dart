@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/presentation/providers/adverts_provider.dart';
+import 'package:redbluefx/presentation/providers/adverts_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/utils/date_utils.dart';
@@ -156,7 +156,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
   void _showImagePreview(BuildContext context, Widget imageWidget) {
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (_) {
         return GestureDetector(
           onTap: () => Navigator.pop(context),

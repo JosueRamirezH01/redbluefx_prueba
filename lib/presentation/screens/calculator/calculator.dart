@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/core/utils/mirrorEffect.dart';
+import 'package:intl/intl.dart';
+import 'package:redbluefx/core/utils/mirrorEffect.dart';
 import '../../../core/utils/logger.dart';
 import '../../../domain/calculator/calculator_function/calculator_state.dart';
 import '../../providers/margin_provider.dart';
@@ -270,6 +271,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
 
   Widget _buildPositionForm(bool isDark) {
     final calc = ref.watch(calculatorProvider);
+    final formatter = NumberFormat('#,##0', 'es_US ');
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Form(
@@ -557,8 +559,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(child: Text('Tamaño de Posición', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),)),
-                                Expanded(child: Text('\$${calc.positionSize.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white))),
-                                const SizedBox(height: 5),
+                                Expanded(child: Text('\$${formatter.format(calc.positionSize)}', style: GoogleFonts.montserrat(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white))),
                               ],
                             ),
                           ),
@@ -576,8 +577,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Und./Lotes',style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16)),
-                                    Text(calc.units.toStringAsFixed(2),)
+                                    Expanded(child: Text('Und./Lotes',style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16))),
+                                    Expanded(child: Text(calc.units.toStringAsFixed(2), style: GoogleFonts.montserrat(fontSize: 15)))
                                   ],
                                 ),
                               ),
@@ -591,8 +592,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Riesgo', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16),),
-                                    Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205))))
+                                    Expanded(child: Text('Riesgo', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16),)),
+                                    Expanded(child: Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205)))))
                                   ],
                                 ),
                               ),
@@ -608,7 +609,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             const SizedBox(height: 12),
             Center(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.38,
                 child: ElevatedButton(onPressed: (){
                     _capitalController.clear();
                     _riskController.clear();
@@ -631,7 +632,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   child:  Row(
                     children: [
                       Text('Limpiar', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500, fontSize: 15, color: isDark ? Colors.white : const Color(0xFF0D1D35)),),
-                      const Spacer(),
+                      Spacer(),
                       Icon(Icons.sync_outlined,color: isDark ? Colors.white : const Color(0xFF0D1D35),)
                     ],
                   ),
@@ -924,8 +925,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Unidades/Lotes',style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16)),
-                                    Text(calc.units.toStringAsFixed(2))
+                                    Expanded(child: Text('Unidades/Lotes',style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16))),
+                                    Expanded(child: Text(calc.units.toStringAsFixed(2), style: GoogleFonts.montserrat(fontSize: 15),))
                                   ],
                                 ),
                               ),
@@ -939,8 +940,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Riesgo', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16),),
-                                    Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205))))
+                                    Expanded(child: Text('Riesgo', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 16),)),
+                                    Expanded(child: Container(padding: const EdgeInsets.all(3),decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const  Color(0xFFFF9496)),child:  Text('\$${calc.riskAmount.toStringAsFixed(0)}', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500,fontSize: 15, color: const Color(0xFF870205)))))
                                   ],
                                 ),
                               ),
@@ -956,7 +957,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             const SizedBox(height: 12),
             Center(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.38,
                 child: ElevatedButton(onPressed: (){
                   _capitalController.clear();
                   _riskController.clear();

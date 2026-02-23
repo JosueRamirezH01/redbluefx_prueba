@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx_mobile/core/theme/app_theme.dart';
+import 'package:redbluefx/core/theme/app_theme.dart';
 
 import '../../core/utils/logger.dart';
 import '../providers/auth_provider.dart';
