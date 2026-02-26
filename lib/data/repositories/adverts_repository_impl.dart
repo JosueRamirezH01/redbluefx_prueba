@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:redbluefx/domain/entities/adverts.dart';
 
 import '../../core/config/api_routes.dart';
 import '../../core/services/dio_service.dart';
 import '../../core/utils/logger.dart';
+import '../../domain/entities/adverts.dart';
 import '../../domain/repositories/adverts_repository.dart';
 
 class AdvertsRepositoryImpl implements AdvertRepository {

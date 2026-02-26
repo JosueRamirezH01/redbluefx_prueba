@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:redbluefx/core/theme/app_theme_backup.dart';
-import 'package:redbluefx/presentation/providers/notice_provider.dart';
-import 'package:redbluefx/presentation/widgets/notice_card.dart';
+
+import '../../core/theme/app_theme.dart';
+import '../providers/notice_provider.dart';
+import 'notice_card.dart';
 
 class NoticeList extends ConsumerStatefulWidget {
   const NoticeList({super.key});

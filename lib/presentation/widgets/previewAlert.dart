@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redbluefx/core/theme/app_theme.dart';
-import 'package:redbluefx/domain/entities/alert.dart';
 
+import '../../domain/entities/alert.dart';
 import 'alert_card.dart';
 
 class TradingAlertPreviewDialog extends ConsumerStatefulWidget {
@@ -211,8 +211,14 @@ class _TradingAlertPreviewDialogState extends ConsumerState<TradingAlertPreviewD
                 ],borderRadius: BorderRadius.circular(8),),
               child: ElevatedButton(
                 onPressed: () async {
-                  Navigator.of(context).pop();
+                  // ✅ 1. Quitar foco de cualquier TextField activo
+                  FocusScope.of(context).unfocus();
+
+                  // ✅ 2. Ejecutar la acción de guardar
                   await widget.onConfirm();
+
+                  // ✅ 3. Cerrar el diálogo
+                  if (mounted) Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),

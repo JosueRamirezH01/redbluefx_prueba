@@ -118,7 +118,7 @@ class FirebaseMessagingService {
   
   Future<void> _createAndroidNotificationChannel() async {
     const androidChannel = AndroidNotificationChannel(
-      channelId,
+      'high_importance_channel',
       'High Importance Notifications',
       description: 'This channel is used for important notifications.',
       importance: Importance.high,
@@ -154,10 +154,10 @@ class FirebaseMessagingService {
         notification.body,
         NotificationDetails(
           android: AndroidNotificationDetails(
-            channelId,
+            'high_importance_channel',
             'High Importance Notifications',
             channelDescription: 'This channel is used for important notifications.',
-            icon: android?.smallIcon ?? '@mipmap/ic_launcher',
+            icon: android?.smallIcon ?? '@mipmap/launcher_icon',
           ),
           iOS: const DarwinNotificationDetails(),
         ),

@@ -5,14 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:redbluefx/domain/entities/auth_state.dart';
-import 'package:redbluefx/presentation/widgets/feedbackDialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../domain/entities/auth_state.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../../core/utils/logger.dart';
 import '../../providers/theme_provider.dart';
+import '../../widgets/feedbackDialog.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -452,7 +452,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   color:Theme.of(context).colorIconProfile,
                                   title: 'Feedback',
                                   onTap: () {
-                                    showFeedbackDialog(context);
+                                    //showFeedbackDialog(context);
                                   },
                                 ),
                                 _buildMenuItem(

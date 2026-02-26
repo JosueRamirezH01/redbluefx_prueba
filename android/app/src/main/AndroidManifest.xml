@@ -4,9 +4,12 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
-        android:label="readbluefx_mobile"
+        android:label="readbluefx"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/background" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

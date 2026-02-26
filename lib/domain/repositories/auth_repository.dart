@@ -1,5 +1,5 @@
-import 'package:redbluefx/domain/entities/uploadimage.dart';
 
+import '../entities/uploadimage.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepository {

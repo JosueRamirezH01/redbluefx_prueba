@@ -219,7 +219,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         backgroundColor: backgroundColor,
         selectedColor: colorRelleno,
         checkmarkColor: Colors.black87,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
@@ -295,7 +295,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             color: const Color(0xFF066BAF),
             colorRelleno: const Color(0xFF066BAF),
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 8),
           _buildFilterChip(
               label: 'Compra',
               isSelected: _selectedType == AlertType.buy,
@@ -306,7 +306,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               colorRelleno: const Color(0xFFDCFCE7),
               icon: Icons.arrow_upward
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 8),
           _buildFilterChip(
               label: 'Venta',
               isSelected: _selectedType == AlertType.sell,
