@@ -14,17 +14,10 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.redbluefx.redbluefx_mobile"
+    namespace = "com.redbluefx.redbluefx"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-        }
-    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -37,7 +30,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.redbluefx.redbluefx_mobile"
+        applicationId = "com.redbluefx.redbluefx"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -48,8 +41,8 @@ android {
 
     buildTypes {
         release {
-            //            signingConfig = signingConfigs.debug
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.debug
+            //signingConfig signingConfigs.release
             minifyEnabled false
             shrinkResources false
         }

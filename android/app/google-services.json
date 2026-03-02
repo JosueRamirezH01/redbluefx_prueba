@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "285877826911",
-    "project_id": "redblue-1614a",
-    "storage_bucket": "redblue-1614a.firebasestorage.app"
+    "project_number": "709555827272",
+    "project_id": "redbluefx-9a078",
+    "storage_bucket": "redbluefx-9a078.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:285877826911:android:bec374a30d82ac274bb2ea",
+        "mobilesdk_app_id": "1:709555827272:android:466efba7791d9575891e7d",
         "android_client_info": {
-          "package_name": "com.redbluefx.redbluefx_mobile"
+          "package_name": "com.redbluefx.redbluefx"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAmBq9wGoaRufSy9HjT7e1qag2HVts2Jtc"
+          "current_key": "AIzaSyC7HSQEpkQX2ISq7Ldu1Tls-iic2SxDfAI"
         }
       ],
       "services": {
