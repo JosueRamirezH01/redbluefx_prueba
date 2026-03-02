@@ -1,10 +1,10 @@
 
 
 import 'package:dio/dio.dart';
-import 'package:redbluefx/domain/entities/feedback.dart';
 
 import '../../core/services/dio_service_feedback.dart';
 import '../../core/utils/logger.dart';
+import '../../domain/entities/feedback.dart';
 import '../../domain/repositories/feedback_repository.dart';
 
 class FeedbackRepositoryImpl implements FeedbackRepository {

@@ -18,6 +18,7 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   // Inicializar configuración
   AppConfig.initialize(

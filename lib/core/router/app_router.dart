@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:redbluefx/core/services/loginStorage.dart';
-import 'package:redbluefx/presentation/screens/anuncio/anuncio_details_screen.dart';
-import 'package:redbluefx/presentation/screens/anuncio/anuncio_screen.dart';
-import 'package:redbluefx/presentation/screens/auth/pre_login_screem.dart';
-import 'package:redbluefx/presentation/screens/calculator/calculator.dart';
-import 'package:redbluefx/presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/admin/users_screen.dart';
 import '../../presentation/screens/admin/admin_alerts_screen.dart';
+import '../../presentation/screens/alert/alert_detail_screen.dart';
+import '../../presentation/screens/anuncio/anuncio_details_screen.dart';
+import '../../presentation/screens/anuncio/anuncio_screen.dart';
 import '../../presentation/screens/auth/login_screen.dart';
+import '../../presentation/screens/auth/pre_login_screem.dart';
 import '../../presentation/screens/auth/register_screen.dart';
 import '../../presentation/screens/auth/forgot_password_screen.dart';
 import '../../presentation/screens/auth/verify_reset_code_screen.dart';
 import '../../presentation/screens/auth/reset_password_screen.dart';
 import '../../presentation/screens/auth/verify_email_screen.dart';
+import '../../presentation/screens/calculator/calculator.dart';
 import '../../presentation/screens/home/home_screen.dart';
 import '../../presentation/screens/noticia/notice_detail_screen.dart';
 import '../../presentation/screens/alert/create_alert_screen.dart';
+import '../../presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/profile/profile_screen.dart';
 import '../../presentation/screens/alert/edit_alert_screen.dart';
 import '../../presentation/providers/auth_provider.dart';
+import '../services/loginStorage.dart';
 import '../services/navigation_service.dart';
 
 final router = GoRouter(
@@ -123,6 +124,13 @@ final router = GoRouter(
       path: '/alerts/create',
       name: 'createAlert',
       builder: (context, state) => const CreateAlertScreen(),
+    ),
+    GoRoute(
+      path: '/alerts/:id',
+      name: 'alertDetail',
+      builder: (context, state) => AlertDetailScreen(
+        alertId: state.pathParameters['id']!,
+      ),
     ),
     GoRoute(
       path: '/calculator/calculator',

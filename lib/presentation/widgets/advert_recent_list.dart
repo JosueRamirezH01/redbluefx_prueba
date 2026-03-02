@@ -4,10 +4,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:redbluefx/core/theme/app_theme_backup.dart';
-import 'package:redbluefx/presentation/providers/adverts_provider.dart';
+import '../../core/theme/app_theme.dart';
 import '../../core/utils/logger.dart';
 import '../../domain/entities/adverts.dart';
+import '../providers/adverts_provider.dart';
 import '../providers/auth_provider.dart';
 import 'advert_card.dart';
 

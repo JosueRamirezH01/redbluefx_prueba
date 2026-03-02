@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:redbluefx/core/services/loginStorage.dart';
 import '../../../core/services/authLogin.dart';
+import '../../../core/services/loginStorage.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/notification_service.dart';
@@ -437,14 +437,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                     Container(
                                       width: double.infinity,
                                       height: 56,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
                                         boxShadow: [
                                           BoxShadow(
-                                                color: Color(0xFFFF1B21),
-                                                blurRadius: 20,      // intensidad
-                                                offset: Offset(0, 7) // altura
-                                            ),
-
+                                              color: Theme.of(context).colorBtnProfile,
+                                              blurRadius: 16,      // intensidad
+                                              offset: const Offset(0, 6) // altura
+                                          ),
                                         ],
                                       ),
                                       child: ElevatedButton(

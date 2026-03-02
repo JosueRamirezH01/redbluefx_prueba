@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../domain/entities/alert.dart';
 import '../../domain/repositories/alert_repository.dart';
 import '../../core/config/api_routes.dart';
@@ -11,8 +12,7 @@ class AlertRepositoryImpl implements AlertRepository {
   final Dio _dio;
 
   @override
-  Future<List<Alert>> getAlerts(
-      {int page = 1, int limit = 20, AlertType? type, String? search,}) async {
+  Future<List<Alert>> getAlerts({int page = 1, int limit = 20, AlertType? type, String? search,}) async {
     try {
       AppLogger.debug('🔄 AlertRepositoryImpl getAlerts - type: $type');
 
@@ -72,7 +72,7 @@ class AlertRepositoryImpl implements AlertRepository {
         throw Exception('No se recibieron datos del servidor');
       }
 
-      final alertData = response.data['data'];
+      final alertData = response.data;
       return Alert.fromJson(alertData);
     } catch (e) {
       throw _handleError(e);
@@ -80,8 +80,7 @@ class AlertRepositoryImpl implements AlertRepository {
   }
 
   @override
-  Future<List<Alert>> getUserAlerts(
-      {int page = 1, int limit = 20, AlertStatus? status,}) async {
+  Future<List<Alert>> getUserAlerts({int page = 1, int limit = 20, AlertStatus? status,}) async {
     try {
       final queryParams = {
         'page': page.toString(),
@@ -218,8 +217,11 @@ class AlertRepositoryImpl implements AlertRepository {
 
   @override
   Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, String? imageUrl, required List<String> takeProfits, required AlertType type, required bool isPublic,}) async {
+    final contentString = 'Entry: $entry, StopL: $stopLoss, TP: ${takeProfits.join(", ")}';
     try {
       final Map<String, dynamic> data = {
+        'title': pair,
+        'content': contentString,
         'pair': pair,
         'entry': entry,
         'stopLoss': stopLoss,

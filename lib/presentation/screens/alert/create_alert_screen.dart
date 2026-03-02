@@ -1,21 +1,21 @@
-
-
 import 'dart:io';
 
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redbluefx/core/theme/app_theme.dart';
-import 'package:redbluefx/domain/entities/adverts.dart';
-import 'package:redbluefx/domain/entities/uploadimage.dart';
-import 'package:redbluefx/presentation/providers/adverts_provider.dart';
 import '../../../core/utils/borderPainter.dart';
 import '../../../core/utils/logger.dart';
+import '../../../domain/entities/adverts.dart';
 import '../../../domain/entities/alert.dart';
+import '../../../domain/entities/uploadimage.dart';
+import '../../providers/adverts_provider.dart';
 import '../../providers/alert_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_bar.dart';
@@ -260,10 +260,27 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     setState(() => _isPickingImage = true);
 
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source, imageQuality: 60);
-
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 80); // puedes ajustar quality
     if (pickedFile != null) {
-      final file = File(pickedFile.path);
+      File file = File(pickedFile.path);
+
+      // Comprimir la imagen hasta que pese menos de 1MB
+      int quality = 90;
+      File? compressedFile;
+      do {
+        final bytes = await file.readAsBytes();
+        if (bytes.lengthInBytes <= 1000000) break;
+
+        final result = await FlutterImageCompress.compressWithFile(
+          file.absolute.path,
+          quality: quality,
+        );
+
+        if (result == null) break;
+        compressedFile = await file.writeAsBytes(result);
+        file = compressedFile;
+        quality -= 10; // reducir calidad gradualmente
+      } while (quality > 10);
 
       // Validar extensión
       final extension = pickedFile.path.split('.').last.toLowerCase();
@@ -278,21 +295,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
         return;
       }
 
-      //  Validar tamaño (máximo 1MB)
-      final bytes = await file.length();
-      if (bytes > 1000000) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('La imagen no debe superar 1MB'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-        setState(() => _isPickingImage = false);
-        return;
-      }
-
-      // Si pasa validaciones → guardar imagen
-      setState(() =>  _selectedImage = file);
+      setState(() => _selectedImage = file);
     }
 
     setState(() => _isPickingImage = false);
@@ -610,7 +613,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _entryController,
-                    //keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.number,
                     decoration:  InputDecoration(
                       labelText: 'Entrada ➡️',
                       floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
@@ -647,6 +650,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                               Expanded(
                                 child: TextFormField(
                                   controller: _tpControllers[i],
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     labelText: 'TP ${i + 1} :1.08423 ',
                                     labelStyle: GoogleFonts.poppins(fontSize: 14,color: const Color(0xFF818181)),
@@ -658,6 +662,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                                     if (!priceRegex.hasMatch(value.trim())) {
                                       return 'Formato inválido. Ej: 1.0820';
                                     }
+
                                     return null;
                                   },
                                 ),

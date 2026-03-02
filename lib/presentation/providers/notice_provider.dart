@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:redbluefx/domain/entities/notice.dart';
 import '../../core/utils/logger.dart';
 import '../../data/repositories/notice_repository_impl.dart';
+import '../../domain/entities/notice.dart';
 import '../../domain/repositories/notice_repository.dart';
 
 final noticeRepositoryProvider = Provider<NoticeRepository>((ref) {

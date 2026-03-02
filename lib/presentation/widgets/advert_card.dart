@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx/domain/entities/adverts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../core/theme/app_theme.dart';
+import '../../domain/entities/adverts.dart';
 import '../providers/adverts_provider.dart';
 import '../providers/auth_provider.dart';
 

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx/presentation/providers/notice_provider.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/notice.dart';
+import '../../providers/notice_provider.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/notice_list.dart';
 

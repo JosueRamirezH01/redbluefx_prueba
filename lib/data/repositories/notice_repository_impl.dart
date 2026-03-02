@@ -1,11 +1,11 @@
 
 import 'package:dio/dio.dart';
-import 'package:redbluefx/core/config/api_routes.dart';
-import 'package:redbluefx/domain/entities/notice.dart';
-import 'package:redbluefx/domain/repositories/notice_repository.dart';
 
+import '../../core/config/api_routes.dart';
 import '../../core/services/dio_service.dart';
 import '../../core/utils/logger.dart';
+import '../../domain/entities/notice.dart';
+import '../../domain/repositories/notice_repository.dart';
 
 class NoticeRepositoryImpl implements NoticeRepository {
   NoticeRepositoryImpl({Dio? dio}) : _dio = dio ?? DioService.instance.dio;

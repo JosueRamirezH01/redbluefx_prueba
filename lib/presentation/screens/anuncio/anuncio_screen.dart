@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redbluefx/presentation/providers/adverts_provider.dart';
-import 'package:redbluefx/presentation/widgets/advert_feature_list.dart';
-import 'package:redbluefx/presentation/widgets/advert_recent_list.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../providers/adverts_provider.dart';
+import '../../widgets/advert_feature_list.dart';
+import '../../widgets/advert_recent_list.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 class AnuncioScreen extends ConsumerStatefulWidget {

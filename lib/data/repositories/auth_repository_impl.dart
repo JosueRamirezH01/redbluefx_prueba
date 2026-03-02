@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:redbluefx/domain/entities/uploadimage.dart';
-
 import '../../core/config/api_routes.dart';
 import '../../core/config/app_config.dart';
 import '../../core/utils/logger.dart';
+import '../../domain/entities/uploadimage.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../core/services/dio_service.dart';
@@ -670,10 +669,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> resetPasswordInter(
-      String currentPassword,
-      String newPassword,
-      ) async {
+  Future<void> resetPasswordInter(String currentPassword, String newPassword,) async {
     try {
       final token = await getToken();
       if (token == null) {
