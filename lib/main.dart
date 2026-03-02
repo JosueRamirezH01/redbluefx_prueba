@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:redbluefx/presentation/providers/adverts_provider.dart';
+import 'package:redbluefx/presentation/providers/notificacion_provider.dart';
 import 'package:redbluefx/presentation/providers/theme_provider.dart';
 import 'core/config/app_config.dart';
 import 'core/router/app_router.dart';
@@ -58,6 +60,11 @@ class _RedBlueFXAppState extends ConsumerState<RedBlueFXApp> with WidgetsBinding
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    FirebaseMessagingService.instance.onForegroundMessage = (message) {
+      ref.read(realtimeNotificationProvider.notifier).setNotification(message);
+      ref.read(newsCarouselProvider.notifier).addFromNotification(message);
+      ref.read(showNewsCarouselProvider.notifier).show();
+    };
     _checkAndRequestNotificationPermissions();
   }
   
