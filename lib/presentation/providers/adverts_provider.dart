@@ -4,9 +4,7 @@ import '../../data/repositories/adverts_repository_impl.dart';
 import '../../domain/entities/adverts.dart';
 import '../../domain/entities/alert.dart';
 import '../../domain/repositories/adverts_repository.dart';
-final showNewsCarouselProvider = StateProvider<bool>((ref) {
-  return true; // visible por defecto
-});
+
 final advertRepositoryProvider = Provider<AdvertRepository>((ref) {
   return AdvertsRepositoryImpl();
 });

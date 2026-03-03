@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
-import '../../providers/adverts_provider.dart';
+import 'package:intl/intl.dart';
 import '../../providers/alert_provider.dart';
+import '../../providers/notificacion_provider.dart';
 import '../../widgets/alert_list.dart';
 import '../../widgets/app_bar.dart';
 import '../../../domain/entities/alert.dart';
@@ -237,7 +238,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       child: Column(
         children: [
           const SizedBox(height: 10),
-         // _buildNewsCarousel(false, context, ref),
+         _buildNewsCarousel(false, context, ref),
           const SizedBox(height: 10),
           if (isSearching)
             FadeInDown(
@@ -261,16 +262,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
         child: Column(
           children: [
             const SizedBox(height: 10),
-            //_buildNewsCarousel(false, context, ref),
+            _buildNewsCarousel(false, context, ref),
             if (isSearching)
               FadeInDown(
                 duration: const Duration(milliseconds: 300),
                 child: _buildSearchResultCounter(),
               ),
+
             const SizedBox(height: 10),
             if (!ref.watch(isSearchingProvider))
               _buildFilters(),
-
             const SizedBox(height: 12),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.65,
@@ -325,29 +326,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   /// POR MIENTRAS, MOVER ESO EN EN UN WIDGET APARTE
   Widget _buildNewsCarousel(bool isSmall, BuildContext context, WidgetRef ref) {
     final showCarousel = ref.watch(showNewsCarouselProvider);
+    final newsItems = ref.watch(newsCarouselProvider);
 
-    if (!showCarousel) return const SizedBox(); // 👈 Si está oculto, no se muestra
+    if (!showCarousel || newsItems.isEmpty) {
+      return const SizedBox();
+    } // 👈 Si está oculto, no se muestra
 
-    final List<Map<String, String>> newsItems = [
-      {
-        'title': 'Nueva funcionalidad',
-        'desc': 'Descubre las últimas novedades de RedBlue FX',
-        'emoji': '฿',
-        'date': '29/12'
-      },
-      {
-        'title': 'Tendencias',
-        'desc': 'El mercado continúa mostrando señales positivas esta semana.',
-        'emoji': '📈',
-        'date': '28/12'
-      },
-      {
-        'title': 'Análisis',
-        'desc': 'Los expertos predicen una corrección en los próximos días.',
-        'emoji': '💹',
-        'date': '27/12'
-      },
-    ];
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -372,7 +356,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.blue.withOpacity(0.25),
+                              color: Colors.blue.withValues(alpha: 0.25),
                               blurRadius: 8,
                               offset: const Offset(0, 3),
                             ),
@@ -394,13 +378,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                 right: 12,
                                 child: GestureDetector(
                                   onTap: () {
-                                    ref.read(showNewsCarouselProvider.notifier).state = false;
+                                    ref.read(showNewsCarouselProvider.notifier).hide();
                                   },
                                   child: Container(
                                     width: 24,
                                     height: 24,
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.25),
+                                      color: Colors.white.withValues(alpha: 0.25),
                                       shape: BoxShape.circle,
                                     ),
                                     child: const Icon(
@@ -418,35 +402,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      width: isSmall ? 60 : 70,
-                                      height: isSmall ? 60 : 70,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        gradient: const RadialGradient(
-                                          colors: [
-                                            Color(0xFFFFD54F),
-                                            Color(0xFFFFB300),
-                                          ],
-                                          center: Alignment(-0.3, -0.3),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.orange.withOpacity(0.3),
-                                            blurRadius: 8,
-                                            offset: const Offset(0, 3),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          item['emoji']!,
-                                          style: TextStyle(
-                                            fontSize: isSmall ? 28 : 34,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    _buildNewsImage(imageUrl: item.image, isSmall: isSmall,),
                                     const SizedBox(width: 20),
                                     // Texto y botón
                                     Expanded(
@@ -455,7 +411,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            item['title']!,
+                                            item.title,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w700,
@@ -463,7 +419,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                               height: 1.2,
                                               shadows: [
                                                 Shadow(
-                                                  color: Colors.black.withOpacity(0.5),
+                                                  color: Colors.black.withValues(alpha: 0.5),
                                                   offset: const Offset(0, 1),
                                                   blurRadius: 3,
                                                 ),
@@ -472,14 +428,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                           ),
                                           const SizedBox(height: 10),
                                           Text(
-                                            item['desc']!,
+                                            item.content,
                                             style: TextStyle(
-                                              color: Colors.white.withOpacity(0.95),
+                                              color: Colors.white.withValues(alpha: 0.95),
                                               fontSize: isSmall ? 14 : 14,
                                               height: 1.3,
                                               shadows: [
                                                 Shadow(
-                                                  color: Colors.black.withOpacity(0.5),
+                                                  color: Colors.black.withValues(alpha: 0.5),
                                                   offset: const Offset(0, 1),
                                                   blurRadius: 2,
                                                 ),
@@ -496,13 +452,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                               Flexible(
                                                 child: ElevatedButton(
                                                   style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.white.withOpacity(0.25),
+                                                    backgroundColor: const Color(0xFF005EA3),
                                                     foregroundColor: Colors.white,
                                                     elevation: 0,
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(8),
                                                       side: BorderSide(
-                                                        color: Colors.white.withOpacity(0.4),
+                                                        color: Colors.white.withValues(alpha: 0.4),
                                                         width: 1,
                                                       ),
                                                     ),
@@ -528,9 +484,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                                 ),
                                               ),
                                               Text(
-                                                item['date']!,
+                                                DateFormat('dd/MM').format(item.createdAt),
                                                 style: TextStyle(
-                                                  color: Colors.white.withOpacity(0.85),
+                                                  color: Colors.white.withValues(alpha: 0.85),
                                                   fontSize: isSmall ? 10 : 12,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -578,7 +534,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       },
     );
   }
+  Widget _buildNewsImage({required String? imageUrl, required bool isSmall,}) {
+    final size = isSmall ? 60.0 : 70.0;
 
+    // Si no viene imagen
+    if (imageUrl == null || imageUrl.isEmpty) {
+      return _placeholderImage(size);
+    }
+
+    return Image.network(
+      imageUrl,
+      width: size,
+      height: size,
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return _placeholderImage(size);
+      },
+      errorBuilder: (context, error, stackTrace) {
+        return _placeholderImage(size);
+      },
+    );
+  }
+  Widget _placeholderImage(double size) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorCardPreview,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Image.asset(
+          'assets/icons/icon_anuncio.png',
+          width: size * 0.4,
+          height: size * 0.4,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
 }
 
 

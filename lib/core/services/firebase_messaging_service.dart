@@ -7,9 +7,10 @@ import 'package:go_router/go_router.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../utils/logger.dart';
 import 'navigation_service.dart';
+typedef NotificationCallback = void Function(RemoteMessage message);
 
 class FirebaseMessagingService {
-  static const channelId = 'alerts';
+  NotificationCallback? onForegroundMessage;
   FirebaseMessagingService._internal();
   static final FirebaseMessagingService _instance = FirebaseMessagingService._internal();
   static FirebaseMessagingService get instance => _instance;
@@ -132,6 +133,9 @@ class FirebaseMessagingService {
   void _handleForegroundMessage(RemoteMessage message) {
     AppLogger.debug('🔔 Got a message in foreground!');
     AppLogger.debug('🔔 Message data: ${message.data}');
+
+    // 🔥 EMITIR EVENTO A LA APP
+    onForegroundMessage?.call(message);
     
     if (message.notification != null) {
       AppLogger.debug(
