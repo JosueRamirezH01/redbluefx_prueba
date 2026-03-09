@@ -14,6 +14,11 @@ abstract class AdvertRepository {
     int limit = 20,
     String? search,
   });
+  Future<List<Advert>> getAdvertsFeatureHome({
+    int page = 1,
+    int limit = 20,
+    String? search,
+  });
 
   Future<List<Advert>> getAdvertsPublic({
     int page = 1,

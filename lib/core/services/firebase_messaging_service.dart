@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -165,7 +167,10 @@ class FirebaseMessagingService {
           ),
           iOS: const DarwinNotificationDetails(),
         ),
-        payload: message.data['alertId'],
+        payload: jsonEncode({
+          'type': message.data['type'],
+          'entityId': message.data['entityId'],
+        }),
       );
     }
   }
@@ -174,23 +179,56 @@ class FirebaseMessagingService {
   void _handleNotificationTap(RemoteMessage message) {
     AppLogger.debug('🔔 Notification tapped: ${message.messageId}');
     AppLogger.debug('🔔 Message data: ${message.data}');
-    
-    final alertId = message.data['alertId'];
-    if (alertId != null && alertId.isNotEmpty) {
-      _navigateToAlert(alertId);
-    } else {
-      AppLogger.debug('⚠️ No alertId found in notification data');
+
+    final type = message.data['type'];
+    final entityId = message.data['entityId'];
+
+    if (type == null || entityId == null) {
+      AppLogger.debug('⚠️ Notification without type or entityId');
+      return;
+    }
+    switch (type) {
+      case 'alert':
+        _navigateToAlert(entityId);
+        break;
+      case 'advert':
+        _navigateToAdvert(entityId);
+        break;
+     /* case 'news':
+        _navigateToNews(entityId);
+        break;
+      */
+      default:
+        AppLogger.debug('⚠️ Unknown notification type: $type');
     }
   }
   
   // Handle local notification tap
   void _handleLocalNotificationTap(String? payload) {
     AppLogger.debug('🔔 Local notification tapped with payload: $payload');
-    
-    if (payload != null && payload.isNotEmpty) {
-      _navigateToAlert(payload);
-    } else {
-      AppLogger.debug('⚠️ No payload found in local notification');
+
+    if (payload == null) return;
+
+    final data = jsonDecode(payload);
+
+    final type = data['type'];
+    final entityId = data['entityId'];
+
+    switch (type) {
+      case 'alert':
+        _navigateToAlert(entityId);
+        break;
+
+      case 'advert':
+        _navigateToAdvert(entityId);
+        break;
+
+      case 'news':
+      //_navigateToNews(entityId);
+        break;
+
+      default:
+        AppLogger.debug('⚠️ Unknown notification type: $type');
     }
   }
   
@@ -213,23 +251,63 @@ class FirebaseMessagingService {
         AppLogger.debug('⚠️ No navigator context available, will navigate when app is ready');
         
         // Store the alert ID for delayed navigation
-        _pendingAlertNavigation = alertId;
+        _pendingNavigation = {
+          'type': 'alert',
+          'id': alertId
+        };
       }
     } catch (e) {
       AppLogger.error('❌ Error navigating to alert', error: e);
     }
   }
-  
+  void _navigateToAdvert(String advertId) {
+    try {
+      AppLogger.debug('🔔 Attempting to navigate to alert: $advertId');
+
+      // Use NavigationService to get context
+      final navigationService = NavigationService();
+      final context = navigationService.navigatorKey.currentContext;
+
+      // Check if we have a valid context
+      if (context != null) {
+        // Navigate to alert detail using go_router
+        context.push('/anuncio/$advertId');
+
+        AppLogger.debug('✅ Successfully navigated to alert: $advertId');
+      } else {
+        AppLogger.debug('⚠️ No navigator context available, will navigate when app is ready');
+
+        // Store the alert ID for delayed navigation
+        _pendingNavigation = {
+          'type': 'advert',
+          'id': advertId
+        };
+      }
+    } catch (e) {
+      AppLogger.error('❌ Error navigating to alert', error: e);
+    }
+  }
+
   // Store pending navigation when app is not ready
-  String? _pendingAlertNavigation;
-  
+  Map<String, String>? _pendingNavigation;
+
   // Method to handle pending navigation (to be called when app is ready)
   void handlePendingNavigation() {
-    if (_pendingAlertNavigation != null) {
-      AppLogger.debug('🔔 Handling pending navigation to alert: $_pendingAlertNavigation');
-      final alertId = _pendingAlertNavigation!;
-      _pendingAlertNavigation = null;
-      _navigateToAlert(alertId);
+    if (_pendingNavigation == null) return;
+
+    final type = _pendingNavigation!['type'];
+    final id = _pendingNavigation!['id'];
+
+    _pendingNavigation = null;
+
+    switch (type) {
+      case 'alert':
+        _navigateToAlert(id!);
+        break;
+
+      case 'advert':
+        _navigateToAdvert(id!);
+        break;
     }
   }
   

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:intl/intl.dart';
+import '../../providers/adverts_provider.dart';
 import '../../providers/alert_provider.dart';
 import '../../providers/notificacion_provider.dart';
 import '../../widgets/alert_list.dart';
@@ -39,6 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     _carouselPageController = PageController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadAlerts();
+      //_loadAdeverts();
     });
   }
 
@@ -65,6 +67,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     }
   }
 
+  Future<void> _loadAdeverts() async {
+    try {
+      await ref.read(newsCarouselProvider.notifier).init();
+    } catch (e, stack) {
+      AppLogger.error('Error cargando alertas: $e', error: e, stackTrace: stack);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al cargar las alertas. Por favor, intenta de nuevo.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
 
 
   void _onFilterByType(AlertType? type) {
@@ -350,6 +367,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                     onPageChanged: (index) => setState(() => _currentCarouselIndex = index),
                     itemBuilder: (context, index) {
                       final item = newsItems[index];
+                      AppLogger.debug("Imagen anuncio: ${item.image}");
+                      AppLogger.debug("Imagen anuncio: ${item.imageUrl}");
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
@@ -463,7 +482,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
                                                       ),
                                                     ),
                                                   ),
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    AppLogger.debug("Abrir anuncio ID: ${item.id}");
+                                                    context.push(
+                                                      '/anuncio/${item.id}',
+                                                      extra: item,
+                                                    );
+                                                  },
                                                   child: Row(
                                                     mainAxisSize: MainAxisSize.min,
                                                     children: [

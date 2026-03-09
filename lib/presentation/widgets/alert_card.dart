@@ -318,14 +318,14 @@ class AlertCard extends ConsumerWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if(alert.imageUrl != null && alert.imageUrl!.isNotEmpty)
-              ClipRRect(
+
+              if ((imagePreview != null && imagePreview!.existsSync()) || (alert.imageUrl != null && alert.imageUrl!.isNotEmpty))              ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     final imageSize = size * 0.3;
                     final finalSize = imageSize.clamp(100.0, 120.0);
-                    if (imagePreview != null) {
+                    if (imagePreview != null && imagePreview!.existsSync()) {
                       return Image.file(
                         imagePreview!,
                         width: finalSize,

@@ -165,6 +165,44 @@ class AdvertsRepositoryImpl implements AdvertRepository {
     }
   }
 
+  @override
+  Future<List<Advert>> getAdvertsFeatureHome({int page = 1, int limit = 20, String? search}) async {
+    try {
+
+      final queryParams = {
+        'page': page.toString(),
+        'limit': limit.toString(),
+        if (search != null && search.isNotEmpty) 'search': search,
+      };
+
+      AppLogger.debug(
+          '🔄 AdvertRepositoryImpl getAlerts - queryParams: $queryParams');
+
+      final response = await _dio.get(ApiRoutes.advertsFeatureHome, queryParameters: queryParams);
+
+      if (response.data == null) {
+        throw Exception('No se recibieron datos del servidor');
+      }
+
+      final List<dynamic> data = response.data['adverts'] as List<dynamic>;
+      var adverts = data.map((json) => Advert.fromJson(json)).toList();
+      AppLogger.debug(
+          '🔄 AdvertRepositoryImpl getAdverts - received ${data.length} advert');
+      if (data.isNotEmpty) {
+        AppLogger.debug(
+            '🔄 AdvertRepositoryImpl getAdverts - first advert type: ${data[0]['type']}');
+      }
+      return adverts;
+    } catch (e, stack) {
+      AppLogger.error(
+        'Error en getAdvert',
+        error: e,
+        stackTrace: stack,
+      );
+      throw _handleError(e);
+    }
+  }
+
 
 
 }

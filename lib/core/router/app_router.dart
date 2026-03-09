@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../domain/entities/adverts.dart';
 import '../../presentation/screens/admin/users_screen.dart';
 import '../../presentation/screens/admin/admin_alerts_screen.dart';
 import '../../presentation/screens/alert/alert_detail_screen.dart';
@@ -174,9 +175,15 @@ final router = GoRouter(
     GoRoute(
       path: '/anuncio/:id',
       name: 'anuncioDetail',
-      builder: (context, state) => AnuncioDetailScreen(
-        advertId: state.pathParameters['id']!,
-      ),
+      builder: (context, state) {
+        final advert = state.extra as Advert?;
+        final id = state.pathParameters['id']!;
+
+        return AnuncioDetailScreen(
+          advertId: id,
+          advert: advert,
+        );
+      },
     ),
   ],
   errorBuilder: (context, state) => Scaffold(

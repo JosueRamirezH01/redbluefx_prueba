@@ -5,15 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/logger.dart';
 import '../../../core/utils/date_utils.dart';
+import '../../../domain/entities/adverts.dart';
 import '../../providers/adverts_provider.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import 'package:collection/collection.dart';
 class AnuncioDetailScreen extends ConsumerWidget {
   final String advertId;
-
+  final Advert? advert;
   const AnuncioDetailScreen({
     super.key,
     required this.advertId,
+    this.advert
   });
 
   @override
@@ -21,10 +23,12 @@ class AnuncioDetailScreen extends ConsumerWidget {
     final advertState = ref.watch(advertsProvider);
     final publicState = ref.watch(advertsProviderPublic);
     final screenWidth = MediaQuery.of(context).size.width;
-    var advert = advertState.adverts.firstWhereOrNull((a) => a.id == advertId);
-    advert ??= publicState.adverts.firstWhereOrNull((a) => a.id == advertId);
+    Advert? advertData = advert;
 
-    if (advert == null) {
+    advertData ??= advertState.adverts.firstWhereOrNull((a) => a.id == advertId);
+    advertData ??= publicState.adverts.firstWhereOrNull((a) => a.id == advertId);
+
+    if (advertData == null) {
       return const Scaffold(
         body: Center(child: Text("Cargando anuncio o no encontrado...")),
       );
@@ -67,20 +71,20 @@ class AnuncioDetailScreen extends ConsumerWidget {
                         builder: (context, constraints) {
                           final imageSize = screenWidth * 0.3;
                           final finalSize = imageSize.clamp(100.0, 120.0);
-                          if (advert?.image == null || advert!.image!.isEmpty) {
+                          if (advertData?.image == null || advertData!.image!.isEmpty) {
                             return _defaultImage(70);
                           }
                           return GestureDetector(
                             onTap: () {
                               _showImagePreview(
                                 context,
-                                Image.network(advert!.image!, fit: BoxFit.contain),
+                                Image.network(advertData!.image!, fit: BoxFit.contain),
                               );
                             },
                             child: Hero(
                               tag: 'alert-image-$advertId',
                               child: Image.network(
-                                advert.image!,
+                                advertData.image!,
                                 width: finalSize,
                                 height: finalSize,
                                 fit: BoxFit.cover,
@@ -112,7 +116,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
                   Expanded(
                     flex: 2,
                     child: Text(
-                      advert.title ,
+                      advertData.title ,
                       style: GoogleFonts.montserrat(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
@@ -132,7 +136,7 @@ class AnuncioDetailScreen extends ConsumerWidget {
                   const SizedBox(height: 10),
                   // Contenido de la noticia
                   Text(
-                    advert.content,
+                    advertData.content,
                     style: GoogleFonts.inter(fontSize: 14),
                   ),
                 ],

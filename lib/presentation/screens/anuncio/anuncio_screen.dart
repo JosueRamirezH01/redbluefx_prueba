@@ -28,10 +28,6 @@ class _AnuncioScreenState extends ConsumerState<AnuncioScreen> with SingleTicker
       duration: const Duration(milliseconds: 1500),
     )..forward();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadAdvertFeature();
-      _loadAdvertPublic();
-    });
   }
 
   @override
