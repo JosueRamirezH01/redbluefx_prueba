@@ -265,9 +265,9 @@ class AlertCard extends ConsumerWidget {
 
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment:(mockTPs.length > 4) ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                   children: [
-                    for (int i = 1; i < mockTPs.length; i++)
+                    for (int i = 1; i < mockTPs.length; i++)...[
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -295,6 +295,9 @@ class AlertCard extends ConsumerWidget {
                           ],
                         ),
                       ),
+                      if(mockTPs.length < 5)
+                        SizedBox(width: MediaQuery.of(context).size.width * 0.15)
+                    ]
                   ],
                 ),
               )

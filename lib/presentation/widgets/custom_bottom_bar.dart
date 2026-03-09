@@ -25,13 +25,13 @@ class CustomBottomBar extends ConsumerWidget {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height * 0.07+ bottomPadding,
+      height: size.height * 0.08+ bottomPadding,
       child: Stack(
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
         children: [
           CustomPaint(
-            size: Size(MediaQuery.of(context).size.width, size.height * 0.07 + bottomPadding),
+            size: Size(MediaQuery.of(context).size.width, size.height * 0.08 + bottomPadding),
             painter: _BottomBarPainter(curvaColor),
           ),
           Row(
@@ -71,7 +71,6 @@ class CustomBottomBar extends ConsumerWidget {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final color = isSelected ? (isDark ? Colors.white : const Color(0xFF066BAF)) : Colors.white70;
-
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding * 0.5),
       child: GestureDetector(

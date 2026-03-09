@@ -88,7 +88,6 @@ class NewsCarouselNotifier extends StateNotifier<List<Advert>> {
     if (exists) return;
 
     state = [item, ...state].take(3).toList();
-
     // 🔥 persistir
     await NewsCarouselStorage.save(state);
   }
