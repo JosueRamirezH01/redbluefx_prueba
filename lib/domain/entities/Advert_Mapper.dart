@@ -9,7 +9,7 @@ class AdvertMapper {
       title: msg.notification?.title ?? 'Nuevo anuncio',
       content: msg.notification?.body ?? '',
       imageUrl: msg.data['imageUrl'],
-      image: msg.data['image'],
+      image: msg.data['image'] ?? msg.data['imageUrl'],
       isFeatured: true, // porque viene por push
       createdAt: DateTime.now(),
       createdBy: msg.data['createdBy'] ?? 'system',

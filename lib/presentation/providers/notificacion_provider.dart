@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:redbluefx/domain/entities/Advert_Mapper.dart';
 import 'package:redbluefx/domain/entities/adverts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-final showNewsCarouselProvider =
-StateNotifierProvider<ShowNewsCarouselNotifier, bool>(
+
+import '../../domain/repositories/adverts_repository.dart';
+import 'adverts_provider.dart';
+final showNewsCarouselProvider = StateNotifierProvider<ShowNewsCarouselNotifier, bool>(
       (ref) => ShowNewsCarouselNotifier(),
 );
 class ShowNewsCarouselNotifier extends StateNotifier<bool> {
@@ -18,9 +20,12 @@ class ShowNewsCarouselNotifier extends StateNotifier<bool> {
 final realtimeNotificationProvider = StateNotifierProvider<RealtimeNotificationNotifier, RemoteMessage?>(
       (ref) => RealtimeNotificationNotifier(),
 );
-final newsCarouselProvider = StateNotifierProvider<NewsCarouselNotifier, List<Advert>>(
-      (ref) => NewsCarouselNotifier(),
-);
+final newsCarouselProvider =
+StateNotifierProvider<NewsCarouselNotifier, List<Advert>>((ref) {
+  final repo = ref.watch(advertRepositoryProvider);
+
+  return NewsCarouselNotifier(repo);
+});
 
 class RealtimeNotificationNotifier extends StateNotifier<RemoteMessage?> {
   RealtimeNotificationNotifier() : super(null);
@@ -36,17 +41,45 @@ class RealtimeNotificationNotifier extends StateNotifier<RemoteMessage?> {
 
 
 class NewsCarouselNotifier extends StateNotifier<List<Advert>> {
-  NewsCarouselNotifier() : super([]) {
-    _restore();
+  final AdvertRepository _repository;
+  NewsCarouselNotifier(this._repository) : super([]) {
+    init();
   }
 
-  Future<void> _restore() async {
+  Future<void> init() async {
+
+    // 1️⃣ cargar local
     final stored = await NewsCarouselStorage.load();
+
     if (stored.isNotEmpty) {
       state = stored;
     }
-  }
 
+    // 2️⃣ sincronizar con API
+    await loadFromApi();
+  }
+  Future<void> loadFromApi() async {
+
+    try {
+
+      final adverts = await _repository.getAdvertsFeatureHome(
+        page: 1,
+        limit: 3,
+      );
+
+      state = adverts;
+
+      await NewsCarouselStorage.save(state);
+
+      print("📢 Carrusel API cargado: ${adverts.length}");
+
+    } catch (e) {
+
+      print("❌ Error cargando carrusel API: $e");
+
+    }
+
+  }
   Future<void> addFromNotification(RemoteMessage message) async {
     final item = AdvertMapper.fromRemoteMessage(message);
 

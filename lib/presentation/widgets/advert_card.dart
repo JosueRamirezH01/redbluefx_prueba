@@ -191,6 +191,16 @@ class AdvertsCard extends ConsumerWidget {
 
 
   Widget _buildImage(BuildContext context,double finalSize) {
+
+    if (imagePreview != null && imagePreview!.existsSync()) {
+      return Image.file(
+        imagePreview!,
+        width: finalSize,
+        height: finalSize,
+        fit: BoxFit.cover,
+      );
+    }
+
     if (advert.image == null || advert.image!.isEmpty) {
       return _defaultImage(context,finalSize);
     }

@@ -31,6 +31,7 @@ class ApiRoutes {
   static const notices = _notices;
   static const adverts = _adverts;
   static const advertsFeature = '$_adverts/featured';
+  static const advertsFeatureHome = '$_adverts/featured/home';
   static const advertsPublic = '$_adverts/public';
   static String advert(String id) => '$_adverts/$id';
 

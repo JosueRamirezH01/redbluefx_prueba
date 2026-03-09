@@ -97,7 +97,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
 
     showDialog(
       context: context,
-      builder: (_) => TradingAlertPreviewDialog(alert: alertDraft, onConfirm: _submitFormAlert, image: _selectedImage,),
+      builder: (_) => TradingAlertPreviewDialog(alert: alertDraft, onConfirm: _submitFormAlert, image: _selectedImage),
     );
 
   }
@@ -113,7 +113,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       content: _contentController.text,
       title: _titleController.text,
     );
-
+    print('imagen enviando $_selectedImage');
     showDialog(
       context: context,
       builder: (_) => AdvertPreviewDialog(advert: advertDraft, onConfirm: _submitFormAnuncio, image: _selectedImage,),

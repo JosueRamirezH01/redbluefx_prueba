@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:redbluefx/presentation/providers/adverts_provider.dart';
 import 'package:redbluefx/presentation/providers/notificacion_provider.dart';
 import 'package:redbluefx/presentation/providers/theme_provider.dart';
 import 'core/config/app_config.dart';
@@ -24,7 +23,7 @@ void main() async {
   );
   // Inicializar configuración
   AppConfig.initialize(
-    env: Environment.prod,
+    env: Environment.dev,
     baseUrl: 'https://redbluefx-develop.up.railway.app',
   );
   //https://redbluefx-develop.up.railway.app
@@ -61,9 +60,13 @@ class _RedBlueFXAppState extends ConsumerState<RedBlueFXApp> with WidgetsBinding
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     FirebaseMessagingService.instance.onForegroundMessage = (message) {
+      final type = message.data['type'];
+
       ref.read(realtimeNotificationProvider.notifier).setNotification(message);
-      ref.read(newsCarouselProvider.notifier).addFromNotification(message);
-      ref.read(showNewsCarouselProvider.notifier).show();
+      if (type == 'advert') {
+        ref.read(newsCarouselProvider.notifier).addFromNotification(message);
+        ref.read(showNewsCarouselProvider.notifier).show();
+      }
     };
     _checkAndRequestNotificationPermissions();
   }
