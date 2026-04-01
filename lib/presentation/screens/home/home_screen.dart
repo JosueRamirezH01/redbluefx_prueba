@@ -15,6 +15,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../widgets/card_carousel.dart';
 import '../../widgets/center_button.dart';
 import '../../widgets/custom_bottom_bar.dart';
+import '../../widgets/forex_socket_ui.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -233,20 +234,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   Widget _buildPortrait(BuildContext context, isSearching) {
     return RefreshIndicator(
       onRefresh: _loadAlerts,
-      child: Column(
-        children: [
-          const SizedBox(height: 10),
-          const CardCarousel(isSmall: false,),
-          const SizedBox(height: 10),
+      child: CustomScrollView(
+        slivers: [
+           SliverAppBar(
+            automaticallyImplyLeading: false,
+            expandedHeight: MediaQuery.of(context).size.height * 0.27,
+            floating: false,
+            pinned: true,
+            snap: false,
+             surfaceTintColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+             flexibleSpace: FlexibleSpaceBar(
+               background: LayoutBuilder(
+                 builder: (context, constraints) {
+                   return const Column(
+                     children: [
+                       SizedBox(height: 10),
+                       Expanded(
+                         child: CardCarousel(isSmall: false),
+                       ),
+                     ],
+                   );
+                 },
+               ),
+             ),
+          ),
           if (isSearching)
-            FadeInDown(
-              duration: const Duration(milliseconds: 300),
-              child: _buildSearchResultCounter(),
+            SliverToBoxAdapter(
+              child: FadeInDown(
+                duration: const Duration(milliseconds: 300),
+                child: _buildSearchResultCounter(),
+              ),
             ),
           if (!ref.watch(isSearchingProvider))
-            _buildFilters(),
-          const Expanded(
-            child: AlertList(),
+            SliverToBoxAdapter(child: Center(child: _buildFilters())),
+          const SliverPadding(
+            padding:  EdgeInsets.all(10),
+            sliver:  AlertList(),
           ),
         ],
       ),
@@ -255,29 +279,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   Widget _buildLandscape(BuildContext context, isSearching) {
     return RefreshIndicator(
       onRefresh: _loadAlerts,
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            const CardCarousel(isSmall: false),
+      child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              expandedHeight: MediaQuery.of(context).size.height * 0.7,
+                floating: false,
+                pinned: false,
+                surfaceTintColor: Colors.transparent,
+                backgroundColor: Colors.transparent,
+              flexibleSpace: FlexibleSpaceBar(
+                background: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return const Column(
+                      children: [
+                        SizedBox(height: 10),
+                        Expanded(
+                          child: CardCarousel(isSmall: false),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              )
+            ),
             if (isSearching)
-              FadeInDown(
-                duration: const Duration(milliseconds: 300),
-                child: _buildSearchResultCounter(),
+              SliverToBoxAdapter(
+                child: FadeInDown(
+                  duration: const Duration(milliseconds: 300),
+                  child: _buildSearchResultCounter(),
+                ),
               ),
 
-            const SizedBox(height: 10),
             if (!ref.watch(isSearchingProvider))
-              _buildFilters(),
-            const SizedBox(height: 12),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.65,
-              child: const AlertList(),
+              SliverToBoxAdapter(child: Center(child: _buildFilters())),
+            const SliverPadding(
+              padding: EdgeInsets.all(10),
+              sliver: AlertList(),
             ),
           ],
         ),
-      ),
     );
   }
   Widget _buildFilters() {

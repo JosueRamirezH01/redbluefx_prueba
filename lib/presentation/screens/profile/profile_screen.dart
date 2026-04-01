@@ -452,7 +452,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   color:Theme.of(context).colorIconProfile,
                                   title: 'Feedback',
                                   onTap: () {
-                                    //showFeedbackDialog(context);
+                                    showFeedbackDialog(context);
                                   },
                                 ),
                                 _buildMenuItem(

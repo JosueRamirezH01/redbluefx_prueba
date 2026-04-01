@@ -22,6 +22,8 @@ abstract class AlertRepository {
     required String stopLoss,
     String? analysis,
     String? image,
+    String? parOne,
+    String? parTwo,
     required List<String> takeProfits,
     required AlertType type,
     String? imageUrl,

@@ -14,9 +14,13 @@ import '../../../core/utils/borderPainter.dart';
 import '../../../core/utils/logger.dart';
 import '../../../domain/entities/adverts.dart';
 import '../../../domain/entities/alert.dart';
+import '../../../domain/entities/divisas.dart';
 import '../../../domain/entities/uploadimage.dart';
+import '../../../domain/entities/user.dart';
 import '../../providers/adverts_provider.dart';
 import '../../providers/alert_provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/divisa_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
@@ -48,8 +52,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   bool _isLoadingAnuncio = false;
   File? _selectedImage;
   bool _isPickingImage = false;
+  Divisas? _selectedBase;
+  Divisas? _selectedQuote;
   int _selectedIndex = 0;
-
+  final scrollController = ScrollController();
   @override
   void dispose() {
     _pairController.dispose();
@@ -67,6 +73,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   Future<void> _openPreviewAlert() async {
     if (_selectedType == null) {
       Fluttertoast.showToast(msg: 'Por favor selecciona un tipo: Comprar o Vender', backgroundColor: Colors.redAccent, gravity: ToastGravity.BOTTOM, toastLength: Toast.LENGTH_LONG);
+      return;
+    }
+    if (_selectedBase == null || _selectedQuote == null) {
+      Fluttertoast.showToast(msg: 'Selecciona ambas divisas', backgroundColor: Colors.redAccent, gravity: ToastGravity.BOTTOM, toastLength: Toast.LENGTH_LONG);
       return;
     }
     if (!_formKeyAlerta.currentState!.validate()) return;
@@ -89,6 +99,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       stopLoss: _slController.text.trim(),
       takeProfits: _tpControllers.map((c) => c.text).toList(),
       analysis: _analysisController.text,
+      parOne: _selectedBase?.partwo,
+      parTwo: _selectedQuote?.partwo,
       type: _selectedType!,
       isPublic: _isPublic,
       createdAt: DateTime.now(),
@@ -113,7 +125,6 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       content: _contentController.text,
       title: _titleController.text,
     );
-    print('imagen enviando $_selectedImage');
     showDialog(
       context: context,
       builder: (_) => AdvertPreviewDialog(advert: advertDraft, onConfirm: _submitFormAnuncio, image: _selectedImage,),
@@ -122,6 +133,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   }
 
   Future<void> _submitFormAlert() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
     setState(() => _isLoadingAlerta = true);
 
     final List<String> takeProfits = _tpControllers.map((c) => c.text.trim()).toList();
@@ -136,7 +149,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
         }
       }
 
-       await ref.read(alertsProvider.notifier).createAlert(
+      await ref.read(alertsProvider.notifier).createAlert(
         pair: _pairController.text,
         entry: _entryController.text,
         stopLoss: _slController.text,
@@ -144,6 +157,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
         takeProfits: takeProfits,
         image: uploadedImage?.name ?? '',
         imageUrl: uploadedImage?.url,
+        parOne: _selectedBase!.partwo,
+        parTwo: _selectedQuote!.partwo,
         type: _selectedType!,
         isPublic: _isPublic,
       );
@@ -176,6 +191,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     }
   }
   Future<void> _submitFormAnuncio() async {
+    FocusManager.instance.primaryFocus?.unfocus();
 
     uploadimage? uploadedImage;
     setState(() => _isLoadingAnuncio = true);
@@ -304,7 +320,8 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
+    final authState = ref.watch(authStateProvider);
+    final user = authState.currentUser;
     return Scaffold(
       appBar: const SharedAppBar(title: 'RedBlue FX', icons: false),
       extendBody: true,
@@ -397,19 +414,19 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   borderRadius: BorderRadius.circular(40),
                   boxShadow:  [
                     if(!isDark)...[
-                    const BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-3, -3),
-                      blurRadius: 6,
-                      spreadRadius: -1,
-                    ),
-                    const BoxShadow(
-                      color: Color(0x33000000),
-                      offset: Offset(3, 3),
-                      blurRadius: 6,
-                      spreadRadius: -1,
-                    ),
-                  ],
+                      const BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-3, -3),
+                        blurRadius: 6,
+                        spreadRadius: -1,
+                      ),
+                      const BoxShadow(
+                        color: Color(0x33000000),
+                        offset: Offset(3, 3),
+                        blurRadius: 6,
+                        spreadRadius: -1,
+                      ),
+                    ],
                     const BoxShadow(
                       color: Colors.white,
                       blurRadius: 12,
@@ -440,7 +457,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                         blurRadius: 6,
                         spreadRadius: -1,
                       ),
-                  ],
+                    ],
                     const BoxShadow(
                       color: Colors.white,
                       blurRadius: 3,
@@ -481,7 +498,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   },
                   children: [
                     _buildCreateAlertForm(isDark),
-                    _buildCreateAdvertForm(isDark),
+                    _buildCreateAdvertForm(isDark, user),
                   ],
                 ),
               ),
@@ -558,7 +575,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   InputDecorator(
                     decoration: InputDecoration(
                       labelText: 'Tipo',
-                      labelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
+                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -587,30 +604,10 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _pairController,
-                    maxLength: 20,
-                    decoration:  InputDecoration(
-                      labelText: 'Par de Divisas',
-                      floatingLabelStyle: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w500),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: GoogleFonts.poppins(fontSize: 14),
-                      hintStyle: GoogleFonts.poppins(fontSize: 14,color: const Color(0xFF818181)),
-                      hintText: 'ej: GBP/JPY',
-                      border: const OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un título';
-                      }
-                      if (value.length < 3) {
-                        return 'El título debe tener al menos 3 caracteres';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 14),
+
+                  _buildDivisasDualSelector(isDark),
+                  const SizedBox(height: 14),
                   TextFormField(
                     controller: _entryController,
                     keyboardType: TextInputType.number,
@@ -831,7 +828,7 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
       ),
     );
   }
-  Widget _buildCreateAdvertForm(bool isDark) {
+  Widget _buildCreateAdvertForm(bool isDark, User? user) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Form(
@@ -897,13 +894,13 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                             Text(
                               '¿Destacar?',
                               style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500
                               ),
                             ),
                             const SizedBox(height: 6),
 
-                           /* Text(
+                            /* Text(
                               'Las alertas públicas son visibles para todos los usuarios',
                               style: GoogleFonts.poppins(fontSize: 12),
                             ),*/
@@ -928,24 +925,24 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
             const SizedBox(height: 16),
             Container(
               decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFFFF1B21),
-                  Color(0xFFDD0E13),
-                  Color(0xFFBB0004),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(7),
-              boxShadow: [
-                BoxShadow(
-                    color: Theme.of(context).colorBtnProfile,
-                    blurRadius: 16,      // intensidad
-                    offset: const Offset(0, 6) // altura
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFF1B21),
+                    Color(0xFFDD0E13),
+                    Color(0xFFBB0004),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-              ],
-            ),
+                borderRadius: BorderRadius.circular(7),
+                boxShadow: [
+                  BoxShadow(
+                      color: Theme.of(context).colorBtnProfile,
+                      blurRadius: 16,      // intensidad
+                      offset: const Offset(0, 6) // altura
+                  ),
+                ],
+              ),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -956,7 +953,11 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
                   ),
                 ),
                 onPressed: () {
-                  _openPreviewAdverts();
+                  if(user!.role == 'admin'){
+                    _openPreviewAdverts();
+                  }else{
+                    Fluttertoast.showToast(msg: 'El usuario no tiene acceso para crear anuncios', fontSize: 16, backgroundColor: Colors.red, gravity: ToastGravity.BOTTOM, toastLength: Toast.LENGTH_SHORT);
+                  }
                 },
                 child:  _isLoadingAnuncio
                     ? const SizedBox(
@@ -1084,7 +1085,143 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
     _contentController.clear();
   }
 
+  Widget _buildDivisasDualSelector(bool isDark) {
+    final divisasAsync = ref.watch(divisasProvider);
 
+    return divisasAsync.when(
+      data: (divisas) {
+        // 🔥 sacar listas únicas
+        final baseList = divisas;
+        final quoteList = divisas;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Text(
+              'Par de Divisas',
+             style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400)
+          ),
+
+            const SizedBox(height: 8),
+
+            Row(
+              children: [
+                Expanded(
+                  child: _buildSingleDivisaSelector(
+                    label: 'Primer Par',
+                    options: baseList,
+                    initialValue: _selectedBase,
+                    onSelected: (value) {
+                      setState(() {
+                        _selectedBase = value;
+                        _updatePairController();
+                      });
+                    },
+                  ),
+                ),
+
+                const SizedBox(width: 10),
+
+                const Text('/'),
+
+                const SizedBox(width: 10),
+
+                Expanded(
+                  child: _buildSingleDivisaSelector(
+                    label: 'Segundo Par',
+                    options: quoteList,
+                    initialValue: _selectedQuote,
+                    onSelected: (value) {
+                      setState(() {
+                        _selectedQuote = value;
+                        _updatePairController();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+
+      loading: () => const LinearProgressIndicator(),
+
+      error: (e, _) => const Text("Error cargando divisas"),
+    );
+  }
+  Widget _buildSingleDivisaSelector({required String label, required List<Divisas> options, required Function(Divisas) onSelected, Divisas? initialValue,}) {
+    return Autocomplete<Divisas>(
+      displayStringForOption: (Divisas option) => option.parone,
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (textEditingValue.text.isEmpty) return options;
+
+        return options.where((e) =>  e.parone.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+      },
+
+      onSelected: (Divisas selection) {
+        onSelected(selection);
+      },
+
+      fieldViewBuilder: (context, controller, focusNode, _) {
+        return TextFormField(
+          controller: controller,
+          focusNode: focusNode,
+          decoration: const InputDecoration(
+            labelText: 'Divisa',
+            border: OutlineInputBorder(),
+          ),
+        );
+      },
+
+      optionsViewBuilder: (context, onSelected, options) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 6,
+            borderRadius: BorderRadius.circular(12),
+            color: isDark ? const Color(0xFF0F2D4A) : const Color(0xFFF7F7F7),
+            child: SizedBox(
+              height: 200,
+              child: Scrollbar(
+                controller: scrollController,
+                thumbVisibility: true,
+                interactive: true,
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: options.length,
+                  itemBuilder: (context, index) {
+                    final option = options.elementAt(index);
+
+                    return InkWell(
+                      onTap: () => onSelected(option),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 10),
+                        child: Text(
+                          option.parone,
+                          style: TextStyle(
+                            color: isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  void _updatePairController() {
+    if (_selectedBase != null && _selectedQuote != null) {
+      _pairController.text = "${_selectedBase?.parone}/${_selectedQuote?.parone}";
+    }
+  }
 /* Widget _buildSelectableChip({
     required String label,
     required IconData icon,
@@ -1124,4 +1261,3 @@ class _CreateAlertScreenState extends ConsumerState<CreateAlertScreen> {
   }*/
 
 }
-

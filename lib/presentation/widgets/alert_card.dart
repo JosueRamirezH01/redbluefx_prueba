@@ -44,39 +44,61 @@ class AlertCard extends ConsumerWidget {
     final isAdmin = auth.currentUser?.role == 'admin';
     timeago.setLocaleMessages('es', timeago.EsMessages());
     final screenWidth = MediaQuery.of(context).size.width;
-    return Card(
-      elevation: 1,
+    final isRecent = DateTime.now().difference(alert.createdAt).inMinutes < 5;
+    return Container(
       margin: const EdgeInsets.only(bottom: 14),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14) , side: borde == true
-          ? BorderSide(
-        color: Theme.of(context).borderCardPreviewColors,
-        width: 1.2,
-      )
-          : BorderSide.none,
+
+      decoration: BoxDecoration(
+        color: isRecent ? const Color(0xFFF5FBFF) : Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(14),
+
+        // SOMBRA
+        boxShadow: isRecent
+            ? [
+          BoxShadow(
+            color: const Color(0xFF066BAF).withValues(alpha: 0.2),
+            blurRadius: 25,
+            offset: const Offset(0, 0),
+          ),
+        ] : [],
+
+        // BORDE GENERAL
+        border: isRecent ?  Border(
+          left: BorderSide(color: Theme.of(context).borderCardAlert, width: 4),
+          bottom: BorderSide(color: Theme.of(context).borderCardAlert, width: 0.5),
+          top: BorderSide(color: Theme.of(context).borderCardAlert, width: 0.5),
+          right: BorderSide(color: Theme.of(context).borderCardAlert, width: 0.5),
+        ) : borde == true ? Border.all(color: Theme.of(context).borderCardPreviewColors, width: 0.5) : null,
       ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(theme),
-              Text(
-                timeago.format(alert.createdAt, locale: 'es'),
-                style: GoogleFonts.montserrat(
-                  fontSize: 11,
-                ),
+
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(14),
+        child: Material(
+          color: isRecent ? Theme.of(context).colorCardAlert : Theme.of(context).fondoCardAlert,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(theme),
+                  Text(
+                    timeago.format(alert.createdAt, locale: 'es'),
+                    style: GoogleFonts.montserrat(fontSize: 11),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildPricesSection(context),
+                  const SizedBox(height: 10),
+                  _buildDetailsSection(screenWidth),
+                  Divider(
+                    thickness: 0.5,
+                    color: Theme.of(context).dividerCardAlert,
+                  ),
+                  _buildFooter(context, isAdmin, theme),
+                ],
               ),
-              const SizedBox(height: 10),
-              _buildPricesSection(context),
-              const SizedBox(height: 10),
-              // Gráfico y descripción (solo cuando presionas "Ver detalles")
-              _buildDetailsSection(screenWidth),
-              Divider(thickness: 0.5, color: Theme.of(context).dividerCardAlert),
-              _buildFooter(context, isAdmin, theme),
-            ],
+            ),
           ),
         ),
       ),
@@ -87,18 +109,24 @@ class AlertCard extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        Row(
+          children: [
+            _flag(alert.parOne),
+            const SizedBox(width: 4),
+            _flag(alert.parTwo)
+          ],
+        ),
         Expanded(
           flex: 2,
           child: Text(
-            alert.pair,
-            style: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+              alert.pair,
+              style: GoogleFonts.montserrat(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
 
-            )
+              )
           ),
         ),
-
         Flexible(fit: FlexFit.loose,child: _buildTypeChip(theme)),
       ],
     );
@@ -120,8 +148,8 @@ class AlertCard extends ConsumerWidget {
                   children: [
                     Text("Entrada",
                         style: GoogleFonts.montserrat(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500
                         )),
                     const SizedBox(height: 2),
                     Text(
@@ -192,30 +220,30 @@ class AlertCard extends ConsumerWidget {
                                 ),
                                 const SizedBox(width: 20),
                                 if(mockTPs.length > 1)
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 4),
-                                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).cardTpChildrenColors,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        '${mockTPs.length}',
-                                        style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: Theme.of(context).cardTpTextChildrenColors),
-                                      ),
-                                      Icon(
-                                        isTPExpanded
-                                            ? Icons.keyboard_arrow_up
-                                            : Icons.keyboard_arrow_down,
-                                        size: 20,
-                                        color: Theme.of(context).cardTpTextChildrenColors,
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 4),
+                                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).cardTpChildrenColors,
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '${mockTPs.length}',
+                                          style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: Theme.of(context).cardTpTextChildrenColors),
+                                        ),
+                                        Icon(
+                                          isTPExpanded
+                                              ? Icons.keyboard_arrow_up
+                                              : Icons.keyboard_arrow_down,
+                                          size: 20,
+                                          color: Theme.of(context).cardTpTextChildrenColors,
+                                        ),
+                                      ],
+                                    ),
+                                  )
                               ],
                             ),
                           ],
@@ -234,8 +262,8 @@ class AlertCard extends ConsumerWidget {
                     Text(
                       "SL",
                       style: GoogleFonts.montserrat(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -426,17 +454,17 @@ class AlertCard extends ConsumerWidget {
         Text(
           AppDateUtils.formatToPeruTime(alert.createdAt),
           style: GoogleFonts.montserrat(
-            fontSize: 12,
-            color: Theme.of(context).colorLetterCardAlert
+              fontSize: 12,
+              color: Theme.of(context).colorLetterCardAlert
           ),
         ),
         const Spacer(),
         if ((alert.imageUrl != null && alert.imageUrl!.isNotEmpty) || (alert.analysis != null && alert.analysis!.isNotEmpty))
-        GestureDetector(
-          onTap: () {
-            onExpandDetailsChange(isDetailsExpanded ? null : index);
-          },
-          child: Icon(isDetailsExpanded ? Icons.close : Icons.arrow_forward , color: theme.linkColor ),) /*Text(
+          GestureDetector(
+            onTap: () {
+              onExpandDetailsChange(isDetailsExpanded ? null : index);
+            },
+            child: Icon(isDetailsExpanded ? Icons.close : Icons.arrow_forward , color: theme.linkColor ),) /*Text(
             isDetailsExpanded ? "Cerrar x" : " →",
             style: GoogleFonts.montserrat(
               fontSize: 16,
@@ -490,26 +518,26 @@ class AlertCard extends ConsumerWidget {
     }
 
     return Container(
-        padding: const EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
           vertical: 4,
           horizontal: 8
-        ),
+      ),
       decoration: BoxDecoration(
-        color: colorFondo,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: colorBorde)
+          color: colorFondo,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: colorBorde)
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            text,
-            style: GoogleFonts.montserrat(
-              fontSize: 11,
-              color: theme.chipsColors,
-              decorationColor: theme.chipsColors
-            )
+              text,
+              style: GoogleFonts.montserrat(
+                  fontSize: 11,
+                  color: theme.chipsColors,
+                  decorationColor: theme.chipsColors
+              )
           ),
           const SizedBox(width: 4),
           Icon(icon, color: colorBorde, size: 16),
@@ -546,8 +574,50 @@ class AlertCard extends ConsumerWidget {
     return '${parts[0]}.${decimals.substring(0, 4)}';
   }
 }
+Widget _flag(String? url) {
+  if (url == null || url.isEmpty) {
+    return Container(
+      width: 24,
+      height: 16,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(3),
+      ),
+      child: const Icon(Icons.flag, size: 12),
+    );
+  }
 
-
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(3),
+    child: Image.network(
+      url,
+      width: 24,
+      height: 16,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) {
+        return Container(
+          width: 24,
+          height: 16,
+          color: Colors.grey.shade300,
+          child: const Icon(Icons.broken_image, size: 12),
+        );
+      },
+      loadingBuilder: (context, child, progress) {
+        if (progress == null) return child;
+        return Container(
+          width: 24,
+          height: 16,
+          alignment: Alignment.center,
+          child: const SizedBox(
+            width: 10,
+            height: 10,
+            child: CircularProgressIndicator(strokeWidth: 1),
+          ),
+        );
+      },
+    ),
+  );
+}
 
 
 

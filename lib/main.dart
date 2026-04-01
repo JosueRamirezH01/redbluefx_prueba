@@ -25,7 +25,7 @@ void main() async {
   // Inicializar configuración
   AppConfig.initialize(
     env: Environment.dev,
-    baseUrl: 'https://redbluefx-develop.up.railway.app',
+    baseUrl: 'http://192.168.1.123:3000', //http://192.168.101.23:3000
   );
   //https://redbluefx-develop.up.railway.app
   //http://192.168.101.6:3502
@@ -63,7 +63,6 @@ class _RedBlueFXAppState extends ConsumerState<RedBlueFXApp> with WidgetsBinding
     FirebaseMessagingService.instance.onForegroundMessage = (message) {
       final type = message.data['type'];
       final isFeatured = message.data['isFeatured'];
-
       ref.read(realtimeNotificationProvider.notifier).setNotification(message);
       if (type == 'advert' && isFeatured == 'true') {
         ref.read(newsCarouselProvider.notifier).addFromNotification(message);

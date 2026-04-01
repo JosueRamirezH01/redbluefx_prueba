@@ -279,7 +279,7 @@ class AppTheme {
         labelStyle: AppTextStyles.bodyMedium.copyWith(
           color: AppColors.textSecondary,
         ),
-        
+
         hintStyle: AppTextStyles.bodyMedium.copyWith(
           color: AppColors.textSecondary.withValues(alpha: 0.5),
         ),
@@ -553,4 +553,14 @@ extension AppThemeColors on ThemeData {
   Color? get colorLetterNotice => brightness == Brightness.dark
       ? const Color(0xFFB8B9BA)
       : null;
+  Color? get colorCardAlert => brightness == Brightness.dark
+      ? const Color(0xFF103359)
+      : const Color(0xFFF5FBFF);
+  Color get borderCardAlert => brightness == Brightness.dark
+      ? const Color(0xFFAFDDFC)
+      : const Color(0xFF066BAF);
+  Color get fondoCardAlert => brightness == Brightness.dark
+      ? const Color(0xFF092949)
+      : Colors.white;
+
 }

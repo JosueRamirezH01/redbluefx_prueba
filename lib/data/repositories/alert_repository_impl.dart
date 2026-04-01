@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../domain/entities/alert.dart';
@@ -216,7 +217,7 @@ class AlertRepositoryImpl implements AlertRepository {
   }
 
   @override
-  Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, String? imageUrl, required List<String> takeProfits, required AlertType type, required bool isPublic,}) async {
+  Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, String? imageUrl, required List<String> takeProfits, required AlertType type, required bool isPublic, String? parOne, String? parTwo}) async {
     final contentString = 'Entry: $entry, StopL: $stopLoss, TP: ${takeProfits.join(", ")}';
     try {
       final Map<String, dynamic> data = {
@@ -226,6 +227,8 @@ class AlertRepositoryImpl implements AlertRepository {
         'entry': entry,
         'stopLoss': stopLoss,
         'takeProfits': takeProfits,
+        'parOne': parOne,
+        'parTwo': parTwo,
         'type': type.name,
         'isPublic': isPublic,
       };

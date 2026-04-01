@@ -230,7 +230,7 @@ class AlertNotifier extends StateNotifier<AlertState> {
     }
   }
 
-  Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, required List<String> takeProfits, required AlertType type, String? imageUrl, required bool isPublic}) async {
+  Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, required List<String> takeProfits, required AlertType type, String? imageUrl, required bool isPublic, required String parOne, required String parTwo}) async {
     try {
       final alert = await _repository.createAlert(
         pair:pair,
@@ -238,6 +238,8 @@ class AlertNotifier extends StateNotifier<AlertState> {
         stopLoss: stopLoss,
         analysis: analysis,
         image: image,
+        parOne: parOne,
+        parTwo: parTwo,
         takeProfits: takeProfits,
         imageUrl: imageUrl,
         type: type,
@@ -245,7 +247,9 @@ class AlertNotifier extends StateNotifier<AlertState> {
       );
 
       state = state.copyWith(
-        alerts: [alert, ...state.alerts],
+        alerts: state.alerts.any((e) => e.id == alert.id)
+            ? state.alerts
+            : [alert, ...state.alerts],
       );
 
       return alert;

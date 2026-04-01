@@ -4,6 +4,7 @@ class ApiRoutes {
   static const _notices = '/api/news';
   static const _users = '/api/users';
   static const _adverts = '/api/adverts';
+  static const _divisas = '/api/forex';
   // Auth routes
   static const register = '$_auth/register';
   static const login = '$_auth/login';
@@ -35,6 +36,8 @@ class ApiRoutes {
   static const advertsPublic = '$_adverts/public';
   static String advert(String id) => '$_adverts/$id';
 
+  // divias
+  static const getDivisas = '$_divisas/divisas';
 
   // feedback routes
   static const _feedbackCreate = 'https://feedbacksys-production.up.railway.app/feedbacks/';

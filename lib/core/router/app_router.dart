@@ -22,6 +22,7 @@ import '../../presentation/screens/noticia/noticia_screen.dart';
 import '../../presentation/screens/profile/profile_screen.dart';
 import '../../presentation/screens/alert/edit_alert_screen.dart';
 import '../../presentation/providers/auth_provider.dart';
+import '../../presentation/widgets/prueba.dart';
 import '../services/loginStorage.dart';
 import '../services/navigation_service.dart';
 
@@ -166,6 +167,11 @@ final router = GoRouter(
       path: '/notice_list',
       name: 'notice_list',
       builder: (context, state) => const NoticiaScreen(),
+    ),
+    GoRoute(
+      path: '/prueba',
+      name: 'prueba',
+      builder: (context, state) => const TestDivisasPage(),
     ),
     GoRoute(
       path: '/anuncio_list',

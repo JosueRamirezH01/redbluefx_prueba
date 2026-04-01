@@ -9,6 +9,7 @@ import '../providers/alert_provider.dart';
 import '../providers/auth_provider.dart';
 import '../../domain/entities/auth_state.dart';
 import '../providers/search_provider.dart';
+import 'forex_socket_ui.dart';
 
 final isSearchingProvider = StateProvider<bool>((ref) => false);
 
@@ -102,77 +103,92 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
       key: _appBarKey,
       toolbarHeight: appBarHeight,
       automaticallyImplyLeading: false,
+      flexibleSpace: Builder(
+        builder: (context) {
+          final topPadding = MediaQuery.of(context).padding.top;
+
+          return Padding(
+            padding: EdgeInsets.only(top: topPadding - 5), // 👈 dinámico
+            child: const ForexTicker(),
+          );
+        },
+      ),
       titleSpacing: 10,
-      title: isSearching
-          ? _buildSearchBar(context, ref)
-          : Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              context.go('/home');
-            },
-            child:  SizedBox(
-              width: size.width * 0.2,
-              height: size.height * 0.1,
-              child: const CircleAvatar(
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage('assets/images/Container.png',),
+      title: Padding(padding: const  EdgeInsetsGeometry.only(top: 15),
+      child: isSearching
+            ? _buildSearchBar(context, ref)
+            : Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                context.go('/home');
+              },
+              child:  SizedBox(
+                width: size.width * 0.2,
+                height: size.height * 0.1,
+                child: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: AssetImage('assets/images/Container.png',),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 8),
-                Text(
-                  'Bienvenido',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600
-                  ),
-                  /*style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 8),
+                  Text(
+                    'Bienvenido',
+                    style: GoogleFonts.montserrat(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600
+                    ),
+                    /*style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),*/
-                ),
-                Text(
-                  '${authState.currentUser?.fullName}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.6),
-                      fontSize: 12
                   ),
-                ),
-              ],
+                  Text(
+                    '${authState.currentUser?.fullName}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.6),
+                        fontSize: 12
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        )
       ),
       actions: [
         if (!isSearching) ...[
           if(widget.icons ?? true)...[
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: const Color(0xFF19283F),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3),
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF19283F),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
                 ),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.search),
-                color: Colors.white,
-                onPressed: () {
-                  ref.read(isSearchingProvider.notifier).state = true;
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _showSearchHistory();
-                  });
-                },
+                child: IconButton(
+                  icon: const Icon(Icons.search),
+                  color: Colors.white,
+                  onPressed: () {
+                    ref.read(isSearchingProvider.notifier).state = true;
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _showSearchHistory();
+                    });
+                  },
+                ),
               ),
             ),
           ],
@@ -180,26 +196,32 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
         if (!isSearching) ...[
           if (isRegister && (widget.icons ?? true)) ...[
             const SizedBox(width: 6),
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: const Color(0xFF19283F),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3),
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF19283F),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
                 ),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.add),
-                tooltip: 'Crear alerta',
-                onPressed: () => context.pushNamed('createAlert'),
+                child: IconButton(
+                  icon: const Icon(Icons.add),
+                  tooltip: 'Crear alerta',
+                  onPressed: () => context.pushNamed('createAlert'), //createAlert
+                ),
               ),
             ),
           ],
           ...?widget.additionalActions,
           const SizedBox(width: 6),
-          _buildProfileButton(context, authState),
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: _buildProfileButton(context, authState),
+          ),
           const SizedBox(width: 6),
         ],
       ],
@@ -240,7 +262,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
         ),
         const SizedBox(width: 10),
         Container(
-          height: 50,
+          height: MediaQuery.of(context).size.height * 0.06,
           width: MediaQuery.of(context).size.width * 0.75,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -394,7 +416,7 @@ class _SharedAppBarState extends ConsumerState<SharedAppBar> {
       } else {
         // Búsqueda normal
         ref.read(alertsProvider.notifier).search(value.trim());
-       // FocusScope.of(context).unfocus();
+        // FocusScope.of(context).unfocus();
       }
     });
   }

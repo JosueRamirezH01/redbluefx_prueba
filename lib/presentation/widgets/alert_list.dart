@@ -26,69 +26,36 @@ class _AlertListState extends ConsumerState<AlertList> {
     final authState = ref.watch(authStateProvider);
     final isAdmin = authState.currentUser?.role == 'admin';
     if (alertsState.isLoading && alertsState.alerts.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (alertsState.error != null && alertsState.alerts.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Colors.red.shade300,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Error al cargar las alertas',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.red.shade700,
-              ),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () => ref.read(alertsProvider.notifier).loadAlerts(refresh: true),
-              child: const Text('Reintentar'),
-            ),
-          ],
+      return const SliverFillRemaining(
+        child:  Center(
+          child: CircularProgressIndicator(),
         ),
       );
     }
 
-    if (alertsState.alerts.isEmpty) {
-      return FadeIn(
-        duration: const Duration(milliseconds: 500),
+    if (alertsState.error != null && alertsState.alerts.isEmpty) {
+      return SliverFillRemaining(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                'assets/images/lupa.svg',
-                width: 90,
-                height: 90,
-                fit: BoxFit.contain,
-                colorFilter: const ColorFilter.srgbToLinearGamma(),
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: Colors.red.shade300,
               ),
               const SizedBox(height: 16),
               Text(
-                'No se encontraron señales',
-                style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                )
+                'Error al cargar las alertas',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.red.shade700,
+                ),
               ),
-              const SizedBox(height: 12),
-              Text(
-                  'Intenta con otro término de búsqueda',
-                  style:GoogleFonts.montserrat(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  )
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () => ref.read(alertsProvider.notifier).loadAlerts(refresh: true),
+                child: const Text('Reintentar'),
               ),
             ],
           ),
@@ -96,10 +63,49 @@ class _AlertListState extends ConsumerState<AlertList> {
       );
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(10),
-      itemCount: alertsState.alerts.length,
-      itemBuilder: (context, index) {
+    if (alertsState.alerts.isEmpty) {
+      return SliverFillRemaining(
+        child: FadeIn(
+          duration: const Duration(milliseconds: 500),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/images/lupa.svg',
+                  width: 90,
+                  height: 90,
+                  fit: BoxFit.contain,
+                  colorFilter: const ColorFilter.srgbToLinearGamma(),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No se encontraron señales',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                  )
+                ),
+                const SizedBox(height: 12),
+                Text(
+                    'Intenta con otro término de búsqueda',
+                    style:GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    )
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SliverList(
+        delegate: SliverChildBuilderDelegate(
+
+      (context, index) {
         final alert = alertsState.alerts[index];
         return SlideInDown(
           duration: Duration(milliseconds: 300 + (index * 100)),
@@ -167,7 +173,8 @@ class _AlertListState extends ConsumerState<AlertList> {
           ) :  _buildAlertCard(alert, index),
         );
       },
-    );
+          childCount: alertsState.alerts.length,
+    ));
   }
   Widget _buildAlertCard(Alert alert, int index) {
     return AlertCard(

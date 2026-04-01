@@ -26,6 +26,8 @@ mixin _$Alert {
   String get pair => throw _privateConstructorUsedError;
   String get entry => throw _privateConstructorUsedError;
   String get stopLoss => throw _privateConstructorUsedError;
+  String? get parOne => throw _privateConstructorUsedError;
+  String? get parTwo => throw _privateConstructorUsedError;
   AlertType get type => throw _privateConstructorUsedError;
   String? get analysis => throw _privateConstructorUsedError;
   List<String> get takeProfits => throw _privateConstructorUsedError;
@@ -53,6 +55,8 @@ abstract class $AlertCopyWith<$Res> {
       String pair,
       String entry,
       String stopLoss,
+      String? parOne,
+      String? parTwo,
       AlertType type,
       String? analysis,
       List<String> takeProfits,
@@ -83,6 +87,8 @@ class _$AlertCopyWithImpl<$Res, $Val extends Alert>
     Object? pair = null,
     Object? entry = null,
     Object? stopLoss = null,
+    Object? parOne = freezed,
+    Object? parTwo = freezed,
     Object? type = null,
     Object? analysis = freezed,
     Object? takeProfits = null,
@@ -118,6 +124,14 @@ class _$AlertCopyWithImpl<$Res, $Val extends Alert>
           ? _value.stopLoss
           : stopLoss // ignore: cast_nullable_to_non_nullable
               as String,
+      parOne: freezed == parOne
+          ? _value.parOne
+          : parOne // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parTwo: freezed == parTwo
+          ? _value.parTwo
+          : parTwo // ignore: cast_nullable_to_non_nullable
+              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -172,6 +186,8 @@ abstract class _$$AlertImplCopyWith<$Res> implements $AlertCopyWith<$Res> {
       String pair,
       String entry,
       String stopLoss,
+      String? parOne,
+      String? parTwo,
       AlertType type,
       String? analysis,
       List<String> takeProfits,
@@ -200,6 +216,8 @@ class __$$AlertImplCopyWithImpl<$Res>
     Object? pair = null,
     Object? entry = null,
     Object? stopLoss = null,
+    Object? parOne = freezed,
+    Object? parTwo = freezed,
     Object? type = null,
     Object? analysis = freezed,
     Object? takeProfits = null,
@@ -235,6 +253,14 @@ class __$$AlertImplCopyWithImpl<$Res>
           ? _value.stopLoss
           : stopLoss // ignore: cast_nullable_to_non_nullable
               as String,
+      parOne: freezed == parOne
+          ? _value.parOne
+          : parOne // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parTwo: freezed == parTwo
+          ? _value.parTwo
+          : parTwo // ignore: cast_nullable_to_non_nullable
+              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -282,12 +308,14 @@ class _$AlertImpl implements _Alert {
       {required this.id,
       this.title,
       this.content,
-      required this.pair,
-      required this.entry,
-      required this.stopLoss,
+      this.pair = '',
+      this.entry = '',
+      this.stopLoss = '',
+      this.parOne = '',
+      this.parTwo = '',
       required this.type,
       this.analysis,
-      required final List<String> takeProfits,
+      final List<String> takeProfits = const [],
       this.image,
       this.imageUrl,
       required this.createdAt,
@@ -306,17 +334,27 @@ class _$AlertImpl implements _Alert {
   @override
   final String? content;
   @override
+  @JsonKey()
   final String pair;
   @override
+  @JsonKey()
   final String entry;
   @override
+  @JsonKey()
   final String stopLoss;
+  @override
+  @JsonKey()
+  final String? parOne;
+  @override
+  @JsonKey()
+  final String? parTwo;
   @override
   final AlertType type;
   @override
   final String? analysis;
   final List<String> _takeProfits;
   @override
+  @JsonKey()
   List<String> get takeProfits {
     if (_takeProfits is EqualUnmodifiableListView) return _takeProfits;
     // ignore: implicit_dynamic_type
@@ -339,7 +377,7 @@ class _$AlertImpl implements _Alert {
 
   @override
   String toString() {
-    return 'Alert(id: $id, title: $title, content: $content, pair: $pair, entry: $entry, stopLoss: $stopLoss, type: $type, analysis: $analysis, takeProfits: $takeProfits, image: $image, imageUrl: $imageUrl, createdAt: $createdAt, createdBy: $createdBy, isPublic: $isPublic, status: $status)';
+    return 'Alert(id: $id, title: $title, content: $content, pair: $pair, entry: $entry, stopLoss: $stopLoss, parOne: $parOne, parTwo: $parTwo, type: $type, analysis: $analysis, takeProfits: $takeProfits, image: $image, imageUrl: $imageUrl, createdAt: $createdAt, createdBy: $createdBy, isPublic: $isPublic, status: $status)';
   }
 
   @override
@@ -354,6 +392,8 @@ class _$AlertImpl implements _Alert {
             (identical(other.entry, entry) || other.entry == entry) &&
             (identical(other.stopLoss, stopLoss) ||
                 other.stopLoss == stopLoss) &&
+            (identical(other.parOne, parOne) || other.parOne == parOne) &&
+            (identical(other.parTwo, parTwo) || other.parTwo == parTwo) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.analysis, analysis) ||
                 other.analysis == analysis) &&
@@ -381,6 +421,8 @@ class _$AlertImpl implements _Alert {
       pair,
       entry,
       stopLoss,
+      parOne,
+      parTwo,
       type,
       analysis,
       const DeepCollectionEquality().hash(_takeProfits),
@@ -410,12 +452,14 @@ abstract class _Alert implements Alert {
       {required final String id,
       final String? title,
       final String? content,
-      required final String pair,
-      required final String entry,
-      required final String stopLoss,
+      final String pair,
+      final String entry,
+      final String stopLoss,
+      final String? parOne,
+      final String? parTwo,
       required final AlertType type,
       final String? analysis,
-      required final List<String> takeProfits,
+      final List<String> takeProfits,
       final String? image,
       final String? imageUrl,
       required final DateTime createdAt,
@@ -437,6 +481,10 @@ abstract class _Alert implements Alert {
   String get entry;
   @override
   String get stopLoss;
+  @override
+  String? get parOne;
+  @override
+  String? get parTwo;
   @override
   AlertType get type;
   @override

@@ -34,7 +34,7 @@ class _CardCarouselState extends ConsumerState<CardCarousel> {
 
     if (!showCarousel || newsItems.isEmpty) {
       return const SizedBox();
-    } // 👈 Si está oculto, no se muestra
+    } // Si está oculto, no se muestra
 
 
     return LayoutBuilder(

@@ -10,14 +10,17 @@ _$AlertImpl _$$AlertImplFromJson(Map<String, dynamic> json) => _$AlertImpl(
       id: json['id'] as String,
       title: json['title'] as String?,
       content: json['content'] as String?,
-      pair: json['pair'] as String,
-      entry: json['entry'] as String,
-      stopLoss: json['stopLoss'] as String,
+      pair: json['pair'] as String? ?? '',
+      entry: json['entry'] as String? ?? '',
+      stopLoss: json['stopLoss'] as String? ?? '',
+      parOne: json['parOne'] as String? ?? '',
+      parTwo: json['parTwo'] as String? ?? '',
       type: $enumDecode(_$AlertTypeEnumMap, json['type']),
       analysis: json['analysis'] as String?,
-      takeProfits: (json['takeProfits'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      takeProfits: (json['takeProfits'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       image: json['image'] as String?,
       imageUrl: json['imageUrl'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
@@ -35,6 +38,8 @@ Map<String, dynamic> _$$AlertImplToJson(_$AlertImpl instance) =>
       'pair': instance.pair,
       'entry': instance.entry,
       'stopLoss': instance.stopLoss,
+      'parOne': instance.parOne,
+      'parTwo': instance.parTwo,
       'type': _$AlertTypeEnumMap[instance.type]!,
       'analysis': instance.analysis,
       'takeProfits': instance.takeProfits,

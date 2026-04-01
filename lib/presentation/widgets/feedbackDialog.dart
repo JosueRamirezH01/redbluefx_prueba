@@ -241,9 +241,9 @@ class _FeedbackDialogState extends ConsumerState<_FeedbackDialog> {
                                   email: user!.email.toLowerCase().trim(),
                                   getFeedback: allowContact,
                                 );
+
                                 if (!mounted) return;
                                 Navigator.of(context).pop();
-                                await Future.delayed(const Duration(milliseconds: 200));
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false, // evita cerrar tocando afuera (opcional)

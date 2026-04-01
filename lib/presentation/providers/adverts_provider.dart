@@ -125,7 +125,9 @@ class AdvertNotifier extends StateNotifier<AdvertState> {
       );
 
       state = state.copyWith(
-        adverts: [advert, ...state.adverts],
+        adverts: state.adverts.any((e) => e.id == advert.id)
+            ? state.adverts
+            : [advert, ...state.adverts],
       );
       await loadAdvertsFeature(refresh: true);
       await ref.read(advertsProviderPublic.notifier).loadAdvertsPublic(refresh: true);

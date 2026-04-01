@@ -80,11 +80,13 @@ class CustomBottomBar extends ConsumerWidget {
           children: [
             Icon(icon, color: color, size: 24),
             const SizedBox(height: 4),
-            Text(
-              label,
-              style: GoogleFonts.montserrat(
-                color: Colors.white70,
-                fontSize: 14,
+            Flexible(
+              child: Text(
+                label,
+                style: GoogleFonts.montserrat(
+                  color: Colors.white70,
+                  fontSize: 14,
+                ),
               ),
             ),
           ],
