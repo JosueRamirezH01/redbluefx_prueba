@@ -230,7 +230,7 @@ class AlertNotifier extends StateNotifier<AlertState> {
     }
   }
 
-  Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, required List<String> takeProfits, required AlertType type, String? imageUrl, required bool isPublic, required String parOne, required String parTwo}) async {
+  Future<Alert> createAlert({required String pair, required String entry, required String stopLoss, String? analysis, String? image, required List<String> takeProfits, required AlertType type, String? imageUrl, required bool isPublic, required String? parOne, required String? parTwo}) async {
     try {
       final alert = await _repository.createAlert(
         pair:pair,

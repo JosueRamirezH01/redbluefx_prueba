@@ -49,7 +49,7 @@ class AuthRepositoryImpl implements AuthRepository {
         uri,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'email': email,
+          'email': email.trim(),
           'password': password,
           'rememberMe': rememberMe,
         }),

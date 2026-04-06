@@ -576,14 +576,9 @@ class AlertCard extends ConsumerWidget {
 }
 Widget _flag(String? url) {
   if (url == null || url.isEmpty) {
-    return Container(
+    return const SizedBox(
       width: 24,
       height: 16,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(3),
-      ),
-      child: const Icon(Icons.flag, size: 12),
     );
   }
 
@@ -595,11 +590,9 @@ Widget _flag(String? url) {
       height: 16,
       fit: BoxFit.cover,
       errorBuilder: (_, __, ___) {
-        return Container(
+        return const SizedBox(
           width: 24,
           height: 16,
-          color: Colors.grey.shade300,
-          child: const Icon(Icons.broken_image, size: 12),
         );
       },
       loadingBuilder: (context, child, progress) {
