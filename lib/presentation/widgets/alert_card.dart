@@ -575,7 +575,7 @@ class AlertCard extends ConsumerWidget {
   }
 }
 Widget _flag(String? url) {
-  if (url == null || url.isEmpty) {
+  if (url == null || url.isEmpty || !url.startsWith('http')) {
     return const SizedBox(
       width: 24,
       height: 16,

@@ -25,7 +25,7 @@ void main() async {
   // Inicializar configuración
   AppConfig.initialize(
     env: Environment.dev,
-    baseUrl: 'http://192.168.1.194:3000', //http://192.168.101.23:3000
+    baseUrl: 'http://192.168.1.163:3000', //http://192.168.101.23:3000
   );
   //https://redbluefx-develop.up.railway.app
   //http://192.168.101.6:3502
